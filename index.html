@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gallery Home</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, sans-serif;
+    background: #f8f9fa;
+    color: #333;
+    height: 100%;
+  }
+
+  html.dark, html.dark body {
+    background: #121212;
+    color: #eee;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .sidebar {
+  position: fixed;
+  top: 200px;
+  left: 0;
+  bottom: 0;
+  width: 200px;
+  padding: 20px 10px;
+  background: transparent;
+  border-right: none;
+  font-family: Tahoma, monospace, monospace;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+  html.dark .sidebar {
+    background: transparent;
+  }
+
+  .folder-tree,
+  .folder-tree ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 20px;
+    white-space: nowrap;
+    color: #000;
+  }
+
+  html.dark .folder-tree,
+  html.dark .folder-tree ul {
+    color: #ddd;
+  }
+
+  .folder-tree li {
+    position: relative;
+    margin: 0;
+    padding-left: 24px;
+  }
+
+  .folder-tree > li::before {
+    content: none;
+  }
+
+  .folder-tree ul > li:last-child::before {
+    bottom: 12px;
+  }
+
+  .folder-tree ul > li > a::before {
+  content: "├──";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+  padding-right: 8px;
+}
+
+  .folder-tree ul > li:last-child > a::before {
+    content: "└──";
+  }
+
+.folder-tree > li > button.folder-toggle::after {
+  content: "/";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+}
+
+button.folder-toggle {
+  font-weight: bold;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 0 4px 32px;
+  color: #000;
+  padding-left: 37px !important;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+button.folder-toggle,
+button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within,
+button.folder-toggle *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+  html.dark button.folder-toggle {
+    color: #eee;
+  }
+  
+  button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button.folder-toggle::-moz-focus-inner {
+  border: 0;
+}
+
+.member-list {
+  list-style: none;
+  margin: 4px 0 8px 0;
+  padding-left: 20px;
+  display: block;
+}
+.member-list li a {
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+  display: block;
+  padding: 2px 0 2px 32px;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+  html.dark .member-list li a {
+    color: #ddd;
+  }
+
+  .member-list li a:hover {
+    text-decoration: underline;
+    color: #ff69b4;
+  }
+
+  html.dark .member-list li a:hover {
+    color: #ff85c1;
+  }
+
+  .main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .main-content h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .button-link {
+    margin-top: 20px;
+    display: inline-block;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    border-right-color: #7a7a7a;
+    border-bottom-color: #7a7a7a;
+    color: black;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 14px;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 0;
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  .button-link:active {
+    border: 2px inset #000;
+  }
+
+  .button-link:hover {
+    background: #dcdcdc;
+  }
+</style>
+<script>
+  try {
+    if (localStorage.getItem('darkmode') === 'true') {
+      document.documentElement.classList.add('dark');
+    }
+  } catch(e) {}
+
+  function toggleDarkMode() {
+    document.documentElement.classList.toggle('dark');
+    if (document.documentElement.classList.contains('dark')) {
+      localStorage.setItem('darkmode', 'true');
+    } else {
+      localStorage.removeItem('darkmode');
+    }
+  }
+
+  window.onload = () => {
+    document.querySelectorAll('.folder-toggle').forEach(btn => {
+      const folderName = btn.dataset.folder;
+      const list = btn.nextElementSibling;
+      const saved = localStorage.getItem(`folder-${folderName}`);
+      if (saved === 'open') list.style.display = 'block';
+
+      btn.addEventListener('click', () => {
+        const isOpen = list.style.display === 'block';
+        list.style.display = isOpen ? 'none' : 'block';
+        localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
+      });
+    });
+  };
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="sidebar">
+    <ul class="folder-tree">
+      <li>
+        <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
+        <ul class="member-list">
+          <li><a href="YUNAH.html">YUNAH</a></li>
+          <li><a href="IROHA.html">IROHA</a></li>
+          <li><a href="MOKA.html">MOKA</a></li>
+          <li><a href="MINJU.html">MINJU</a></li>
+          <li><a href="WONHEE.html">WONHEE</a></li>
+        </ul>
+      </li>
+      <li>
+        <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
+        <ul class="member-list">
+          <li><a href="DANIELLE.html">DANIELLE</a></li>
+          <li><a href="HANNI.html">HANNI</a></li>
+          <li><a href="MINJI.html">MINJI</a></li>
+          <li><a href="HYEIN.html">HYEIN</a></li>
+          <li><a href="HAERIN.html">HAERIN</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="main-content">
+      <h1>Fansite Archive Vault</h1>
+      <p>Choose a member on the left.</p>
+      <a class="button-link" onclick="toggleDarkMode()">Toggle Dark Mode</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
