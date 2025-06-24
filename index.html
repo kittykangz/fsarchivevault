@@ -24,23 +24,101 @@
     width: 100%;
   }
 
-  .sidebar {
-  position: fixed;
-  top: 200px;
-  left: 0;
-  bottom: 0;
-  width: 200px;
-  padding: 20px 10px;
+/* Sidebar container */
+.folder-toggle:hover {
   background: transparent;
-  border-right: none;
-  font-family: Tahoma, monospace, monospace;
-  overflow-y: auto;
-  z-index: 999;
+  color: inherit;
+  text-decoration: underline;
 }
 
-  html.dark .sidebar {
-    background: transparent;
-  }
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -60px;
+  bottom: 0;
+  width: 250px;
+  font-family: Tahoma, monospace, monospace;
+  background: transparent;
+  border-right: none;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+html.dark .sidebar {
+  background: transparent;
+  border-right: none;
+}
+
+/* Search container (stays pinned at top) */
+.search-container {
+  padding: 10px 10px 5px 70px;
+  background: none;
+  z-index: 2;
+}
+
+html.dark .search-container {
+  background: #121212;
+}
+
+#sidebarSearch {
+  width: 150px;
+  font-size: 12px;
+  padding: 4px 6px;
+  font-family: Tahoma, sans-serif;
+  border: 2px inset #fff;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+  background: white;
+  color: black;
+  outline: none;
+}
+
+html.dark #sidebarSearch {
+  background: #222;
+  color: #eee;
+  border-color: #444;
+}
+
+/* Scrollable part of sidebar */
+.sidebar-scroll {
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Custom scrollbars (modern browsers) */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
 
   .folder-tree,
   .folder-tree ul {
@@ -139,36 +217,146 @@ button.folder-toggle::-moz-focus-inner {
   border: 0;
 }
 
+/* Folder tree base */
+.folder-tree,
+.folder-tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 20px;
+  white-space: nowrap;
+  color: #000;
+}
+html.dark .folder-tree,
+html.dark .folder-tree ul {
+  color: #ddd;
+}
+
+/* Each list item */
+.folder-tree li {
+  position: relative;
+  margin: 0;
+  padding-left: 24px;
+}
+
+/* No vertical line on top-level groups */
+.folder-tree > li::before {
+  content: none;
+}
+
+.folder-tree ul > li:last-child::before {
+  bottom: 12px;
+}
+
+/* Horizontal branch lines */
+.folder-tree ul > li > a::before {
+  content: "├──";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+  padding-right: 8px;
+}
+.folder-tree ul > li:last-child > a::before {
+  content: "└──";
+}
+
+/* Group label with trailing slash */
+.folder-tree > li > button.folder-toggle::after {
+  content: "/";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+}
+
+/* Toggle buttons */
+button.folder-toggle {
+  font-weight: bold;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 0 4px 32px;
+  color: #000;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+button.folder-toggle,
+button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within,
+button.folder-toggle *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+html.dark button.folder-toggle {
+  color: #eee;
+}
+
+button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button.folder-toggle::-moz-focus-inner {
+  border: 0;
+}
+
+/* === CUSTOM SCROLLBAR === */
+
+/* Member list links */
 .member-list {
   list-style: none;
   margin: 4px 0 8px 0;
   padding-left: 20px;
-  display: block;
 }
 .member-list li a {
   color: #000;
   text-decoration: none;
   font-size: 13px;
-  display: block;
+  font-weight: normal;      /* Make ALL links bold to prevent shift */
   padding: 2px 0 2px 32px;
   position: relative;
   user-select: none;
   white-space: nowrap;
   z-index: 2;
 }
+html.dark .member-list li a {
+  color: #ddd;
+}
+.member-list li a:hover {
+  text-decoration: underline;
+  color: #ff69b4;
+}
+html.dark .member-list li a:hover {
+  color: #ff85c1 !important;
+}
 
-  html.dark .member-list li a {
-    color: #ddd;
-  }
+/* Highlight current member with color and underline only */
+.current-member {
+  color: #ff69b4 !important;  /* Pink highlight */
+  text-decoration: underline;
+}
 
-  .member-list li a:hover {
-    text-decoration: underline;
-    color: #ff69b4;
-  }
-
-  html.dark .member-list li a:hover {
-    color: #ff85c1;
-  }
+/* Dark mode tweaks */
+html.dark .current-member {
+  color: #ff85c1 !important;
+}
 
   .main {
     flex: 1;
@@ -224,50 +412,141 @@ button.folder-toggle::-moz-focus-inner {
       localStorage.removeItem('darkmode');
     }
   }
-
-  window.onload = () => {
-    document.querySelectorAll('.folder-toggle').forEach(btn => {
-      const folderName = btn.dataset.folder;
-      const list = btn.nextElementSibling;
-      const saved = localStorage.getItem(`folder-${folderName}`);
-      if (saved === 'open') list.style.display = 'block';
-
-      btn.addEventListener('click', () => {
-        const isOpen = list.style.display === 'block';
-        list.style.display = isOpen ? 'none' : 'block';
-        localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
-      });
-    });
-  };
 </script>
 </head>
 <body>
 
-<div class="container">
-  <div class="sidebar">
+<div class="sidebar">
+  <div class="search-container">
+    <input type="text" id="sidebarSearch" placeholder="Search..." />
+  </div>
+  <div class="sidebar-scroll">
     <ul class="folder-tree">
       <li>
         <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
         <ul class="member-list">
-          <li><a href="YUNAH.html">YUNAH</a></li>
-          <li><a href="IROHA.html">IROHA</a></li>
-          <li><a href="MOKA.html">MOKA</a></li>
-          <li><a href="MINJU.html">MINJU</a></li>
-          <li><a href="WONHEE.html">WONHEE</a></li>
+          <li><a href="ILLIT_YUNAH.html">YUNAH</a></li>
+          <li><a href="ILLIT_IROHA.html">IROHA</a></li>
+          <li><a href="ILLIT_MOKA.html">MOKA</a></li>
+          <li><a href="ILLIT_MINJU.html">MINJU</a></li>
+          <li><a href="ILLIT_WONHEE.html">WONHEE</a></li>
         </ul>
       </li>
       <li>
         <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
         <ul class="member-list">
-          <li><a href="DANIELLE.html">DANIELLE</a></li>
-          <li><a href="HANNI.html">HANNI</a></li>
-          <li><a href="MINJI.html">MINJI</a></li>
-          <li><a href="HYEIN.html">HYEIN</a></li>
-          <li><a href="HAERIN.html">HAERIN</a></li>
+          <li><a href="NEWJEANS_DANIELLE.html">DANIELLE</a></li>
+          <li><a href="NEWJEANS_HANNI.html">HANNI</a></li>
+          <li><a href="NEWJEANS_MINJI.html">MINJI</a></li>
+          <li><a href="NEWJEANS_HYEIN.html">HYEIN</a></li>
+          <li><a href="NEWJEANS_HAERIN.html">HAERIN</a></li>
+        </ul>
+      </li>
+      <li>
+        <button class="folder-toggle" data-folder="IVE">IVE</button>
+        <ul class="member-list">
+          <li><a href="IVE_YUJIN.html">YUJIN</a></li>
+          <li><a href="IVE_GAEUL.html">GAEUL</a></li>
+          <li><a href="IVE_WONYOUNG.html">WONYOUNG</a></li>
+          <li><a href="IVE_REI.html">REI</a></li>
+          <li><a href="IVE_LIZ.html">LIZ</a></li>
+          <li><a href="IVE_LEESEO.html">LEESEO</a></li>
+        </ul>
+      </li>
+      <li>
+        <button class="folder-toggle" data-folder="STAYC">STAYC</button>
+        <ul class="member-list">
+          <li><a href="STAYC_SIEUN.html">SIEUN</a></li>
+          <li><a href="STAYC_SEEUN.html">SEEUN</a></li>
+          <li><a href="STAYC_ISA.html">ISA</a></li>
+          <li><a href="STAYC_SUMIN.html">SUMIN</a></li>
+          <li><a href="STAYC_J.html">J</a></li>
+          <li><a href="STAYC_YOON.html">YOON</a></li>
+        </ul>
+      </li>
+      <li>
+        <button class="folder-toggle" data-folder="AESPA">AESPA</button>
+        <ul class="member-list">
+          <li><a href="AESPA_NINGNING.html">NINGNING</a></li>
+          <li><a href="AESPA_GISELLE.html">GISELLE</a></li>
+          <li><a href="AESPA_WINTER.html">WINTER</a></li>
+          <li><a href="AESPA_KARINA.html">KARINA</a></li>
+        </ul>
+      </li>
+      <li>
+        <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
+        <ul class="member-list">
+          <li><a href="FROMIS_GYURI.html">GYURI</a></li>
+          <li><a href="FROMIS_SAEROM.html">SAEROM</a></li>
+          <li><a href="FROMIS_HAYOUNG.html">HAYOUNG</a></li>
+          <li><a href="FROMIS_JIWON.html">JIWON</a></li>
+          <li><a href="FROMIS_JISUN.html">JISUN</a></li>
+          <li><a href="FROMIS_SOYEON.html">SOYEON</a></li>
+          <li><a href="FROMIS_NAKYUNG.html">NAKYUNG</a></li>
+          <li><a href="FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
+          <li><a href="FROMIS_JIHEON.html">JIHEON</a></li>
+        </ul>
+      </li>
+      <li>
+        <button class="folder-toggle" data-folder="LOONA">LOONA</button>
+        <ul class="member-list">
+          <li><a href="LOONA_KIMLIP.html">KIMLIP</a></li>
+          <li><a href="LOONA_VIVI.html">VIVI</a></li>
+          <li><a href="LOONA_JINSOUL.html">JINSOUL</a></li>
+          <li><a href="LOONA_HYUNJIN.html">HYUNJIN</a></li>
+          <li><a href="LOONA_YVES.html">YVES</a></li>
+          <li><a href="LOONA_GOWON.html">GOWON</a></li>
+          <li><a href="LOONA_OLIVIA.html">OLIVIA</a></li>
+          <li><a href="LOONA_CHOERRY.html">CHOERRY</a></li>
+          <li><a href="LOONA_HASEUL.html">HASEUL</a></li>
+          <li><a href="LOONA_HEEJIN.html">HEEJIN</a></li>
+          <li><a href="LOONA_YEOJIN.html">YEOJIN</a></li>
+          <li><a href="LOONA_CHUU.html">CHUU</a></li>
+        </ul>
+      </li>
+        <li>
+        <button class="folder-toggle" data-folder="ITZY">ITZY</button>
+        <ul class="member-list">
+          <li><a href="ITZY_RYUJIN.html">RYUJIN</a></li>
+          <li><a href="ITZY_YEJI.html">YEJI</a></li>
+          <li><a href="ITZY_LIA.html">LIA</a></li>
+          <li><a href="ITZY_CHAERYOUNG.html">CHAERYOUNG</a></li>
+          <li><a href="ITZY_YUNA.html">YUNA</a></li>
+        </ul>
+      </li>
+         <li>
+        <button class="folder-toggle" data-folder="IU">IU</button>
+        <ul class="member-list">
+          <li><a href="IU_IU.html">IU</a></li>
+        </ul>
+      </li>
+         <li>
+        <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
+        <ul class="member-list">
+          <li><a href="RED VELVET_IRENE.html">IRENE</a></li>
+          <li><a href="RED VELVET_WENDY.html">WENDY</a></li>
+          <li><a href="RED VELVET_YERI.html">YERI</a></li>
+          <li><a href="RED VELVET_SEULGI.html">SEULGI</a></li>
+          <li><a href="RED VELVET_JOY.html">JOY</a></li>
+        </ul>
+      </li>
+         <li>
+        <button class="folder-toggle" data-folder="TWICE">TWICE</button>
+        <ul class="member-list">
+          <li><a href="TWICE_JEONGYEON.html">JEONGYEON</a></li>
+          <li><a href="TWICE_JIHYO.html">JIHYO</a></li>
+          <li><a href="TWICE_DAHYUN.html">DAHYUN</a></li>
+          <li><a href="TWICE_MOMO.html">MOMO</a></li>
+          <li><a href="TWICE_MINA.html">MINA</a></li>
+          <li><a href="TWICE_SANA.html">SANA</a></li>
+          <li><a href="TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
+          <li><a href="TWICE_TZUYU.html">TZUYU</a></li>
+          <li><a href="TWICE_NAYEON.html">NAYEON</a></li>
         </ul>
       </li>
     </ul>
   </div>
+</div>
 
   <div class="main">
     <div class="main-content">
@@ -276,7 +555,66 @@ button.folder-toggle::-moz-focus-inner {
       <a class="button-link" onclick="toggleDarkMode()">Toggle Dark Mode</a>
     </div>
   </div>
-</div>
+
+<script>
+function setupSidebarToggles() {
+  document.querySelectorAll('.folder-toggle').forEach(btn => {
+    const folderName = btn.dataset.folder;
+    const memberList = btn.nextElementSibling;
+    const savedState = localStorage.getItem(`folder-${folderName}`);
+
+    // Restore saved open/closed state
+    memberList.style.display = savedState === 'open' ? 'block' : 'none';
+
+    // Add toggle click handler
+    btn.addEventListener('click', () => {
+      const isOpen = memberList.style.display === 'block';
+      memberList.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
+    });
+  });
+}
+
+function setupSidebarSearch() {
+  document.getElementById('sidebarSearch').addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    const groups = document.querySelectorAll('.folder-tree > li');
+
+    groups.forEach(group => {
+      const folderToggle = group.querySelector('.folder-toggle');
+      const memberList = group.querySelector('.member-list');
+      const groupName = folderToggle.textContent.toLowerCase();
+      const members = group.querySelectorAll('.member-list li');
+      let groupMatches = groupName.includes(filter);
+      let memberMatches = false;
+
+      members.forEach(member => {
+        const name = member.textContent.toLowerCase();
+        const visible = filter === '' || name.includes(filter) || groupMatches;
+        member.style.display = visible ? '' : 'none';
+        if (visible) memberMatches = true;
+      });
+
+      group.style.display = groupMatches || memberMatches ? '' : 'none';
+
+      if (filter !== '') {
+        memberList.style.display = (groupMatches || memberMatches) ? 'block' : 'none';
+      } else {
+        // Restore original folder state
+        const folderName = folderToggle.dataset.folder;
+        const saved = localStorage.getItem(`folder-${folderName}`);
+        memberList.style.display = saved === 'open' ? 'block' : 'none';
+      }
+    });
+  });
+}
+
+// Run both setups after DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+  setupSidebarToggles();
+  setupSidebarSearch();
+});
+</script>
 
 </body>
 </html>
