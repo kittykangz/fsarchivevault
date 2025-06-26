@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
 <meta charset="UTF-8">
-<title>Gallery Home</title>
+
+<script>
+  // Check for saved preference
+  const savedTheme = localStorage.getItem('theme');
+
+  // If no saved preference, default to dark
+  if (!savedTheme) {
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  } else if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+
+
+<title>Home</title>
 <style>
   html, body {
-    margin: 0;
     padding: 0;
     font-family: Tahoma, sans-serif;
     background: #f8f9fa;
@@ -18,18 +34,57 @@
     color: #eee;
   }
 
-  .container {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-  }
-
-/* Sidebar container */
+  /* Sidebar container */
 .folder-toggle:hover {
   background: transparent;
   color: inherit;
   text-decoration: underline;
 }
+
+/* CROSSHAIR 
+body::before, body::after {
+  content: "";
+  position: fixed;
+  background: red;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+body::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+
+body::after {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+}
+
+
+*/
+
+
+  /* DELETE 
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 0, 0, 1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 0, 0, 1) 1px, transparent 1px);
+  background-size: 10px 10px;
+  z-index: 99999;
+}
+
+  */
 
 .sidebar {
   position: fixed;
@@ -43,6 +98,7 @@
   z-index: 999;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 html.dark .sidebar {
@@ -52,7 +108,7 @@ html.dark .sidebar {
 
 /* Search container (stays pinned at top) */
 .search-container {
-  padding: 10px 10px 5px 70px;
+  padding: 10px 10px 5px 70px; 
   background: none;
   z-index: 2;
 }
@@ -62,7 +118,7 @@ html.dark .search-container {
 }
 
 #sidebarSearch {
-  width: 150px;
+  width: 120px;  /* shorter width */
   font-size: 12px;
   padding: 4px 6px;
   font-family: Tahoma, sans-serif;
@@ -78,6 +134,24 @@ html.dark #sidebarSearch {
   background: #222;
   color: #eee;
   border-color: #444;
+}
+
+.search-container a {
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.search-container a:hover {
+  background-color: #ddd;
+  text-decoration: none;
+}
+
+html.dark .search-container a:hover {
+  background-color: #444;
 }
 
 /* Scrollable part of sidebar */
@@ -127,6 +201,7 @@ html.dark #sidebarSearch {
     padding-left: 20px;
     white-space: nowrap;
     color: #000;
+
   }
 
   html.dark .folder-tree,
@@ -138,6 +213,8 @@ html.dark #sidebarSearch {
     position: relative;
     margin: 0;
     padding-left: 24px;
+
+
   }
 
   .folder-tree > li::before {
@@ -179,12 +256,12 @@ html.dark #sidebarSearch {
 
 button.folder-toggle {
   font-weight: bold;
+  height: 25px;
   font-family: inherit;
   font-size: 14px;
   cursor: pointer;
-  padding: 4px 0 4px 32px;
+  padding: 4px 0 4px 37px;
   color: #000;
-  padding-left: 37px !important;
   position: relative;
   user-select: none;
   white-space: nowrap;
@@ -217,109 +294,11 @@ button.folder-toggle::-moz-focus-inner {
   border: 0;
 }
 
-/* Folder tree base */
-.folder-tree,
-.folder-tree ul {
-  list-style: none;
-  margin: 0;
-  padding-left: 20px;
-  white-space: nowrap;
-  color: #000;
-}
-html.dark .folder-tree,
-html.dark .folder-tree ul {
-  color: #ddd;
-}
 
-/* Each list item */
-.folder-tree li {
-  position: relative;
-  margin: 0;
-  padding-left: 24px;
-}
 
-/* No vertical line on top-level groups */
-.folder-tree > li::before {
-  content: none;
-}
-
-.folder-tree ul > li:last-child::before {
-  bottom: 12px;
-}
-
-/* Horizontal branch lines */
-.folder-tree ul > li > a::before {
-  content: "├──";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-weight: normal;
-  user-select: none;
-  z-index: 1;
-  padding-right: 8px;
-}
-.folder-tree ul > li:last-child > a::before {
-  content: "└──";
-}
-
-/* Group label with trailing slash */
-.folder-tree > li > button.folder-toggle::after {
-  content: "/";
-  position: absolute;
-  right: -12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-weight: normal;
-  user-select: none;
-  z-index: 1;
-}
-
-/* Toggle buttons */
-button.folder-toggle {
-  font-weight: bold;
-  font-family: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 4px 0 4px 32px;
-  color: #000;
-  position: relative;
-  user-select: none;
-  white-space: nowrap;
-  z-index: 2;
-  -webkit-tap-highlight-color: transparent;
-}
-button.folder-toggle,
-button.folder-toggle:focus,
-button.folder-toggle:focus-visible,
-button.folder-toggle:focus-within,
-button.folder-toggle *:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  background: transparent !important;
-}
-
-html.dark button.folder-toggle {
-  color: #eee;
-}
-
-button.folder-toggle:focus,
-button.folder-toggle:focus-visible,
-button.folder-toggle:focus-within {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-button.folder-toggle::-moz-focus-inner {
-  border: 0;
-}
 
 /* === CUSTOM SCROLLBAR === */
 
-/* Member list links */
 .member-list {
   list-style: none;
   margin: 4px 0 8px 0;
@@ -349,7 +328,7 @@ html.dark .member-list li a:hover {
 
 /* Highlight current member with color and underline only */
 .current-member {
-  color: #ff69b4 !important;  /* Pink highlight */
+  color: #ff69b4 !important;  
   text-decoration: underline;
 }
 
@@ -372,30 +351,533 @@ html.dark .current-member {
     margin-bottom: 10px;
   }
 
-  .button-link {
-    margin-top: 20px;
-    display: inline-block;
-    background: #c0c0c0;
-    border: 2px outset #fff;
-    border-right-color: #7a7a7a;
-    border-bottom-color: #7a7a7a;
-    color: black;
-    font-family: Tahoma, Arial, sans-serif;
-    font-size: 14px;
-    padding: 6px 12px;
-    text-decoration: none;
-    border-radius: 0;
-    box-shadow: none;
-    cursor: pointer;
-  }
+/* Light mode */
+.button-link {
+  padding-top: 4px !important;
+  padding-bottom: 8px !important;
+  display: inline-block;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+  color: black;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 14px;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  z-index: 9999;
+}
 
-  .button-link:active {
-    border: 2px inset #000;
-  }
+.button-link:active {
+  border: 2px inset #000;
+}
 
-  .button-link:hover {
-    background: #dcdcdc;
+.button-link:hover {
+  background: #dcdcdc;
+}
+
+/* Dark mode */
+html.dark .button-link {
+  background: #2d2d2d;
+  border: 2px outset #444;
+  border-right-color: #111;
+  border-bottom-color: #111;
+  color: #eee;
+}
+
+html.dark .button-link:active {
+  border: 2px inset #000;
+}
+
+html.dark .button-link:hover {
+  background: #3a3a3a;
+}
+
+.about-window.win98-style {
+  font-family: 'MS Sans Serif', Tahoma, Geneva, sans-serif;
+  background: #c0c0c0;
+  color: #000;
+  border: 2px groove #aaa;
+  max-width: 600px;
+  margin: 30px 0;
+  box-sizing: border-box;
+  padding: 0;
+
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.1),   /* soft inner dark edge */
+    0 0 6px rgba(0, 0, 0, 0.1),   /* faint outer dark glow */
+    0 0 8px rgba(255, 255, 255, 0.6); /* crisp white outer glow */
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-and-gallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 600px) 300px; /* Left spacer, center, right */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: -50px;
+  padding: 20px;
+  transform: translateX(50px);
+  box-sizing: border-box;
+  align-items: start;
+}
+
+.about-window {
+  grid-column: 2; /* Center */
+  width: 100%;
+}
+
+.recent-wrapper {
+  grid-column: 3;
+  width: 100%; /* Match grid column width */
+  display: flex;
+  flex-direction: column;
+  font-family: 'MS Sans Serif', Tahoma, Geneva, sans-serif;
+  background: #dfdfdf;
+  color: #000;
+  border: 2px groove #aaa;
+  box-sizing: border-box;
+  padding: 10px; /* added padding so content isn't flush against border */
+  margin: 30px 0;
+  transform: translateY(40px);
+
+
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.1),   /* soft inner dark edge */
+    0 0 6px rgba(0, 0, 0, 0.1),    /* faint outer dark glow */
+    0 0 8px rgba(255, 255, 255, 0.6); /* crisp white outer glow */
+}
+
+html.dark .recent-wrapper {
+  background: #2a2a2a;
+  box-shadow:
+    0 0 3px rgba(255, 255, 255, 0.2),
+    0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+
+
+.recent-wrapper h2 {
+  font-family: Tahoma, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  padding: 4px 8px;
+  width: fit-content;
+  margin: 0;
+  margin-bottom: 10px;
+  line-height: 1; /* helps prevent extra space from line height */
+}
+
+html.dark .recent-wrapper h2 {
+  color:white;
+}
+
+
+.recent-gallery-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  max-height: 429px;
+  overflow-y: auto;
+  width: 100%;
+  align-content: start;
+  scrollbar-width: none;
+  scrollbar-color: rgba(120, 120, 120, 0.6) transparent;  /* thumb / track */
+}
+
+
+.recent-gallery-box img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  overflow-y: auto;
+}
+
+
+/* Dark mode styles as you had */
+html.dark .recent-gallery-box {
+  background: #2e2e2e;
+  color: #ddd;
+}
+
+
+html.dark .about-window.win98-style {
+  background: #222;
+  box-shadow:
+    0 0 3px rgba(255, 255, 255, 0.2),
+    0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+
+
+.about-window.win98-style .about-section-content {
+  background: #dfdfdf;
+  color: #000;
+  padding: 18px 18px 18px 18px;
+  border: none !important;
+  border-right-color: none !important;
+  border-bottom-color: none !important;
+  font-size: 13px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.about-window.win98-style p {
+  margin-bottom: 10px;
+  line-height: 1.4;
+  font-size: 13px;
+  color: #000;
+}
+
+.about-window.win98-style a {
+  color: #000080;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+html.dark .about-window.win98-style .about-section-content {
+  background: #2a2a2a;
+  color: #eee;
+  border: 0px inset #444;
+  border-right-color: #222;
+  border-bottom-color: #222;
+}
+
+.divider-text {
+  text-align: center;
+  margin: 12px 0;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  user-select: none;
+  white-space: nowrap;
+  overflow: visible;
+  text-shadow: 2px 2px #cacaca;
+}
+
+html.dark .divider-text {
+  color: #aaa;
+  text-shadow: 2px 2px #444;
+
+
+}
+
+
+html.dark .about-window.win98-style p {
+  color: #eee;
+}
+
+.tip-box {
+  background: #e0e0e0;
+  border: 2px groove #aaa;
+  padding: 10px 12px;
+  margin: 12px 0;
+  font-size: 11px;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  color: #000;
+}
+
+html.dark .tip-box {
+  background: #2e2e2e;
+  border: 2px groove #555;
+  color: #ddd;
+}
+
+.pink-heart {
+  color: #ff69b4 !important;
+  text-shadow: 1px 1px #cacaca;
+  font-size: 20px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+  animation: pulseGlow 3s ease-in-out infinite;
+  text-decoration: none !important;
+  cursor: pointer; /* pointer cursor on hover */
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: none;
   }
+  50% {
+    transform: scale(1.1);
+    text-shadow:
+  0 0 3px rgba(255, 105, 180, 0.4),
+  0 0 6px rgba(255, 105, 180, 0.6),
+  0 0 9px rgba(255, 133, 193, 0.8);
+
+  }
+}
+
+.pink-heart:hover {
+  text-decoration: none !important; 
+}
+
+html.dark .pink-heart {
+  color: #ff69b4;
+  text-shadow: 1px 1px #444;
+}
+
+#stats-footer {
+  font-family: Tahoma, sans-serif;
+  font-size: 13px;
+  color: #555;
+  text-align: center;
+  margin-top: -40px;
+  opacity: 0.85;
+  padding: 8px 0;
+  line-height: 1.8;
+}
+html.dark #stats-footer {
+  color: #aaa;
+  border-top: 0px solid #444;
+  box-shadow: inset 0 0px 0 #222;
+}
+
+.site-footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+  margin: 40px auto 20px auto;
+  padding: 10px 0;
+  max-width: 800px;
+}
+
+.sidebar a svg {
+  fill: #444;
+  transition: fill 0.3s ease;
+}
+html.dark .sidebar a svg {
+  fill: #fff;
+}
+
+.home-icon-link {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  user-select: none;
+  cursor: default;
+}
+.home-icon-link svg {
+  transition: none !important;
+}
+
+.home-icon-link:hover {
+  background: none !important;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.home-icon-link:active,
+.home-icon-link:focus {
+  background: none !important;
+  outline: none;
+  box-shadow: none;
+}
+
+
+.tooltip-preview {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  color: #000080; /* classic Win98 link blue */
+  font-weight: normal;
+  text-decoration: underline dotted;
+}
+
+.tooltip-preview:hover .tooltip-popup {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tooltip-popup {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  z-index: 1000;
+  top: 130%;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  padding: 10px;
+  max-width: 280px;
+  font-size: 12px;
+  line-height: 1.4;
+  background: #dfdfdf;
+  color: #000;
+  font-family: 'MS Sans Serif', Tahoma, sans-serif;
+  border: 2px groove #aaa;
+  box-shadow:
+    0 0 3px rgba(0, 0, 0, 0.1),
+    0 0 5px rgba(255, 255, 255, 0.4);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: normal;
+}
+
+.tooltip-popup img {
+  display: block;
+  margin-top: 6px;
+  border: 1px solid #666;
+}
+
+/* 🌙 Dark mode */
+html.dark .tooltip-popup {
+  background: #2a2a2a;
+  color: #eee;
+  border: 2px groove #555;
+  box-shadow:
+    0 0 3px rgba(255, 255, 255, 0.15),
+    0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+html.dark .tooltip-popup img {
+  border-color: #444;
+}
+
+html.dark .tooltip-preview {
+  color: #8db2f7;
+}
+
+.discord-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.8em;
+  z-index: 9999;
+  pointer-events: none; /* disable interaction by default */
+}
+
+.discord-tooltip-wrapper:hover .discord-tooltip,
+.discord-tooltip:hover {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto; /* enable interaction when visible */
+}
+
+
+.lightbulb {
+  color: #ffd700;
+  text-shadow: 0 0 5px rgba(200, 160, 0, 0.6);
+  animation: pulseGlowYellow 3s ease-in-out infinite;
+}
+
+html.dark .lightbulb {
+  text-shadow: 0 0 6px rgba(255, 255, 120, 0.8);
+}
+
+/* Yellow version of the pulseGlow animation */
+@keyframes pulseGlowYellow {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(200, 160, 0, 0.6);
+  }
+  50% {
+    transform: scale(1.1);
+    text-shadow:
+      0 0 3px rgba(255, 215, 0, 0.4),
+      0 0 6px rgba(255, 200, 0, 0.6),
+      0 0 9px rgba(255, 180, 0, 0.8);
+  }
+}
+
+html.dark .lightbulb {
+  text-shadow: 0 0 6px rgba(255, 255, 120, 0.8);
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: black; /* or black depending on theme */
+  transition: color 0.2s ease;
+}
+
+.icon-button:hover {
+  color: #ccc;
+}
+
+.icon-button:active {
+  opacity: 0.8;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+html.dark .icon-button svg {
+  filter: invert(1);
+}
+
+.sidebar-container {
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  align-items: stretch;
+}
+
+ #toggle-sidebar {
+  position: fixed;
+  top: 20px;
+  left: 110px;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+  padding: 4px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  transform: rotate(45deg);
+  transform-origin: center;
+  font-size: 14px;
+  padding-block-end: 8px;
+}
+
+#toggle-sidebar:hover {
+  color: #000;
+} 
+
+
+
+
+
 </style>
 <script>
   try {
@@ -415,143 +897,196 @@ html.dark .current-member {
 </script>
 </head>
 <body>
-
+<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
 <div class="sidebar">
   <div class="search-container">
-    <input type="text" id="sidebarSearch" placeholder="Search..." />
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <input type="text" id="sidebarSearch" placeholder="Search..." />
+<a href="index.html" class="home-icon-link">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
+  </svg>
+</a>
+    </div>
   </div>
+
+  
   <div class="sidebar-scroll">
     <ul class="folder-tree">
-      <li>
-        <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
-        <ul class="member-list">
-          <li><a href="ILLIT_YUNAH.html">YUNAH</a></li>
-          <li><a href="ILLIT_IROHA.html">IROHA</a></li>
-          <li><a href="ILLIT_MOKA.html">MOKA</a></li>
-          <li><a href="ILLIT_MINJU.html">MINJU</a></li>
-          <li><a href="ILLIT_WONHEE.html">WONHEE</a></li>
-        </ul>
-      </li>
-      <li>
-        <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
-        <ul class="member-list">
-          <li><a href="NEWJEANS_DANIELLE.html">DANIELLE</a></li>
-          <li><a href="NEWJEANS_HANNI.html">HANNI</a></li>
-          <li><a href="NEWJEANS_MINJI.html">MINJI</a></li>
-          <li><a href="NEWJEANS_HYEIN.html">HYEIN</a></li>
-          <li><a href="NEWJEANS_HAERIN.html">HAERIN</a></li>
-        </ul>
-      </li>
-      <li>
-        <button class="folder-toggle" data-folder="IVE">IVE</button>
-        <ul class="member-list">
-          <li><a href="IVE_YUJIN.html">YUJIN</a></li>
-          <li><a href="IVE_GAEUL.html">GAEUL</a></li>
-          <li><a href="IVE_WONYOUNG.html">WONYOUNG</a></li>
-          <li><a href="IVE_REI.html">REI</a></li>
-          <li><a href="IVE_LIZ.html">LIZ</a></li>
-          <li><a href="IVE_LEESEO.html">LEESEO</a></li>
-        </ul>
-      </li>
-      <li>
-        <button class="folder-toggle" data-folder="STAYC">STAYC</button>
-        <ul class="member-list">
-          <li><a href="STAYC_SIEUN.html">SIEUN</a></li>
-          <li><a href="STAYC_SEEUN.html">SEEUN</a></li>
-          <li><a href="STAYC_ISA.html">ISA</a></li>
-          <li><a href="STAYC_SUMIN.html">SUMIN</a></li>
-          <li><a href="STAYC_J.html">J</a></li>
-          <li><a href="STAYC_YOON.html">YOON</a></li>
-        </ul>
-      </li>
-      <li>
-        <button class="folder-toggle" data-folder="AESPA">AESPA</button>
-        <ul class="member-list">
-          <li><a href="AESPA_NINGNING.html">NINGNING</a></li>
-          <li><a href="AESPA_GISELLE.html">GISELLE</a></li>
-          <li><a href="AESPA_WINTER.html">WINTER</a></li>
-          <li><a href="AESPA_KARINA.html">KARINA</a></li>
-        </ul>
-      </li>
-      <li>
-        <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
-        <ul class="member-list">
-          <li><a href="FROMIS_GYURI.html">GYURI</a></li>
-          <li><a href="FROMIS_SAEROM.html">SAEROM</a></li>
-          <li><a href="FROMIS_HAYOUNG.html">HAYOUNG</a></li>
-          <li><a href="FROMIS_JIWON.html">JIWON</a></li>
-          <li><a href="FROMIS_JISUN.html">JISUN</a></li>
-          <li><a href="FROMIS_SOYEON.html">SOYEON</a></li>
-          <li><a href="FROMIS_NAKYUNG.html">NAKYUNG</a></li>
-          <li><a href="FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
-          <li><a href="FROMIS_JIHEON.html">JIHEON</a></li>
-        </ul>
-      </li>
-      <li>
-        <button class="folder-toggle" data-folder="LOONA">LOONA</button>
-        <ul class="member-list">
-          <li><a href="LOONA_KIMLIP.html">KIMLIP</a></li>
-          <li><a href="LOONA_VIVI.html">VIVI</a></li>
-          <li><a href="LOONA_JINSOUL.html">JINSOUL</a></li>
-          <li><a href="LOONA_HYUNJIN.html">HYUNJIN</a></li>
-          <li><a href="LOONA_YVES.html">YVES</a></li>
-          <li><a href="LOONA_GOWON.html">GOWON</a></li>
-          <li><a href="LOONA_OLIVIA.html">OLIVIA</a></li>
-          <li><a href="LOONA_CHOERRY.html">CHOERRY</a></li>
-          <li><a href="LOONA_HASEUL.html">HASEUL</a></li>
-          <li><a href="LOONA_HEEJIN.html">HEEJIN</a></li>
-          <li><a href="LOONA_YEOJIN.html">YEOJIN</a></li>
-          <li><a href="LOONA_CHUU.html">CHUU</a></li>
-        </ul>
-      </li>
-        <li>
-        <button class="folder-toggle" data-folder="ITZY">ITZY</button>
-        <ul class="member-list">
-          <li><a href="ITZY_RYUJIN.html">RYUJIN</a></li>
-          <li><a href="ITZY_YEJI.html">YEJI</a></li>
-          <li><a href="ITZY_LIA.html">LIA</a></li>
-          <li><a href="ITZY_CHAERYOUNG.html">CHAERYOUNG</a></li>
-          <li><a href="ITZY_YUNA.html">YUNA</a></li>
-        </ul>
-      </li>
-         <li>
-        <button class="folder-toggle" data-folder="IU">IU</button>
-        <ul class="member-list">
-          <li><a href="IU_IU.html">IU</a></li>
-        </ul>
-      </li>
-         <li>
-        <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
-        <ul class="member-list">
-          <li><a href="RED VELVET_IRENE.html">IRENE</a></li>
-          <li><a href="RED VELVET_WENDY.html">WENDY</a></li>
-          <li><a href="RED VELVET_YERI.html">YERI</a></li>
-          <li><a href="RED VELVET_SEULGI.html">SEULGI</a></li>
-          <li><a href="RED VELVET_JOY.html">JOY</a></li>
-        </ul>
-      </li>
-         <li>
-        <button class="folder-toggle" data-folder="TWICE">TWICE</button>
-        <ul class="member-list">
-          <li><a href="TWICE_JEONGYEON.html">JEONGYEON</a></li>
-          <li><a href="TWICE_JIHYO.html">JIHYO</a></li>
-          <li><a href="TWICE_DAHYUN.html">DAHYUN</a></li>
-          <li><a href="TWICE_MOMO.html">MOMO</a></li>
-          <li><a href="TWICE_MINA.html">MINA</a></li>
-          <li><a href="TWICE_SANA.html">SANA</a></li>
-          <li><a href="TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
-          <li><a href="TWICE_TZUYU.html">TZUYU</a></li>
-          <li><a href="TWICE_NAYEON.html">NAYEON</a></li>
-        </ul>
-      </li>
+<li>
+  <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
+  <ul class="member-list" data-folder="ILLIT">
+    <li><a href="MEMBERS/ILLIT_YUNAH.html">YUNAH</a></li>
+    <li><a href="MEMBERS/ILLIT_MINJU.html">MINJU</a></li>
+    <li><a href="MEMBERS/ILLIT_MOKA.html">MOKA</a></li>
+    <li><a href="MEMBERS/ILLIT_WONHEE.html">WONHEE</a></li>
+    <li><a href="MEMBERS/ILLIT_IROHA.html">IROHA</a></li>
+  </ul>
+</li>
+<li>
+  <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
+  <ul class="member-list" data-folder="NEWJEANS">
+    <li><a href="MEMBERS/NEWJEANS_MINJI.html">MINJI</a></li>
+    <li><a href="MEMBERS/NEWJEANS_HANNI.html">HANNI</a></li>
+    <li><a href="MEMBERS/NEWJEANS_DANIELLE.html">DANIELLE</a></li>
+    <li><a href="MEMBERS/NEWJEANS_HAERIN.html">HAERIN</a></li>
+    <li><a href="MEMBERS/NEWJEANS_HYEIN.html">HYEIN</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="IVE">IVE</button>
+  <ul class="member-list" data-folder="IVE">
+    <li><a href="MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
+    <li><a href="MEMBERS/IVE_GAEUL.html">GAEUL</a></li>
+    <li><a href="MEMBERS/IVE_REI.html">REI</a></li>
+    <li><a href="MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
+    <li><a href="MEMBERS/IVE_LIZ.html">LIZ</a></li>
+    <li><a href="MEMBERS/IVE_LEESEO.html">LEESEO</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="STAYC">STAYC</button>
+  <ul class="member-list" data-folder="STAYC">
+    <li><a href="MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
+    <li><a href="MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
+    <li><a href="MEMBERS/STAYC_ISA.html">ISA</a></li>
+    <li><a href="MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>
+    <li><a href="MEMBERS/STAYC_YOON.html">YOON</a></li>
+    <li><a href="MEMBERS/STAYC_J.html">J</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="AESPA">AESPA</button>
+  <ul class="member-list" data-folder="AESPA">
+    <li><a href="MEMBERS/AESPA_KARINA.html">KARINA</a></li>
+    <li><a href="MEMBERS/AESPA_GISELLE.html">GISELLE</a></li>
+    <li><a href="MEMBERS/AESPA_WINTER.html">WINTER</a></li>
+    <li><a href="MEMBERS/AESPA_NINGNING.html">NINGNING</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
+  <ul class="member-list" data-folder="FROMIS">
+    <li><a href="MEMBERS/FROMIS_SAEROM.html">SAEROM</a></li>
+    <li><a href="MEMBERS/FROMIS_HAYOUNG.html">HAYOUNG</a></li>
+    <li><a href="MEMBERS/FROMIS_GYURI.html">GYURI</a></li>
+    <li><a href="MEMBERS/FROMIS_JIWON.html">JIWON</a></li>
+    <li><a href="MEMBERS/FROMIS_JISUN.html">JISUN</a></li>
+    <li><a href="MEMBERS/FROMIS_SOYEON.html">SOYEON</a></li>
+    <li><a href="MEMBERS/FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
+    <li><a href="MEMBERS/FROMIS_NAKYUNG.html">NAKYUNG</a></li>
+    <li><a href="MEMBERS/FROMIS_JIHEON.html">JIHEON</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="LOONA">LOONA</button>
+  <ul class="member-list" data-folder="LOONA">
+    <li><a href="MEMBERS/LOONA_VIVI.html">VIVI</a></li>
+    <li><a href="MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
+    <li><a href="MEMBERS/LOONA_YVES.html">YVES</a></li>
+    <li><a href="MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
+    <li><a href="MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
+    <li><a href="MEMBERS/LOONA_CHUU.html">CHUU</a></li>
+    <li><a href="MEMBERS/LOONA_HEEJIN.html">HEEJIN</a></li>
+    <li><a href="MEMBERS/LOONA_HYUNJIN.html">HYUNJIN</a></li>
+    <li><a href="MEMBERS/LOONA_GOWON.html">GOWON</a></li>
+    <li><a href="MEMBERS/LOONA_CHOERRY.html">CHOERRY</a></li>
+    <li><a href="MEMBERS/LOONA_OLIVIA.html">OLIVIA</a></li>
+    <li><a href="MEMBERS/LOONA_YEOJIN.html">YEOJIN</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="ITZY">ITZY</button>
+  <ul class="member-list" data-folder="ITZY">
+    <li><a href="MEMBERS/ITZY_YEJI.html">YEJI</a></li>
+    <li><a href="MEMBERS/ITZY_LIA.html">LIA</a></li>
+    <li><a href="MEMBERS/ITZY_RYUJIN.html">RYUJIN</a></li>
+    <li><a href="MEMBERS/ITZY_CHAERYEONG.html">CHAERYEONG</a></li>
+    <li><a href="MEMBERS/ITZY_YUNA.html">YUNA</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="IU">IU</button>
+  <ul class="member-list" data-folder="IU">
+    <li><a href="MEMBERS/IU_IU.html">IU</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
+  <ul class="member-list" data-folder="RED VELVET">
+    <li><a href="MEMBERS/RED VELVET_IRENE.html">IRENE</a></li>
+    <li><a href="MEMBERS/RED VELVET_SEULGI.html">SEULGI</a></li>
+    <li><a href="MEMBERS/RED VELVET_WENDY.html">WENDY</a></li>
+    <li><a href="MEMBERS/RED VELVET_JOY.html">JOY</a></li>
+    <li><a href="MEMBERS/RED VELVET_YERI.html">YERI</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="TWICE">TWICE</button>
+  <ul class="member-list" data-folder="TWICE">
+    <li><a href="MEMBERS/TWICE_NAYEON.html">NAYEON</a></li>
+    <li><a href="MEMBERS/TWICE_JEONGYEON.html">JEONGYEON</a></li>
+    <li><a href="MEMBERS/TWICE_MOMO.html">MOMO</a></li>
+    <li><a href="MEMBERS/TWICE_SANA.html">SANA</a></li>
+    <li><a href="MEMBERS/TWICE_JIHYO.html">JIHYO</a></li>
+    <li><a href="MEMBERS/TWICE_MINA.html">MINA</a></li>
+    <li><a href="MEMBERS/TWICE_DAHYUN.html">DAHYUN</a></li>
+    <li><a href="MEMBERS/TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
+    <li><a href="MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
+  </ul>
+</li>
+
+
     </ul>
   </div>
 </div>
 
+<button id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
+  </svg>
+</button>
+</div>
+
+
+<script>
+  const toggleBtn = document.getElementById('toggle-sidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    const allFolders = document.querySelectorAll('.member-list');
+
+    // Determine if any are currently open
+    const isAnyOpen = Array.from(allFolders).some(ul => {
+      const computed = window.getComputedStyle(ul).display;
+      return computed !== 'none';
+    });
+
+    allFolders.forEach(ul => {
+      const group = ul.dataset.folder;
+      if (!group) return;
+
+      // Apply new display
+      ul.style.display = isAnyOpen ? 'none' : 'block';
+
+      // Save state to localStorage
+      localStorage.setItem(`folder-${group}`, isAnyOpen ? 'closed' : 'open');
+    });
+  });
+</script>
+
+
   <div class="main">
     <div class="main-content">
       <h1>Fansite Archive Vault</h1>
-      <p>Choose a member on the left.</p>
       <a class="button-link" onclick="toggleDarkMode()">Toggle Dark Mode</a>
     </div>
   </div>
@@ -614,7 +1149,185 @@ window.addEventListener('DOMContentLoaded', () => {
   setupSidebarToggles();
   setupSidebarSearch();
 });
+
+
 </script>
+<div class="content-wrapper">
+<div class="about-and-gallery">
+  <div class="about-window win98-style">
+    <div class="about-section-content">
+    <p>
+      Welcome! This is a personal gallery of collected images from fansites, organized by group and member, and sorted by date saved.
+    </p>
+
+    <div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
+
+        <p>
+      I started archiving fansite photos from Twitter (now X) around 2021, for the groups I follow. The images aren’t sorted by the date they were taken, but by the date they were saved. Manually adding the correct date to every image would be unrealistic.
+    </p>
+    <p>
+      I usually save them in the order they’re posted, so if you're looking for images from a specific day, they were likely saved shortly after.
+    </p>
+<div class="tip-box">
+  <span class="lightbulb">💡</span> <strong>Tip:</strong> After selecting a member, try typing a date (like <code>240312</code>) into the search bar! The page will scroll to the closest matching date in that member’s gallery.
+</div>
+
+<p>
+  <span class="tooltip-preview">
+    Preview*
+    <span class="tooltip-popup">
+      "previews" are quick phone photos of the camera screen that fansites post right after an event, before uploading the high-quality versions later.<br>
+      <img src="Gtkpb5YbAAAB8hF.jpg" alt="Preview Example" width="150" style="margin-top: 5px;">
+    </span>
+  </span> pictures are mostly in order, though fansites often upload older high-quality photos from previous dates, at later dates, so those may show up randomly.<br><br>
+  I also occasionally discover new accounts and add their photos, which mixes up the order.
+</p>
+
+<!-- Discord + Tooltip -->
+<div style="font-size: 0.9em; color: #888; margin-top: -5px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
+  Want to help me sort the photos by date? Feel free to message me on 
+  <span
+    id="discordText"
+    class="discord-tooltip-wrapper"
+    title="Click to copy Discord username"
+  >
+    Discord
+    <span class="discord-tooltip">@terril</span>
+    <span id="copyMessage">Copied!</span>
+  </span>
+</div>
+
+<style>
+  .discord-tooltip-wrapper {
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    text-decoration: underline;
+  }
+
+  .discord-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 0.8em;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .discord-tooltip-wrapper:hover .discord-tooltip {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+#copyMessage {
+  position: absolute;
+  top: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #00cc66;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10000;
+  text-shadow: 0 0 3px rgba(0, 204, 102, 0.5);
+}
+
+  #copyMessage.show {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const discordText = document.getElementById('discordText');
+  const copyMessage = document.getElementById('copyMessage');
+  const discordUsername = '@terril';
+
+  discordText.addEventListener('click', () => {
+    navigator.clipboard.writeText(discordUsername).then(() => {
+      copyMessage.classList.add('show');
+      setTimeout(() => {
+        copyMessage.classList.remove('show');
+      }, 1500);
+    });
+  });
+</script>
+
+</style>
+
+    <div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
+    <p>
+      Use the left sidebar to browse groups and select a member, or search for a specific name.
+    </p>
+    <p>
+      Once you're viewing a member's gallery, you can type a date into the search bar to quickly jump to the closest set of images saved around that time.
+    </p>
+    <p>
+      Click any image to view the full-resolution version, and use the download button to open it in a new tab for saving.
+    </p>
+
+    <div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
+    <p>
+      This project was built for fun, as a way to share a photo archiving hobby I started in my free time. I'm glad I could turn it into something easy to browse, and I hope others enjoy it as much as I do.
+    </p>
+    <p>
+  Enjoy browsing!  <a href="https://linktr.ee/teppil" class="pink-heart"  target="_blank" rel="noopener noreferrer">♡</a>
+</p>
+  </div>
+  </div>
+
+  <div class="recent-wrapper">
+   <h2>Recent Uploads</h2>
+  <div class="recent-gallery-box"></div>
+    <div id="recent-uploads-placeholder">
+  </div>
+</div> 
+</div>
+
+
+<script>
+  fetch('recent_uploads.html')
+  .then(res => res.text())
+  .then(html => {
+    document.querySelector('.recent-gallery-box').innerHTML = html;
+  })
+  .catch(err => {
+    document.querySelector('.recent-gallery-box').innerText = 'Failed to load recent uploads.';
+    console.error('Error loading recent uploads:', err);
+  });
+</script>
+
+
+<footer id="stats-footer"></footer>
+</div>
+
+<script>
+fetch('stats.json')
+  .then(response => response.json())
+  .then(stats => {
+    const footer = document.getElementById('stats-footer');
+    if (footer) {
+      footer.innerHTML = `
+        ${stats.groups} groups • ${stats.members} members • ${stats.images.toLocaleString()} images archived<br>
+        Last updated: ${stats.last_updated}
+      `;
+    }
+  })
+  .catch(err => console.error('Failed to load stats:', err));
+
+</script>
+
 
 </body>
 </html>
