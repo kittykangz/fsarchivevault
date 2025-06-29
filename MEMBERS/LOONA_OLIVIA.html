@@ -1227,20 +1227,29 @@ window.scrollToDate = () => {
   if (!/^\d{6}$/.test(v)) {
     return alert("Enter a valid YYMMDD format.");
   }
-  const target = parseInt(v, 10);
+  // parse target as year-month-day
+  const yy = parseInt(v.slice(0,2),10),
+        mm = parseInt(v.slice(2,4),10)-1,
+        dd = parseInt(v.slice(4,6),10);
+  const targetDate = new Date(2000+yy, mm, dd).getTime();
   console.log("scrollToDate: searching for", v);
 
-  // 1) Find best chunk index & yymmdd
+  // 1) Find best chunk index & yymmdd using real date math
   let bestIdx = -1, bestDiff = Infinity, bestYymmdd = "";
   imageChunks.forEach((chunk, i) => {
-    const m = chunk.match(/data-yymmdd="(\d{6})"/);
-    if (!m) return;
-    const y = parseInt(m[1], 10),
-          d = Math.abs(y - target);
-    if (d < bestDiff) {
-      bestDiff = d;
-      bestIdx = i;
-      bestYymmdd = m[1];
+    // scan *all* data-yymmdd in this chunk
+    for (const m of chunk.matchAll(/data-yymmdd="(\d{6})"/g)) {
+      const s = m[1];
+      const y = parseInt(s.slice(0,2),10),
+            mo = parseInt(s.slice(2,4),10)-1,
+            d = parseInt(s.slice(4,6),10);
+      const ts = new Date(2000+y, mo, d).getTime();
+      const diff = Math.abs(ts - targetDate);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestIdx = i;
+        bestYymmdd = s;
+      }
     }
   });
   if (bestIdx < 0) {
@@ -1252,7 +1261,7 @@ window.scrollToDate = () => {
   // 2) Stop eviction
   io.disconnect();
 
-  // 3) Eagerly load all up to bestIdx
+  // 3) Eagerly load all chunks up to bestIdx so offsets are accurate
   for (let i = 0; i <= bestIdx; i++) {
     const wrap = document.querySelector(`[data-chunk-index="${i}"]`);
     if (wrap && !wrap.innerHTML.trim()) {
@@ -1263,7 +1272,7 @@ window.scrollToDate = () => {
     }
   }
 
-  // 4) Wait a frame then scroll
+  // 4) Next frame, highlight & scroll
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       const matches = Array.from(
@@ -1273,7 +1282,6 @@ window.scrollToDate = () => {
       matches.forEach(el => el.classList.add('highlight'));
 
       if (matches.length) {
-        // ↓ select the *last* match (earliest image)
         const el = matches[matches.length - 1];
         console.log("scrollToDate: element.offsetTop =", el.offsetTop);
         console.log("scrollToDate: element.getBoundingClientRect().top =", el.getBoundingClientRect().top);
