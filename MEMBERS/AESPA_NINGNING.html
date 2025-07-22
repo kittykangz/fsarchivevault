@@ -1013,6 +1013,15 @@ html.dark #scrollToTop svg {
   border-right: 2px solid #fff;
 }
 
+  #donate-button {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    z-index: 9999 !important;
+    background: transparent;
+  }
+
+
 
 
 </style>
@@ -1191,6 +1200,15 @@ html.dark #scrollToTop svg {
         </button>
         <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
       </div>
+</div>
+<div id="donate-button">
+<form action="https://www.paypal.com/donate" method="post" target="_blank">
+<input type="hidden" name="business" value="NZYY9RMN3P58C" />
+<input type="hidden" name="no_recurring" value="0" />
+<input type="hidden" name="currency_code" value="USD" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+</form>
 </div>
 
         <!-- … everything up to here … -->
