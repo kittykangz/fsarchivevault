@@ -578,12 +578,14 @@ html.dark a.button-link:hover {
 
 #lightbox .lb-caption #lbFilename {
   font-weight: 600;
+  user-select: text;
 }
 
 #lightbox .lb-caption #lbDate {
   font-size: 0.9rem;
   opacity: 0.75;
   margin-top: 2px;
+  user-select: text;
 }
 
 /* Download button */
@@ -765,7 +767,7 @@ html.dark .image-count {
   font-size: 13px;
   font-weight: bold;
   color: #555;
-  user-select: none;
+  user-select: text;
   white-space: normal;
   overflow: visible;
   letter-spacing: 0;
@@ -1011,6 +1013,7 @@ html.dark #scrollToTop svg {
   border-left: 2px solid #808080;
   border-bottom: 2px solid #fff;
   border-right: 2px solid #fff;
+  user-select: text;
 }
 
   #donate-button {
@@ -1019,6 +1022,7 @@ html.dark #scrollToTop svg {
     right: 10px !important;
     z-index: 9999 !important;
     background: transparent;
+    user-select: none;
   }
 
 
@@ -1850,6 +1854,20 @@ function parseDate(YYMMDDhhmmss) {
     });
   });
 }
+document.getElementById('lbDownload').addEventListener('click', async (e) => {
+    e.preventDefault(); // stop default navigation
+    const url = e.currentTarget.href;
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = url.split('/').pop(); // filename from URL
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(blobUrl);
+});
 
 
 
