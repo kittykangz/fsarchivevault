@@ -4,7 +4,7 @@ import os
 from collections import defaultdict
 
 TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL_ID = 1395001520830943364
+CHANNEL_ID = 896067517901078589
 CURRENT_STATS_FILE = "stats.json"
 PREVIOUS_STATS_FILE = "stats_last.json"
 DIFF_FILE = "member_diffs.json"
@@ -78,11 +78,11 @@ async def on_ready():
                     member_strs = ", ".join(f"{member} +{count}" for member, count in sorted_members)
 
                     # Add group line
-                    lines.append(f"{group} (+{group_total}) | {member_strs}")
+                    lines.append(f"{group} (+{group_total})".ljust(20) + f"| {member_strs}")
 
                     # Add empty line between groups except the last
-                    if idx < len(sorted_groups) - 1:
-                        lines.append("")
+                    #if idx < len(sorted_groups) - 1:
+                        #lines.append("")
 
                 lines.append("```")
 
