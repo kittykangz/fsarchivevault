@@ -78,7 +78,7 @@ async def on_ready():
                     member_strs = ", ".join(f"{member} +{count}" for member, count in sorted_members)
 
                     # Add group line
-                    lines.append(f"{group} (+{group_total})".ljust(20) + f"| {member_strs}")
+                    lines.append(f"{group} (+{group_total})".ljust(17) + f"| {member_strs}")
 
                     # Add empty line between groups except the last
                     #if idx < len(sorted_groups) - 1:
