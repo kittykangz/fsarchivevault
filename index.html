@@ -115,12 +115,12 @@ html.dark .sidebar {
 /* Search container (stays pinned at top) */
 .search-container {
   padding: 10px 10px 5px 70px; 
-  background: none;
+  background: transparent;
   z-index: 2;
 }
 
 html.dark .search-container {
-  background: #121212;
+  background: transparent;
 }
 
 #sidebarSearch {
@@ -374,7 +374,7 @@ html.dark .current-member {
   border-radius: 0;
   box-shadow: none;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 99999999999;
 }
 
 .button-link:active {
@@ -891,6 +891,13 @@ html.dark .icon-button svg {
     background: transparent;
   }
 
+#volume-tree-button-wrapper {
+  position: relative; /* or absolute if you want it pinned to a spot on the page */
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 40px;
+  z-index: 1000; /* must be > any overlapping element */
+}
 
 
 
@@ -1174,6 +1181,9 @@ window.addEventListener('DOMContentLoaded', () => {
   <div class="about-window win98-style">
     <div class="about-section-content">
     <p>
+      <div style="font-size: 0.8em; color: #888; margin-top: -25px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
+       <span class="lightbulb">✨</span> !added <a href="volume_tree.html" style="text-decoration: underline; color: #888">volume tree</a>
+      </div>
       <div class="tip-box">
   <span class="lightbulb">⭐</span> <strong>New Feature:</strong> You can now toggle between sorting images by the date they were saved (which reflects recent uploads) and the chronological order based on the manually assigned dates. Use the "Chronological Order/Recent Uploads" button to switch between these views and explore images in the order they were actually taken!
       <div style="font-size: 0.8em; color: #888; margin-top: 1px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
@@ -1223,7 +1233,7 @@ Welcome! This is a personal gallery of collected images from fansites, organized
     <span class="discord-tooltip">@terril</span>
     <span id="copyMessage">Copied!</span>
   </span>
-  <br> I’m aware the layout doesn’t display well on mobile
+  <br> I’m aware the layout doesn’t display well on mobile or small screens.
 </div>
 
 <style>
@@ -1346,7 +1356,9 @@ Welcome! This is a personal gallery of collected images from fansites, organized
     console.error('Error loading recent uploads:', err);
   });
 </script>
-
+<div id="volume-tree-button-wrapper">
+  <a class="button-link" href="volume_tree.html">View Volume Tree</a>
+</div>
 
 <footer id="stats-footer"></footer>
 </div>
