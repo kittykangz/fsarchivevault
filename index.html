@@ -28,6 +28,7 @@
     background: #f8f9fa;
     color: #333;
     height: 100%;
+    justify-content: center;
   }
 
   html.dark, html.dark body {
@@ -89,8 +90,10 @@ body::before {
 
 .content-wrapper {
   box-sizing: border-box;
+  max-width: 1200px;       
+  margin: 0 auto;          
+  padding-left: 145px;     
 }
-
 
 .sidebar {
   position: fixed;
@@ -425,28 +428,41 @@ html.dark .button-link:hover {
   align-items: center;
 }
 
-.about-and-gallery {
-  width: 100%;
+html.dark .about-and-gallery {
   display: grid;
-  grid-template-columns: 1fr minmax(auto, 600px) 300px; /* Left spacer, center, right */
-  gap: 30px;
-  max-width: 1200px;
+  grid-template-columns: minmax(0, 1fr) 300px; /* about, recent */
+  width: 100%;
   margin: 0 auto;
-  margin-top: -50px;
-  padding: 20px;
-  transform: translateX(50px);
+  padding-right: 40px;
+  padding-left: 40px;
   box-sizing: border-box;
   align-items: start;
+  /*border: 2px solid #888; 
+  border-radius: 6px;    
+  background: linear-gradient(0deg, #1b1b1b, #121212);*/
+}
+.about-and-gallery {
+    display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px; /* about, recent */
+  gap: 30px;
+  width: 100%;
+  margin: 0 auto;
+  padding-right: 40px;
+  padding-left: 40px;
+  box-sizing: border-box;
+  align-items: start;
+  /*border: 2px solid #888; 
+  border-radius: 6px; 
+  background: linear-gradient(0deg, #dcdcdc, #f0f0f0);
+  border: solid 1px hsl(0, 0%, 70%);*/
 }
 
-
 .about-window {
-  grid-column: 2; /* Center */
   width: 100%;
 }
 
 .recent-wrapper {
-  grid-column: 3;
+  grid-column: 2;
   width: 100%; /* Match grid column width */
   display: flex;
   flex-direction: column;
@@ -500,7 +516,7 @@ html.dark .recent-wrapper h2 {
   overflow-y: auto;
   width: 100%;
   align-content: start;
-  scrollbar-width: none;
+  scrollbar-width: 1px;
   scrollbar-color: rgba(120, 120, 120, 0.6) transparent;  /* thumb / track */
 }
 
@@ -541,6 +557,7 @@ html.dark .about-window.win98-style {
   font-size: 13px;
   line-height: 1.5;
   box-sizing: border-box;
+  position: relative;
 }
 
 .about-window.win98-style p {
@@ -573,7 +590,7 @@ html.dark .about-window.win98-style .about-section-content {
   color: #555;
   user-select: none;
   white-space: nowrap;
-  overflow: visible;
+  overflow: hidden;
   text-shadow: 2px 2px #cacaca;
 }
 
@@ -656,14 +673,6 @@ html.dark #stats-footer {
   box-shadow: inset 0 0px 0 #222;
 }
 
-.site-footer {
-  text-align: center;
-  font-size: 0.9em;
-  color: #666;
-  margin: 40px auto 20px auto;
-  padding: 10px 0;
-  max-width: 800px;
-}
 
 .sidebar a svg {
   fill: #444;
@@ -899,6 +908,19 @@ html.dark .icon-button svg {
   z-index: 1000; /* must be > any overlapping element */
 }
 
+.right-column {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2; /* place in the right column of the grid */
+  gap: 65px;      /* space between recent-wrapper and footer/buttons */
+}
+
+.right-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;       /* space between volume tree button and footer */
+}
+
 
 
 
@@ -1108,12 +1130,7 @@ html.dark .icon-button svg {
 </script>
 
 
-  <div class="main">
-    <div class="main-content">
-      <h1>Fansite Archive Vault</h1>
-      <a class="button-link" onclick="toggleDarkMode()">Toggle Dark Mode</a>
-    </div>
-  </div>
+
 
 <script>
 function setupSidebarToggles() {
@@ -1177,6 +1194,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
 </script>
 <div class="content-wrapper">
+    <div class="main">
+    <div class="main-content">
+      <h1>Fansite Archive Vault</h1>
+      <a class="button-link" onclick="toggleDarkMode()">Toggle Dark Mode</a>
+    </div>
+  </div>
 <div class="about-and-gallery">
   <div class="about-window win98-style">
     <div class="about-section-content">
@@ -1326,12 +1349,27 @@ Welcome! This is a personal gallery of collected images from fansites, organized
   </div>
   </div>
 
+
+  <div class="right-column">
   <div class="recent-wrapper">
    <h2>Recent Uploads</h2>
   <div class="recent-gallery-box"></div>
     <div id="recent-uploads-placeholder">
   </div>
-</div> 
+    </div>
+  <div class="right-bottom">
+    <div id="volume-tree-button-wrapper">
+  <a class="button-link" href="volume_tree.html">View Volume Tree</a>
+</div>
+
+<footer id="stats-footer"></footer>
+
+
+
+  </div>
+
+
+</div>
 </div>
 
 <div id="donate-button">
@@ -1356,11 +1394,7 @@ Welcome! This is a personal gallery of collected images from fansites, organized
     console.error('Error loading recent uploads:', err);
   });
 </script>
-<div id="volume-tree-button-wrapper">
-  <a class="button-link" href="volume_tree.html">View Volume Tree</a>
-</div>
 
-<footer id="stats-footer"></footer>
 </div>
 
 <script>
