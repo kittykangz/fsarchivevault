@@ -943,6 +943,44 @@ html.dark .icon-button svg {
 </script>
 </head>
 <body>
+
+<div id="outage-popup" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); /* semi-transparent dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999999999999999999999999999999999999;
+">
+  <div style="
+    background: #fff; /* popup box background is white */
+    color: #000;      /* text is black */
+    padding: 20px;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  ">
+    <h2 style="margin-top: 0;">⚠️ Scheduled Maintenance</h2>
+    <p>Server will be temporarily offline due to power maintenance.<br>
+    Images may not load until power is restored.</p>
+    <button onclick="document.getElementById('outage-popup').style.display='none'" style="
+      margin-top: 15px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #0073e6;
+      color: #fff;
+      cursor: pointer;
+    ">Okay</button>
+  </div>
+</div>
+
+
+
+
 <div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
 <div class="sidebar">
   <div class="search-container">
@@ -1404,7 +1442,7 @@ fetch('stats.json')
     const footer = document.getElementById('stats-footer');
     if (footer) {
       footer.innerHTML = `
-        ${stats.groups} groups • ${stats.members} members • ${stats.images.toLocaleString()} images archived<br>
+        ${stats.groups} groups • ${stats.members} members • ${stats.images.toLocaleString()} images<br>
         Last updated: ${stats.last_updated}
       `;
     }
