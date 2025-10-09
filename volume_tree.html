@@ -1,12 +1,65 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<script>
+try {
+  let theme = localStorage.getItem('theme');
+  if (!theme) {
+    theme = 'dark'; // default
+    localStorage.setItem('theme', theme);
+  }
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+} catch(e) {}
+</script>
+
+
+
+<script>
+  // Initialize dark mode on page load
+  try {
+    if (localStorage.getItem('darkmode') === 'true') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  } catch(e) {}
+
+  function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    // store explicitly as 'true' or 'false'
+    localStorage.setItem('darkmode', isDark ? 'true' : 'false');
+  }
+</script>
+
+
 <title>Image Volume Tree</title>
 <style>
+
+:root {
+--bg-dark: #121212;
+--bg-light: #ddd;
+--card-bg-dark: #222;
+--card-bg-light: #dfdfdf;
+--acc-light: #5f7f9f;
+--acc-dark: #f5deb3;
+--sdw-light:
+    0 0 10px rgba(0, 0, 0, 0.1),
+    0 0 6px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.6);
+--sdw-dark:
+    0 0 3px rgba(255, 255, 255, 0.2),
+    0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+html.dark body {
+  background-color: var(--bg-dark);
+}
 body {
-    background-color: #121212;
+    background-color: var(--bg-light);
     font-family: Tahoma, monospace, monospace;
     color: #ddd;
     padding: 20px;
@@ -16,24 +69,48 @@ h1 {
     margin-bottom: 20px;
     color: #fff;
 }
-.folder-tree {
+
+html.dark .folder-tree-v {
+background-color: var(--card-bg-dark);
+box-shadow:
+  0 0 3px rgba(255, 255, 255, 0.2),
+  0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+
+.folder-tree-v {
+  background-color: var(--card-bg-light);
+  border: 2px groove #aaa;
+  box-shadow:
+  0 0 10px rgba(0, 0, 0, 0.1),
+  0 0 6px rgba(0, 0, 0, 0.1),
+  0 0 8px rgba(255, 255, 255, 0.6);
     list-style: none;
     margin: 0;
     padding-left: 0;
+    padding-top: 7px;
+    padding-bottom: 20px;
 }
-.folder-tree ul {
+.folder-tree-v ul {
     list-style: none;
     margin: 0;
     padding-left: 20px;
 }
-.folder-tree li {
+.folder-tree-v li {
     position: relative;
     padding-left: 16px;
+    padding-right: 20px;
 }
+
+html.dark .folder-label {
+  color: var(--acc-dark)
+}
+
 .folder-label {
     font-weight: bold;
     display: block;
     margin: 4px 0;
+    color: var(--acc-light);
 }
 .member-label {
     color: #aaa;
@@ -41,68 +118,64 @@ h1 {
     padding-left: 0;
     text-decoration: none;
 }
+
+html.dark .member-count {
+ color: #b3b3b3;
+}
+
 .member-count {
-    color: #888;
+    color: black;
     margin-left: 4px;
     font-size: 0.9em;
 }
+
+html.dark a.member-link {
+  color: white;
+}
+
 a.member-link {
-    color: #aaa;
+    color: rgb(0, 0, 0);
     text-decoration: none;
 }
 a.member-link:hover {
     text-decoration: underline;
-    color: #ff69b4;  /* same highlight as sidebar */
+    color: var(--acc-light);
+}
+
+html.dark a.member-link:hover {
+color: var(--acc-dark);
+
 }
 /* Hidden logging image */
 #view-log {
     display: none;
 }
 #donate-button {
-position: absolute !important;
-top: 10px !important;
-right: 10px !important;
-z-index: 9999 !important;
-background: transparent;
-}
-.home-icon-link {
-  display: inline-flex;
-  align-items: center;
-  color: inherit;
-  text-decoration: none;
-  user-select: none;
-  cursor: default;
-  position: fixed;
-}
-.home-icon-link svg {
-  transition: none !important;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-100%); /* vertically center with the title */
+  z-index: 9999;
+  background: transparent;
 }
 
-.home-icon-link:hover {
-  background: none !important;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.home-icon-link:active,
-.home-icon-link:focus {
-  background: none !important;
-  outline: none;
-  box-shadow: none;
-}
 .top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* keeps title block centered */
+  margin-bottom: 12px;
+}
+
+html.dark .top-bar h1 {
+  color: var(--acc-dark);
 }
 
 .top-bar h1 {
     margin: 0;
     font-family: Tahoma, monospace, monospace;
     font-size: 18px;
-    color: #fff;
+    color: var(--acc-light);
     text-align: center;
     flex-grow: 1; /* lets the header stay centered */
 }
@@ -112,11 +185,11 @@ background: transparent;
   font-family: 'MS Sans Serif', Tahoma, sans-serif;
   font-size: 13px;
   font-weight: bold;
-  color: #aaa;
+  color: #555;
   user-select: none;
   white-space: nowrap;
-  overflow: visible;
-  text-shadow: 2px 2px #444;
+  overflow: hidden;
+  text-shadow: 2px 2px #cacaca;
 }
 
 html.dark .divider-text {
@@ -125,31 +198,53 @@ html.dark .divider-text {
 
 
 }
+
+html.dark .stat-panel {
+background-color: var(--card-bg-dark);
+color: white;
+box-shadow:
+  0 0 3px rgba(255, 255, 255, 0.2),
+  0 0 6px rgba(255, 255, 255, 0.15);
+}
+
 .stat-panel {
     line-height: .5;
-    width: 280px;
-    background-color: #1a1a1a;
-    border: 2px solid #555;
-    box-shadow: inset 1px 1px #666, inset -1px -1px #000;
-    padding: 12px;
+    max-width: 280px;
+    min-width: 280px;
+    background-color: var(--card-bg-light);
+    border: 2px groove #aaa;
+    box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.1),
+    0 0 6px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.6);
     font-family: Tahoma, monospace, monospace;
     font-size: 0.85em;
-    color: #ccc;
+    color: black;
+    padding-right: 12px;
+    padding-left: 12px;
+    max-height: fit-content;
+    padding-bottom: 15px;
 }
 
 
 
-.stat-panel h2,{
+.stat-panel h2 {
     margin: 0px 0;
     color: #fff;
     font-size: 1em;
     line-height: 1.2;
 }
+
+html.dark .stat-panel h3 {
+  color:#fff
+}
+
 .stat-panel h3 {
     margin: 10px 0;
-    color: #fff;
+    color: black;
     font-size: 1em;
     line-height: 1.2;
+    font-weight: normal;
 }
 
 .stat-panel hr {
@@ -159,33 +254,30 @@ html.dark .divider-text {
 
 .content-container {
     display: flex;
-    gap: 150px; /* space between tree and panel */
-    align-items: flex-start;
-    justify-content: center; /* center the whole row */
+    justify-content: center;
+    gap: 30px; 
+
 }
 
-/* Tree can take auto width or a max width */
+
 .tree-container {
     flex: 0 0 auto;
+    max-width: 280px;
+    min-width: 280px;
 }
 
-/* Stat panel fixed width */
-.stat-panel {
-    width: 280px;
-    background-color: #1a1a1a;
-    border: 2px solid #555;
-    box-shadow: inset 1px 1px #666, inset -1px -1px #000;
-    padding: 12px;
-    font-family: Tahoma, monospace, monospace;
-    font-size: 0.85em;
-    color: #ccc;
+html.dark .member-bar {
+  color: #fff;
 }
+
+
 .member-bar {
   display: flex;
   align-items: baseline;
   margin: 2px 0;
   line-height: 1.25;
-  color: #fff;
+  color: black;
+  font-weight: normal;
 }
 .member-bar .label {
   font-family: monospace;       
@@ -195,13 +287,17 @@ html.dark .divider-text {
   text-overflow: ellipsis;      
 }
 .member-bar .name {
-  width: 80px; /* space for member name */
+  width: 80px;
+}
+
+html.dark .member-bar .ascii-bar {
+  color: var(--acc-dark);
 }
 
 .member-bar .ascii-bar {
   font-family: monospace;
   white-space: pre;
-  color: #fff;
+  color: var(--acc-light);
   margin-left: 8px;
   display: inline-flex;        
   align-items: center;         
@@ -221,48 +317,822 @@ html.dark .divider-text {
 }
 
 
+html.dark #changelog-wrapper {
+  background-color: var(--card-bg-dark);
+  box-shadow:
+  0 0 3px rgba(255, 255, 255, 0.2),
+  0 0 6px rgba(255, 255, 255, 0.15);
+}
 
+#changelog-wrapper {
+  background-color: var(--card-bg-light);
+  border: 2px groove #aaa;
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.1),
+    0 0 6px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.6);
+  padding: 0.8em 1em;
+  max-width: 280px;
+  min-width: 280px;
+  font-family: Tahoma, monospace, monospace;
+  color: #e0e0e0;
+  max-height: fit-content;
+}
+
+#changelog-wrapper h2 {
+  margin: 0 0 0.6em;
+  font-size: 0.95em;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.changelog {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.75em;
+  line-height: 1.5;
+}
+
+.changelog li {
+  display: flex;
+  gap: 0em;
+  padding: 2px;
+  border-bottom: 1px solid #555;
+  align-items: center;
+}
+
+
+
+.changelog li:last-child {
+  border-bottom: none;
+}
+
+html.dark .changelog .date {
+  color: var(--acc-dark);
+  
+}
+
+.changelog .date {
+  font-weight: 600;
+  color: var(--acc-light);
+  min-width: 60px;
+  align-items: center;
+}
+
+html.dark .changelog .desc {
+  color: white;
+}
+
+.changelog .desc {
+  color: black;
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -60px;
+  bottom: 0;
+  width: 250px;
+  font-family: Tahoma, monospace, monospace;
+  background: var(--card-bg-light);
+  border-right: none;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-shadow: var(--sdw-light);
+  border-right: 2px groove #aaa;
+  
+  
+
+}
+
+html.dark .sidebar {
+  background: var(--card-bg-dark);
+  border-right: none;
+  box-shadow: var(--sdw-dark);
+  
+}
+
+/* Search container (stays pinned at top) */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0px 5px 70px; 
+  background: transparent;
+  z-index: 2;
+}
+
+
+html.dark .search-container {
+  background: transparent;
+}
+
+
+#sidebarSearch {
+  width: 120px;  /* shorter width */
+  font-size: 12px;
+  padding: 4px 6px;
+  font-family: Tahoma, sans-serif;
+  border: 2px inset #fff;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: white;
+  color: black;
+  outline: none;
+}
+
+html.dark #sidebarSearch {
+  background: #222;
+  color: #eee;
+  border-color: #444;
+}
+
+.search-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.search-container a {
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.search-container a:hover {
+  background-color: #ddd;
+  text-decoration: none;
+}
+
+html.dark .search-container a:hover {
+  background-color: #444;
+}
+
+/* Scrollable part of sidebar */
+.sidebar-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  z-index: 9999999999;
+}
+
+/* Custom scrollbars (modern browsers) */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+
+  .folder-tree,
+  .folder-tree ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 20px;
+    white-space: nowrap;
+    color: #000;
+
+  }
+
+  html.dark .folder-tree,
+  html.dark .folder-tree ul {
+    color: #ddd;
+  }
+
+  .folder-tree li {
+    position: relative;
+    margin: 0;
+    padding-left: 24px;
+
+
+  }
+
+  .folder-tree > li::before {
+    content: none;
+  }
+
+  .folder-tree ul > li:last-child::before {
+    bottom: 12px;
+  }
+
+  .folder-tree ul > li > a::before {
+  content: "├──";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+  padding-right: 8px;
+}
+
+  .folder-tree ul > li:last-child > a::before {
+    content: "└──";
+  }
+
+
+.folder-toggle:hover {
+  background: transparent;
+  color: var(--acc-light) !important;
+  text-decoration: underline !important;
+}
+
+html.dark .folder-toggle:hover {
+  color: var(--acc-dark) !important;
+}
+
+.folder-tree > li > button.folder-toggle::after {
+  content: "/";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+}
+
+button.folder-toggle {
+  font-weight: bold;
+  height: 25px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 0 4px 37px;
+  color: #000;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+button.folder-toggle,
+button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within,
+button.folder-toggle *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+button.folder-toggle:hover {
+  color: var(--acc-light)
+}
+
+  html.dark button.folder-toggle {
+    color: #eee;
+  }
+  
+  button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button.folder-toggle::-moz-focus-inner {
+  border: 0;
+}
+
+
+
+
+.member-list {
+  list-style: none;
+  margin: 4px 0 8px 0;
+  padding-left: 20px;
+}
+.member-list li a {
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: normal;      /* Make ALL links bold to prevent shift */
+  padding: 2px 0 2px 32px;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+html.dark .member-list li a {
+  color: #ddd;
+}
+.member-list li a:hover {
+  text-decoration: underline;
+  color: var(--acc-light) !important;
+}
+html.dark .member-list li a:hover {
+  color: var(--acc-dark) !important;
+}
+
+
+
+
+.sidebar a svg {
+  fill: #444;
+  transition: fill 0.3s ease;
+}
+html.dark .sidebar a svg {
+  fill: #fff;
+}
+
+.sidebar a svg {
+  fill: #444;
+  transition: fill 0.3s ease;
+}
+html.dark .sidebar a svg {
+  fill: #fff;
+}
+
+
+.icon-button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: black; /* or black depending on theme */
+  transition: color 0.2s ease;
+}
+
+.icon-button:hover {
+  color: #ccc;
+}
+
+.icon-button:active {
+  opacity: 0.8;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+html.dark .icon-button svg {
+  filter: invert(1);
+}
+
+.sidebar-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  align-items: stretch;
+  z-index: 99999999;
+}
+
+#toggle-darkmode {
+  display: inline-flex;
+  cursor: pointer;
+  z-index: 9999;
+  max-width: 100%;
+}
+
+#toggle-darkmode:hover {
+  color: #000;
+  transform: scale(1.1);
+  transition: ease 0.2s;
+}
+
+
+
+ #toggle-sidebar {
+  position: fixed;
+  top: 78px;
+  left: 145px;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+  padding: 4px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  transform: rotate(45deg);
+  transform-origin: center;
+  font-size: 14px;
+  padding-block-end: 8px;
+}
+
+#toggle-sidebar:hover {
+  color: #000;
+} 
+
+.home-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.2);
+}
+.home-icon-link svg {
+  transition: none !important;
+}
+
+.home-icon-link:hover {
+  background: none !important;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transform: scale(1.3);
+  transition: ease 0.2s;
+}
+
+
+#center,
+#mask-rays,
+#mask-center {
+    transform-origin: center;
+    transition: transform 250ms ease-out;
+}
+#center {
+    fill: #000;
+    transform: rotate(-35deg);
+}
+#rays {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+html.dark #center {
+    transform: rotate(-35deg) scale(2);
+}
+html.dark #mask-rays {
+    transform: scale(0.5);
+}
+html.dark #mask-center {
+    transform: translateX(-18px);
+}
+
+.content-wrapper {
+  box-sizing: border-box;
+  max-width: fit-content;    
+  max-height: fit-content;   
+  margin: 0 auto;             
+}
+
+html.dark .all hr {
+  border: 1px solid #555;
+}
+
+.all hr {
+    border: 1px solid #555;
+    margin: 0px 0;
+    
+}
+
+.all {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+}
+
+.flex {
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+
+html.dark #svg-container {
+  background: var(--card-bg-dark);
+  box-shadow:
+  0 0 3px rgba(255, 255, 255, 0.2),
+  0 0 6px rgba(255, 255, 255, 0.15);
+  filter: none;
+
+}
+
+#svg-container {
+  background: none;
+  width: 100%;
+  max-width: fit-content;
+  max-height: fit-content;
+  padding: 40px;
+    border: 2px groove #aaa;
+    box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.1),
+    0 0 6px rgba(0, 0, 0, 0.1),
+    0 0 8px rgba(255, 255, 255, 0.6);
+        filter: invert(1);
+
+}
+
+
+
+.searchandbuttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 55px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.stats-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-icon svg {
+  transition: none !important;
+}
+
+html.dark .stats-icon svg {
+  filter: invert(1);
+  transition: ease 0.3s;
+}
+
+.stats-icon:hover {
+  background: none !important;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: ease 0.2s;
+  transform: scale(1.1);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 
 </style>
 </head>
 <body>
+  <div class="all">
+<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
+<div class="sidebar">
+  <div class="searchandbuttons">
+    <div class="buttons">
+    <a href="index.html" class="home-icon-link" title="Home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
+      </svg>
+    </a>
+     <a href="volume_tree.html" class="stats-icon" title="Volume Tree">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16"><path fill="#000000" d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/><path fill="#000000" d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
+      </svg>
+    </a> 
+        <button id="toggle-darkmode" class="icon-button" aria-label="Toggle dark/light mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">
+      <svg id="sunmoon" viewBox="0 0 32 32">
+	  <defs>
+        <mask id="maskc">
+            <rect x="0" y="0" width="32" height="32" fill="white"/>
+            <circle id="mask-center" cx="40" cy="16" r="8" fill="black"/>
+        </mask>
+        <mask id="maskr">
+            <circle id="mask-rays" cx="16" cy="16" r="16" fill="white"/>
+        </mask>
+    </defs>
+    <circle id="center" mask="url(#maskc)" r="8" cx="16" cy="16"/>
+    <path id="rays" mask="url(#maskr)" d="M6,16l-6,0 M8.929,8.929l-4.243,-4.243 M8.929,23.071l-4.243,4.243 M16,26l-0,6 M27.314,27.314l-4.243,-4.243 M32,16l-6,0 M27.314,4.686l-4.243,4.243 M16,-0l-0,6"/>
+</svg>
+    </button>
+</div>
+<hr>
+<div class="search-container">
+<input type="text" id="sidebarSearch" placeholder="Search..." />
+</div>
+<hr>
+  <div class="sidebar-scroll">
 
+    <button id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
+  </svg>
+</button>
+    <ul class="folder-tree">
+<li>
+  <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
+  <ul class="member-list" data-folder="ILLIT">
+    <li><a href="MEMBERS/ILLIT_YUNAH.html">YUNAH</a></li>
+    <li><a href="MEMBERS/ILLIT_MINJU.html">MINJU</a></li>
+    <li><a href="MEMBERS/ILLIT_MOKA.html">MOKA</a></li>
+    <li><a href="MEMBERS/ILLIT_WONHEE.html">WONHEE</a></li>
+    <li><a href="MEMBERS/ILLIT_IROHA.html">IROHA</a></li>
+  </ul>
+</li>
+<li>
+  <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
+  <ul class="member-list" data-folder="NEWJEANS">
+    <li><a href="MEMBERS/NEWJEANS_MINJI.html">MINJI</a></li>
+    <li><a href="MEMBERS/NEWJEANS_HANNI.html">HANNI</a></li>
+    <li><a href="MEMBERS/NEWJEANS_DANIELLE.html">DANIELLE</a></li>
+    <li><a href="MEMBERS/NEWJEANS_HAERIN.html">HAERIN</a></li>
+    <li><a href="MEMBERS/NEWJEANS_HYEIN.html">HYEIN</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="IVE">IVE</button>
+  <ul class="member-list" data-folder="IVE">
+    <li><a href="MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
+    <li><a href="MEMBERS/IVE_GAEUL.html">GAEUL</a></li>
+    <li><a href="MEMBERS/IVE_REI.html">REI</a></li>
+    <li><a href="MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
+    <li><a href="MEMBERS/IVE_LIZ.html">LIZ</a></li>
+    <li><a href="MEMBERS/IVE_LEESEO.html">LEESEO</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="STAYC">STAYC</button>
+  <ul class="member-list" data-folder="STAYC">
+    <li><a href="MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
+    <li><a href="MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
+    <li><a href="MEMBERS/STAYC_ISA.html">ISA</a></li>
+    <li><a href="MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>
+    <li><a href="MEMBERS/STAYC_YOON.html">YOON</a></li>
+    <li><a href="MEMBERS/STAYC_J.html">J</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="AESPA">AESPA</button>
+  <ul class="member-list" data-folder="AESPA">
+    <li><a href="MEMBERS/AESPA_KARINA.html">KARINA</a></li>
+    <li><a href="MEMBERS/AESPA_GISELLE.html">GISELLE</a></li>
+    <li><a href="MEMBERS/AESPA_WINTER.html">WINTER</a></li>
+    <li><a href="MEMBERS/AESPA_NINGNING.html">NINGNING</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
+  <ul class="member-list" data-folder="FROMIS">
+    <li><a href="MEMBERS/FROMIS_SAEROM.html">SAEROM</a></li>
+    <li><a href="MEMBERS/FROMIS_HAYOUNG.html">HAYOUNG</a></li>
+    <li><a href="MEMBERS/FROMIS_GYURI.html">GYURI</a></li>
+    <li><a href="MEMBERS/FROMIS_JIWON.html">JIWON</a></li>
+    <li><a href="MEMBERS/FROMIS_JISUN.html">JISUN</a></li>
+    <li><a href="MEMBERS/FROMIS_SOYEON.html">SOYEON</a></li>
+    <li><a href="MEMBERS/FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
+    <li><a href="MEMBERS/FROMIS_NAKYUNG.html">NAKYUNG</a></li>
+    <li><a href="MEMBERS/FROMIS_JIHEON.html">JIHEON</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="LOONA">LOONA</button>
+  <ul class="member-list" data-folder="LOONA">
+    <li><a href="MEMBERS/LOONA_VIVI.html">VIVI</a></li>
+    <li><a href="MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
+    <li><a href="MEMBERS/LOONA_YVES.html">YVES</a></li>
+    <li><a href="MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
+    <li><a href="MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
+    <li><a href="MEMBERS/LOONA_CHUU.html">CHUU</a></li>
+    <li><a href="MEMBERS/LOONA_HEEJIN.html">HEEJIN</a></li>
+    <li><a href="MEMBERS/LOONA_HYUNJIN.html">HYUNJIN</a></li>
+    <li><a href="MEMBERS/LOONA_GOWON.html">GOWON</a></li>
+    <li><a href="MEMBERS/LOONA_CHOERRY.html">CHOERRY</a></li>
+    <li><a href="MEMBERS/LOONA_OLIVIA.html">OLIVIA</a></li>
+    <li><a href="MEMBERS/LOONA_YEOJIN.html">YEOJIN</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="ITZY">ITZY</button>
+  <ul class="member-list" data-folder="ITZY">
+    <li><a href="MEMBERS/ITZY_YEJI.html">YEJI</a></li>
+    <li><a href="MEMBERS/ITZY_LIA.html">LIA</a></li>
+    <li><a href="MEMBERS/ITZY_RYUJIN.html">RYUJIN</a></li>
+    <li><a href="MEMBERS/ITZY_CHAERYEONG.html">CHAERYEONG</a></li>
+    <li><a href="MEMBERS/ITZY_YUNA.html">YUNA</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="IU">IU</button>
+  <ul class="member-list" data-folder="IU">
+    <li><a href="MEMBERS/IU_IU.html">IU</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
+  <ul class="member-list" data-folder="RED VELVET">
+    <li><a href="MEMBERS/RED VELVET_IRENE.html">IRENE</a></li>
+    <li><a href="MEMBERS/RED VELVET_SEULGI.html">SEULGI</a></li>
+    <li><a href="MEMBERS/RED VELVET_WENDY.html">WENDY</a></li>
+    <li><a href="MEMBERS/RED VELVET_JOY.html">JOY</a></li>
+    <li><a href="MEMBERS/RED VELVET_YERI.html">YERI</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="TWICE">TWICE</button>
+  <ul class="member-list" data-folder="TWICE">
+    <li><a href="MEMBERS/TWICE_NAYEON.html">NAYEON</a></li>
+    <li><a href="MEMBERS/TWICE_JEONGYEON.html">JEONGYEON</a></li>
+    <li><a href="MEMBERS/TWICE_MOMO.html">MOMO</a></li>
+    <li><a href="MEMBERS/TWICE_SANA.html">SANA</a></li>
+    <li><a href="MEMBERS/TWICE_JIHYO.html">JIHYO</a></li>
+    <li><a href="MEMBERS/TWICE_MINA.html">MINA</a></li>
+    <li><a href="MEMBERS/TWICE_DAHYUN.html">DAHYUN</a></li>
+    <li><a href="MEMBERS/TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
+    <li><a href="MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
+  </ul>
+</li>
+
+
+    </ul>
+  </div>
+</div>
+</div>
+
+</div>
+<div class="content-wrapper">
 <div class="top-bar">
-  <!-- Home button on the left -->
-  <a href="index.html" class="home-icon-link">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
-    </svg>
-  </a>
-
-  <!-- Header in the center -->
-  <h1>Image Volume Tree</h1>
-
-  <!-- Donate button on the right -->
   <div id="donate-button">
     <form action="https://www.paypal.com/donate" method="post" target="_blank">
       <input type="hidden" name="business" value="NZYY9RMN3P58C" />
       <input type="hidden" name="no_recurring" value="0" />
       <input type="hidden" name="currency_code" value="USD" />
-      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-      <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
+        border="0" name="submit"
+        title="PayPal - The safer, easier way to pay online!"
+        alt="Donate with PayPal button" />
+      <img alt="" border="0"
+        src="https://www.paypal.com/en_US/i/scr/pixel.gif"
+        width="1" height="1" />
     </form>
   </div>
-</div>
-<div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
 
+  <div class="title">
+    <h1>Image Volume Tree</h1>
+    <div class="divider-text">
+      ⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆
+    </div>
+  </div>
+</div>
 
 
 
 <!-- Hidden image for logging page views -->
 <img id="view-log" src="https://terril.duckdns.org/volume_tree_log.png" alt="">
 
-
-
+<div class="flex">
 <div class="content-container">
+  
     <div class="tree-container">
-        <ul class="folder-tree">
+        <ul class="folder-tree-v">
 <li class="folder-label">IVE/ (192,778)</li>
 <ul><li><span class="member-label">├── <a href="MEMBERS/IVE_WONYOUNG.html" class="member-link">WONYOUNG</a><span class="member-count"> (59,365)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_YUJIN.html" class="member-link">YUJIN</a><span class="member-count"> (50,663)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_GAEUL.html" class="member-link">GAEUL</a><span class="member-count"> (23,474)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_LEESEO.html" class="member-link">LEESEO</a><span class="member-count"> (21,699)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_LIZ.html" class="member-link">LIZ</a><span class="member-count"> (20,144)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/IVE_REI.html" class="member-link">REI</a><span class="member-count"> (17,433)</span></span></li></ul>
 <li class="folder-label">AESPA/ (123,087)</li>
@@ -308,7 +1178,185 @@ html.dark .divider-text {
     </div>
     <div class="additional-stats"></div>
   </div>
+
+<div id="changelog-wrapper">
+  <ul id="changelog-list" class="changelog">
+    <!-- JS will fill this -->
+  </ul>
 </div>
+
+
+</div>
+<div id="svg-container">
+<a href="graph.html" target="_blank" rel="noopener">
+  <img src="member_activity.svg" alt="Member Activity" style="max-width: 1000px; width:100%; height:auto; background:none;">
+</a>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- Include svg-pan-zoom library 
+<script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script> -->
+
+
+
+
+<script>
+    const svgObject = document.getElementById('svg-object');
+
+    svgObject.addEventListener('load', function() {
+        const svgDoc = svgObject.contentDocument;
+        const svgElement = svgDoc.querySelector('svg');
+
+        // Initialize pan-zoom
+        const panZoom = svgPanZoom(svgElement, {
+            zoomEnabled: true,
+            controlIconsEnabled: true,
+            fit: true,
+            center: true,
+            minZoom: 0.5,
+            maxZoom: 20,
+            zoomScaleSensitivity: 0.2
+        });
+
+        // Prevent page scroll when scrolling on the SVG
+        svgElement.addEventListener('wheel', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+    });
+</script> 
+
+
+
+<script>
+fetch("changelog.txt")
+  .then(response => response.text())
+  .then(text => {
+    const ul = document.getElementById("changelog-list");
+    text.split("\n").forEach(line => {
+      if (line.trim()) {
+        const li = document.createElement("li");
+
+        const [date, ...rest] = line.trim().split(" – ");
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "date";
+        dateSpan.textContent = date;
+
+        const descSpan = document.createElement("span");
+        descSpan.className = "desc";
+        descSpan.textContent = rest.join(" – ");
+
+        li.appendChild(dateSpan);
+        li.appendChild(descSpan);
+        ul.appendChild(li);
+      }
+    });
+  })
+  .catch(err => console.error("Error loading changelog:", err));
+</script>
+<script>
+function setupSidebarToggles() {
+  document.querySelectorAll('.folder-toggle').forEach(btn => {
+    const folderName = btn.dataset.folder;
+    const memberList = btn.nextElementSibling;
+    const savedState = localStorage.getItem(`folder-${folderName}`);
+
+    // Restore saved open/closed state
+    memberList.style.display = savedState === 'open' ? 'block' : 'none';
+
+    // Add toggle click handler
+    btn.addEventListener('click', () => {
+      const isOpen = memberList.style.display === 'block';
+      memberList.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
+    });
+  });
+}
+
+function setupSidebarSearch() {
+  document.getElementById('sidebarSearch').addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    const groups = document.querySelectorAll('.folder-tree > li');
+
+    groups.forEach(group => {
+      const folderToggle = group.querySelector('.folder-toggle');
+      const memberList = group.querySelector('.member-list');
+      const groupName = folderToggle.textContent.toLowerCase();
+      const members = group.querySelectorAll('.member-list li');
+      let groupMatches = groupName.includes(filter);
+      let memberMatches = false;
+
+      members.forEach(member => {
+        const name = member.textContent.toLowerCase();
+        const visible = filter === '' || name.includes(filter) || groupMatches;
+        member.style.display = visible ? '' : 'none';
+        if (visible) memberMatches = true;
+      });
+
+      group.style.display = groupMatches || memberMatches ? '' : 'none';
+
+      if (filter !== '') {
+        memberList.style.display = (groupMatches || memberMatches) ? 'block' : 'none';
+      } else {
+        // Restore original folder state
+        const folderName = folderToggle.dataset.folder;
+        const saved = localStorage.getItem(`folder-${folderName}`);
+        memberList.style.display = saved === 'open' ? 'block' : 'none';
+      }
+    });
+  });
+}
+
+// Run both setups after DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+  setupSidebarToggles();
+  setupSidebarSearch();
+});
+
+
+</script>
+<script>
+  const toggleBtn = document.getElementById('toggle-sidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    const allFolders = document.querySelectorAll('.member-list');
+
+    // Determine if any are currently open
+    const isAnyOpen = Array.from(allFolders).some(ul => {
+      const computed = window.getComputedStyle(ul).display;
+      return computed !== 'none';
+    });
+
+    allFolders.forEach(ul => {
+      const group = ul.dataset.folder;
+      if (!group) return;
+
+      // Apply new display
+      ul.style.display = isAnyOpen ? 'none' : 'block';
+
+      // Save state to localStorage
+      localStorage.setItem(`folder-${group}`, isAnyOpen ? 'closed' : 'open');
+    });
+  });
+
+
+// Initialize on page load
+try {
+  const sun = document.getElementById('sun-icon');
+  const moon = document.getElementById('moon-icon');
+  if (localStorage.getItem('darkmode') === 'true') {
+    document.documentElement.classList.add('dark');
+    sun.style.display = 'none';
+    moon.style.display = 'block';
+  }
+} catch(e){}
+
+</script>
+
 <script>
 fetch('member_counts_last.json')
   .then(response => response.json())
@@ -381,13 +1429,24 @@ fetch('member_counts_last.json')
   .catch(err => console.error('Error loading member counts JSON:', err));
 
 </script>
+<script>
+try {
+  // Load saved theme or default to dark
+  let theme = localStorage.getItem('theme');
+  if (!theme) {
+    theme = 'dark';
+    localStorage.setItem('theme', theme);
+  }
 
+  // Apply it immediately
+  document.documentElement.classList.toggle('dark', theme === 'dark');
 
-
-
-
-
-
-
+  // Toggle function for your button or keyboard shortcut
+  function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }
+} catch(e) {}
+</script>
 </body>
 </html>

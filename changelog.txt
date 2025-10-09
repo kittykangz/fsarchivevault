@@ -1,0 +1,10 @@
+251009 – Added changelog, accent colors, and activity graph; moved darkmode toggle to sidebar and fixed consistency; redesigned lightbox, index, volume tree, and sidebar
+250925 – Added included members in metabox
+250912 – Fixed index layout
+250902 – Added volume tree page
+250820 – 1-click download; fixed userselect
+250724 – +duck -cloudflare
+250719 – Added assigned state, chronological sorting; updated index; fixed metabox filesize
+250705 – Added info box in lightbox ("metabox")
+250703 – Lightbox fixes + loading spinner
+250629 – release
