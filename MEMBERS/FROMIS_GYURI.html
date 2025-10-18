@@ -129,6 +129,7 @@ html.dark .current-member:hover {
   background: transparent;
   color: var(--acc-light2) !important;
   text-decoration: underline !important;
+  transform: none !important;
 }
 
 html.dark .folder-toggle:hover {
@@ -386,11 +387,7 @@ html.dark .member-list li a {
 html.dark .member-list li a:hover {
   color: var(--acc-dark) !important;
 }
-
-
-
-    
-    html, body {
+html, body {
     margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -402,14 +399,14 @@ body {
     padding-left: 220px;
 }
 
-    html.dark, html.dark body {
-        background: #121212;
-        color: #eee;
-    }
-    h1 {
-        text-align: center;
-        margin-bottom: 10px;
-    }
+html.dark, html.dark body {
+    background: #121212;
+    color: #eee;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
 #controls {
     text-align: center;
     margin-bottom: 20px;
@@ -424,157 +421,193 @@ body {
     padding: 6px 10px;
     font-size: 1rem;
     width: 160px;
-    border: 2px outset #fff;
-    border-right-color: #7a7a7a;
-    border-bottom-color: #7a7a7a;
     background: #c0c0c0;
     color: black;
     font-family: "Tahoma", Arial, sans-serif;
-    height: 32px;
     box-sizing: border-box;
-    margin-right: 10px;
-    border-radius: 0;
+    box-shadow: none !important;
     cursor: text;
-    box-shadow: none;
-    transition: box-shadow 0.2s ease;
+    min-height: 37px;
+    max-height: 37px;
+    outline: none !important;
+    border-color: none !important;
+    border: none !important;
 }
 
 #controls input[type="text"]:focus {
-    outline: none;
-    box-shadow: 0 0 3px var(-acc-light2); /* subtle blue glow on focus */
+    outline: none !important;
 }
 /* Dark mode */
 html.dark #controls input[type="text"] {
     background: #2d2d2d;
-    border: 2px outset #444;
-    border-right-color: #111;
-    border-bottom-color: #111;
     color: #eee;
 }
 
 html.dark #controls input[type="text"]:focus {
-    box-shadow: 0 0 4px var(--acc-dark);
     background: #3a3a3a;
     color: #fff;
 }
 
 
 
-button:not(#toggle-darkmode, #toggle-sidebar, #lbNext, #lbPrev, #scrollToTop),
-a.button-link {
-    padding-top: 4px;
-    padding-bottom: 8px;
-    background: #c0c0c0;
-    border: 2px outset #fff;
-    border-right-color: #7a7a7a;
-    border-bottom-color: #7a7a7a;
-    color: black;
-    font-family: "Tahoma", Arial, sans-serif;
-    font-size: 14px;
-    border-radius: 0;
-    box-shadow: none;
-    cursor: pointer;
-    outline: none;
-    text-decoration: none;
-    display: inline-block;
+button:not(#toggle-darkmode, .folder-toggle),
+.layout-toggle {
+  font-family: Tahoma, sans-serif;
+  font-weight: 500;
+  font-size: clamp(10px, 1.2vw, 14px);
+  padding: 10px 16px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  background: #c0c0c0;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s ease;
+  user-select: none;
+  min-height: 37px;
+  max-height: 37px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* dark mode */
+html.dark button:not(#toggle-darkmode),
+html.dark .layout-toggle:not(#toggle-darkmode) {
+  background: #2d2d2d;
+  color: #eee;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+}
+
+/* hover */
+button:hover:not(#toggle-darkmode),
+.layout-toggle:hover:not(#toggle-darkmode) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  background: linear-gradient(145deg, rgba(255,255,255,1), rgba(240,240,240,0.9));
+  transition: ease 0.25s background;
+}
+
+html.dark button:hover:not(#toggle-darkmode),
+html.dark .layout-toggle:hover:not(#toggle-darkmode) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+  background: linear-gradient(145deg, rgba(50,50,50,0.9), rgba(35,35,35,0.8));
+}
+
+/* press effect */
 button:active,
-a.button-link:active {
-    border: 2px inset #000;
-}
-
-
-html.dark button:not(.lb-btn, #toggle-darkmode, #toggle-sidebar, #scrollToTop),
-html.dark a.button-link {
-    background: #2d2d2d;
-    border: 2px outset #444;
-    border-right-color: #111;
-    border-bottom-color: #111;
-    color: #eee;
+.layout-toggle:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
 html.dark button:active,
-html.dark a.button-link:active {
-    border: 2px inset #000;
+html.dark .layout-toggle:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
 }
 
+.chunk-wrapper {
+    display: block;
 
-
-    .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 20px;
-    }
-
-    .chunk-wrapper {
-  display: block; /* ✅ Optional: helps preserve grid layout inside */
 }
 
-    .item {
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        text-align: center;
-        transition: transform 0.2s;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-    }
-    html.dark .item {
-        background: #1e1e1e;
-    }
-    .item:hover {
-        transform: scale(1.05);
-        z-index: 10;
-    }
-    .item img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        background: #000;
-        display: block; 
-    }
-    .filename {
-        padding: 8px 6px 0px 6px;
-        margin-bottom: 0px;
-        font-size: 0.80rem;
-        color: var(--acc-light2);
-        word-break: break-word;
-    }
-    html.dark .filename {
-        color: var(--acc-dark);
-    }
-    .date {
-        font-size: 0.75rem;
-        color: #252525;
-        line-height: 1.2;
-        padding: 0;
-        margin: 0;
-    }
-    .dates {
+.gallery {
+    gap: 10px;
+}
+
+.flex-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flex-layout .item {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    min-height: 36px;
-    padding-bottom: 0px;
-    }
-    html.dark .date {
-        color: #aaa;
-    }
-    .unassigned {
-        color: #eb5e5e;
-        font-style: italic;
-        font-weight: 400;
-    }
-    .unassigned .emoji {
-    color: inherit;
-    filter: none;
-    }
+    max-width: 100%;
+}
 
-    #lbAssignedDate .unassigned {
-  color: #e25555;
-  font-weight: 500;
+.flex-layout .item img {
+    width: 100%;
+    height: 250px;
+    display: block;
+    object-fit: contain;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.grid-layout .item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+.item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+html.dark .item {
+    background: #1e1e1e;
+}
+.item:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+.item img {
+    background: #000;
+}
+.filename {
+    padding: 8px 6px 0px 6px;
+    margin-bottom: 0px;
+    font-size: 0.80rem;
+    color: var(--acc-light2);
+    word-break: break-word;
+}
+html.dark .filename {
+    color: var(--acc-dark);
+}
+.date {
+    font-size: 0.75rem;
+    color: #252525;
+    line-height: 1.2;
+    padding: 0;
+    margin: 0;
+}
+.dates {
+display: flex;
+flex-direction: column;
+justify-content: center;
+min-height: 36px;
+padding-bottom: 0px;
+}
+html.dark .date {
+    color: #aaa;
+}
+.unassigned {
+    color: #eb5e5e;
+    font-style: italic;
+    font-weight: 400;
+}
+.unassigned .emoji {
+color: inherit;
+filter: none;
+}
+
+#lbAssignedDate .unassigned {
+color: #e25555;
+font-weight: 500;
 }
 
 #lbAssignedDate .unassigned .emoji {
@@ -699,7 +732,7 @@ html.dark a.button-link:active {
 #lightbox .lb-content {
   position: relative;
   max-width: 90vw;
-  min-height: 80vh;
+  /*min-height: 80vh;*/
   max-height: fit-content;
   text-align: center;
   background: hsla(0, 0%, 0%, 0.475);/*0.875*/
@@ -930,9 +963,42 @@ html.dark .stats-icon svg {
 }
 
 .header-section {
-  text-align: center;
+  position: relative;        /* make it the containing block for absolute positioning */
+  text-align: center;        /* centers header1 */
   margin-top: -40px;
   margin-bottom: 10px;
+}
+
+.header1 {
+  font-size: 24px;
+  font-weight: bold;
+  display: inline-block;     /* so text-align:center works */
+}
+
+.header2 {
+  position: absolute;        /* remove from normal flow */
+  left: 0;                   /* stick to left edge */
+  top: 0%;                  /* vertical center */
+ /* transform: translateY(-50%); /* adjust for element height */
+  font-size: 16px;
+  text-align: left;
+}
+
+#settings-box {
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-family: Tahoma, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #222;
+  min-width: 150px;
+}
+
+html.dark #settings-box {
+  background: none;
+  color: #eee;
 }
 
 .image-count {
@@ -961,7 +1027,6 @@ html.dark .windows98-title {
   color: var(--acc-dark);
 }
 
-
 .divider-text {
   text-align: center;
   margin: 15px 0;
@@ -983,7 +1048,6 @@ html.dark .divider-text {
   animation: glowPulseDark 2.5s ease-in-out infinite;
 }
 
-/* Light theme pulse */
 @keyframes glowPulse {
   0%, 100% {
     text-shadow: 2px 2px #cacaca, 0 0 20px rgba(255, 180, 245, 1.5);
@@ -993,7 +1057,6 @@ html.dark .divider-text {
   }
 }
 
-/* Dark theme pulse */
 @keyframes glowPulseDark {
   0%, 100% {
     text-shadow: 2px 2px #444, 0 0 20px rgba(255, 180, 245, 0.1);
@@ -1013,13 +1076,10 @@ html.dark .divider-text {
   justify-content: center;
   width: 30px;
   height: 30px;
-  color: black; /* or black depending on theme */
+  color: black;
   transition: color 0.2s ease;
 }
 
-.icon-button:hover {
-  color: #ccc;
-}
 
 .icon-button:active {
   opacity: 0.8;
@@ -1065,33 +1125,16 @@ html.dark .icon-button svg {
   top: 78px;
   left: 145px;
   z-index: 9999;
-  background: transparent;
-  border: none;
-  border-right-color: #7a7a7a;
-  border-bottom-color: #7a7a7a;
-  padding: 4px;
   width: 50px;
   height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-top: 10px;
   transform: rotate(45deg);
-  transform-origin: center;
-  font-size: 14px;
-  padding-block-end: 8px;
 }
 
-#toggle-sidebar:hover {
-  color: #000;
-} 
 
 
 #scrollToTop {
   position: absolute;
-  background: transparent;
-  border: none;
-  outline: none;
   bottom: 20px;
   right: -5px;
   padding: 10px;
@@ -1387,22 +1430,16 @@ html.dark .all hr {
 
 </style>
 <div class="all">
-
 <div id="sort-overlay">Sorting…</div>
 
-
-
-
-<div class="all">
-<div id="sort-overlay">Sorting…</div>
 
 <div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
 <div class="sidebar">
-  <button id="scrollToTop" aria-label="Scroll to top">
+  <div id="scrollToTop" aria-label="Scroll to top">
     <svg viewBox="0 0 40 40" width="800" height="800" fill-rule="nonzero" fill="#000000" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 12l6 5.656-1.5 1.414-3.44-3.242V28h-2.12V15.828L15.5 19.07 14 17.656z"/>
     </svg>
-  </button>
+  </div>
 
   <div class="searchandbuttons">
     <div class="buttons">
@@ -1441,12 +1478,25 @@ html.dark .all hr {
     <hr>
 
     <div class="sidebar-scroll">
-      <button id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
+      <div id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
           <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
         </svg>
-      </button>
+      </div>
       <ul class="folder-tree">
+        <li>
+          <button class="folder-toggle" data-folder="UNIS">UNIS</button>
+          <ul class="member-list" data-folder="UNIS" data-initialized style="display: none;">
+            <li><a href="../MEMBERS/UNIS_HYEONJU.html">HYEONJU</a></li>
+            <li><a href="../MEMBERS/UNIS_NANA.html">NANA</a></li>
+            <li><a href="../MEMBERS/UNIS_GEHLEE.html">GEHLEE</a></li>
+            <li><a href="../MEMBERS/UNIS_KOTOKO.html">KOTOKO</a></li>
+            <li><a href="../MEMBERS/UNIS_YUNHA.html">YUNHA</a></li>
+            <li><a href="../MEMBERS/UNIS_ELISIA.html">ELISIA</a></li>
+            <li><a href="../MEMBERS/UNIS_YOONA.html">YOONA</a></li>
+            <li><a href="../MEMBERS/UNIS_SEOWON.html">SEOWON</a></li>
+          </ul>
+        </li>
         <li>
           <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
           <ul class="member-list" data-folder="ILLIT" data-initialized style="display: none;">
@@ -1575,12 +1625,13 @@ html.dark .all hr {
   </div> <!-- .searchandbuttons -->
 </div> <!-- .sidebar -->
 </div> <!-- .sidebar-container -->
-</div> <!-- .all -->
+
 
 <div style="text-align:center; margin-bottom: 20px;">
 
 </div>
 <div class="header-section">
+  <div class="header1">
   <div class="image-count">Total Images: 1535</div>
   <h1 class="windows98-title">GYURI (규리)</h1>
   <div class="divider-text">˚˚₊· ͟͟͞➳❥🎧 ୭ ₊ ˚🎀 ˗ˏˋ ꒰ ♡ ꒱ ˎˊ˗🐇 ᵎᵎ ୭ 🧷✧˚ ᵎᵎ 🎀₊✧⋆｡ﾟ☁︎｡⋆｡ ﾟ☾ ﾟ｡⋆</div>
@@ -1588,11 +1639,19 @@ html.dark .all hr {
         <input type="text" id="dateSearch" placeholder="YYMMDD" maxlength="6"
              onkeydown="if(event.key==='Enter'){ event.preventDefault(); scrollToDate(); }">
         <button onclick="scrollToDate()">Go</button>
-        <button onclick="toggleSortOrder()">Sort by Date ↑↓</button>
-        <button id="toggle-date-field" onclick="toggleDateField()">
+        <button onclick="toggleSortOrder()" title="Switch between Asc/Desc sort order">Sort by Date ↑↓</button>
+        <button id="toggle-date-field" title="Switch between Chronological order and Recent uploads" onclick="toggleDateField()">
           Using: Chronological Order
         </button>
+        <button id="layout-toggle" title="Switch between Grid and Flex gallery layout">Using: Flex</button>
       </div>
+      </div>
+    <div class="header2" id="settings-box">
+      <div><strong>Sort:</strong> Ascending</div>
+      <div><strong>Order:</strong> Chronological</div>
+      <div><strong>Layout:</strong> Flex</div>
+    </div>
+
 </div>
 <div id="donate-button">
 <form action="https://www.paypal.com/donate" method="post" target="_blank">
@@ -1607,7 +1666,7 @@ html.dark .all hr {
         <!-- … everything up to here … -->
 
     <!-- OPEN the gallery grid -->
-    <div class="gallery" id="gallery"></div>
+    <div id="gallery" class="gallery flex-layout"></div>
 
     <!-- Lightbox Modal (now *outside* the gallery) -->
 <div id="lightbox" class="lightbox hidden" tabindex="-1" role="dialog" aria-modal="true" aria-label="Image preview">
@@ -1648,9 +1707,9 @@ html.dark .all hr {
   <div class="lb-glow-2"></div>
   <div class="lb-glow-3"></div>
   <div class="lb-content">
-    <button id="lbClose" aria-label="Close">&times;</button>
-    <button id="lbPrev" class="lb-btn" aria-label="Previous Image">&#10094;</button>
-    <button id="lbNext" class="lb-btn" aria-label="Next Image">&#10095;</button>
+    <div id="lbClose" aria-label="Close">X</div>
+    <div id="lbPrev" class="lb-btn" aria-label="Previous Image">&#10094;</div>
+    <div id="lbNext" class="lb-btn" aria-label="Next Image">&#10095;</div>
     <div class="lightbox-image-wrapper">
   <img id="lbImage" src="" alt="" />
 </div>
@@ -1684,7 +1743,64 @@ html.dark .all hr {
 </div>
 </div>
 
+<script>
+window.ascending = true;
+</script>
+
+<script>
+window.ascending = false; // gallery default is descending
+
+function updateSettingsBox() {
+  const box = document.getElementById("settings-box");
+  if (!box) return;
+
+  const orderButton = document.getElementById('toggle-date-field');
+  const layoutButton = document.getElementById('layout-toggle');
+
+  // Use ascending directly
+  const sortText = window.ascending ? "Ascending" : "Descending";
+
+  const orderText = orderButton.textContent.includes("Chronological")
+    ? "Chronological"
+    : "Recent";
+
+  const layoutText = layoutButton.textContent.includes("Flex")
+    ? "Flex"
+    : "Grid";
+
+  box.innerHTML = `
+    <div><strong>Sort:</strong> ${sortText}</div>
+    <div><strong>Order:</strong> ${orderText}</div>
+    <div><strong>Layout:</strong> ${layoutText}</div>
+  `;
+}
+
+// hook into existing button actions
+document.querySelectorAll('#controls button').forEach(btn => {
+  btn.addEventListener('click', () => setTimeout(updateSettingsBox, 50));
+});
+
+// ✅ Make sure the label matches the gallery default immediately
+updateSettingsBox();
+</script>
 <!-- Virtualization + Lightbox + Sorting + Sidebar all in one -->
+ <script>
+const toggleBtn = document.getElementById('layout-toggle');
+const gallery = document.getElementById('gallery');
+
+toggleBtn.addEventListener('click', () => {
+    if (gallery.classList.contains('flex-layout')) {
+        gallery.classList.remove('flex-layout');
+        gallery.classList.add('grid-layout');
+        toggleBtn.textContent = 'Using: Grid';
+    } else {
+        gallery.classList.remove('grid-layout');
+        gallery.classList.add('flex-layout');
+        toggleBtn.textContent = 'Using: Flex';
+    }
+});
+</script>
+
 <script>
 (() => {
   // 1) Injected by Python:
@@ -1753,8 +1869,9 @@ html.dark .all hr {
 
 
     // 5) Sorting (rebuild all chunks when toggled)
-    let ascending   = false;
+    window.ascending = false;
     let sortField   = "date";
+    updateSettingsBox(true);
 
     function regenerateChunks(sortAsc = false) {
       const all = [];
@@ -1796,14 +1913,15 @@ html.dark .all hr {
     }
 
     window.toggleSortOrder = function() {
-  ascending = !ascending;
+  window.ascending = !window.ascending;
   showSortingOverlay();
+  updateSettingsBox();
 
   // Give the browser a tick to draw the overlay before sorting
   requestAnimationFrame(() => {
     // You can even nest two frames if your sort is really heavy:
     requestAnimationFrame(() => {
-      regenerateChunks(ascending);
+      regenerateChunks(window.ascending);
       // After chunks are rebuilt, fade out
       setTimeout(hideSortingOverlay, 200);
     });

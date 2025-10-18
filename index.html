@@ -1016,9 +1016,6 @@ html.dark .lightbulb {
   transition: color 0.2s ease;
 }
 
-.icon-button:hover {
-  color: #ccc;
-}
 
 .icon-button:active {
   opacity: 0.8;
@@ -1066,26 +1063,12 @@ html.dark .icon-button svg {
   top: 78px;
   left: 145px;
   z-index: 9999;
-  background: transparent;
-  border: none;
-  border-right-color: #7a7a7a;
-  border-bottom-color: #7a7a7a;
-  padding: 4px;
   width: 50px;
   height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-top: 10px;
   transform: rotate(45deg);
-  transform-origin: center;
-  font-size: 14px;
-  padding-block-end: 8px;
 }
 
-#toggle-sidebar:hover {
-  color: #000;
-} 
 
   #donate-button {
     position: absolute !important;
@@ -1237,12 +1220,25 @@ html.dark .all hr {
 <hr>
   <div class="sidebar-scroll">
 
-    <button id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
+    <div id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
   <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
     <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
   </svg>
-</button>
+</div>
     <ul class="folder-tree">
+<li>
+    <button class="folder-toggle" data-folder="UNIS">UNIS</button>
+    <ul class="member-list" data-folder="UNIS">
+    <li><a href="MEMBERS/UNIS_HYEONJU.html">HYEONJU</a></li>
+    <li><a href="MEMBERS/UNIS_NANA.html">NANA</a></li>
+    <li><a href="MEMBERS/UNIS_GEHLEE.html">GEHLEE</a></li>
+    <li><a href="MEMBERS/UNIS_KOTOKO.html">KOTOKO</a></li>
+    <li><a href="MEMBERS/UNIS_YUNHA.html">YUNHA</a></li>
+    <li><a href="MEMBERS/UNIS_ELISIA.html">ELISIA</a></li>
+    <li><a href="MEMBERS/UNIS_YOONA.html">YOONA</a></li>
+    <li><a href="MEMBERS/UNIS_SEOWON.html">SEOWON</a></li>
+  </ul>
+</li>
 <li>
   <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
   <ul class="member-list" data-folder="ILLIT">
@@ -1421,7 +1417,7 @@ Welcome! This is a personal gallery of collected images from fansites, organized
       I began archiving fansite photos of my favorite groups back in 2021 and have been saving as many as I can find ever since. The photos aren’t sorted by the date they were taken, but by the date I saved them, manually labeling every file with the correct date would be unrealistic.
     </p>
     <div style="font-size: 0.8em; color: #888; margin-top: -5px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
-  So naturally, I’ve started manually adding the correct dates to all ~700,000 of them anyway, but this is a slow process, and not all photos will have accurate dates yet.
+  So naturally, I’ve started manually adding the correct dates to all ~800,000 of them anyway, but this is a slow process, and not all photos will have accurate dates yet.
 </div>
     <p>
       I usually save them in the order they’re posted, so if you're looking for photos from a specific day, they were likely saved shortly after.
@@ -1555,9 +1551,9 @@ Welcome! This is a personal gallery of collected images from fansites, organized
   </div>
     </div>
 <div class="right-bottom">
-  <div id="volume-tree-button-wrapper">
+ <!-- <div id="volume-tree-button-wrapper">
     <a class="button-link" href="volume_tree.html">View Volume Tree</a>
-  </div>
+  </div> -->
 
   <footer id="stats-footer"></footer>
 
