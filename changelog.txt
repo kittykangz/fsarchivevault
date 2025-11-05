@@ -1,3 +1,4 @@
+251105 – Set default gallery layout to grid
 251018 – New group UNIS; Added toggle for flex vs grid layouts, gallery info header; Fixed volume tree counts, lightbox close button, lightbox min-height; Redesigned header controls; Removed volume tree button from index
 251009 – Added changelog, accent colors, and activity graph; Moved darkmode toggle to sidebar and fixed consistency; Redesigned lightbox, index, volume tree, and sidebar
 250925 – Added included members in metabox
