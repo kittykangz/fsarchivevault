@@ -88,7 +88,6 @@ box-shadow:
     list-style: none;
     margin: 0;
     padding-left: 0;
-    padding-top: 7px;
     padding-bottom: 20px;
 }
 .folder-tree-v ul {
@@ -124,7 +123,7 @@ html.dark .member-count {
 }
 
 .member-count {
-    color: black;
+    color: #555;
     margin-left: 4px;
     font-size: 0.9em;
 }
@@ -146,7 +145,7 @@ html.dark a.member-link:hover {
 color: var(--acc-dark);
 
 }
-/* Hidden logging image */
+
 #view-log {
     display: none;
 }
@@ -154,7 +153,7 @@ color: var(--acc-dark);
   position: absolute;
   right: 0;
   top: 50%;
-  transform: translateY(-100%); /* vertically center with the title */
+  transform: translateY(-100%);
   z-index: 9999;
   background: transparent;
 }
@@ -163,7 +162,7 @@ color: var(--acc-dark);
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center; /* keeps title block centered */
+  justify-content: center;
   margin-bottom: 12px;
 }
 
@@ -177,7 +176,7 @@ html.dark .top-bar h1 {
     font-size: 18px;
     color: var(--acc-light);
     text-align: center;
-    flex-grow: 1; /* lets the header stay centered */
+    flex-grow: 1; 
 }
 .divider-text {
   text-align: center;
@@ -209,8 +208,8 @@ box-shadow:
 
 .stat-panel {
     line-height: .5;
-    max-width: 280px;
-    min-width: 280px;
+    max-width: 300px;
+    min-width: 300px;
     background-color: var(--card-bg-light);
     border: 2px groove #aaa;
     box-shadow:
@@ -218,52 +217,44 @@ box-shadow:
     0 0 6px rgba(0, 0, 0, 0.1),
     0 0 8px rgba(255, 255, 255, 0.6);
     font-family: Tahoma, monospace, monospace;
-    font-size: 0.85em;
     color: black;
-    padding-right: 12px;
-    padding-left: 12px;
     max-height: fit-content;
     padding-bottom: 15px;
+    font-size: 0.85em;
 }
 
 
 
-.stat-panel h2 {
-    margin: 0px 0;
-    color: #fff;
-    font-size: 1em;
-    line-height: 1.2;
+.stat-panel h3 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--acc-light);
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-family: system-ui;
+  font-size: 0.9em;
 }
 
 html.dark .stat-panel h3 {
-  color:#fff
+  color: var(--acc-dark);
 }
 
-.stat-panel h3 {
-    margin: 10px 0;
-    color: black;
-    font-size: 1em;
-    line-height: 1.2;
-    font-weight: normal;
-}
-
-.stat-panel hr {
-    border: 1px solid #555;
-    margin: 8px 0;
+.stat-panel hr { 
+  margin: 8px 0;
 }
 
 .content-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px; 
+  display: flex;
+  justify-content: center;
 
 }
 
 
 .tree-container {
-    flex: 0 0 auto;
-    max-width: 280px;
-    min-width: 280px;
+  flex: 0 0 auto;
+  max-width: 270px;
+  min-width: 270px;
 }
 
 html.dark .member-bar {
@@ -284,7 +275,7 @@ html.dark .member-bar {
   width: 26ch;                  
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;      
+  text-overflow: ellipsis;     
 }
 .member-bar .name {
   width: 80px;
@@ -315,7 +306,20 @@ html.dark .member-bar .ascii-bar {
   width: 60px;
   text-align: right;
 }
+#changelog-wrapper h3 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--acc-light);
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 5px;
+  font-family: system-ui;
+  font-size: 1.1em;
+}
 
+html.dark #changelog-wrapper h3 {
+  color: var(--acc-dark);
+}
 
 html.dark #changelog-wrapper {
   background-color: var(--card-bg-dark);
@@ -331,8 +335,8 @@ html.dark #changelog-wrapper {
     0 0 10px rgba(0, 0, 0, 0.1),
     0 0 6px rgba(0, 0, 0, 0.1),
     0 0 8px rgba(255, 255, 255, 0.6);
-  padding: 0.8em 1em;
-  max-width: 280px;
+  padding-bottom: 15px;
+  max-width: 350px;
   min-width: 280px;
   font-family: Tahoma, monospace, monospace;
   color: #e0e0e0;
@@ -351,9 +355,11 @@ html.dark #changelog-wrapper {
 .changelog {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 5px;
   font-size: 0.75em;
   line-height: 1.5;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .changelog li {
@@ -418,7 +424,7 @@ html.dark .sidebar {
   
 }
 
-/* Search container (stays pinned at top) */
+
 .search-container {
   display: flex;
   align-items: center;
@@ -435,7 +441,7 @@ html.dark .search-container {
 
 
 #sidebarSearch {
-  width: 120px;  /* shorter width */
+  width: 120px;  
   font-size: 12px;
   padding: 4px 6px;
   font-family: Tahoma, sans-serif;
@@ -478,7 +484,7 @@ html.dark .search-container a:hover {
   background-color: #444;
 }
 
-/* Scrollable part of sidebar */
+
 .sidebar-scroll {
   overflow-y: auto;
   scrollbar-width: none;
@@ -486,7 +492,7 @@ html.dark .search-container a:hover {
   z-index: 9999999999;
 }
 
-/* Custom scrollbars (modern browsers) */
+
 .sidebar-scroll::-webkit-scrollbar {
   width: 0;
 }
@@ -645,7 +651,7 @@ button.folder-toggle::-moz-focus-inner {
   color: #000;
   text-decoration: none;
   font-size: 13px;
-  font-weight: normal;      /* Make ALL links bold to prevent shift */
+  font-weight: normal;     
   padding: 2px 0 2px 32px;
   position: relative;
   user-select: none;
@@ -693,7 +699,7 @@ html.dark .sidebar a svg {
   justify-content: center;
   width: 30px;
   height: 30px;
-  color: black; /* or black depending on theme */
+  color: black; 
   transition: color 0.2s ease;
 }
 
@@ -803,14 +809,13 @@ html.dark .all hr {
 }
 
 .all hr {
-    border: 1px solid #555;
     margin: 0px 0;
     
 }
 
 .all {
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 190px 1fr;
 }
 
 .flex {
@@ -825,22 +830,22 @@ html.dark #svg-container {
   box-shadow:
   0 0 3px rgba(255, 255, 255, 0.2),
   0 0 6px rgba(255, 255, 255, 0.15);
-  filter: none;
 
 }
 
 #svg-container {
   background: none;
   width: 100%;
-  max-width: fit-content;
+  max-width: 650px;
   max-height: fit-content;
-  padding: 40px;
+  padding: 20px;
     border: 2px groove #aaa;
     box-shadow:
     0 0 10px rgba(0, 0, 0, 0.1),
     0 0 6px rgba(0, 0, 0, 0.1),
     0 0 8px rgba(255, 255, 255, 0.6);
-        filter: invert(1);
+    min-width: 280px;
+    
 
 }
 
@@ -894,6 +899,198 @@ html.dark .stats-icon svg {
   align-items: center;
 }
 
+.ft_index {
+flex: 0 0 auto;
+max-width: 280px;
+min-width: 280px;
+  background-color: var(--card-bg-light);
+  border: 2px groove #aaa;
+  box-shadow:
+  0 0 10px rgba(0, 0, 0, 0.1),
+  0 0 6px rgba(0, 0, 0, 0.1),
+  0 0 8px rgba(255, 255, 255, 0.6);
+  font-family: monospace;
+
+  color: #000;
+  max-width: 280px;
+  min-width: 280px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.pairings-list {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+.ft_index hr {
+  margin-bottom: 10px;
+}
+
+html.dark .ft_index {
+background-color: var(--card-bg-dark);
+box-shadow:
+  0 0 3px rgba(255, 255, 255, 0.2),
+  0 0 6px rgba(255, 255, 255, 0.15);
+}
+
+.stat-panel h2 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--acc-light);
+  margin-top: 10px;
+  text-align: center;
+  margin-bottom: 5px;
+  font-family: system-ui;
+  font-size: 1.1em;
+  line-height: normal;
+}
+
+html.dark .stat-panel h2 {
+  color: var(--acc-dark);
+}
+
+.ft_index h3 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--acc-light);
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 5px;
+  font-family: system-ui;
+  font-size: 1.1em;
+}
+
+html.dark .ft_index h3 {
+  color: var(--acc-dark);
+}
+
+.folder-tree-v h3 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--acc-light);
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 5px;
+  font-family: system-ui;
+}
+
+html.dark .folder-tree-v h3 {
+  color: var(--acc-dark);
+}
+
+
+
+
+.pairing {
+  display: block;
+  margin-bottom: 3px;
+  padding-left: 3em;   
+  text-indent: -1.4em;  
+  line-height: 1.4;
+  color: black;
+  font-size: 0.85em;
+  border: 1px solid #55555578;
+  border-radius: 5px;
+}
+
+html.dark .pairing {
+  color: white;
+}
+
+.rank {
+  color: #555;
+  display: inline-block;
+  width: 1.2em;         
+  text-align: left;     
+  margin-right: 0.1em;   
+}
+
+html.dark .rank{
+  color: #999;
+}
+
+
+.count {
+  color: var(--acc-light);
+  margin-left: 4px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;   
+}
+html.dark .count {
+  color: var(--acc-dark);
+}
+
+.pairings-list > .pairing:nth-child(1) .rank { color: #ffb500; }
+.pairings-list > .pairing:nth-child(2) .rank { color: #87CEEB; }
+.pairings-list > .pairing:nth-child(3) .rank { color: #CD853F; }
+
+html.dark .pairings-list > .pairing:nth-child(1) .rank { color: gold; }
+html.dark .pairings-list > .pairing:nth-child(2) .rank { color: #a5c4d9; }
+html.dark .pairings-list > .pairing:nth-child(3) .rank { color: #cd7f32; }
+
+.show-more-btn {
+  display: block;          
+  margin: 6px auto 0 auto; 
+  padding: 2px 8px;
+  font-size: 0.75em;
+  font-family: system-ui, sans-serif;
+  color: var(--acc-light);
+  background-color: transparent;
+  border: 1px solid var(--acc-light);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.1s;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.show-more-btn:hover {
+  background-color: var(--acc-light);
+  color: var(--card-bg-light);
+  transform: translateY(-1px);
+}
+
+html.dark .show-more-btn {
+  color: var(--acc-dark);
+  border-color: var(--acc-dark);
+}
+
+html.dark .show-more-btn:hover {
+  background-color: var(--acc-dark);
+  color: var(--card-bg-dark);
+}
+
+
+.member-bars-container{
+  font-size: 0.85em;
+}
+
+.member-bars {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.stat-wrapper{
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+#graph-container {
+  filter:invert(1);
+}
+
+html.dark #graph-container {
+  filter: none;
+}
+
+.general-stats{
+  padding-right: 10px;
+  padding-left: 10px;
+}
 
 </style>
 </head>
@@ -1128,44 +1325,51 @@ html.dark .stats-icon svg {
   
     <div class="tree-container">
         <ul class="folder-tree-v">
-<li class="folder-label">IVE/ (203,548)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/IVE_WONYOUNG.html" class="member-link">WONYOUNG</a><span class="member-count"> (62,401)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_YUJIN.html" class="member-link">YUJIN</a><span class="member-count"> (53,229)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_GAEUL.html" class="member-link">GAEUL</a><span class="member-count"> (24,814)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_LEESEO.html" class="member-link">LEESEO</a><span class="member-count"> (22,920)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_LIZ.html" class="member-link">LIZ</a><span class="member-count"> (21,489)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/IVE_REI.html" class="member-link">REI</a><span class="member-count"> (18,695)</span></span></li></ul>
-<li class="folder-label">AESPA/ (128,612)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/AESPA_WINTER.html" class="member-link">WINTER</a><span class="member-count"> (48,283)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/AESPA_KARINA.html" class="member-link">KARINA</a><span class="member-count"> (45,054)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/AESPA_NINGNING.html" class="member-link">NINGNING</a><span class="member-count"> (19,766)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/AESPA_GISELLE.html" class="member-link">GISELLE</a><span class="member-count"> (15,509)</span></span></li></ul>
-<li class="folder-label">STAYC/ (89,299)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/STAYC_ISA.html" class="member-link">ISA</a><span class="member-count"> (18,925)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_SUMIN.html" class="member-link">SUMIN</a><span class="member-count"> (17,154)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_SEEUN.html" class="member-link">SEEUN</a><span class="member-count"> (17,140)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_J.html" class="member-link">J</a><span class="member-count"> (13,314)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_YOON.html" class="member-link">YOON</a><span class="member-count"> (13,290)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/STAYC_SIEUN.html" class="member-link">SIEUN</a><span class="member-count"> (9,476)</span></span></li></ul>
-<li class="folder-label">ITZY/ (76,166)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/ITZY_YUNA.html" class="member-link">YUNA</a><span class="member-count"> (22,380)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ITZY_YEJI.html" class="member-link">YEJI</a><span class="member-count"> (21,802)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ITZY_RYUJIN.html" class="member-link">RYUJIN</a><span class="member-count"> (14,724)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ITZY_CHAERYEONG.html" class="member-link">CHAERYEONG</a><span class="member-count"> (10,435)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/ITZY_LIA.html" class="member-link">LIA</a><span class="member-count"> (6,825)</span></span></li></ul>
-<li class="folder-label">TWICE/ (62,158)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/TWICE_SANA.html" class="member-link">SANA</a><span class="member-count"> (11,883)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_MINA.html" class="member-link">MINA</a><span class="member-count"> (10,334)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_TZUYU.html" class="member-link">TZUYU</a><span class="member-count"> (8,174)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_NAYEON.html" class="member-link">NAYEON</a><span class="member-count"> (7,951)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_DAHYUN.html" class="member-link">DAHYUN</a><span class="member-count"> (6,419)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_MOMO.html" class="member-link">MOMO</a><span class="member-count"> (5,787)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_CHAEYOUNG.html" class="member-link">CHAEYOUNG</a><span class="member-count"> (4,455)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_JIHYO.html" class="member-link">JIHYO</a><span class="member-count"> (4,252)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/TWICE_JEONGYEON.html" class="member-link">JEONGYEON</a><span class="member-count"> (2,903)</span></span></li></ul>
-<li class="folder-label">LOONA/ (57,701)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/LOONA_HEEJIN.html" class="member-link">HEEJIN</a><span class="member-count"> (11,277)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_JINSOUL.html" class="member-link">JINSOUL</a><span class="member-count"> (7,580)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_KIMLIP.html" class="member-link">KIMLIP</a><span class="member-count"> (7,058)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_CHOERRY.html" class="member-link">CHOERRY</a><span class="member-count"> (5,134)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_CHUU.html" class="member-link">CHUU</a><span class="member-count"> (5,066)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_HASEUL.html" class="member-link">HASEUL</a><span class="member-count"> (4,612)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_OLIVIA.html" class="member-link">OLIVIA</a><span class="member-count"> (3,673)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_GOWON.html" class="member-link">GOWON</a><span class="member-count"> (3,414)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_YVES.html" class="member-link">YVES</a><span class="member-count"> (3,141)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_HYUNJIN.html" class="member-link">HYUNJIN</a><span class="member-count"> (3,077)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_YEOJIN.html" class="member-link">YEOJIN</a><span class="member-count"> (2,256)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/LOONA_VIVI.html" class="member-link">VIVI</a><span class="member-count"> (1,413)</span></span></li></ul>
-<li class="folder-label">FROMIS/ (57,264)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/FROMIS_HAYOUNG.html" class="member-link">HAYOUNG</a><span class="member-count"> (8,550)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_JIWON.html" class="member-link">JIWON</a><span class="member-count"> (8,295)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_JIHEON.html" class="member-link">JIHEON</a><span class="member-count"> (7,871)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_CHAEYOUNG.html" class="member-link">CHAEYOUNG</a><span class="member-count"> (7,827)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_NAKYUNG.html" class="member-link">NAKYUNG</a><span class="member-count"> (7,624)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_SOYEON.html" class="member-link">SOYEON</a><span class="member-count"> (6,011)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_SAEROM.html" class="member-link">SAEROM</a><span class="member-count"> (5,233)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_JISUN.html" class="member-link">JISUN</a><span class="member-count"> (4,311)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/FROMIS_GYURI.html" class="member-link">GYURI</a><span class="member-count"> (1,542)</span></span></li></ul>
-<li class="folder-label">NEWJEANS/ (44,862)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_HAERIN.html" class="member-link">HAERIN</a><span class="member-count"> (12,339)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_MINJI.html" class="member-link">MINJI</a><span class="member-count"> (10,954)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_HANNI.html" class="member-link">HANNI</a><span class="member-count"> (9,418)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_DANIELLE.html" class="member-link">DANIELLE</a><span class="member-count"> (7,737)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/NEWJEANS_HYEIN.html" class="member-link">HYEIN</a><span class="member-count"> (4,414)</span></span></li></ul>
-<li class="folder-label">RED VELVET/ (41,851)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_WENDY.html" class="member-link">WENDY</a><span class="member-count"> (16,872)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_SEULGI.html" class="member-link">SEULGI</a><span class="member-count"> (8,197)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_IRENE.html" class="member-link">IRENE</a><span class="member-count"> (7,722)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_JOY.html" class="member-link">JOY</a><span class="member-count"> (6,420)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/RED%20VELVET_YERI.html" class="member-link">YERI</a><span class="member-count"> (2,640)</span></span></li></ul>
-<li class="folder-label">ILLIT/ (31,972)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/ILLIT_MINJU.html" class="member-link">MINJU</a><span class="member-count"> (8,885)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ILLIT_MOKA.html" class="member-link">MOKA</a><span class="member-count"> (7,384)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ILLIT_WONHEE.html" class="member-link">WONHEE</a><span class="member-count"> (6,450)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ILLIT_IROHA.html" class="member-link">IROHA</a><span class="member-count"> (4,973)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/ILLIT_YUNAH.html" class="member-link">YUNAH</a><span class="member-count"> (4,280)</span></span></li></ul>
-<li class="folder-label">UNIS/ (24,783)</li>
-<ul><li><span class="member-label">├── <a href="MEMBERS/UNIS_ELISIA.html" class="member-link">ELISIA</a><span class="member-count"> (4,225)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_KOTOKO.html" class="member-link">KOTOKO</a><span class="member-count"> (3,976)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_NANA.html" class="member-link">NANA</a><span class="member-count"> (3,278)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_YUNHA.html" class="member-link">YUNHA</a><span class="member-count"> (3,227)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_GEHLEE.html" class="member-link">GEHLEE</a><span class="member-count"> (2,935)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_SEOWON.html" class="member-link">SEOWON</a><span class="member-count"> (2,804)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_HYEONJU.html" class="member-link">HYEONJU</a><span class="member-count"> (2,550)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/UNIS_YOONA.html" class="member-link">YOONA</a><span class="member-count"> (1,788)</span></span></li></ul>
-<li class="folder-label">IU/ (13,730)</li>
-<ul><li><span class="member-label">└── <a href="MEMBERS/IU_IU.html" class="member-link">IU</a><span class="member-count"> (13,730)</span></span></li></ul>
+          <h3 >VOLUME</h3>
+          <hr>
+<li class="folder-label">IVE/ (206,296)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/IVE_WONYOUNG.html" class="member-link">WONYOUNG</a><span class="member-count"> (63,158)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_YUJIN.html" class="member-link">YUJIN</a><span class="member-count"> (53,980)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_GAEUL.html" class="member-link">GAEUL</a><span class="member-count"> (25,158)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_LEESEO.html" class="member-link">LEESEO</a><span class="member-count"> (23,191)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/IVE_LIZ.html" class="member-link">LIZ</a><span class="member-count"> (21,816)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/IVE_REI.html" class="member-link">REI</a><span class="member-count"> (18,993)</span></span></li></ul>
+<li class="folder-label">AESPA/ (129,043)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/AESPA_WINTER.html" class="member-link">WINTER</a><span class="member-count"> (48,348)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/AESPA_KARINA.html" class="member-link">KARINA</a><span class="member-count"> (45,284)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/AESPA_NINGNING.html" class="member-link">NINGNING</a><span class="member-count"> (19,831)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/AESPA_GISELLE.html" class="member-link">GISELLE</a><span class="member-count"> (15,580)</span></span></li></ul>
+<li class="folder-label">STAYC/ (89,404)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/STAYC_ISA.html" class="member-link">ISA</a><span class="member-count"> (18,944)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_SUMIN.html" class="member-link">SUMIN</a><span class="member-count"> (17,171)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_SEEUN.html" class="member-link">SEEUN</a><span class="member-count"> (17,166)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_J.html" class="member-link">J</a><span class="member-count"> (13,326)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/STAYC_YOON.html" class="member-link">YOON</a><span class="member-count"> (13,310)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/STAYC_SIEUN.html" class="member-link">SIEUN</a><span class="member-count"> (9,487)</span></span></li></ul>
+<li class="folder-label">ITZY/ (76,634)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/ITZY_YUNA.html" class="member-link">YUNA</a><span class="member-count"> (22,592)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ITZY_YEJI.html" class="member-link">YEJI</a><span class="member-count"> (21,862)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ITZY_RYUJIN.html" class="member-link">RYUJIN</a><span class="member-count"> (14,773)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ITZY_CHAERYEONG.html" class="member-link">CHAERYEONG</a><span class="member-count"> (10,527)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/ITZY_LIA.html" class="member-link">LIA</a><span class="member-count"> (6,880)</span></span></li></ul>
+<li class="folder-label">TWICE/ (62,834)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/TWICE_SANA.html" class="member-link">SANA</a><span class="member-count"> (12,069)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_MINA.html" class="member-link">MINA</a><span class="member-count"> (10,435)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_TZUYU.html" class="member-link">TZUYU</a><span class="member-count"> (8,225)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_NAYEON.html" class="member-link">NAYEON</a><span class="member-count"> (7,983)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_DAHYUN.html" class="member-link">DAHYUN</a><span class="member-count"> (6,448)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_MOMO.html" class="member-link">MOMO</a><span class="member-count"> (5,988)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_CHAEYOUNG.html" class="member-link">CHAEYOUNG</a><span class="member-count"> (4,463)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/TWICE_JIHYO.html" class="member-link">JIHYO</a><span class="member-count"> (4,291)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/TWICE_JEONGYEON.html" class="member-link">JEONGYEON</a><span class="member-count"> (2,932)</span></span></li></ul>
+<li class="folder-label">LOONA/ (58,024)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/LOONA_HEEJIN.html" class="member-link">HEEJIN</a><span class="member-count"> (11,358)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_JINSOUL.html" class="member-link">JINSOUL</a><span class="member-count"> (7,631)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_KIMLIP.html" class="member-link">KIMLIP</a><span class="member-count"> (7,138)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_CHOERRY.html" class="member-link">CHOERRY</a><span class="member-count"> (5,171)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_CHUU.html" class="member-link">CHUU</a><span class="member-count"> (5,066)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_HASEUL.html" class="member-link">HASEUL</a><span class="member-count"> (4,662)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_OLIVIA.html" class="member-link">OLIVIA</a><span class="member-count"> (3,673)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_GOWON.html" class="member-link">GOWON</a><span class="member-count"> (3,414)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_YVES.html" class="member-link">YVES</a><span class="member-count"> (3,145)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_HYUNJIN.html" class="member-link">HYUNJIN</a><span class="member-count"> (3,077)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/LOONA_YEOJIN.html" class="member-link">YEOJIN</a><span class="member-count"> (2,276)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/LOONA_VIVI.html" class="member-link">VIVI</a><span class="member-count"> (1,413)</span></span></li></ul>
+<li class="folder-label">FROMIS/ (57,421)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/FROMIS_HAYOUNG.html" class="member-link">HAYOUNG</a><span class="member-count"> (8,572)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_JIWON.html" class="member-link">JIWON</a><span class="member-count"> (8,309)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_JIHEON.html" class="member-link">JIHEON</a><span class="member-count"> (7,893)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_CHAEYOUNG.html" class="member-link">CHAEYOUNG</a><span class="member-count"> (7,877)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_NAKYUNG.html" class="member-link">NAKYUNG</a><span class="member-count"> (7,673)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_SOYEON.html" class="member-link">SOYEON</a><span class="member-count"> (6,011)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_SAEROM.html" class="member-link">SAEROM</a><span class="member-count"> (5,233)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/FROMIS_JISUN.html" class="member-link">JISUN</a><span class="member-count"> (4,311)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/FROMIS_GYURI.html" class="member-link">GYURI</a><span class="member-count"> (1,542)</span></span></li></ul>
+<li class="folder-label">NEWJEANS/ (44,870)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_HAERIN.html" class="member-link">HAERIN</a><span class="member-count"> (12,340)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_MINJI.html" class="member-link">MINJI</a><span class="member-count"> (10,958)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_HANNI.html" class="member-link">HANNI</a><span class="member-count"> (9,419)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/NEWJEANS_DANIELLE.html" class="member-link">DANIELLE</a><span class="member-count"> (7,738)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/NEWJEANS_HYEIN.html" class="member-link">HYEIN</a><span class="member-count"> (4,415)</span></span></li></ul>
+<li class="folder-label">RED VELVET/ (42,005)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_WENDY.html" class="member-link">WENDY</a><span class="member-count"> (16,905)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_SEULGI.html" class="member-link">SEULGI</a><span class="member-count"> (8,197)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_IRENE.html" class="member-link">IRENE</a><span class="member-count"> (7,823)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/RED%20VELVET_JOY.html" class="member-link">JOY</a><span class="member-count"> (6,440)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/RED%20VELVET_YERI.html" class="member-link">YERI</a><span class="member-count"> (2,640)</span></span></li></ul>
+<li class="folder-label">ILLIT/ (32,453)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/ILLIT_MINJU.html" class="member-link">MINJU</a><span class="member-count"> (9,049)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ILLIT_MOKA.html" class="member-link">MOKA</a><span class="member-count"> (7,501)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ILLIT_WONHEE.html" class="member-link">WONHEE</a><span class="member-count"> (6,540)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/ILLIT_IROHA.html" class="member-link">IROHA</a><span class="member-count"> (5,023)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/ILLIT_YUNAH.html" class="member-link">YUNAH</a><span class="member-count"> (4,340)</span></span></li></ul>
+<li class="folder-label">UNIS/ (27,912)</li>
+<ul><li><span class="member-label">├── <a href="MEMBERS/UNIS_ELISIA.html" class="member-link">ELISIA</a><span class="member-count"> (5,250)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_KOTOKO.html" class="member-link">KOTOKO</a><span class="member-count"> (4,307)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_YUNHA.html" class="member-link">YUNHA</a><span class="member-count"> (3,540)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_NANA.html" class="member-link">NANA</a><span class="member-count"> (3,520)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_GEHLEE.html" class="member-link">GEHLEE</a><span class="member-count"> (3,467)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_SEOWON.html" class="member-link">SEOWON</a><span class="member-count"> (3,068)</span></span></li><li><span class="member-label">├── <a href="MEMBERS/UNIS_HYEONJU.html" class="member-link">HYEONJU</a><span class="member-count"> (2,784)</span></span></li><li><span class="member-label">└── <a href="MEMBERS/UNIS_YOONA.html" class="member-link">YOONA</a><span class="member-count"> (1,976)</span></span></li></ul>
+<li class="folder-label">IU/ (13,807)</li>
+<ul><li><span class="member-label">└── <a href="MEMBERS/IU_IU.html" class="member-link">IU</a><span class="member-count"> (13,807)</span></span></li></ul>
 
 </ul>
 </div>
+
   <div class="stat-panel">
-    <h2></h2>
+    <h2>GENERAL STATS</h2>
+    <hr>
     <div class="general-stats">
       <p>TOTAL IMAGES: <span id="total-images">0</span></p>
+      <p>UNIQUE IMAGES: <span id="unique-images">0</span></p>
+      <p>UNDATED IMAGES: <span id="unassigned-images">0</span></p>
       <p>ARCHIVE SIZE: <span id="archive-size">0</span></p>
       <p>AVG SIZE PER IMAGE: <span id="avg-size-per-image">0</span></p>
-      <p>GROUPS: <span id="total-groups">0</span></p>
-      <p>MEMBERS: <span id="total-members">0</span></p>
-      <p>AVG PER GROUP: <span id="avg-images-per-group">0</span></p>
-      <p>AVG PER MEMBER: <span id="avg-images-per-member">0</span></p>
       <p>IMAGES PER GB: <span id="images-per-gb">0</span></p>
+      <p>GROUPS: <span id="total-groups">0</span></p>
+      <p>AVG PER GROUP: <span id="avg-images-per-group">0</span></p>
+      <p>MEMBERS: <span id="total-members">0</span></p>
+      <p>AVG PER MEMBER: <span id="avg-images-per-member">0</span></p>
+      
 
     </div>
     <hr>
@@ -1175,8 +1379,593 @@ html.dark .stats-icon svg {
     </div>
     <div class="additional-stats"></div>
   </div>
-
+<div class="ft_index">
+<h3>Groupings</h3>
+<hr>
+<div class="pairings-list">
+<div class="pairing"><span class="rank">#1</span>AESPA/KARINA, AESPA/WINTER<span class="count">(2485)</span></div>
+<div class="pairing"><span class="rank">#2</span>AESPA/GISELLE, AESPA/KARINA, AESPA/NINGNING, AESPA/WINTER<span class="count">(1082)</span></div>
+<div class="pairing"><span class="rank">#3</span>IVE/WONYOUNG, IVE/YUJIN<span class="count">(898)</span></div>
+<div class="pairing"><span class="rank">#4</span>STAYC/SEEUN, STAYC/YOON<span class="count">(646)</span></div>
+<div class="pairing"><span class="rank">#5</span>AESPA/GISELLE, AESPA/KARINA<span class="count">(568)</span></div>
+<div class="pairing"><span class="rank">#6</span>RED VELVET/IRENE, RED VELVET/SEULGI<span class="count">(522)</span></div>
+<div class="pairing"><span class="rank">#7</span>IVE/LEESEO, IVE/YUJIN<span class="count">(418)</span></div>
+<div class="pairing"><span class="rank">#8</span>AESPA/KARINA, AESPA/NINGNING<span class="count">(405)</span></div>
+<div class="pairing"><span class="rank">#9</span>STAYC/ISA, STAYC/SEEUN<span class="count">(401)</span></div>
+<div class="pairing"><span class="rank">#10</span>IVE/LEESEO, IVE/LIZ<span class="count">(347)</span></div>
+<div class="pairing"><span class="rank">#11</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(347)</span></div>
+<div class="pairing"><span class="rank">#12</span>STAYC/SUMIN, STAYC/YOON<span class="count">(306)</span></div>
+<div class="pairing"><span class="rank">#13</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(297)</span></div>
+<div class="pairing"><span class="rank">#14</span>STAYC/SEEUN, STAYC/SUMIN<span class="count">(291)</span></div>
+<div class="pairing"><span class="rank">#15</span>AESPA/GISELLE, AESPA/NINGNING<span class="count">(275)</span></div>
+<div class="pairing"><span class="rank">#16</span>IVE/LEESEO, IVE/WONYOUNG<span class="count">(262)</span></div>
+<div class="pairing"><span class="rank">#17</span>ITZY/YEJI, ITZY/YUNA<span class="count">(249)</span></div>
+<div class="pairing"><span class="rank">#18</span>AESPA/GISELLE, AESPA/WINTER<span class="count">(236)</span></div>
+<div class="pairing"><span class="rank">#19</span>ILLIT/IROHA, ILLIT/MOKA<span class="count">(235)</span></div>
+<div class="pairing"><span class="rank">#20</span>IVE/REI, IVE/YUJIN<span class="count">(235)</span></div>
+<div class="pairing"><span class="rank">#21</span>AESPA/NINGNING, AESPA/WINTER<span class="count">(233)</span></div>
+<div class="pairing"><span class="rank">#22</span>STAYC/ISA, STAYC/SUMIN<span class="count">(233)</span></div>
+<div class="pairing"><span class="rank">#23</span>TWICE/MINA, TWICE/SANA<span class="count">(223)</span></div>
+<div class="pairing"><span class="rank">#24</span>STAYC/ISA, STAYC/J<span class="count">(221)</span></div>
+<div class="pairing"><span class="rank">#25</span>IVE/LEESEO, IVE/REI<span class="count">(200)</span></div>
+<div class="pairing"><span class="rank">#26</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(199)</span></div>
+<div class="pairing"><span class="rank">#27</span>LOONA/JINSOUL, LOONA/KIMLIP<span class="count">(192)</span></div>
+<div class="pairing"><span class="rank">#28</span>STAYC/J, STAYC/SEEUN<span class="count">(188)</span></div>
+<div class="pairing"><span class="rank">#29</span>STAYC/J, STAYC/YOON<span class="count">(179)</span></div>
+<div class="pairing"><span class="rank">#30</span>STAYC/J, STAYC/SUMIN<span class="count">(176)</span></div>
+<div class="pairing"><span class="rank">#31</span>IVE/GAEUL, IVE/REI<span class="count">(174)</span></div>
+<div class="pairing"><span class="rank">#32</span>LOONA/HEEJIN, LOONA/JINSOUL<span class="count">(170)</span></div>
+<div class="pairing"><span class="rank">#33</span>STAYC/SIEUN, STAYC/SUMIN<span class="count">(164)</span></div>
+<div class="pairing"><span class="rank">#34</span>STAYC/ISA, STAYC/YOON<span class="count">(162)</span></div>
+<div class="pairing"><span class="rank">#35</span>IVE/LIZ, IVE/REI<span class="count">(158)</span></div>
+<div class="pairing"><span class="rank">#36</span>LOONA/CHOERRY, LOONA/JINSOUL<span class="count">(156)</span></div>
+<div class="pairing"><span class="rank">#37</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(153)</span></div>
+<div class="pairing"><span class="rank">#38</span>ILLIT/MINJU, ILLIT/MOKA<span class="count">(152)</span></div>
+<div class="pairing"><span class="rank">#39</span>TWICE/CHAEYOUNG, TWICE/MINA<span class="count">(140)</span></div>
+<div class="pairing"><span class="rank">#40</span>ITZY/CHAERYEONG, ITZY/RYUJIN<span class="count">(137)</span></div>
+<div class="pairing"><span class="rank">#41</span>NEWJEANS/HAERIN, NEWJEANS/MINJI<span class="count">(134)</span></div>
+<div class="pairing"><span class="rank">#42</span>ILLIT/IROHA, ILLIT/MINJU, ILLIT/MOKA, ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(127)</span></div>
+<div class="pairing"><span class="rank">#43</span>LOONA/CHOERRY, LOONA/HEEJIN<span class="count">(127)</span></div>
+<div class="pairing"><span class="rank">#44</span>STAYC/SIEUN, STAYC/YOON<span class="count">(126)</span></div>
+<div class="pairing"><span class="rank">#45</span>TWICE/DAHYUN, TWICE/SANA<span class="count">(121)</span></div>
+<div class="pairing"><span class="rank">#46</span>ITZY/CHAERYEONG, ITZY/LIA, ITZY/RYUJIN, ITZY/YEJI, ITZY/YUNA<span class="count">(119)</span></div>
+<div class="pairing"><span class="rank">#47</span>ITZY/RYUJIN, ITZY/YEJI<span class="count">(117)</span></div>
+<div class="pairing"><span class="rank">#48</span>TWICE/NAYEON, TWICE/SANA<span class="count">(116)</span></div>
+<div class="pairing"><span class="rank">#49</span>UNIS/ELISIA, UNIS/YUNHA<span class="count">(116)</span></div>
+<div class="pairing"><span class="rank">#50</span>ILLIT/MINJU, ILLIT/YUNAH<span class="count">(114)</span></div>
+<div class="pairing"><span class="rank">#51</span>LOONA/CHOERRY, LOONA/KIMLIP<span class="count">(114)</span></div>
+<div class="pairing"><span class="rank">#52</span>TWICE/SANA, TWICE/TZUYU<span class="count">(113)</span></div>
+<div class="pairing"><span class="rank">#53</span>ITZY/LIA, ITZY/YEJI<span class="count">(112)</span></div>
+<div class="pairing"><span class="rank">#54</span>LOONA/CHOERRY, LOONA/HASEUL<span class="count">(111)</span></div>
+<div class="pairing"><span class="rank">#55</span>FROMIS/CHAEYOUNG, FROMIS/NAKYUNG<span class="count">(107)</span></div>
+<div class="pairing"><span class="rank">#56</span>STAYC/ISA, STAYC/SIEUN<span class="count">(103)</span></div>
+<div class="pairing"><span class="rank">#57</span>LOONA/CHOERRY, LOONA/HASEUL, LOONA/HEEJIN, LOONA/JINSOUL, LOONA/KIMLIP<span class="count">(98)</span></div>
+<div class="pairing"><span class="rank">#58</span>FROMIS/HAYOUNG, FROMIS/JIWON<span class="count">(96)</span></div>
+<div class="pairing"><span class="rank">#59</span>IVE/GAEUL, IVE/WONYOUNG<span class="count">(95)</span></div>
+<div class="pairing"><span class="rank">#60</span>TWICE/JEONGYEON, TWICE/JIHYO<span class="count">(95)</span></div>
+<div class="pairing"><span class="rank">#61</span>IVE/GAEUL, IVE/LEESEO<span class="count">(94)</span></div>
+<div class="pairing"><span class="rank">#62</span>LOONA/HEEJIN, LOONA/KIMLIP<span class="count">(91)</span></div>
+<div class="pairing"><span class="rank">#63</span>TWICE/MINA, TWICE/NAYEON<span class="count">(90)</span></div>
+<div class="pairing"><span class="rank">#64</span>TWICE/MOMO, TWICE/SANA<span class="count">(89)</span></div>
+<div class="pairing"><span class="rank">#65</span>LOONA/HASEUL, LOONA/JINSOUL<span class="count">(88)</span></div>
+<div class="pairing"><span class="rank">#66</span>IVE/GAEUL, IVE/YUJIN<span class="count">(87)</span></div>
+<div class="pairing"><span class="rank">#67</span>UNIS/KOTOKO, UNIS/NANA<span class="count">(86)</span></div>
+<div class="pairing"><span class="rank">#68</span>FROMIS/CHAEYOUNG, FROMIS/JIWON<span class="count">(84)</span></div>
+<div class="pairing"><span class="rank">#69</span>FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(83)</span></div>
+<div class="pairing"><span class="rank">#70</span>IVE/LIZ, IVE/YUJIN<span class="count">(83)</span></div>
+<div class="pairing"><span class="rank">#71</span>UNIS/ELISIA, UNIS/GEHLEE<span class="count">(81)</span></div>
+<div class="pairing"><span class="rank">#72</span>UNIS/ELISIA, UNIS/NANA<span class="count">(80)</span></div>
+<div class="pairing"><span class="rank">#73</span>IVE/LIZ, IVE/WONYOUNG<span class="count">(79)</span></div>
+<div class="pairing"><span class="rank">#74</span>ITZY/CHAERYEONG, ITZY/YEJI<span class="count">(78)</span></div>
+<div class="pairing"><span class="rank">#75</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON<span class="count">(76)</span></div>
+<div class="pairing"><span class="rank">#76</span>STAYC/J, STAYC/SIEUN<span class="count">(76)</span></div>
+<div class="pairing"><span class="rank">#77</span>UNIS/HYEONJU, UNIS/KOTOKO<span class="count">(76)</span></div>
+<div class="pairing"><span class="rank">#78</span>AESPA/GISELLE, AESPA/KARINA, AESPA/NINGNING<span class="count">(75)</span></div>
+<div class="pairing"><span class="rank">#79</span>ITZY/LIA, ITZY/RYUJIN<span class="count">(75)</span></div>
+<div class="pairing"><span class="rank">#80</span>AESPA/KARINA, IVE/YUJIN<span class="count">(74)</span></div>
+<div class="pairing"><span class="rank">#81</span>ILLIT/MINJU, ILLIT/WONHEE<span class="count">(74)</span></div>
+<div class="pairing"><span class="rank">#82</span>LOONA/HASEUL, LOONA/HEEJIN<span class="count">(73)</span></div>
+<div class="pairing"><span class="rank">#83</span>ITZY/RYUJIN, ITZY/YUNA<span class="count">(72)</span></div>
+<div class="pairing"><span class="rank">#84</span>RED VELVET/IRENE, RED VELVET/WENDY<span class="count">(72)</span></div>
+<div class="pairing"><span class="rank">#85</span>ILLIT/MOKA, ILLIT/WONHEE<span class="count">(71)</span></div>
+<div class="pairing"><span class="rank">#86</span>ITZY/LIA, ITZY/YUNA<span class="count">(71)</span></div>
+<div class="pairing"><span class="rank">#87</span>LOONA/HASEUL, LOONA/KIMLIP<span class="count">(71)</span></div>
+<div class="pairing"><span class="rank">#88</span>AESPA/KARINA, AESPA/NINGNING, AESPA/WINTER<span class="count">(69)</span></div>
+<div class="pairing"><span class="rank">#89</span>AESPA/GISELLE, AESPA/KARINA, AESPA/WINTER<span class="count">(68)</span></div>
+<div class="pairing"><span class="rank">#90</span>TWICE/JIHYO, TWICE/SANA<span class="count">(67)</span></div>
+<div class="pairing"><span class="rank">#91</span>STAYC/SEEUN, STAYC/SIEUN<span class="count">(66)</span></div>
+<div class="pairing"><span class="rank">#92</span>AESPA/GISELLE, AESPA/NINGNING, AESPA/WINTER<span class="count">(63)</span></div>
+<div class="pairing"><span class="rank">#93</span>NEWJEANS/HANNI, NEWJEANS/MINJI<span class="count">(61)</span></div>
+<div class="pairing"><span class="rank">#94</span>FROMIS/HAYOUNG, FROMIS/NAKYUNG<span class="count">(60)</span></div>
+<div class="pairing"><span class="rank">#95</span>ILLIT/IROHA, ILLIT/YUNAH<span class="count">(58)</span></div>
+<div class="pairing"><span class="rank">#96</span>TWICE/CHAEYOUNG, TWICE/SANA<span class="count">(58)</span></div>
+<div class="pairing"><span class="rank">#97</span>NEWJEANS/DANIELLE, NEWJEANS/HANNI<span class="count">(57)</span></div>
+<div class="pairing"><span class="rank">#98</span>UNIS/ELISIA, UNIS/SEOWON<span class="count">(56)</span></div>
+<div class="pairing"><span class="rank">#99</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(55)</span></div>
+<div class="pairing"><span class="rank">#100</span>NEWJEANS/DANIELLE, NEWJEANS/HAERIN<span class="count">(54)</span></div>
+<div class="pairings-more" style="display:none;">
+<div class="pairing"><span class="rank">#101</span>ILLIT/MOKA, ILLIT/YUNAH<span class="count">(53)</span></div>
+<div class="pairing"><span class="rank">#102</span>UNIS/ELISIA, UNIS/KOTOKO<span class="count">(53)</span></div>
+<div class="pairing"><span class="rank">#103</span>TWICE/DAHYUN, TWICE/TZUYU<span class="count">(52)</span></div>
+<div class="pairing"><span class="rank">#104</span>TWICE/MINA, TWICE/MOMO<span class="count">(51)</span></div>
+<div class="pairing"><span class="rank">#105</span>ILLIT/IROHA, ILLIT/WONHEE<span class="count">(48)</span></div>
+<div class="pairing"><span class="rank">#106</span>UNIS/HYEONJU, UNIS/YUNHA<span class="count">(47)</span></div>
+<div class="pairing"><span class="rank">#107</span>NEWJEANS/HAERIN, NEWJEANS/HANNI<span class="count">(45)</span></div>
+<div class="pairing"><span class="rank">#108</span>ILLIT/IROHA, ILLIT/MINJU<span class="count">(44)</span></div>
+<div class="pairing"><span class="rank">#109</span>IVE/REI, IVE/WONYOUNG<span class="count">(44)</span></div>
+<div class="pairing"><span class="rank">#110</span>IVE/GAEUL, IVE/LIZ<span class="count">(43)</span></div>
+<div class="pairing"><span class="rank">#111</span>TWICE/JEONGYEON, TWICE/MINA<span class="count">(43)</span></div>
+<div class="pairing"><span class="rank">#112</span>TWICE/NAYEON, TWICE/TZUYU<span class="count">(43)</span></div>
+<div class="pairing"><span class="rank">#113</span>UNIS/NANA, UNIS/YUNHA<span class="count">(40)</span></div>
+<div class="pairing"><span class="rank">#114</span>UNIS/KOTOKO, UNIS/SEOWON<span class="count">(38)</span></div>
+<div class="pairing"><span class="rank">#115</span>NEWJEANS/HAERIN, NEWJEANS/HYEIN<span class="count">(36)</span></div>
+<div class="pairing"><span class="rank">#116</span>ITZY/CHAERYEONG, ITZY/YUNA<span class="count">(35)</span></div>
+<div class="pairing"><span class="rank">#117</span>RED VELVET/SEULGI, RED VELVET/WENDY<span class="count">(35)</span></div>
+<div class="pairing"><span class="rank">#118</span>TWICE/JEONGYEON, TWICE/NAYEON<span class="count">(34)</span></div>
+<div class="pairing"><span class="rank">#119</span>NEWJEANS/HYEIN, NEWJEANS/MINJI<span class="count">(33)</span></div>
+<div class="pairing"><span class="rank">#120</span>TWICE/JIHYO, TWICE/MINA<span class="count">(33)</span></div>
+<div class="pairing"><span class="rank">#121</span>UNIS/GEHLEE, UNIS/KOTOKO<span class="count">(33)</span></div>
+<div class="pairing"><span class="rank">#122</span>UNIS/GEHLEE, UNIS/SEOWON<span class="count">(32)</span></div>
+<div class="pairing"><span class="rank">#123</span>TWICE/CHAEYOUNG, TWICE/JEONGYEON<span class="count">(31)</span></div>
+<div class="pairing"><span class="rank">#124</span>TWICE/CHAEYOUNG, TWICE/DAHYUN<span class="count">(31)</span></div>
+<div class="pairing"><span class="rank">#125</span>RED VELVET/JOY, RED VELVET/WENDY<span class="count">(30)</span></div>
+<div class="pairing"><span class="rank">#126</span>STAYC/ISA, STAYC/J, STAYC/SEEUN<span class="count">(30)</span></div>
+<div class="pairing"><span class="rank">#127</span>TWICE/MOMO, TWICE/NAYEON<span class="count">(30)</span></div>
+<div class="pairing"><span class="rank">#128</span>UNIS/KOTOKO, UNIS/YOONA<span class="count">(30)</span></div>
+<div class="pairing"><span class="rank">#129</span>UNIS/KOTOKO, UNIS/YUNHA<span class="count">(30)</span></div>
+<div class="pairing"><span class="rank">#130</span>FROMIS/HAYOUNG, FROMIS/JIHEON<span class="count">(29)</span></div>
+<div class="pairing"><span class="rank">#131</span>TWICE/MINA, TWICE/TZUYU<span class="count">(29)</span></div>
+<div class="pairing"><span class="rank">#132</span>ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(28)</span></div>
+<div class="pairing"><span class="rank">#133</span>UNIS/GEHLEE, UNIS/NANA<span class="count">(28)</span></div>
+<div class="pairing"><span class="rank">#134</span>LOONA/GOWON, LOONA/HYUNJIN, LOONA/OLIVIA, LOONA/VIVI<span class="count">(27)</span></div>
+<div class="pairing"><span class="rank">#135</span>TWICE/CHAEYOUNG, TWICE/MOMO<span class="count">(27)</span></div>
+<div class="pairing"><span class="rank">#136</span>FROMIS/HAYOUNG, FROMIS/SAEROM<span class="count">(26)</span></div>
+<div class="pairing"><span class="rank">#137</span>TWICE/JEONGYEON, TWICE/TZUYU<span class="count">(26)</span></div>
+<div class="pairing"><span class="rank">#138</span>TWICE/MOMO, TWICE/TZUYU<span class="count">(26)</span></div>
+<div class="pairing"><span class="rank">#139</span>UNIS/HYEONJU, UNIS/NANA<span class="count">(25)</span></div>
+<div class="pairing"><span class="rank">#140</span>RED VELVET/JOY, RED VELVET/SEULGI<span class="count">(24)</span></div>
+<div class="pairing"><span class="rank">#141</span>UNIS/ELISIA, UNIS/YOONA<span class="count">(24)</span></div>
+<div class="pairing"><span class="rank">#142</span>UNIS/NANA, UNIS/YOONA<span class="count">(24)</span></div>
+<div class="pairing"><span class="rank">#143</span>IVE/LEESEO, IVE/LIZ, IVE/YUJIN<span class="count">(23)</span></div>
+<div class="pairing"><span class="rank">#144</span>LOONA/CHOERRY, LOONA/JINSOUL, LOONA/KIMLIP<span class="count">(23)</span></div>
+<div class="pairing"><span class="rank">#145</span>STAYC/ISA, STAYC/SEEUN, STAYC/YOON<span class="count">(23)</span></div>
+<div class="pairing"><span class="rank">#146</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG<span class="count">(22)</span></div>
+<div class="pairing"><span class="rank">#147</span>FROMIS/JIWON, FROMIS/SOYEON<span class="count">(22)</span></div>
+<div class="pairing"><span class="rank">#148</span>TWICE/JIHYO, TWICE/NAYEON<span class="count">(22)</span></div>
+<div class="pairing"><span class="rank">#149</span>TWICE/MINA, TWICE/MOMO, TWICE/SANA<span class="count">(22)</span></div>
+<div class="pairing"><span class="rank">#150</span>RED VELVET/IRENE, RED VELVET/JOY, RED VELVET/SEULGI, RED VELVET/WENDY, RED VELVET/YERI<span class="count">(21)</span></div>
+<div class="pairing"><span class="rank">#151</span>TWICE/JIHYO, TWICE/TZUYU<span class="count">(21)</span></div>
+<div class="pairing"><span class="rank">#152</span>UNIS/GEHLEE, UNIS/YOONA<span class="count">(21)</span></div>
+<div class="pairing"><span class="rank">#153</span>STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(20)</span></div>
+<div class="pairing"><span class="rank">#154</span>TWICE/CHAEYOUNG, TWICE/NAYEON<span class="count">(20)</span></div>
+<div class="pairing"><span class="rank">#155</span>FROMIS/JIHEON, FROMIS/JIWON<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#156</span>FROMIS/JISUN, FROMIS/SOYEON<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#157</span>FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#158</span>STAYC/J, STAYC/SEEUN, STAYC/SIEUN<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#159</span>STAYC/SEEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#160</span>TWICE/JEONGYEON, TWICE/SANA<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#161</span>UNIS/SEOWON, UNIS/YUNHA<span class="count">(19)</span></div>
+<div class="pairing"><span class="rank">#162</span>TWICE/DAHYUN, TWICE/MINA<span class="count">(18)</span></div>
+<div class="pairing"><span class="rank">#163</span>TWICE/JEONGYEON, TWICE/MOMO<span class="count">(18)</span></div>
+<div class="pairing"><span class="rank">#164</span>UNIS/GEHLEE, UNIS/YUNHA<span class="count">(18)</span></div>
+<div class="pairing"><span class="rank">#165</span>FROMIS/CHAEYOUNG, FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(17)</span></div>
+<div class="pairing"><span class="rank">#166</span>FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(17)</span></div>
+<div class="pairing"><span class="rank">#167</span>TWICE/DAHYUN, TWICE/MOMO<span class="count">(17)</span></div>
+<div class="pairing"><span class="rank">#168</span>UNIS/YOONA, UNIS/YUNHA<span class="count">(17)</span></div>
+<div class="pairing"><span class="rank">#169</span>ITZY/CHAERYEONG, ITZY/LIA<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#170</span>LOONA/GOWON, LOONA/YEOJIN<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#171</span>LOONA/HYUNJIN, LOONA/OLIVIA<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#172</span>RED VELVET/WENDY, RED VELVET/YERI<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#173</span>STAYC/ISA, STAYC/SUMIN, STAYC/YOON<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#174</span>UNIS/ELISIA, UNIS/HYEONJU<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#175</span>UNIS/HYEONJU, UNIS/SEOWON<span class="count">(16)</span></div>
+<div class="pairing"><span class="rank">#176</span>NEWJEANS/DANIELLE, NEWJEANS/MINJI<span class="count">(15)</span></div>
+<div class="pairing"><span class="rank">#177</span>RED VELVET/IRENE, RED VELVET/YERI<span class="count">(15)</span></div>
+<div class="pairing"><span class="rank">#178</span>UNIS/HYEONJU, UNIS/YOONA<span class="count">(15)</span></div>
+<div class="pairing"><span class="rank">#179</span>FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#180</span>IVE/GAEUL, IVE/LEESEO, IVE/REI<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#181</span>IVE/LIZ, IVE/REI, IVE/YUJIN<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#182</span>LOONA/HASEUL, LOONA/HEEJIN, LOONA/KIMLIP<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#183</span>STAYC/J, STAYC/SIEUN, STAYC/YOON<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#184</span>STAYC/J, STAYC/SEEUN, STAYC/YOON<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#185</span>TWICE/CHAEYOUNG, TWICE/JIHYO<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#186</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/SEOWON<span class="count">(14)</span></div>
+<div class="pairing"><span class="rank">#187</span>IVE/GAEUL, IVE/WONYOUNG, IVE/YUJIN<span class="count">(13)</span></div>
+<div class="pairing"><span class="rank">#188</span>RED VELVET/JOY, RED VELVET/YERI<span class="count">(13)</span></div>
+<div class="pairing"><span class="rank">#189</span>FROMIS/JIHEON, FROMIS/NAKYUNG<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#190</span>FROMIS/JIHEON, FROMIS/JISUN<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#191</span>LOONA/GOWON, LOONA/OLIVIA<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#192</span>NEWJEANS/HANNI, NEWJEANS/HYEIN<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#193</span>STAYC/ISA, STAYC/SEEUN, STAYC/SUMIN<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#194</span>STAYC/J, STAYC/SIEUN, STAYC/SUMIN<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#195</span>UNIS/SEOWON, UNIS/YOONA<span class="count">(12)</span></div>
+<div class="pairing"><span class="rank">#196</span>AESPA/KARINA, ITZY/YEJI<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#197</span>FROMIS/CHAEYOUNG, FROMIS/SOYEON<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#198</span>FROMIS/HAYOUNG, FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#199</span>FROMIS/HAYOUNG, FROMIS/SOYEON<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#200</span>FROMIS/JISUN, FROMIS/NAKYUNG<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#201</span>FROMIS/JIWON, FROMIS/SAEROM<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#202</span>LOONA/GOWON, LOONA/HYUNJIN, LOONA/OLIVIA, LOONA/VIVI, LOONA/YEOJIN<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#203</span>STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#204</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/YUNHA<span class="count">(11)</span></div>
+<div class="pairing"><span class="rank">#205</span>FROMIS/CHAEYOUNG, FROMIS/SAEROM<span class="count">(10)</span></div>
+<div class="pairing"><span class="rank">#206</span>IVE/LIZ, IVE/WONYOUNG, IVE/YUJIN<span class="count">(10)</span></div>
+<div class="pairing"><span class="rank">#207</span>NEWJEANS/DANIELLE, NEWJEANS/HAERIN, NEWJEANS/HYEIN<span class="count">(10)</span></div>
+<div class="pairing"><span class="rank">#208</span>TWICE/CHAEYOUNG, TWICE/TZUYU<span class="count">(10)</span></div>
+<div class="pairing"><span class="rank">#209</span>TWICE/JEONGYEON, TWICE/JIHYO, TWICE/MINA<span class="count">(10)</span></div>
+<div class="pairing"><span class="rank">#210</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA<span class="count">(10)</span></div>
+<div class="pairing"><span class="rank">#211</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#212</span>ILLIT/IROHA, ILLIT/MINJU, ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#213</span>ITZY/LIA, ITZY/RYUJIN, ITZY/YUNA<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#214</span>IVE/GAEUL, IVE/REI, IVE/YUJIN<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#215</span>IVE/LEESEO, IVE/WONYOUNG, IVE/YUJIN<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#216</span>IVE/LIZ, IVE/REI, IVE/WONYOUNG<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#217</span>LOONA/HYUNJIN, LOONA/VIVI<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#218</span>UNIS/ELISIA, UNIS/NANA, UNIS/YUNHA<span class="count">(9)</span></div>
+<div class="pairing"><span class="rank">#219</span>AESPA/KARINA, RED VELVET/SEULGI<span class="count">(8)</span></div>
+<div class="pairing"><span class="rank">#220</span>AESPA/WINTER, RED VELVET/WENDY<span class="count">(8)</span></div>
+<div class="pairing"><span class="rank">#221</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/NAKYUNG<span class="count">(8)</span></div>
+<div class="pairing"><span class="rank">#222</span>ITZY/LIA, ITZY/RYUJIN, ITZY/YEJI<span class="count">(8)</span></div>
+<div class="pairing"><span class="rank">#223</span>LOONA/HASEUL, LOONA/HEEJIN, LOONA/JINSOUL<span class="count">(8)</span></div>
+<div class="pairing"><span class="rank">#224</span>UNIS/KOTOKO, UNIS/YOONA, UNIS/YUNHA<span class="count">(8)</span></div>
+<div class="pairing"><span class="rank">#225</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JIWON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#226</span>FROMIS/HAYOUNG, FROMIS/JIWON, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#227</span>FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#228</span>ITZY/CHAERYEONG, ITZY/LIA, ITZY/RYUJIN, ITZY/YEJI<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#229</span>LOONA/CHOERRY, LOONA/HASEUL, LOONA/JINSOUL<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#230</span>LOONA/GOWON, LOONA/VIVI<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#231</span>LOONA/GOWON, LOONA/HYUNJIN<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#232</span>LOONA/GOWON, LOONA/VIVI, LOONA/YEOJIN<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#233</span>LOONA/OLIVIA, LOONA/YEOJIN<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#234</span>NEWJEANS/DANIELLE, NEWJEANS/HAERIN, NEWJEANS/HANNI, NEWJEANS/HYEIN, NEWJEANS/MINJI<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#235</span>RED VELVET/IRENE, RED VELVET/JOY<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#236</span>STAYC/ISA, STAYC/J, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#237</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/YOON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#238</span>STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#239</span>STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/YOON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#240</span>STAYC/SEEUN, STAYC/SIEUN, STAYC/YOON<span class="count">(7)</span></div>
+<div class="pairing"><span class="rank">#241</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JIWON<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#242</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#243</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/SAEROM<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#244</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#245</span>FROMIS/JISUN, FROMIS/JIWON<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#246</span>FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#247</span>ILLIT/MINJU, ILLIT/MOKA, ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#248</span>IVE/LEESEO, IVE/REI, IVE/YUJIN<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#249</span>LOONA/HASEUL, LOONA/HEEJIN, LOONA/JINSOUL, LOONA/KIMLIP<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#250</span>STAYC/J, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#251</span>STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#252</span>TWICE/JIHYO, TWICE/MOMO<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#253</span>TWICE/NAYEON, TWICE/SANA, TWICE/TZUYU<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#254</span>UNIS/ELISIA, UNIS/YOONA, UNIS/YUNHA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#255</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/YOONA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#256</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/NANA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#257</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/NANA, UNIS/YOONA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#258</span>UNIS/GEHLEE, UNIS/SEOWON, UNIS/YOONA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#259</span>UNIS/KOTOKO, UNIS/NANA, UNIS/YOONA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#260</span>UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(6)</span></div>
+<div class="pairing"><span class="rank">#261</span>AESPA/KARINA, ITZY/RYUJIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#262</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#263</span>FROMIS/CHAEYOUNG, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#264</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JIWON<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#265</span>FROMIS/JIHEON, FROMIS/SAEROM<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#266</span>ILLIT/IROHA, ILLIT/MINJU, ILLIT/YUNAH<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#267</span>ILLIT/IROHA, ILLIT/MINJU, ILLIT/MOKA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#268</span>ILLIT/IROHA, ILLIT/MINJU, ILLIT/MOKA, ILLIT/YUNAH<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#269</span>ITZY/CHAERYEONG, ITZY/YEJI, ITZY/YUNA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#270</span>ITZY/LIA, ITZY/YEJI, ITZY/YUNA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#271</span>IVE/LEESEO, IVE/REI, IVE/WONYOUNG<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#272</span>IVE/LIZ, IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#273</span>IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#274</span>LOONA/CHOERRY, LOONA/HASEUL, LOONA/KIMLIP<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#275</span>LOONA/CHOERRY, LOONA/HASEUL, LOONA/HEEJIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#276</span>LOONA/CHOERRY, LOONA/HEEJIN, LOONA/JINSOUL<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#277</span>LOONA/HASEUL, LOONA/JINSOUL, LOONA/KIMLIP<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#278</span>LOONA/HEEJIN, LOONA/YVES<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#279</span>RED VELVET/SEULGI, RED VELVET/YERI<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#280</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SUMIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#281</span>STAYC/ISA, STAYC/J, STAYC/YOON<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#282</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#283</span>STAYC/J, STAYC/SEEUN, STAYC/SUMIN<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#284</span>STAYC/J, STAYC/SUMIN, STAYC/YOON<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#285</span>TWICE/JEONGYEON, TWICE/MOMO, TWICE/TZUYU<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#286</span>TWICE/MOMO, TWICE/NAYEON, TWICE/SANA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#287</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/KOTOKO<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#288</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/SEOWON, UNIS/YUNHA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#289</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#290</span>UNIS/GEHLEE, UNIS/NANA, UNIS/YUNHA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#291</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/YUNHA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#292</span>UNIS/KOTOKO, UNIS/SEOWON, UNIS/YUNHA<span class="count">(5)</span></div>
+<div class="pairing"><span class="rank">#293</span>AESPA/NINGNING, IVE/LIZ<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#294</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#295</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#296</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#297</span>FROMIS/JISUN, FROMIS/SAEROM<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#298</span>FROMIS/JIWON, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#299</span>ILLIT/MINJU, ILLIT/MOKA, ILLIT/YUNAH<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#300</span>IVE/GAEUL, IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#301</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/WONYOUNG, IVE/YUJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#302</span>IVE/GAEUL, IVE/LEESEO, IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#303</span>IVE/GAEUL, IVE/LEESEO, IVE/WONYOUNG, IVE/YUJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#304</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#305</span>IVE/LEESEO, IVE/LIZ, IVE/WONYOUNG<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#306</span>IVE/LEESEO, IVE/LIZ, IVE/WONYOUNG, IVE/YUJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#307</span>LOONA/CHUU, LOONA/HEEJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#308</span>LOONA/VIVI, LOONA/YEOJIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#309</span>NEWJEANS/DANIELLE, NEWJEANS/HYEIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#310</span>STAYC/ISA, STAYC/J, STAYC/SUMIN, STAYC/YOON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#311</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SIEUN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#312</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/YOON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#313</span>STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#314</span>TWICE/CHAEYOUNG, TWICE/JEONGYEON, TWICE/NAYEON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#315</span>TWICE/CHAEYOUNG, TWICE/DAHYUN, TWICE/TZUYU<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#316</span>TWICE/DAHYUN, TWICE/MINA, TWICE/SANA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#317</span>TWICE/DAHYUN, TWICE/JEONGYEON, TWICE/MINA, TWICE/NAYEON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#318</span>TWICE/JEONGYEON, TWICE/JIHYO, TWICE/NAYEON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#319</span>TWICE/JEONGYEON, TWICE/MINA, TWICE/TZUYU<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#320</span>TWICE/JIHYO, TWICE/MINA, TWICE/SANA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#321</span>UNIS/ELISIA, UNIS/NANA, UNIS/SEOWON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#322</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/YOONA, UNIS/YUNHA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#323</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/KOTOKO, UNIS/NANA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#324</span>UNIS/ELISIA, UNIS/KOTOKO, UNIS/YOONA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#325</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/NANA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#326</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/NANA, UNIS/YUNHA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#327</span>UNIS/GEHLEE, UNIS/NANA, UNIS/YOONA<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#328</span>UNIS/GEHLEE, UNIS/HYEONJU<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#329</span>UNIS/NANA, UNIS/SEOWON<span class="count">(4)</span></div>
+<div class="pairing"><span class="rank">#330</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/SOYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#331</span>FROMIS/GYURI, FROMIS/NAKYUNG<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#332</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JIWON, FROMIS/NAKYUNG<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#333</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#334</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#335</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/SAEROM<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#336</span>FROMIS/HAYOUNG, FROMIS/JISUN<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#337</span>FROMIS/JIHEON, FROMIS/JIWON, FROMIS/SOYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#338</span>FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#339</span>ILLIT/IROHA, ILLIT/MOKA, ILLIT/WONHEE<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#340</span>ITZY/CHAERYEONG, ITZY/LIA, ITZY/RYUJIN, ITZY/YUNA<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#341</span>ITZY/YUNA, IVE/WONYOUNG<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#342</span>IVE/GAEUL, IVE/LIZ, IVE/WONYOUNG<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#343</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/WONYOUNG<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#344</span>IVE/GAEUL, IVE/REI, IVE/WONYOUNG<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#345</span>IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#346</span>IVE/LEESEO, IVE/LIZ, IVE/REI<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#347</span>LOONA/OLIVIA, LOONA/VIVI<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#348</span>RED VELVET/IRENE, RED VELVET/JOY, RED VELVET/SEULGI<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#349</span>RED VELVET/IRENE, RED VELVET/SEULGI, RED VELVET/WENDY, RED VELVET/YERI<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#350</span>STAYC/ISA, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#351</span>STAYC/ISA, STAYC/SEEUN, STAYC/SIEUN, STAYC/YOON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#352</span>STAYC/ISA, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#353</span>STAYC/ISA, STAYC/J, STAYC/SIEUN<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#354</span>STAYC/ISA, STAYC/SIEUN, STAYC/SUMIN<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#355</span>STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#356</span>TWICE/CHAEYOUNG, TWICE/MOMO, TWICE/NAYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#357</span>TWICE/CHAEYOUNG, TWICE/DAHYUN, TWICE/JEONGYEON, TWICE/JIHYO, TWICE/MINA, TWICE/MOMO, TWICE/NAYEON, TWICE/SANA, TWICE/TZUYU<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#358</span>TWICE/CHAEYOUNG, TWICE/MOMO, TWICE/NAYEON, TWICE/TZUYU<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#359</span>TWICE/DAHYUN, TWICE/JIHYO<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#360</span>TWICE/DAHYUN, TWICE/JEONGYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#361</span>TWICE/JEONGYEON, TWICE/MINA, TWICE/NAYEON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#362</span>TWICE/JEONGYEON, TWICE/JIHYO, TWICE/TZUYU<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#363</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#364</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/SEOWON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#365</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#366</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YUNHA<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#367</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#368</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/YOONA<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#369</span>UNIS/NANA, UNIS/YOONA, UNIS/YUNHA<span class="count">(3)</span></div>
+<div class="pairing"><span class="rank">#370</span>AESPA/GISELLE, AESPA/NINGNING, RED VELVET/YERI<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#371</span>AESPA/WINTER, RED VELVET/YERI<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#372</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#373</span>FROMIS/CHAEYOUNG, FROMIS/JISUN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#374</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#375</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#376</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#377</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#378</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIWON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#379</span>FROMIS/HAYOUNG, FROMIS/JIWON, FROMIS/SAEROM<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#380</span>FROMIS/HAYOUNG, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#381</span>FROMIS/JISUN, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#382</span>FROMIS/JISUN, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#383</span>ILLIT/IROHA, ILLIT/MOKA, ILLIT/YUNAH<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#384</span>ILLIT/IROHA, ILLIT/MINJU, ILLIT/MOKA, ILLIT/WONHEE<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#385</span>ILLIT/MINJU, ILLIT/MOKA, ILLIT/WONHEE<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#386</span>ILLIT/MINJU, ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#387</span>ITZY/CHAERYEONG, ITZY/LIA, ITZY/YEJI, ITZY/YUNA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#388</span>ITZY/CHAERYEONG, ITZY/RYUJIN, ITZY/YEJI, ITZY/YUNA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#389</span>ITZY/RYUJIN, STAYC/ISA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#390</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/YUJIN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#391</span>IVE/GAEUL, IVE/LIZ, IVE/REI, IVE/WONYOUNG, IVE/YUJIN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#392</span>IVE/REI, STAYC/J<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#393</span>LOONA/CHOERRY, LOONA/HEEJIN, LOONA/KIMLIP<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#394</span>LOONA/CHOERRY, LOONA/HASEUL, LOONA/HEEJIN, LOONA/KIMLIP<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#395</span>LOONA/HASEUL, LOONA/YEOJIN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#396</span>LOONA/HEEJIN, LOONA/YEOJIN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#397</span>RED VELVET/IRENE, RED VELVET/SEULGI, TWICE/JIHYO, TWICE/NAYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#398</span>RED VELVET/IRENE, TWICE/JIHYO, TWICE/NAYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#399</span>STAYC/ISA, STAYC/SEEUN, STAYC/SIEUN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#400</span>STAYC/ISA, STAYC/J, STAYC/SIEUN, STAYC/YOON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#401</span>STAYC/ISA, STAYC/J, STAYC/SIEUN, STAYC/SUMIN<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#402</span>STAYC/ISA, STAYC/SEEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#403</span>STAYC/J, STAYC/SEEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#404</span>TWICE/CHAEYOUNG, TWICE/NAYEON, TWICE/SANA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#405</span>TWICE/CHAEYOUNG, TWICE/MINA, TWICE/NAYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#406</span>TWICE/CHAEYOUNG, TWICE/MINA, TWICE/MOMO<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#407</span>TWICE/CHAEYOUNG, TWICE/SANA, TWICE/TZUYU<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#408</span>TWICE/DAHYUN, TWICE/JIHYO, TWICE/MINA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#409</span>TWICE/DAHYUN, TWICE/NAYEON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#410</span>TWICE/DAHYUN, TWICE/JIHYO, TWICE/SANA, TWICE/TZUYU<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#411</span>TWICE/JIHYO, TWICE/MOMO, TWICE/NAYEON, TWICE/SANA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#412</span>TWICE/MINA, TWICE/NAYEON, TWICE/SANA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#413</span>UNIS/ELISIA, UNIS/KOTOKO, UNIS/NANA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#414</span>UNIS/ELISIA, UNIS/KOTOKO, UNIS/SEOWON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#415</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#416</span>UNIS/ELISIA, UNIS/SEOWON, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#417</span>UNIS/ELISIA, UNIS/KOTOKO, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#418</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#419</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/KOTOKO, UNIS/NANA, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#420</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#421</span>UNIS/ELISIA, UNIS/KOTOKO, UNIS/NANA, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#422</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/YOONA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#423</span>UNIS/GEHLEE, UNIS/NANA, UNIS/YOONA, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#424</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#425</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/YOONA, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#426</span>UNIS/HYEONJU, UNIS/NANA, UNIS/SEOWON, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#427</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#428</span>UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#429</span>UNIS/NANA, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(2)</span></div>
+<div class="pairing"><span class="rank">#430</span>AESPA/GISELLE, AESPA/KARINA, AESPA/NINGNING, AESPA/WINTER, FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG, ITZY/CHAERYEONG, ITZY/LIA, ITZY/RYUJIN, ITZY/YEJI, ITZY/YUNA, IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/YUJIN, NEWJEANS/DANIELLE, NEWJEANS/HAERIN, NEWJEANS/HANNI, NEWJEANS/HYEIN, NEWJEANS/MINJI, STAYC/ISA, STAYC/J, STAYC/SEEUN, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#431</span>AESPA/GISELLE, AESPA/NINGNING, AESPA/WINTER, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#432</span>AESPA/GISELLE, AESPA/NINGNING, RED VELVET/IRENE, RED VELVET/JOY, RED VELVET/YERI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#433</span>AESPA/GISELLE, AESPA/KARINA, AESPA/WINTER, NEWJEANS/HANNI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#434</span>AESPA/KARINA, AESPA/NINGNING, NEWJEANS/DANIELLE, NEWJEANS/MINJI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#435</span>AESPA/NINGNING, NEWJEANS/DANIELLE, NEWJEANS/MINJI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#436</span>AESPA/WINTER, RED VELVET/SEULGI, RED VELVET/YERI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#437</span>AESPA/WINTER, ITZY/RYUJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#438</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#439</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#440</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#441</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#442</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#443</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#444</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#445</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#446</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#447</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#448</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#449</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JISUN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#450</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#451</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#452</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#453</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#454</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#455</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#456</span>FROMIS/CHAEYOUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#457</span>FROMIS/CHAEYOUNG, FROMIS/JIHEON, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#458</span>FROMIS/CHAEYOUNG, FROMIS/JIWON, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#459</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#460</span>FROMIS/CHAEYOUNG, FROMIS/HAYOUNG, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#461</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#462</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#463</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/NAKYUNG<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#464</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#465</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#466</span>FROMIS/HAYOUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#467</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#468</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#469</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#470</span>FROMIS/HAYOUNG, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#471</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JIWON, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#472</span>FROMIS/HAYOUNG, FROMIS/JIHEON, FROMIS/JISUN, FROMIS/NAKYUNG<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#473</span>FROMIS/JIHEON, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#474</span>FROMIS/JIHEON, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#475</span>FROMIS/JIHEON, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#476</span>FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#477</span>FROMIS/JIHEON, FROMIS/JIWON, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#478</span>FROMIS/JIHEON, FROMIS/JISUN, FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#479</span>FROMIS/JISUN, FROMIS/JIWON, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#480</span>FROMIS/JISUN, FROMIS/NAKYUNG, FROMIS/SAEROM<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#481</span>FROMIS/JISUN, FROMIS/JIWON, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#482</span>FROMIS/JIWON, FROMIS/NAKYUNG, FROMIS/SAEROM, FROMIS/SOYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#483</span>ILLIT/IROHA, ILLIT/MOKA, ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#484</span>ILLIT/MOKA, ILLIT/WONHEE, ILLIT/YUNAH<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#485</span>ITZY/CHAERYEONG, ITZY/LIA, ITZY/RYUJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#486</span>ITZY/CHAERYEONG, ITZY/RYUJIN, ITZY/YUNA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#487</span>ITZY/RYUJIN, ITZY/YEJI, ITZY/YUNA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#488</span>IVE/GAEUL, IVE/LEESEO, IVE/WONYOUNG<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#489</span>IVE/GAEUL, IVE/LIZ, IVE/REI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#490</span>IVE/GAEUL, IVE/LIZ, IVE/YUJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#491</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/YUJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#492</span>IVE/GAEUL, IVE/LEESEO, IVE/LIZ, IVE/REI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#493</span>IVE/GAEUL, IVE/LIZ, IVE/WONYOUNG, IVE/YUJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#494</span>IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/YUJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#495</span>IVE/LEESEO, IVE/LIZ, IVE/REI, IVE/WONYOUNG<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#496</span>LOONA/CHOERRY, LOONA/HEEJIN, LOONA/JINSOUL, LOONA/KIMLIP<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#497</span>LOONA/GOWON, LOONA/HYUNJIN, LOONA/VIVI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#498</span>LOONA/HYUNJIN, LOONA/OLIVIA, LOONA/VIVI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#499</span>LOONA/HYUNJIN, LOONA/OLIVIA, LOONA/VIVI, LOONA/YEOJIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#500</span>LOONA/KIMLIP, LOONA/YVES<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#501</span>NEWJEANS/DANIELLE, NEWJEANS/HANNI, NEWJEANS/HYEIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#502</span>NEWJEANS/HAERIN, NEWJEANS/HANNI, NEWJEANS/HYEIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#503</span>RED VELVET/IRENE, RED VELVET/SEULGI, RED VELVET/WENDY<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#504</span>RED VELVET/IRENE, RED VELVET/WENDY, RED VELVET/YERI<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#505</span>RED VELVET/IRENE, RED VELVET/SEULGI, TWICE/NAYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#506</span>RED VELVET/JOY, RED VELVET/SEULGI, RED VELVET/WENDY<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#507</span>STAYC/ISA, STAYC/SIEUN, STAYC/SUMIN, STAYC/YOON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#508</span>STAYC/ISA, STAYC/J, STAYC/SUMIN<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#509</span>STAYC/ISA, STAYC/SIEUN, STAYC/YOON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#510</span>TWICE/CHAEYOUNG, TWICE/DAHYUN, TWICE/SANA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#511</span>TWICE/DAHYUN, TWICE/MOMO, TWICE/NAYEON, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#512</span>TWICE/DAHYUN, TWICE/JIHYO, TWICE/MOMO, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#513</span>TWICE/DAHYUN, TWICE/MOMO, TWICE/NAYEON, TWICE/SANA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#514</span>TWICE/DAHYUN, TWICE/MOMO, TWICE/SANA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#515</span>TWICE/DAHYUN, TWICE/JIHYO, TWICE/MOMO, TWICE/NAYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#516</span>TWICE/DAHYUN, TWICE/JIHYO, TWICE/MOMO<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#517</span>TWICE/DAHYUN, TWICE/JIHYO, TWICE/MINA, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#518</span>TWICE/JEONGYEON, TWICE/MOMO, TWICE/SANA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#519</span>TWICE/JIHYO, TWICE/MOMO, TWICE/NAYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#520</span>TWICE/MINA, TWICE/MOMO, TWICE/SANA, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#521</span>TWICE/MINA, TWICE/MOMO, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#522</span>TWICE/MINA, TWICE/MOMO, TWICE/NAYEON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#523</span>TWICE/MOMO, TWICE/SANA, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#524</span>TWICE/MOMO, TWICE/NAYEON, TWICE/TZUYU<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#525</span>UNIS/ELISIA, UNIS/NANA, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#526</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#527</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#528</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#529</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#530</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#531</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#532</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/NANA, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#533</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#534</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#535</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/NANA, UNIS/SEOWON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#536</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/KOTOKO, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#537</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#538</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#539</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/NANA, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#540</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#541</span>UNIS/ELISIA, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#542</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#543</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#544</span>UNIS/ELISIA, UNIS/HYEONJU, UNIS/NANA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#545</span>UNIS/ELISIA, UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#546</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#547</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#548</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/SEOWON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#549</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/SEOWON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#550</span>UNIS/GEHLEE, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#551</span>UNIS/GEHLEE, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#552</span>UNIS/GEHLEE, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#553</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#554</span>UNIS/GEHLEE, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#555</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#556</span>UNIS/GEHLEE, UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#557</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#558</span>UNIS/HYEONJU, UNIS/NANA, UNIS/SEOWON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#559</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#560</span>UNIS/HYEONJU, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#561</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#562</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/YOONA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#563</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#564</span>UNIS/HYEONJU, UNIS/SEOWON, UNIS/YOONA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#565</span>UNIS/HYEONJU, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#566</span>UNIS/HYEONJU, UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#567</span>UNIS/KOTOKO, UNIS/NANA, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#568</span>UNIS/KOTOKO, UNIS/NANA, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+<div class="pairing"><span class="rank">#569</span>UNIS/NANA, UNIS/SEOWON, UNIS/YUNHA<span class="count">(1)</span></div>
+</div>
+<button class="show-more-btn" onclick="const more=this.previousElementSibling;if(more.style.display=='none'){more.style.display='block';this.textContent='Show less';}else{more.style.display='none';this.textContent='Show more';}">Show more</button>
+</div></div>
+<div id="svg-container">
+<div id="graph-container">
+<a href="graph.html" target="_blank" rel="noopener">
+  <img src="member_activity.svg" alt="Member Activity" style="max-width: 1000px; width:100%; height:auto; background:none;">
+</a>
+</div>
+</div>
 <div id="changelog-wrapper">
+    <h3>Changelog</h3>
+  <hr>
   <ul id="changelog-list" class="changelog">
     <!-- JS will fill this -->
   </ul>
@@ -1184,12 +1973,7 @@ html.dark .stats-icon svg {
 
 
 </div>
-<div id="svg-container">
-<a href="graph.html" target="_blank" rel="noopener">
-  <img src="member_activity.svg" alt="Member Activity" style="max-width: 1000px; width:100%; height:auto; background:none;">
-</a>
 
-</div>
 
 </div>
 </div>
@@ -1355,6 +2139,27 @@ try {
 </script>
 
 <script>
+fetch('unique_images.json')
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('unique-images').textContent = 
+    data.unique_images.toLocaleString();
+    })
+    .catch(err => console.error('Error loading unique images JSON:', err));
+</script>
+
+<script>
+fetch('unassigned_count.json')
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('unassigned-images').textContent = 
+    data.unassigned_count.toLocaleString();
+    })
+    .catch(err => console.error('Error loading unassigned count JSON:', err));
+</script>
+
+
+<script>
 fetch('member_counts_last.json')
   .then(response => response.json())
   .then(memberCounts => {
@@ -1368,7 +2173,6 @@ fetch('member_counts_last.json')
       groups[group] += count;
       totalImages += count;
     }
-
     const totalGroups = Object.keys(groups).length;
     const totalMembers = Object.keys(memberCounts).filter(k => !k.startsWith("_")).length;
     const avgImagesPerGroup = Math.round(totalImages / totalGroups);
@@ -1388,6 +2192,7 @@ fetch('member_counts_last.json')
     const avgSizePerImageMB = archiveGB > 0 ? (archiveGB * 1024) / totalImages : 0;
 
     document.getElementById('total-images').textContent = totalImages.toLocaleString();
+    
     document.getElementById('total-groups').textContent = totalGroups;
     document.getElementById('total-members').textContent = totalMembers;
     document.getElementById('avg-images-per-group').textContent = avgImagesPerGroup.toLocaleString();
