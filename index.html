@@ -471,7 +471,7 @@ html.dark .button-link:hover {
   color: #000;
   border: 2px groove #aaa;
   max-width: 600px;
-  margin: 30px 0;
+  /*margin: 30px 0;*/
   box-sizing: border-box;
   padding: 0;
   max-width: 600px;
@@ -488,33 +488,18 @@ html.dark .button-link:hover {
   align-items: center;
 }
 
-html.dark .about-and-gallery {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px; /* about, recent */
-  width: 100%;
-  margin: 0 auto;
-  padding-right: 40px;
-  padding-left: 40px;
-  box-sizing: border-box;
-  align-items: start;
-  /*border: 2px solid #888; 
-  border-radius: 6px;    
-  background: linear-gradient(0deg, #1b1b1b, #121212);*/
-}
+
 .about-and-gallery {
-    display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px; /* about, recent */
+  display: grid;
+  grid-template-columns:
+  minmax(400px, 1fr) 300px 300px;
   gap: 30px;
   width: 100%;
   margin: 0 auto;
   padding-right: 40px;
-  padding-left: 40px;
   box-sizing: border-box;
   align-items: start;
-  /*border: 2px solid #888; 
-  border-radius: 6px; 
-  background: linear-gradient(0deg, #dcdcdc, #f0f0f0);
-  border: solid 1px hsl(0, 0%, 70%);*/
+  padding-top: 20px;
 }
 
 .about-window {
@@ -523,7 +508,7 @@ html.dark .about-and-gallery {
 
 .recent-wrapper {
   grid-column: 2;
-  width: 100%; /* Match grid column width */
+  width: 100%; 
   display: flex;
   flex-direction: column;
   font-family: 'MS Sans Serif', Tahoma, Geneva, sans-serif;
@@ -531,14 +516,11 @@ html.dark .about-and-gallery {
   color: #000;
   border: 2px groove #aaa;
   box-sizing: border-box;
-  padding: 10px; /* added padding so content isn't flush against border */
-  transform: translateY(40px);
-
-
+  padding: 10px; 
   box-shadow:
-    0 0 10px rgba(0, 0, 0, 0.1),   /* soft inner dark edge */
-    0 0 6px rgba(0, 0, 0, 0.1),    /* faint outer dark glow */
-    0 0 8px rgba(255, 255, 255, 0.6); /* crisp white outer glow */
+    0 0 10px rgba(0, 0, 0, 0.1),   
+    0 0 6px rgba(0, 0, 0, 0.1),    
+    0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 html.dark .recent-wrapper {
@@ -567,6 +549,8 @@ html.dark .recent-wrapper h2 {
 }
 
 
+
+
 .recent-gallery-box {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -575,8 +559,9 @@ html.dark .recent-wrapper h2 {
   overflow-y: auto;
   width: 100%;
   align-content: start;
-  scrollbar-width: 1px;
-  scrollbar-color: rgba(120, 120, 120, 0.6) transparent;  /* thumb / track */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 120, 0.6) transparent;
+  padding-right: 7px;
 }
 
 
@@ -590,11 +575,8 @@ html.dark .recent-wrapper h2 {
 }
 
 
-/* Dark mode styles as you had */
-html.dark .recent-gallery-box {
-  background: #2e2e2e;
-  color: #ddd;
-}
+
+
 
 
 html.dark .about-window.win98-style {
@@ -1070,13 +1052,18 @@ html.dark .icon-button svg {
 }
 
 
-  #donate-button {
-    position: absolute !important;
-    top: 10px !important;
-    right: 10px !important;
-    z-index: 9999 !important;
-    background: transparent;
-  }
+#donate-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+}
+
+
+#donate-button img {
+  display: block;
+}
+
 
 #volume-tree-button-wrapper {
   position: relative; 
@@ -1090,7 +1077,7 @@ html.dark .icon-button svg {
   display: flex;
   flex-direction: column;
   grid-column: 2; 
-  gap: 65px;      
+  gap: 30px;      
 }
 
 .right-bottom {
@@ -1229,6 +1216,63 @@ html.dark #feedback form label {
   color: var(--acc-dark);
 }
 
+html.dark .update-history h3 {
+  color: var(--acc-dark);
+}
+
+.update-history h3 {
+  color: var(--acc-light);
+  margin: auto;
+  padding: 4px 8px;
+  font-size: 16px;
+}
+
+html.dark .update-history {
+  color: white;
+  background: var(--card-bg-dark);
+  box-shadow: var(--sdw-dark);
+}
+
+.update-history {
+  width: 300px;
+  border: 2px groove #aaa;
+  color: #000;
+  box-shadow: var(--sdw-light);
+  background: var(--card-bg-light);
+  padding: 10px;
+  overflow: visible;
+}
+
+.update-list {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 5px;
+  font-size: 10px;
+  padding-left: 5px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 120, 0.6) transparent;
+}
+
+
+
+.update-entry {
+  font-family: monospace;
+  margin-bottom: 8px;
+}
+
+html.dark .update-timestamp {
+  color: var(--acc-dark)
+}
+
+.update-timestamp {
+  font-family: monospace;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--acc-light)
+}
+
 
 </style>
 </head>
@@ -1271,7 +1315,15 @@ html.dark #feedback form label {
 -->
 
 
-
+<div id="donate-button">
+<form action="https://www.paypal.com/donate" method="post" target="_blank">
+<input type="hidden" name="business" value="NZYY9RMN3P58C" />
+<input type="hidden" name="no_recurring" value="0" />
+<input type="hidden" name="currency_code" value="USD" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+</form>
+</div>
 <div class="all">
 <div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
 <div class="sidebar">
@@ -1467,15 +1519,7 @@ html.dark #feedback form label {
 </div>
 
 </div>
-<div id="donate-button">
-<form action="https://www.paypal.com/donate" method="post" target="_blank">
-<input type="hidden" name="business" value="NZYY9RMN3P58C" />
-<input type="hidden" name="no_recurring" value="0" />
-<input type="hidden" name="currency_code" value="USD" />
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-</form>
-</div>
+
 <div class="content-wrapper">
     <div class="main">
     <div class="main-content">
@@ -1701,17 +1745,65 @@ document.getElementById("feedback-form").addEventListener("submit", async (e) =>
   }
 });
 </script>
+</div>
+</div>
+<div class="update-history">
+  <h3>Update History</h3>
+  <div class="update-list"></div>
+</div>
 
+<script>
+fetch('update_history.json')
+  .then(res => res.json())
+  .then(history => {
+    const container = document.querySelector('.update-list');
+    container.innerHTML = '';
+
+    // Loop through updates (most recent first)
+    history.slice().reverse().forEach(update => {
+
+      // --- Timestamp + total added ---
+      const timestampDiv = document.createElement('div');
+      timestampDiv.className = 'update-timestamp';
+
+      // Format as [+17,745]
+      const formattedTotal = update.total
+        ? `[+${update.total.toLocaleString()}]`
+        : '';
+
+      timestampDiv.textContent = `${update.timestamp} ${formattedTotal}`;
+      container.appendChild(timestampDiv);
+
+      // --- Per-group breakdown ---
+      update.groups.forEach(group => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'update-entry';
+
+        const members = group.members
+          .map(m => `${m.name} +${m.count}`)
+          .join(', ');
+
+        groupDiv.textContent = `${group.name} (+${group.total}) | ${members}`;
+        container.appendChild(groupDiv);
+      });
+
+      // Optional separator
+      const sep = document.createElement('hr');
+      sep.style.margin = '8px 0';
+      container.appendChild(sep);
+    });
+  })
+  .catch(err => console.error('Failed to load update history:', err));
+</script>
+
+
+
+
+</div>
 </div>
 
 
-</div>
 
-
-
-
-</div>
-</div>
 
 
 
