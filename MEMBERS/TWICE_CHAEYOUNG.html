@@ -1986,37 +1986,42 @@ window.scrollToDate = () => {
   // 2) Stop eviction
   io.disconnect();
 
-  // 3) Eagerly load all chunks up to bestIdx so offsets are accurate
-  for (let i = 0; i <= bestIdx; i++) {
-    const wrap = document.querySelector(`[data-chunk-index="${i}"]`);
-    if (wrap && !wrap.innerHTML.trim()) {
-      console.log("scrollToDate: eagerly loading chunk", i);
-      wrap.innerHTML = imageChunks[i];
+  const wrap = document.querySelector(`[data-chunk-index="${bestIdx}"]`);
+  if (wrap && !wrap.innerHTML.trim()) {
+    wrap.innerHTML = imageChunks[bestIdx];
+    wrap.style.minHeight = 'auto';
+    wrap.style.display = 'contents';
+  }
+
+
+  // 4) Scroll to wrapper, load only target chunk, then scroll to exact image
+  requestAnimationFrame(() => {
+    // Step A: scroll to the wrapper even if empty
+    const wrap = document.querySelector(`[data-chunk-index="${bestIdx}"]`);
+    wrap.scrollIntoView({ behavior: 'instant', block: 'start' });
+
+    // Step B: ensure the target chunk is loaded
+    if (!wrap.innerHTML.trim()) {
+      wrap.innerHTML = imageChunks[bestIdx];
       wrap.style.minHeight = 'auto';
       wrap.style.display = 'contents';
     }
-  }
 
-  // 4) Next frame, highlight & scroll
-  requestAnimationFrame(() => {
+    // Step C: next frame → now items exist
     requestAnimationFrame(() => {
-      const matches = Array.from(
-        gallery.querySelectorAll(`.item[data-yymmdd="${bestYymmdd}"]`)
-      );
-      console.log("scrollToDate: matches count", matches.length);
+      const matches = wrap.querySelectorAll(`.item[data-yymmdd="${bestYymmdd}"]`);
       matches.forEach(el => el.classList.add('highlight'));
 
       if (matches.length) {
         const el = matches[matches.length - 1];
-        console.log("scrollToDate: element.offsetTop =", el.offsetTop);
-        console.log("scrollToDate: element.getBoundingClientRect().top =", el.getBoundingClientRect().top);
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
 
-      // 5) Resume virtualization
+      // Step D: resume virtualization
       document.querySelectorAll('[data-chunk-index]').forEach(c => io.observe(c));
     });
   });
+
 };
 
     // 7) Dark mode toggle

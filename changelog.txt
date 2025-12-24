@@ -1,3 +1,4 @@
+251223 – Fixed scrolltodate loading all prior chunks
 251129 – Added update history to index and volume tree
 251111 – Redesigned volume tree; Added groupings section, undated and unique image count, feedback input to index
 251105 – Set default gallery layout to grid
