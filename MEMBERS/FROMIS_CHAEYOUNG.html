@@ -1153,15 +1153,17 @@ document.addEventListener('click', (e) => {
     if (!dl) return;
 
     const url = new URL(dl.href);
-    // Extract group/member/filename from URL path
-    const parts = url.pathname.split('/'); // ['', 'UNIS', 'SEOWON', 'G-WkP3La4AAUahd.jpg']
-    const cleanPath = parts.slice(1).join('/'); // 'UNIS/SEOWON/G-WkP3La4AAUahd.jpg'
 
+    // ['', 'UNIS', 'SEOWON', 'G-WkP3La4AAUahd.jpg']
+    const parts = url.pathname.split('/');
+    const cleanPath = parts.slice(1).join('/');
+
+    // Fire-and-forget logging ping to YOUR Nginx server
     const i = new Image();
-    i.src = `/dl-event/${cleanPath}?t=${Date.now()}`;
+    i.src = `https://terril.duckdns.org/dl-event/${cleanPath}`;
 });
-
 </script>
+
 
 </body>
 </html>
