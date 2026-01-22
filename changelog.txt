@@ -1,3 +1,4 @@
+260122 – Certain stat calls now read from SQLite instead of filesystem; ft_index no longer includes single member images
 260112 – Fixed metabox being pushed off-screen on small screens/wide images; Improved logging
 251223 – Fixed scrolltodate loading all prior chunks
 251129 – Added update history to index and volume tree
