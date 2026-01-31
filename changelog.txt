@@ -1,3 +1,4 @@
+260131 – Added custom WebGL glass shader zoom lens in lightbox; Refactored layout to isolate sidebar and unify scroll container; Added sticky header, updated settings box style+added theme indicator, resolved mobile Safari body scroll and padding/margin overflow; finally added favicon.ico to volume tree page; Improved event logging
 260122 – Certain stat calls now read from SQLite instead of filesystem; ft_index no longer includes single member images
 260112 – Fixed metabox being pushed off-screen on small screens/wide images; Improved logging
 251223 – Fixed scrolltodate loading all prior chunks
