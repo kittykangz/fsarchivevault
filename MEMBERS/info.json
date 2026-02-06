@@ -1,0 +1,529 @@
+{
+    "unis_hyeonju": {
+        "full_name": "Jin Hyeon Ju (진현주)",
+        "birth_date": "2001-11-03",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "unis_nana": {
+        "full_name": "Nokubi Nana (野首なな)",
+        "birth_date": "2007-06-06",
+        "country": "JP",
+        "other_info": ""
+    },
+
+    "unis_gehlee": {
+        "full_name": "Gehlee Gimena Dangca",
+        "birth_date": "2007-08-19",
+        "country": "PH",
+        "other_info": ""
+    },    
+
+    "unis_kotoko": {
+        "full_name": "Kawata Kotoko (河田こと子)",
+        "birth_date": "2007-10-28",
+        "country": "JP",
+        "other_info": ""
+    },   
+    
+    "unis_yunha": {
+        "full_name": "Bang Yunha (방윤하)",
+        "birth_date": "2009-02-28",
+        "country": "KR",
+        "other_info": ""
+    },   
+    
+
+    "unis_elisia": {
+        "full_name": "Elisia Lyrisse C. Parmisano",
+        "birth_date": "2009-04-18",
+        "country": "PH",
+        "other_info": ""
+    },
+
+    "unis_yoona": {
+        "full_name": "Oh Yoona (오윤아)",
+        "birth_date": "2009-10-07",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "unis_seowon": {
+        "full_name": "Lim Seowon (임서원)",
+        "birth_date": "2011-01-27",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "illit_yunah": {
+        "full_name": "Noh Yun-ah (노윤아)",
+        "birth_date": "2004-01-15",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "illit_minju": {
+        "full_name": "Park Min-ju (박민주)",
+        "birth_date": "2004-05-11",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "illit_moka": {
+        "full_name": "Sakai Moka (さかい もか)",
+        "birth_date": "2004-10-08",
+        "country": "JP",
+        "other_info": ""
+    },
+    
+    "illit_wonhee": {
+        "full_name": "Lee Won-hee (이원희)",
+        "birth_date": "2007-06-26",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "illit_iroha": {
+        "full_name": "Hokazono Iroha (外園 いろは)",
+        "birth_date": "2008-02-04",
+        "country": "JP",
+        "other_info": ""
+    }, 
+    
+    "newjeans_minji": {
+        "full_name": "Kim Minji (김민지)",
+        "birth_date": "2004-05-07",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "newjeans_hanni": {
+        "full_name": "Hanni Pham (Phạm Ngọc Hân)",
+        "birth_date": "2004-10-06",
+        "countries": ["VN", "AU"],
+        "other_info": ""
+    },
+
+    "newjeans_danielle": {
+        "full_name": "Danielle Marsh",
+        "birth_date": "2005-04-11",
+        "countries": ["KR", "AU"],
+        "other_info": ""
+    },    
+
+    "newjeans_haerin": {
+        "full_name": "Kang Haerin (강해린)",
+        "birth_date": "2006-05-15",
+        "country": "KR",
+        "other_info": ""
+    },  
+    
+    "newjeans_hyein": {
+        "full_name": "Lee Hyein (이혜인)",
+        "birth_date": "2008-04-21",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "ive_gaeul": {
+        "full_name": "Kim Ga-eul (김가을)",
+        "birth_date": "2002-09-24",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "ive_yujin": {
+        "full_name": "An Yu-jin (안유진)",
+        "birth_date": "2003-09-01",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "ive_rei": {
+        "full_name": "Naoi Rei (直井れい)",
+        "birth_date": "2004-02-03",
+        "country": "JP",
+        "other_info": ""
+    },
+    
+    "ive_wonyoung": {
+        "full_name": "Jang Won-young (장원영)",
+        "birth_date": "2004-08-31",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "ive_liz": {
+        "full_name": "Kim Ji-won (김지원)",
+        "birth_date": "2004-11-21",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "ive_leeseo": {
+        "full_name": "Lee Hyun-seo (이현서)",
+        "birth_date": "2007-02-21",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "stayc_sumin": {
+        "full_name": "Bae Su Min (배수민)",
+        "birth_date": "2001-03-13",
+        "country": "KR",
+        "other_info": ""
+    },    
+
+    "stayc_sieun": {
+        "full_name": "Park Si Eun (박시은)",
+        "birth_date": "2001-08-01",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "stayc_isa": {
+        "full_name": "Lee Chae Young (이채영)",
+        "birth_date": "2002-01-23",
+        "country": "KR",
+        "other_info": ""
+    },    
+
+    "stayc_seeun": {
+        "full_name": "Yoon Se Eun (윤세은)",
+        "birth_date": "2003-07-14",
+        "country": "KR",
+        "other_info": ""
+    },    
+    
+    "stayc_yoon": {
+        "full_name": "Sim Ja Yun (심자윤)",
+        "birth_date": "2004-04-14",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "stayc_j": {
+        "full_name": "Jang Ye Eun (장예은)",
+        "birth_date": "2004-12-09",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "aespa_karina": {
+        "full_name": "Yu Ji-min (유지민)",
+        "birth_date": "2000-04-11",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "aespa_giselle": {
+        "full_name": "Uchinaga Aeri (内永えり)",
+        "birth_date": "2000-10-30",
+        "countries": ["JP", "KR"],
+        "other_info": ""
+    },
+    
+    "aespa_winter": {
+        "full_name": "Kim Min-jeong (김민정)",
+        "birth_date": "2001-01-01",
+        "country": "KR",
+        "other_info": ""
+    },
+    
+    "aespa_ningning": {
+        "full_name": "Ning Yizhuo (宁艺卓)",
+        "birth_date": "2002-10-23",
+        "country": "CN",
+        "other_info": ""
+    },
+
+    "fromis_saerom": {
+        "full_name": "Lee Sae‑rom (이새롬)",
+        "birth_date": "1997-01-07",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_hayoung": {
+        "full_name": "Song Ha‑young (송하영)",
+        "birth_date": "1997-09-29",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_gyuri": {
+        "full_name": "Jang Gyu‑ri (장규리)",
+        "birth_date": "1997-12-27",
+        "country": "KR",
+        "other_info": ""
+    },    
+
+    "fromis_jiwon": {
+        "full_name": "Park Ji‑won (박지원)",
+        "birth_date": "1998-03-20",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_jisun": {
+        "full_name": "Roh Ji‑sun (노지선)",
+        "birth_date": "1998-11-23",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_soyeon": {
+        "full_name": "Lee Seo‑yeon (이서연)",
+        "birth_date": "2000-01-22",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_chaeyoung": {
+        "full_name": "Lee Chae‑young (이채영)",
+        "birth_date": "2000-05-14",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_nakyung": {
+        "full_name": "Lee Na‑gyung (이나경)",
+        "birth_date": "2000-06-01",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "fromis_jiheon": {
+        "full_name": "Baek Ji‑heon (백지헌)",
+        "birth_date": "2003-04-17",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_vivi": {
+        "full_name": "Wong Kahei (黃嘉熙)",
+        "birth_date": "1996-12-09",
+        "country": "HK",
+        "other_info": ""
+    },
+
+    "loona_yves": {
+        "full_name": "Ha Soo‑young (하수영)",
+        "birth_date": "1997-05-24",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_jinsoul": {
+        "full_name": "Jeong Jin‑sol (정진솔)",
+        "birth_date": "1997-06-13",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_haseul": {
+        "full_name": "Cho Ha‑seul (조하슬)",
+        "birth_date": "1997-08-18",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_kimlip": {
+        "full_name": "Kim Jung‑eun (김정은)",
+        "birth_date": "1999-02-10",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_chuu": {
+        "full_name": "Kim Ji‑woo (김지우)",
+        "birth_date": "1999-10-20",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_heejin": {
+        "full_name": "Jeon Hee‑jin (전희진)",
+        "birth_date": "2000-10-19",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_hyunjin": {
+        "full_name": "Kim Hyun‑jin (김현진)",
+        "birth_date": "2000-11-15",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_gowon": {
+        "full_name": "Park Chae‑won (박채원)",
+        "birth_date": "2000-11-19",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_choerry": {
+        "full_name": "Choi Ye‑rim (최예림)",
+        "birth_date": "2001-06-04",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_olivia": {
+        "full_name": "Son Hye‑ju (손혜주)",
+        "birth_date": "2001-11-13",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "loona_yeojin": {
+        "full_name": "Im Yeo‑jin (임여진)",
+        "birth_date": "2002-11-11",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "itzy_yeji": {
+        "full_name": "Hwang Ye‑ji (황예지)",
+        "birth_date": "2000-05-26",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "itzy_lia": {
+        "full_name": "Choi Ji‑su (최지수)",
+        "birth_date": "2000-07-21",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "itzy_ryujin": {
+        "full_name": "Shin Ryujin (신류진)",
+        "birth_date": "2001-04-17",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "itzy_chaeryeong": {
+        "full_name": "Lee Chaeryeong (이채령)",
+        "birth_date": "2001-06-05",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "itzy_yuna": {
+        "full_name": "Shin Yu‑na (신유나)",
+        "birth_date": "2003-12-09",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "iu_iu": {
+        "full_name": "Lee Ji Eun (이지은)",
+        "birth_date": "1993-05-16",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "redvelvet_irene": {
+        "full_name": "Bae Ju hyun (배주현)",
+        "birth_date": "1991-03-29",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "redvelvet_seulgi": {
+        "full_name": "Kang Seul Gi (강슬기)",
+        "birth_date": "1994-02-10",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "redvelvet_wendy": {
+        "full_name": "Son Seung Wan (손승완)",
+        "birth_date": "1994-02-21",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "redvelvet_joy": {
+        "full_name": "Park Soo Young (박수영)",
+        "birth_date": "1996-09-03",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "redvelvet_yeri": {
+        "full_name": "Kim Ye Rim (김예림)",
+        "birth_date": "1999-03-05",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "twice_nayeon": {
+        "full_name": "Im Na‑yeon (임나연)",
+        "birth_date": "1995-09-22",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "twice_jeongyeon": {
+        "full_name": "Yoo Jeong‑yeon (유정연)",
+        "birth_date": "1996-11-01",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "twice_momo": {
+        "full_name": "Hirai Momo (平井もも)",
+        "birth_date": "1996-11-09",
+        "country": "JP",
+        "other_info": ""
+    },
+
+    "twice_sana": {
+        "full_name": "Minatozaki Sana (湊崎紗夏)",
+        "birth_date": "1996-12-29",
+        "country": "JP",
+        "other_info": ""
+    },
+
+    "twice_jihyo": {
+        "full_name": "Park Jihyo (박지효)",
+        "birth_date": "1997-02-01",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "twice_mina": {
+        "full_name": "Myoui Mina (名井南)",
+        "birth_date": "1997-03-14",
+        "countries": ["JP", "US"],
+        "other_info": ""
+    },
+
+    "twice_dahyun": {
+        "full_name": "Kim Dahyun (김다현)",
+        "birth_date": "1998-05-28",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "twice_chaeyoung": {
+        "full_name": "Son Chae-young (손채영)",
+        "birth_date": "1999-04-23",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "twice_tzuyu": {
+        "full_name": "Chou Tzuyu (周子瑜)",
+        "birth_date": "1999-06-14",
+        "country": "TW",
+        "other_info": ""
+    }
+
+
+}

@@ -43,6 +43,7 @@ try {
     color: var(--acc-light);
     height: 100%;
     justify-content: center;
+    scrollbar-width: none;
   }
 
   html.dark, html.dark body {
@@ -1053,15 +1054,26 @@ html.dark .icon-button svg {
 
 
 #donate-button {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 9999;
+  position: fixed !important;
+  top: 0px !important;
+  right: 0px !important;
+  z-index: 9999 !important;
+  background: transparent;
+  user-select: none;
+  filter: invert(1);
 }
 
+html.dark #donate-button {
+  filter: none;
+}
 
-#donate-button img {
+#donate-button input[type="image"] {
+  width: clamp(100px, 15vw, 200px);
+  height: auto;
   display: block;
+
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 
@@ -1316,13 +1328,13 @@ html.dark .update-timestamp {
 
 
 <div id="donate-button">
-<form action="https://www.paypal.com/donate" method="post" target="_blank">
-<input type="hidden" name="business" value="NZYY9RMN3P58C" />
-<input type="hidden" name="no_recurring" value="0" />
-<input type="hidden" name="currency_code" value="USD" />
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-</form>
+  <form action="https://www.paypal.com/donate" method="post" target="_blank">
+    <input type="hidden" name="business" value="NZYY9RMN3P58C" />
+    <input type="hidden" name="no_recurring" value="0" />
+    <input type="hidden" name="currency_code" value="USD" />
+    <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+  </form>
 </div>
 <div class="all">
 <div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">

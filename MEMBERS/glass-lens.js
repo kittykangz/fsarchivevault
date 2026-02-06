@@ -174,11 +174,23 @@
         let zoom = 1.0;
 
 
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.src = opts.imageSrc;
+        let img;
 
-        img.onload = () => {
+        if (opts.imageElement instanceof HTMLImageElement) {
+            // Use the already-loaded shared image
+            img = opts.imageElement;
+
+            // Run the onload logic immediately because it's already loaded
+            initializeTexture();
+        } else {
+            // Fallback: load from URL (current behavior)
+            img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = initializeTexture;
+            img.src = opts.imageSrc;
+        }
+
+        function initializeTexture() {
             const tex = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, tex);
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -208,7 +220,8 @@
             }
 
             render();
-        };
+        }
+
 
         return {
             setPointer(x, y) {
