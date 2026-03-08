@@ -1912,17 +1912,18 @@ html.dark .gl-bar-circle .fg {
 
 .gl-status {
     margin-top: 5px;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     opacity: 0.55;
     text-align: center;
-    height: 20px;
+    height: 45px;
     font-family: 'IBM Plex Mono', 'Consolas', 'Courier New', monospace;
     line-height: 1.25;
     white-space: normal;
     overflow-wrap: break-word;
-    width: 160px;
+    width: 180px;
     transition: opacity 0.4s ease;
     pointer-events: none;
+    overflow: hidden;
 }
 
 html.dark .gl-status {
@@ -2032,4 +2033,7 @@ html.dark .rare-message {
 @keyframes midSubsurface {
     50% { background-position: 0 100%; }
 }
+
+
+
 
