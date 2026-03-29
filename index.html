@@ -4,13 +4,16 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 
 
 <script>
 try {
   let theme = localStorage.getItem('theme');
   if (!theme) {
-    theme = 'dark'; // default
+    theme = 'dark';
     localStorage.setItem('theme', theme);
   }
   document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -21,7 +24,45 @@ try {
 
 <title>Home</title>
 <style>
+  html.dark {
+  --gold:          #c9b97a;
+  --gold-bg:       rgba(201,185,122,0.10);
+  --gold-border:   rgba(201,185,122,0.30);
+
+  --bg:            #111010;
+  --bg-surface:    #1a1917;
+  --bg-deep:       #0d0c0b;
+
+  --border:        rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.12);
+
+  --text-primary:  #e8e3dc;
+  --text-secondary:#7a7268;
+  --text-muted:    #4a4840;
+  --text-faint:    #2e2c29;
+
+  --topbar-bg:     rgba(13,12,11,0.96);
+  --sidebar-bg:    #0d0c0b;
+}
 :root {
+  --gold:          #c9b97a;
+  --gold-bg:       rgba(201,185,122,0.10);
+  --gold-border:   rgba(201,185,122,0.30);
+
+  --bg:            #f5f2ec;
+  --bg-surface:    #edeae3;
+  --bg-deep:       #e4e0d8;
+  --border:        rgba(0,0,0,0.09);
+  --border-strong: rgba(0,0,0,0.14);
+
+  --text-primary:  #1a1916;
+  --text-secondary:#5a5650;
+  --text-muted:    #8a857d;
+  --text-faint:    #b0ab a3;
+
+  --topbar-bg:     rgba(237,234,227,0.96);
+  --sidebar-bg:    #e8e4dc;
+
 --bg-dark: #121212;
 --bg-light: #ddd;
 --card-bg-dark: #222;
@@ -39,79 +80,22 @@ try {
   html, body {
     padding: 0;
     font-family: Tahoma, sans-serif;
-    background: var(--bg-light);
-    color: var(--acc-light);
+    background: var(--bg);
     height: 100%;
     justify-content: center;
     scrollbar-width: none;
+    margin: 0;
   }
 
-  html.dark, html.dark body {
-    background: var(--bg-dark);
-    color: var(--acc-dark);
-  }
 
 .folder-toggle:hover {
   background: transparent;
-  color: var(--acc-light) !important;
-  text-decoration: underline !important;
+  filter: brightness(2);
 }
 
-html.dark .folder-toggle:hover {
-  color: var(--acc-dark) !important;
-}
-
-/* CROSSHAIR 
-body::before, body::after {
-  content: "";
-  position: fixed;
-  background: red;
-  z-index: 99999;
-  pointer-events: none;
-}
-
-body::before {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-}
-
-body::after {
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-}
-
-
-*/
-
-
-  /* DELETE 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(255, 0, 0, 1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 0, 0, 1) 1px, transparent 1px);
-  background-size: 10px 10px;
-  z-index: 99999;
-}
-
-  */
 
 .content-wrapper {
   box-sizing: border-box;
-  max-width: 1200px;       
-  margin: 0 auto;  
-  max-height: fit-content;            
-  max-width: fit-content;
 }
 
 .sidebar hr {
@@ -120,27 +104,18 @@ body::before {
 
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 44px;
   left: -60px;
   bottom: 0;
-  width: 250px;
-  font-family: Tahoma, monospace, monospace;
-  background: var(--card-bg-light);
-  border-right: none;
+  width: 253px;
+  font-family: 'DM Sans', Tahoma, monospace;
+  background: var(--bg-deep);
+  border-right: 0.5px solid var(--border);
   z-index: 999;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  box-shadow: var(--sdw-light);
-  border-right: 2px groove #aaa;
 }
 
-html.dark .sidebar {
-  background: var(--card-bg-dark);
-  border-right: none;
-  box-shadow: var(--sdw-dark);
-  
-}
 
 .search-container {
   display: flex;
@@ -151,10 +126,6 @@ html.dark .sidebar {
   z-index: 2;
 }
 
-
-html.dark .search-container {
-  background: transparent;
-}
 
 .searchandbuttons {
   display: flex;
@@ -172,27 +143,37 @@ html.dark .search-container {
   padding-top: 5px;
   align-items: center;
   box-sizing: border-box;
+  fill: var(--text-secondary);
 }
 
 
 
 #sidebarSearch {
-  width: 120px;  /* shorter width */
+  width: 140px;
+  padding: 6px 10px;
   font-size: 12px;
-  padding: 4px 6px;
-  font-family: Tahoma, sans-serif;
-  border: 2px inset #fff;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: white;
-  color: black;
+  font-family: 'DM Sans', sans-serif;
+
+  background: var(--bg-surface);
+  color: var(--text-primary);
+
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+
   outline: none;
+  transition: 
+    border-color 0.1s ease,
+    box-shadow 0.1s ease;
 }
 
-html.dark #sidebarSearch {
-  background: #222;
-  color: #eee;
-  border-color: #444;
+#sidebarSearch::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+#sidebarSearch:focus {
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--gold-bg);
 }
 
 
@@ -220,6 +201,8 @@ html.dark .search-container a:hover {
   scrollbar-width: none;
   -ms-overflow-style: none;
   z-index: 9999999999;
+  padding-bottom: 100px;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbars (modern browsers) */
@@ -264,17 +247,10 @@ html.dark .search-container a:hover {
 
   }
 
-  html.dark .folder-tree,
-  html.dark .folder-tree ul {
-    color: #ddd;
-  }
-
   .folder-tree li {
     position: relative;
     margin: 0;
-    padding-left: 24px;
-
-
+    padding-left: 25px;
   }
 
   .folder-tree > li::before {
@@ -285,22 +261,8 @@ html.dark .search-container a:hover {
     bottom: 12px;
   }
 
-  .folder-tree ul > li > a::before {
-  content: "├──";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #999;
-  font-weight: normal;
-  user-select: none;
-  z-index: 1;
-  padding-right: 8px;
-}
 
-  .folder-tree ul > li:last-child > a::before {
-    content: "└──";
-  }
+.member-list li:last-child a::before { content: "└──"; }
 
 .folder-tree > li > button.folder-toggle::after {
   content: "/";
@@ -308,25 +270,30 @@ html.dark .search-container a:hover {
   right: -12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #999;
+  color: var(--gold);
   font-weight: normal;
   user-select: none;
   z-index: 1;
+  bottom: -5px;
 }
 
 button.folder-toggle {
-  font-weight: bold;
+  display: block;
   height: 25px;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   cursor: pointer;
   padding: 4px 0 4px 37px;
-  color: #000;
+  color: var(--gold);
   position: relative;
   user-select: none;
   white-space: nowrap;
   z-index: 2;
   -webkit-tap-highlight-color: transparent;
+  transition: filter 0.8s ease-out;
 }
 button.folder-toggle,
 button.folder-toggle:focus,
@@ -339,60 +306,47 @@ button.folder-toggle *:focus {
   background: transparent !important;
 }
 
-  html.dark button.folder-toggle {
-    color: #eee;
-  }
-  
-  button.folder-toggle:focus,
-button.folder-toggle:focus-visible,
-button.folder-toggle:focus-within {
-  outline: none !important;
-  box-shadow: none !important;
-}
 
-button.folder-toggle::-moz-focus-inner {
-  border: 0;
-}
-
-
-
-
-/* === CUSTOM SCROLLBAR === */
-
-.member-list {
-  list-style: none;
-  margin: 4px 0 8px 0;
-  padding-left: 20px;
-}
+.member-list { list-style: none; padding: 0; margin: 0 0 4px; }
 .member-list li a {
-  color: #000;
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 2px 0 2px 32px;  
+  letter-spacing: 0.04em;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: normal;      /* Make ALL links bold to prevent shift */
-  padding: 2px 0 2px 32px;
   position: relative;
-  user-select: none;
+  transition: color 0.15s, background 0.15s;
   white-space: nowrap;
   z-index: 2;
+  font-family: 'DM Sans', Tahoma, monospace;
+  width: 100%;
+  transition: color 0.5s ease-out;
 }
-html.dark .member-list li a {
-  color: #ddd;
-}
-.member-list li a:hover {
-  text-decoration: underline;
-  color: var(--acc-light);
-}
-html.dark .member-list li a:hover {
-  color: var(--acc-dark) !important;
+.member-list li a::before {
+  content: "├──";
+  position: absolute;
+  left: 0px;
+  color: var(--border-strong);
+  font-size: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
 }
 
+.member-list li a:hover {
+  color: var(--text-primary);
+}
+
+
+
+.member-list li a.current-member { color: var(--gold); font-weight: 500; }
 .current-member {
   font-weight: bold;
   color: var(--acc-light) !important; 
   text-decoration: underline;
 }
 
-/* Keep the pink color on visited and hover */
 .current-member:visited,
 .current-member:hover {
   color: var(--acc-light) !important;
@@ -421,7 +375,6 @@ html.dark .current-member:hover {
     margin-bottom: 10px;
   }
 
-/* Light mode */
 .button-link {
   padding-top: 4px !important;
   padding-bottom: 8px !important;
@@ -449,7 +402,6 @@ html.dark .current-member:hover {
   background: #dcdcdc;
 }
 
-/* Dark mode */
 html.dark .button-link {
   background: #2d2d2d;
   border: 2px outset #444;
@@ -467,20 +419,11 @@ html.dark .button-link:hover {
 }
 
 .about-window.win98-style {
-  font-family: 'MS Sans Serif', Tahoma, Geneva, sans-serif;
-  background: #c0c0c0;
-  color: #000;
-  border: 2px groove #aaa;
-  max-width: 600px;
-  /*margin: 30px 0;*/
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 0.5px solid var(--border);
   box-sizing: border-box;
-  padding: 0;
-  max-width: 600px;
-
-  box-shadow:
-    0 0 10px rgba(0, 0, 0, 0.1),
-    0 0 6px rgba(0, 0, 0, 0.1),
-    0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .main-content {
@@ -492,61 +435,52 @@ html.dark .button-link:hover {
 
 .about-and-gallery {
   display: grid;
-  grid-template-columns:
-  minmax(400px, 1fr) 300px 300px;
-  gap: 30px;
+  grid-template-columns: 600px 300px 300px;
+  gap: 24px;
   width: 100%;
   margin: 0 auto;
-  padding-right: 40px;
+  padding-right: 50px;
   box-sizing: border-box;
   align-items: start;
   padding-top: 20px;
+  justify-content: center;
 }
 
-.about-window {
-  width: 100%;
-}
+.about-window { width: 100%; }
 
 .recent-wrapper {
   grid-column: 2;
-  width: 100%; 
+  width: 100%;
   display: flex;
   flex-direction: column;
-  font-family: 'MS Sans Serif', Tahoma, Geneva, sans-serif;
-  background: #dfdfdf;
-  color: #000;
-  border: 2px groove #aaa;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 0.5px solid var(--border);
   box-sizing: border-box;
-  padding: 10px; 
-  box-shadow:
-    0 0 10px rgba(0, 0, 0, 0.1),   
-    0 0 6px rgba(0, 0, 0, 0.1),    
-    0 0 8px rgba(255, 255, 255, 0.6);
+  padding: 14px;
 }
-
-html.dark .recent-wrapper {
-  background: var(--card-bg-dark);
-  box-shadow:
-    0 0 3px rgba(255, 255, 255, 0.2),
-    0 0 6px rgba(255, 255, 255, 0.15);
-}
-
-
 
 .recent-wrapper h2 {
-  font-family: Tahoma, sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--acc-light);
-  padding: 4px 8px;
-  width: fit-content;
-  margin: 0;
-  margin-bottom: 10px;
-  line-height: 1; /* helps prevent extra space from line height */
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 0;
+  margin: 0 0 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-html.dark .recent-wrapper h2 {
-  color: var(--acc-dark);
+.recent-wrapper h2::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
 }
 
 
@@ -576,77 +510,81 @@ html.dark .recent-wrapper h2 {
 }
 
 
-
-
-
-
-html.dark .about-window.win98-style {
-  background: #222;
-  box-shadow:
-    0 0 3px rgba(255, 255, 255, 0.2),
-    0 0 6px rgba(255, 255, 255, 0.15);
+.about-section-content h3 {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-
-
-.about-window.win98-style .about-section-content {
-  background: var(--bg-light);
-  color: #000;
-  padding: 18px 18px 18px 18px;
-  border: none !important;
-  border-right-color: none !important;
-  border-bottom-color: none !important;
+.about-section-content h3::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
+}
+.about-section-content {
+  padding: 18px;
+  padding-top: 12px;
   font-size: 13px;
-  line-height: 1.5;
-  box-sizing: border-box;
-  position: relative;
+  line-height: 1.55;
 }
 
+.usage-list {
+  margin: 0 0 14px;
+  padding-left: 16px;
+}
+
+.usage-list li {
+  margin: 4px 0;
+  line-height: 1.45;
+}
+
+.usage-subheader {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin: 14px 0 6px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+}
+
+.feedback-note {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  line-height: 1.45;
+  text-align: center;
+}
 .about-window.win98-style p {
-  margin-bottom: 10px;
-  line-height: 1.4;
+  margin-bottom: 5px;
+  line-height: 1.6;
   font-size: 13px;
-  color: #000;
+  color: var(--text-primary);
 }
 
-.about-window.win98-style a {
-  color: #000080;
-  text-decoration: underline;
-  cursor: pointer;
-}
+.about-window.win98-style a { color: var(--gold); text-decoration: underline; cursor: pointer; }
 
-html.dark .about-window.win98-style .about-section-content {
-  background: var(--card-bg-dark);
-  color: #eee;
-  border: 0px inset #444;
-  border-right-color: #222;
-  border-bottom-color: #222;
-}
 
 .divider-text {
-  text-align: center;
-  margin: 12px 0;
-  font-family: 'MS Sans Serif', Tahoma, sans-serif;
-  font-size: 13px;
-  font-weight: bold;
-  color: var(--acc-light);
+  display: flex;
+  align-items: center;
   user-select: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-shadow: 2px 2px #cacaca;
+  font-size: 0;
 }
-
-html.dark .divider-text {
-  color: var(--acc-dark);
-  text-shadow: 2px 2px #444;
-
-
+.divider-text::before, .divider-text::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
 }
 
 
-html.dark .about-window.win98-style p {
-  color: #eee;
-}
 
 .tip-box {
   background: #e0e0e0;
@@ -672,7 +610,7 @@ html.dark .tip-box {
   vertical-align: middle;
   animation: pulseGlow 3s ease-in-out infinite;
   text-decoration: none !important;
-  cursor: pointer; /* pointer cursor on hover */
+  cursor: pointer;
 }
 
 @keyframes pulseGlow {
@@ -699,59 +637,20 @@ html.dark .pink-heart {
   text-shadow: 1px 1px #444;
 }
 
-#stats-footer {
-  font-family: Tahoma, sans-serif;
-  font-size: 13px;
-  color: #000;
-  text-align: center;
-  margin-top: -40px;
-  margin-bottom: -15px;
-  opacity: 1;
-  padding: 8px 0;
-  line-height: 1.8;
-}
-html.dark #stats-footer {
-  color: #aaa;
-}
-
-
-html.dark #changelog-wrapper {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #aaa;
-  text-align: center; 
-}
-
 #changelog-wrapper {
-  margin-top: 6px;
   font-size: 12px;
-  color: black;
+  color: var(--text-muted);
   text-align: center;
-  padding-bottom: 100px;
+  padding-bottom: 60px;
 }
 
 #changelog {
-  display: inline-block;   
+  display: inline-block;
   text-align: left;
-  font-family: Tahoma, sans-serif;
-  font-size: 13px;     
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
   max-width: 400px;
   width: 100%;
-}
-
-html.dark #changelog summary:hover {
-  transform: scale(1.01);
-  cursor: pointer;
-  color: #d5d5d5;
-  transition: 0.2s ease;
-}
-
-
-#changelog summary:hover {
-  transform: scale(1.01);
-  cursor: pointer;
-  color: #515151;
-  transition: 0.2s ease;
 }
 
 #changelog summary {
@@ -759,69 +658,37 @@ html.dark #changelog summary:hover {
   list-style: none;
   outline: none;
   text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.15s;
 }
-
+#changelog summary:hover { color: var(--text-secondary); }
+#changelog summary::-webkit-details-marker { display: none; }
 #changelog summary .caret {
   display: inline-block;
-  margin-left: -3px;           /* space between text and arrow */
+  margin-left: 2px;
   transition: transform 0.1s ease;
-  font-size: 22px;
+  font-size: 16px;
   vertical-align: middle;
 }
-
-#changelog[open] summary .caret {
-  transform: rotate(90deg);
-}
-
-#changelog summary::-webkit-details-marker {
-  display: none; /* hide default arrow */
-}
-
-html.dark #changelog[open] summary {
-  color: #aaa;
-
-}
-
-
-#changelog[open] summary {
-  color: black;
-}
-
-html.dark #changelog ul {
-  margin: 5px 0 0 0;
-  padding-left: 20px;
-  font-size: 11px;
-  color: #aaa;  /* centers the UL itself */
-  text-align: left; 
-  white-space: normal;       /* but keeps the LI text left-aligned */
-  word-wrap: break-word;
-  overflow-wrap: anywhere;
-}
+#changelog[open] summary .caret { transform: rotate(90deg); }
+#changelog[open] summary { color: var(--text-secondary); }
 
 #changelog ul {
-  margin: 5px 0 0 0;
-  padding-left: 20px;
-  font-size: 11px;
-  color: black;  /* centers the UL itself */
-  text-align: left;        /* but keeps the LI text left-aligned */
-  white-space: normal;       /* but keeps the LI text left-aligned */
+  margin: 6px 0 0;
+  padding-left: 16px;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: left;
+  line-height: 1.6;
   word-wrap: break-word;
   overflow-wrap: anywhere;
 }
-
-#changelog li {
-  margin-bottom: 3px;  
-}
+#changelog li { margin-bottom: 2px; }
 
 
-
-.sidebar a svg {
-  fill: #444;
-  transition: fill 0.3s ease;
-}
-html.dark .sidebar a svg {
-  fill: #fff;
-}
 
 .home-icon-link {
   display: flex;
@@ -829,9 +696,7 @@ html.dark .sidebar a svg {
   justify-content: center;
   transform: scale(1.2);
 }
-.home-icon-link svg {
-  transition: none !important;
-}
+
 
 .home-icon-link:hover {
   background: none !important;
@@ -847,15 +712,6 @@ html.dark .sidebar a svg {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.stats-icon svg {
-  transition: none !important;
-}
-
-html.dark .stats-icon svg {
-  filter: invert(1);
-  transition: ease 0.3s;
 }
 
 .stats-icon:hover {
@@ -930,60 +786,6 @@ html.dark .tooltip-preview {
   color: wheat;
 }
 
-.discord-tooltip {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #222;
-  color: #fff;
-  padding: 5px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  font-size: 0.8em;
-  z-index: 9999;
-  pointer-events: none; /* disable interaction by default */
-}
-
-.discord-tooltip-wrapper:hover .discord-tooltip,
-.discord-tooltip:hover {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto; /* enable interaction when visible */
-}
-
-
-.lightbulb {
-  color: #ffd700;
-  text-shadow: 0 0 5px rgba(200, 160, 0, 0.6);
-  animation: pulseGlowYellow 3s ease-in-out infinite;
-}
-
-html.dark .lightbulb {
-  text-shadow: 0 0 6px rgba(255, 255, 120, 0.8);
-}
-
-/* Yellow version of the pulseGlow animation */
-@keyframes pulseGlowYellow {
-  0%, 100% {
-    transform: scale(1);
-    text-shadow: 0 0 5px rgba(200, 160, 0, 0.6);
-  }
-  50% {
-    transform: scale(1.1);
-    text-shadow:
-      0 0 3px rgba(255, 215, 0, 0.4),
-      0 0 6px rgba(255, 200, 0, 0.6),
-      0 0 9px rgba(255, 180, 0, 0.8);
-  }
-}
-
-html.dark .lightbulb {
-  text-shadow: 0 0 6px rgba(255, 255, 120, 0.8);
-}
 
 .icon-button {
   background: transparent;
@@ -995,7 +797,7 @@ html.dark .lightbulb {
   justify-content: center;
   width: 30px;
   height: 30px;
-  color: black; /* or black depending on theme */
+  color: var(--text-secondary);
   transition: color 0.2s ease;
 }
 
@@ -1009,9 +811,7 @@ html.dark .lightbulb {
   height: 24px;
 }
 
-html.dark .icon-button svg {
-  filter: invert(1);
-}
+
 
 .sidebar-container {
   position: relative;
@@ -1043,38 +843,17 @@ html.dark .icon-button svg {
 
  #toggle-sidebar {
   position: fixed;
-  top: 78px;
-  left: 145px;
+  top: 115px;
+  left: 135px;
   z-index: 9999;
   width: 50px;
   height: 50px;
   margin-top: 10px;
   transform: rotate(45deg);
+  color: var(--text-secondary);
 }
 
 
-#donate-button {
-  position: fixed !important;
-  top: 0px !important;
-  right: 0px !important;
-  z-index: 9999 !important;
-  background: transparent;
-  user-select: none;
-  filter: invert(1);
-}
-
-html.dark #donate-button {
-  filter: none;
-}
-
-#donate-button input[type="image"] {
-  width: clamp(100px, 15vw, 200px);
-  height: auto;
-  display: block;
-
-  user-select: none;
-  -webkit-user-drag: none;
-}
 
 
 #volume-tree-button-wrapper {
@@ -1089,7 +868,7 @@ html.dark #donate-button {
   display: flex;
   flex-direction: column;
   grid-column: 2; 
-  gap: 30px;      
+  gap: 15px;      
 }
 
 .right-bottom {
@@ -1106,7 +885,7 @@ html.dark #donate-button {
     transition: transform 250ms ease-out;
 }
 #center {
-    fill: #000;
+    fill: var(--text-secondary);
     transform: rotate(-35deg);
 }
 #rays {
@@ -1124,19 +903,15 @@ html.dark #mask-center {
     transform: translateX(-18px);
 }
 
-html.dark .all hr {
-  border: 1px solid #555;
-}
-
 .all hr {
-    border: 1px solid #555;
-    margin: 0px 0;
-    
+  border: none;
+  border-top: 0.5px solid var(--border);
+  margin: 0;
 }
-
 .all {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 185px 1fr;
+  margin-top: 44px;
 }
 
 #feedback {
@@ -1228,30 +1003,33 @@ html.dark #feedback form label {
   color: var(--acc-dark);
 }
 
-html.dark .update-history h3 {
-  color: var(--acc-dark);
-}
-
 .update-history h3 {
-  color: var(--acc-light);
-  margin: auto;
-  padding: 4px 8px;
-  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-html.dark .update-history {
-  color: white;
-  background: var(--card-bg-dark);
-  box-shadow: var(--sdw-dark);
+.update-history h3::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
 }
 
 .update-history {
   width: 300px;
-  border: 2px groove #aaa;
-  color: #000;
-  box-shadow: var(--sdw-light);
-  background: var(--card-bg-light);
-  padding: 10px;
+  border: 0.5px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  padding: 14px;
   overflow: visible;
 }
 
@@ -1272,82 +1050,338 @@ html.dark .update-history {
   margin-bottom: 8px;
 }
 
-html.dark .update-timestamp {
-  color: var(--acc-dark)
-}
-
 .update-timestamp {
-  font-family: monospace;
-  font-weight: bold;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  font-weight: 400;
   text-align: center;
-  margin-top: 10px;
   margin-bottom: 10px;
-  color: var(--acc-light)
+}
+
+.hero {
+  display: flex;
+  height: 200px;
+  border-bottom: 0.5px solid var(--border);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.hero-cell {
+  flex: 1 1 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.hero-cell:last-child { border-right: none; }
+.hero-cell:hover { filter: brightness(1.05); }
+
+.hero-cell-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(var(--bg-deep) 0px, var(--bg-deep) 1px, transparent 1px, transparent 28px),
+    repeating-linear-gradient(90deg, var(--bg-deep) 0px, var(--bg-deep) 1px, transparent 1px, transparent 28px);
+}
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+
+  opacity: 0;
+  filter: blur(8px);
+  transition:
+    opacity 0.6s ease,
+    filter 0.6s ease;
+  will-change: opacity, filter, transform;    
+}
+
+.hero-img.visible {
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.hero-img.hidden {
+  opacity: 0;
+  filter: blur(3px);
 }
 
 
+
+.hero-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-bg);
+  border: 0.5px solid var(--gold-border);
+  border-radius: 2px;
+  padding: 3px 7px;
+  z-index: 2;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.hero-caption {
+  position: relative;
+  z-index: 2;
+  padding: 10px 14px;
+  width: 100%;
+  background: linear-gradient(transparent, rgba(10,9,8,0.85));
+}
+
+html:not(.dark) .hero-caption {
+  background: linear-gradient(transparent, rgba(200,190,170,0.85));
+}
+
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: #f0ebe2;
+  line-height: 1.2;
+}
+
+.hero-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  margin-top: 2px;
+  letter-spacing: 0.08em;
+}
+
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 16px;
+  background: var(--bg-deep);
+  border-bottom: 0.5px solid var(--border);
+  backdrop-filter: blur(6px);
+  z-index: 1999999999900;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.topbar-logo {
+  font-family: 'DM Mono', monospace;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.topbar-logo span {
+  font-style: normal;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.topbar-donate {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.topbar-donate input[type="image"] {
+  height: 50px;
+  width: auto;
+  display: block;
+  filter: invert(1);
+  transition: opacity 0.15s;
+}
+
+html.dark .topbar-donate input[type="image"] {
+  filter: none;
+}
+
+.topbar-donate input[type="image"]:hover { opacity: 1; }
+.feedback-section { flex-shrink: 0; margin-bottom: 5px; }
+
+.feedback-textarea {
+  width: -webkit-fill-available;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-strong);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  padding: 10px 12px;
+  resize: none;
+  height: 72px;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.feedback-textarea::placeholder { color: var(--text-muted); }
+.feedback-textarea:focus { border-color: var(--gold-border); }
+
+.feedback-btn {
+  margin-top: 8px;
+  width: 100%;
+  background: transparent;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.feedback-btn:hover { color: var(--gold); border-color: var(--gold-border); }
+.rp-label {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rp-label::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
+}
+.rp-footer {
+  padding: 10px 16px 14px;
+  border-top: 0.5px solid var(--border);
+  flex-shrink: 0;
+  padding-bottom: 0;
+}
+
+.rp-footer-stat {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  text-align: center;
+}
+.discord-tooltip-wrapper {
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    text-decoration: underline;
+  }
+
+  .discord-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 0.8em;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .discord-tooltip-wrapper:hover .discord-tooltip {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+#copyMessage {
+  position: absolute;
+  top: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #00cc66;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10000;
+  text-shadow: 0 0 3px rgba(0, 204, 102, 0.5);
+}
+
+  #copyMessage.show {
+    opacity: 1;
+  }
+
+  .abgr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
 </style>
 </head>
 <body>
 
-<!-- MAINTENANCE POPUP
-<div id="outage-popup" style="
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7); /* semi-transparent dark overlay */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999999999999999999999999999999999999;
-">
-  <div style="
-    background: #fff; /* popup box background is white */
-    color: #000;      /* text is black */
-    padding: 20px;
-    max-width: 400px;
-    text-align: center;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  ">
-    <h2 style="margin-top: 0;">⚠️ Scheduled Maintenance</h2>
-    <p>Server will be temporarily offline due to power maintenance.<br>
-    Images may not load until power is restored.</p>
-    <button onclick="document.getElementById('outage-popup').style.display='none'" style="
-      margin-top: 15px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 8px;
-      background: #0073e6;
-      color: #fff;
-      cursor: pointer;
-    ">Okay</button>
-  </div>
-</div>
--->
-
-
-<div id="donate-button">
-  <form action="https://www.paypal.com/donate" method="post" target="_blank">
-    <input type="hidden" name="business" value="NZYY9RMN3P58C" />
-    <input type="hidden" name="no_recurring" value="0" />
-    <input type="hidden" name="currency_code" value="USD" />
-    <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-  </form>
-</div>
 <div class="all">
+      <header class="topbar">
+    <div class="topbar-logo">t<span>/ archive</span></div>
+    <div class="topbar-right">
+      <div class="topbar-donate">
+        <form action="https://www.paypal.com/donate" method="post" target="_blank">
+          <input type="hidden" name="business" value="NZYY9RMN3P58C"/>
+          <input type="hidden" name="no_recurring" value="0"/>
+          <input type="hidden" name="currency_code" value="USD"/>
+          <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="Donate with PayPal" alt="Donate with PayPal"/>
+          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+        </form>
+      </div>
+    </div>
+  </header>
 <div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
 <div class="sidebar">
   <div class="searchandbuttons">
     <div class="buttons">
     <a href="index.html" class="home-icon-link">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+      <svg width="22" height="22" viewBox="0 0 24 24">
         <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
       </svg>
     </a>
        <a href="volume_tree.html" class="stats-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16"><path fill="#000000" d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/><path fill="#000000" d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16"><path d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/><path d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
       </svg>
     </a>
         <button id="toggle-darkmode" class="icon-button" aria-label="Toggle dark/light mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">
@@ -1374,7 +1408,7 @@ html.dark .update-timestamp {
   <div class="sidebar-scroll">
 
     <div id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentcolor">
     <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
   </svg>
 </div>
@@ -1416,8 +1450,8 @@ html.dark .update-timestamp {
 <li>
   <button class="folder-toggle" data-folder="IVE">IVE</button>
   <ul class="member-list" data-folder="IVE">
+    <li><a href="MEMBERS/IVE_GAEUL.html">GAEUL</a></li>    
     <li><a href="MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
-    <li><a href="MEMBERS/IVE_GAEUL.html">GAEUL</a></li>
     <li><a href="MEMBERS/IVE_REI.html">REI</a></li>
     <li><a href="MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
     <li><a href="MEMBERS/IVE_LIZ.html">LIZ</a></li>
@@ -1428,10 +1462,10 @@ html.dark .update-timestamp {
 <li>
   <button class="folder-toggle" data-folder="STAYC">STAYC</button>
   <ul class="member-list" data-folder="STAYC">
+    <li><a href="MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>    
     <li><a href="MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
+    <li><a href="MEMBERS/STAYC_ISA.html">ISA</a></li>    
     <li><a href="MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
-    <li><a href="MEMBERS/STAYC_ISA.html">ISA</a></li>
-    <li><a href="MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>
     <li><a href="MEMBERS/STAYC_YOON.html">YOON</a></li>
     <li><a href="MEMBERS/STAYC_J.html">J</a></li>
   </ul>
@@ -1466,8 +1500,8 @@ html.dark .update-timestamp {
   <button class="folder-toggle" data-folder="LOONA">LOONA</button>
   <ul class="member-list" data-folder="LOONA">
     <li><a href="MEMBERS/LOONA_VIVI.html">VIVI</a></li>
+    <li><a href="MEMBERS/LOONA_YVES.html">YVES</a></li>    
     <li><a href="MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
-    <li><a href="MEMBERS/LOONA_YVES.html">YVES</a></li>
     <li><a href="MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
     <li><a href="MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
     <li><a href="MEMBERS/LOONA_CHUU.html">CHUU</a></li>
@@ -1523,169 +1557,76 @@ html.dark .update-timestamp {
     <li><a href="MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
   </ul>
 </li>
-
-
     </ul>
   </div>
 </div>
 </div>
-
 </div>
-
 <div class="content-wrapper">
-    <div class="main">
-    <div class="main-content">
-      <h1>Fansite Archive Vault</h1>
+<div class="hero" id="hero-strip"></div>
+<div class="about-and-gallery">
+<div class="abgr">
+<div class="about-window win98-style">
+  <div class="about-section-content">
+    <h3>About</h3>
+
+    <p>
+      This archive is a personal collection of chronologically sorted fansite images. 
+      Every photo is manually dated, though TWICE, ITZY, and some IVE images are still 
+      missing accurate dates.
+    </p>
+
+    <p>
+      I began archiving fansite photos of my favorite groups back in 2021 and have been 
+      collecting and organizing them ever since.
+    </p>
+
+    <p>
+      This project was built for fun, as a way to share a photo archiving hobby I started 
+      in my free time. I'm glad I could turn it into something easy to browse, and I hope 
+      others enjoy it as much as I do.
+    </p>
+
+    <p>
+      Enjoy browsing! 
+      <a href="https://linktr.ee/teppil" class="pink-heart" target="_blank" rel="noopener noreferrer">♡</a>
+    </p>
+
+    <div class="feedback-note">
+      If you’d like to help sort photos, report issues, or suggest improvements, message me on 
+      <span id="discordText" class="discord-tooltip-wrapper">
+        Discord
+        <span class="discord-tooltip">@terril</span>
+        <span id="copyMessage">Copied!</span>
+      </span>.
+      <br>
+      Layout may not display well on mobile.
     </div>
   </div>
-<div class="about-and-gallery">
-  <div class="about-window win98-style">
-    <div class="about-section-content">
-    <p>
-     <!-- <div style="font-size: 0.8em; color: #888; margin-top: -25px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
-       <span class="lightbulb">✨</span> !added <a href="volume_tree.html" style="text-decoration: underline; color: #888">volume tree</a>
-      </div>-->
-      <div class="tip-box">
-  <span class="lightbulb">⭐</span> <strong>New Feature:</strong> You can now toggle between sorting images by the date they were saved (which reflects recent uploads) and the chronological order based on the manually assigned dates. Use the "Chronological Order/Recent Uploads" button to switch between these views and explore images in the order they were actually taken!
-      <div style="font-size: 0.8em; color: #888; margin-top: 1px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
-  Currently TWICE, ITZY, and IVE don't have updated dates yet.
 </div>
 
+<div class="about-window win98-style">
+  <div class="about-section-content">
+    <h3>Usage</h3>
 
-</div>
-Welcome! This is a personal gallery of collected images from fansites, organized by group and member, and sorted by date saved... for now, at least. I’m slowly updating them with the correct dates over time.
-    </p>
+    <ul class="usage-list">
+      <li>Use the left sidebar to browse groups and select a member, or search for a specific name.</li>
+      <li>Once you're viewing a member's gallery, you can type a date into the search bar to quickly jump to the closest set of images from that day.</li>
+      <li>Use the random button to open a random image from the current gallery.</li>
+      <li>Click any image to open the lightbox and view the full resolution version, and use the download button to save it.</li>
+      <li>In the lightbox, hold Ctrl and click on an image to open the magnifier, then use your scroll wheel to zoom in and out.</li>
+    </ul>
 
-    <div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
+    <h4 class="usage-subheader">Buttons</h4>
 
-        <p>
-      I began archiving fansite photos of my favorite groups back in 2021 and have been saving as many as I can find ever since. The photos aren’t sorted by the date they were taken, but by the date I saved them, manually labeling every file with the correct date would be unrealistic.
-    </p>
-    <div style="font-size: 0.8em; color: #888; margin-top: -5px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
-  So naturally, I’ve started manually adding the correct dates to all ~900,000 of them anyway, but this is a slow process, and not all photos will have accurate dates yet.
-</div>
-    <p>
-      I usually save them in the order they’re posted, so if you're looking for photos from a specific day, they were likely saved shortly after.
-    </p>
-<div class="tip-box">
-  <span class="lightbulb">💡</span> <strong>Tip:</strong> After selecting a member, try typing a date (like <code>240312</code>) into the search bar! The page will scroll to the closest matching date in that member’s gallery.
-</div>
-
-<p>
-  <span class="tooltip-preview">
-    Preview*
-    <span class="tooltip-popup">
-      "previews" are quick phone photos of the camera screen that fansites post right after an event, before uploading the high-quality versions later.<br>
-      <img src="Gtkpb5YbAAAB8hF.jpg" alt="Preview Example" width="150" style="margin-top: 5px;">
-    </span>
-  </span> pictures are mostly in order, though fansites often upload older high-quality photos from previous dates, at later dates, so those may show up randomly.<br><br>
-  I also occasionally discover new accounts and add their photos, which mixes up the order.
-</p>
-
-<!-- Discord + Tooltip -->
-<div style="font-size: 0.8em; color: #888; margin-top: -5px; margin-bottom: -5px; text-align: center; overflow: visible; position: relative;">
-  If you’d like to help sort photos by date, report issues, or suggest improvements, feel free to message me on 
-  <span
-    id="discordText"
-    class="discord-tooltip-wrapper"
-    title="Click to copy Discord username"
-  >
-    Discord!
-    <span class="discord-tooltip">@terril</span>
-    <span id="copyMessage">Copied!</span>
-  </span>
-  <br> I’m aware the layout doesn’t display well on mobile or small screens.
-</div>
-
-<style>
-  .discord-tooltip-wrapper {
-    position: relative;
-    cursor: pointer;
-    color: #888;
-    text-decoration: underline;
-  }
-
-  .discord-tooltip {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #222;
-    color: #fff;
-    padding: 5px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 0.8em;
-    z-index: 9999;
-    pointer-events: none;
-  }
-
-  .discord-tooltip-wrapper:hover .discord-tooltip {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-#copyMessage {
-  position: absolute;
-  top: 140%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.9em;
-  font-weight: bold;
-  color: #00cc66;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 10000;
-  text-shadow: 0 0 3px rgba(0, 204, 102, 0.5);
-}
-
-  #copyMessage.show {
-    opacity: 1;
-  }
-</style>
-
-<script>
-  const discordText = document.getElementById('discordText');
-  const copyMessage = document.getElementById('copyMessage');
-  const discordUsername = '@terril';
-
-  discordText.addEventListener('click', () => {
-    navigator.clipboard.writeText(discordUsername).then(() => {
-      copyMessage.classList.add('show');
-      setTimeout(() => {
-        copyMessage.classList.remove('show');
-      }, 1500);
-    });
-  });
-</script>
-
-</style>
-
-    <div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
-    <p>
-      Use the left sidebar to browse groups and select a member, or search for a specific name.
-    </p>
-    <p>
-      Once you're viewing a member's gallery, you can type a date into the search bar to quickly jump to the closest set of images saved around that time.
-    </p>
-    <p>
-      Click any image to view the full-resolution version, and use the download button to download it.
-    </p>
-
-    <div class="divider-text">⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆═════ஓ๑♡๑ஓ═════⋆｡°✩₊˚๑❀๑˚₊✩°｡⋆</div>
-    <p>
-      This project was built for fun, as a way to share a photo archiving hobby I started in my free time. I'm glad I could turn it into something easy to browse, and I hope others enjoy it as much as I do.
-    </p>
-    <p>
-  Enjoy browsing!  <a href="https://linktr.ee/teppil" class="pink-heart"  target="_blank" rel="noopener noreferrer">♡</a>
-</p>
+    <ul class="usage-list">
+      <li><strong>Sort by Date:</strong> Toggle between ascending/descending date order.</li>
+      <li><strong>Chronological / Recent:</strong> Toggle sorting between manually assigned dates (chronological) or by the most recently saved images. Useful for seeing new additions even if they're from earlier dates.</li>
+      <li><strong>Grid / Masonry:</strong> Toggle between uniform grid or natural aspect‑ratio layout.</li>
+    </ul>
   </div>
   </div>
+</div>
 
 
   <div class="right-column">
@@ -1696,17 +1637,14 @@ Welcome! This is a personal gallery of collected images from fansites, organized
   </div>
     </div>
 <div class="right-bottom">
- <!-- <div id="volume-tree-button-wrapper">
-    <a class="button-link" href="volume_tree.html">View Volume Tree</a>
-  </div> -->
-<div id="feedback">
-  <form id="feedback-form">
-    <label for="feedback-input">Leave a comment</label>
-    <textarea id="feedback-input" placeholder="Type your feedback here..." required></textarea>
-    <button type="submit">Send Feedback</button>
-  </form>
-</div>
-  <footer id="stats-footer"></footer>
+        <div class="feedback-section">
+          <div class="rp-label">Leave feedback</div>
+          <textarea class="feedback-textarea" id="feedback-input" placeholder="Report issues, suggest improvements…"></textarea>
+          <button class="feedback-btn" id="feedback-btn">Send feedback</button>
+        </div>
+      <div class="rp-footer">
+        <div class="rp-footer-stat" id="stats-footer"></div>
+      </div>
 
 <div id="changelog-wrapper">
   <details id="changelog">
@@ -1730,8 +1668,6 @@ fetch("changelog.txt")
   })
   .catch(err => console.error("Error loading changelog:", err));
 </script>
-
-
 
 <script>
 document.getElementById("feedback-form").addEventListener("submit", async (e) => {
@@ -1760,25 +1696,34 @@ document.getElementById("feedback-form").addEventListener("submit", async (e) =>
 </div>
 </div>
 <div class="update-history">
-  <h3>Update History</h3>
+  <h3>Update Log</h3>
   <div class="update-list"></div>
 </div>
 
 <script>
+    const discordText = document.getElementById('discordText');
+  const copyMessage = document.getElementById('copyMessage');
+  const discordUsername = '@terril';
+
+  discordText.addEventListener('click', () => {
+    navigator.clipboard.writeText(discordUsername).then(() => {
+      copyMessage.classList.add('show');
+      setTimeout(() => {
+        copyMessage.classList.remove('show');
+      }, 1500);
+    });
+  });
 fetch('update_history.json')
   .then(res => res.json())
   .then(history => {
     const container = document.querySelector('.update-list');
     container.innerHTML = '';
 
-    // Loop through updates (most recent first)
     history.slice().reverse().forEach(update => {
 
-      // --- Timestamp + total added ---
       const timestampDiv = document.createElement('div');
       timestampDiv.className = 'update-timestamp';
 
-      // Format as [+17,745]
       const formattedTotal = update.total
         ? `[+${update.total.toLocaleString()}]`
         : '';
@@ -1786,7 +1731,6 @@ fetch('update_history.json')
       timestampDiv.textContent = `${update.timestamp} ${formattedTotal}`;
       container.appendChild(timestampDiv);
 
-      // --- Per-group breakdown ---
       update.groups.forEach(group => {
         const groupDiv = document.createElement('div');
         groupDiv.className = 'update-entry';
@@ -1799,7 +1743,6 @@ fetch('update_history.json')
         container.appendChild(groupDiv);
       });
 
-      // Optional separator
       const sep = document.createElement('hr');
       sep.style.margin = '8px 0';
       container.appendChild(sep);
@@ -1807,19 +1750,8 @@ fetch('update_history.json')
   })
   .catch(err => console.error('Failed to load update history:', err));
 </script>
-
-
-
-
 </div>
 </div>
-
-
-
-
-
-
-
 <script>
   fetch('recent_uploads.html')
   .then(res => res.text())
@@ -1841,7 +1773,6 @@ fetch('update_history.json')
   toggleBtn.addEventListener('click', () => {
     const allFolders = document.querySelectorAll('.member-list');
 
-    // Determine if any are currently open
     const isAnyOpen = Array.from(allFolders).some(ul => {
       const computed = window.getComputedStyle(ul).display;
       return computed !== 'none';
@@ -1851,16 +1782,13 @@ fetch('update_history.json')
       const group = ul.dataset.folder;
       if (!group) return;
 
-      // Apply new display
       ul.style.display = isAnyOpen ? 'none' : 'block';
 
-      // Save state to localStorage
       localStorage.setItem(`folder-${group}`, isAnyOpen ? 'closed' : 'open');
     });
   });
 
 
-// Initialize on page load
 try {
   const sun = document.getElementById('sun-icon');
   const moon = document.getElementById('moon-icon');
@@ -1873,9 +1801,6 @@ try {
 
 </script>
 
-
-
-
 <script>
 function setupSidebarToggles() {
   document.querySelectorAll('.folder-toggle').forEach(btn => {
@@ -1883,10 +1808,8 @@ function setupSidebarToggles() {
     const memberList = btn.nextElementSibling;
     const savedState = localStorage.getItem(`folder-${folderName}`);
 
-    // Restore saved open/closed state
     memberList.style.display = savedState === 'open' ? 'block' : 'none';
 
-    // Add toggle click handler
     btn.addEventListener('click', () => {
       const isOpen = memberList.style.display === 'block';
       memberList.style.display = isOpen ? 'none' : 'block';
@@ -1920,7 +1843,6 @@ function setupSidebarSearch() {
       if (filter !== '') {
         memberList.style.display = (groupMatches || memberMatches) ? 'block' : 'none';
       } else {
-        // Restore original folder state
         const folderName = folderToggle.dataset.folder;
         const saved = localStorage.getItem(`folder-${folderName}`);
         memberList.style.display = saved === 'open' ? 'block' : 'none';
@@ -1929,10 +1851,10 @@ function setupSidebarSearch() {
   });
 }
 
-// Run both setups after DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
   setupSidebarToggles();
   setupSidebarSearch();
+  buildHero();
 });
 
 
@@ -1941,39 +1863,177 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <script>
 fetch('stats.json')
-  .then(response => response.json())
-  .then(stats => {
-    const footer = document.getElementById('stats-footer');
-    if (footer) {
-      footer.innerHTML = `
-        ${stats.groups} groups • ${stats.members} members • ${stats.images.toLocaleString()} images<br>
-        Last updated: ${stats.last_updated}
-      `;
-    }
-  })
-  .catch(err => console.error('Failed to load stats:', err));
-
+  .then(r => r.json())
+  .then(s => {
+    document.getElementById('stats-footer').innerHTML =
+      `Last updated: ${s.last_updated}<br>${s.groups} groups · ${s.members} members · ${s.images.toLocaleString()} images`;
+  }).catch(() => {});
 </script>
 <script>
 try {
-  // Load saved theme or default to dark
   let theme = localStorage.getItem('theme');
   if (!theme) {
     theme = 'dark';
     localStorage.setItem('theme', theme);
   }
 
-  // Apply it immediately
   document.documentElement.classList.toggle('dark', theme === 'dark');
 
-  // Toggle function for your button or keyboard shortcut
   function toggleDarkMode() {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }
 } catch(e) {}
 </script>
+<script>
+  function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function toThumb(rel) {
+  return rel.replace(/([^/]+)\/([^/]+)\//, '$1/$2/thumbs/');
+}
 
 
+const HERO_COUNT    = 10;
+const HERO_OVERRIDE = []; // e.g. ['WONYOUNG', 'KARINA', 'MINA']
+const BASE_URL      = 'https://terril.duckdns.org/';
+
+async function buildHero() {
+  const strip = document.getElementById('hero-strip');
+
+  try {
+    const hist   = await fetch('update_history.json').then(r => r.json());
+    const latest = hist[hist.length - 1];
+
+    const members = [];
+    latest.groups.forEach(g => g.members.forEach(m =>
+      members.push({ name: m.name, group: g.name, count: m.count })
+    ));
+
+    members.sort((a, b) => b.count - a.count);
+
+    const top = (HERO_OVERRIDE.length
+      ? HERO_OVERRIDE.map(n => members.find(m => m.name === n)).filter(Boolean)
+      : members
+    ).slice(0, HERO_COUNT);
+
+    strip.style.gridTemplateColumns = `repeat(${top.length}, 1fr)`;
+
+    const latestImages = await fetch('member_latest_images.json').then(r => r.json());
+
+    top.forEach(member => {
+      const key = `${member.group}/${member.name}`;
+      const imgs = latestImages[key] || [];
+
+      const rel = imgs.length ? imgs[Math.floor(Math.random() * imgs.length)] : null;
+      const src = rel ? BASE_URL + rel : null;
+
+      const cell = document.createElement('div');
+      cell.className = 'hero-cell';
+      cell.style.cursor = 'pointer';
+      cell.addEventListener('click', () => {
+        window.location.href = `MEMBERS/${member.group.replace(/\s+/g,' ')}_${member.name}.html`;
+      });
+
+      const bg = document.createElement('div');
+      bg.className = 'hero-cell-bg';
+      cell.appendChild(bg);
+
+      if (imgs.length) {
+        let queue = shuffle([...imgs]);
+        let index = 0;
+
+        function nextImage() {
+          const rel = queue[index];
+          index++;
+
+          if (index >= queue.length) {
+            queue = shuffle([...imgs]);
+            index = 0;
+          }
+
+          return BASE_URL + toThumb(rel);
+        }
+
+        const imgA = document.createElement('img');
+        const imgB = document.createElement('img');
+
+        imgA.className = 'hero-img visible';
+        imgB.className = 'hero-img hidden';
+
+        imgA.alt = member.name;
+        imgB.alt = member.name;
+
+        cell.appendChild(imgA);
+        cell.appendChild(imgB);
+
+        imgA.src = nextImage();
+
+        let showingA = true;
+
+        function crossfade() {
+          const nextSrc = nextImage();
+
+          const preload = new Image();
+          preload.src = nextSrc;
+
+          preload.decode().then(() => {
+            if (showingA) {
+              imgB.src = nextSrc;
+
+              imgA.classList.remove('visible');
+              imgA.classList.add('hidden');
+
+              imgB.classList.remove('hidden');
+              imgB.classList.add('visible');
+            } else {
+              imgA.src = nextSrc;
+
+              imgA.classList.remove('hidden');
+              imgA.classList.add('visible');
+
+              imgB.classList.remove('visible');
+              imgB.classList.add('hidden');
+            }
+
+            showingA = !showingA;
+          });
+        }
+
+        // Random offset
+        const delay = Math.random() * 1000;
+
+        setTimeout(() => {
+          setInterval(crossfade, 4000);
+        }, delay);
+      }
+
+      const badge = document.createElement('div');
+      badge.className = 'hero-badge';
+      badge.textContent = member.group;
+      cell.appendChild(badge);
+
+      const cap = document.createElement('div');
+      cap.className = 'hero-caption';
+      cap.innerHTML = `
+        <div class="hero-name">${member.name}</div>
+        <div class="hero-count">+${member.count.toLocaleString()} this update</div>
+      `;
+      cell.appendChild(cap);
+
+      strip.appendChild(cell);
+    });
+
+  } catch (e) {
+    console.error('Hero build failed:', e);
+    strip.style.display = 'none';
+  }
+}
+</script>
 </body>
 </html>

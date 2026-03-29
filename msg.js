@@ -288,5 +288,4 @@ window.loadingMessages = [
     { text: "Someone left traces of {member} here.", tags: [] },
     { text: "Something about {member} seems important.", tags: [] },
     { text: "thanks for being here", tags: ["mid"] },
-    { text: "", tags: [] },
 ];

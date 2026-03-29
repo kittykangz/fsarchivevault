@@ -2,6 +2,9 @@
 <html lang="en">
   <head>
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">    
     <script src="glass-lens.js"></script>
 <script>
   const saved = localStorage.getItem('theme');
@@ -46,29 +49,42 @@
     <title>Image Gallery</title>
   </head>
   <body>
-    <link rel="stylesheet" href="style.css?v=2034334333133343000">
-
+    <link rel="stylesheet" href="style.css?v=20343343331333343000">
+<div class="real-all">
+          <header class="topbar">
+    <div class="topbar-logo">t<span>/ archive</span></div>
+    <div class="topbar-right">
+      <div class="topbar-donate">
+        <form action="https://www.paypal.com/donate" method="post" target="_blank">
+          <input type="hidden" name="business" value="NZYY9RMN3P58C"/>
+          <input type="hidden" name="no_recurring" value="0"/>
+          <input type="hidden" name="currency_code" value="USD"/>
+          <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="Donate with PayPal" alt="Donate with PayPal"/>
+          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+        </form>
+      </div>
+    </div>
+  </header>
     
-
-<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
-<div class="sidebar">
   <div id="scrollToTop" aria-label="Scroll to top">
     <svg viewBox="0 0 40 40" width="800" height="800" fill-rule="nonzero" fill="#000000" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 12l6 5.656-1.5 1.414-3.44-3.242V28h-2.12V15.828L15.5 19.07 14 17.656z"/>
     </svg>
   </div>
-
+<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
+    
+<div class="sidebar">
   <div class="searchandbuttons">
     <div class="buttons">
       <a href="../index.html" class="home-icon-link" title="Home">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="22" height="22" viewBox="0 0 24 24">
           <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
         </svg>
       </a>
       <a href="../volume_tree.html" class="stats-icon" title="Volume Tree">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16">
-          <path fill="#000000" d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/>
-          <path fill="#000000" d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
+          <path d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/>
+          <path d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
         </svg>
       </a>
       <button id="toggle-darkmode" class="icon-button" aria-label="Toggle dark/light mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">
@@ -275,7 +291,7 @@
           <button onclick="scrollToDate()" title="Jump to the entered date">Go</button>
           <button onclick="toggleSortOrder()" title="Switch between Asc/Desc sort order">Sort by Date ↑↓</button>
           <button id="toggle-date-field" title="Switch between Chronological order and Recent uploads" onclick="toggleDateField()"> Using: Chronological Order </button>
-          <button id="layout-toggle" title="Switch between Grid and Flex gallery layout">Using: Grid</button>
+          <button id="layout-toggle" title="Switch between Grid and Masonry gallery layout">Using: Grid</button>
         </div>
       </div>
 <div class="header2" id="settings-box">
@@ -309,15 +325,6 @@
                     </div>
                         <div class="gl-status"></div>
         </div>       
-      <div id="donate-button">
-        <form action="https://www.paypal.com/donate" method="post" target="_blank">
-          <input type="hidden" name="business" value="NZYY9RMN3P58C" />
-          <input type="hidden" name="no_recurring" value="0" />
-          <input type="hidden" name="currency_code" value="USD" />
-          <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-        </form>
-      </div>
       <div id="gallery" class="gallery grid-layout dimmed"></div>
       <div id="spacer"></div>
       <div id="lightbox" class="lightbox hidden" tabindex="-1" role="dialog" aria-modal="true" aria-label="Image preview">
@@ -420,6 +427,7 @@
       </div>
       <div id="lightboxSpinner"></div>
     </div>
+</div>
 </div>
 </div>
 
@@ -1459,6 +1467,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!/^\d{6}$/.test(v)) {
             return alert("Enter a valid YYMMDD format.");
         }
+
+        //LOG EVENT
+        const gallery = location.pathname
+            .split("/")
+            .pop()                // "ILLIT_WONHEE.html"
+            .replace(".html", ""); // "ILLIT_WONHEE"
+        new Image().src = `https://terril.duckdns.org/event/date-search/${gallery}/${v}`;
+
 
         const yy = parseInt(v.slice(0, 2), 10);
         const mm = parseInt(v.slice(2, 4), 10) - 1;
