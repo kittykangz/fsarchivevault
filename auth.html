@@ -1,0 +1,846 @@
+<style>
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999999;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 0.1s ease,
+    background 0.5s ease,
+    backdrop-filter 0.5s ease,
+    visibility 0s;
+}
+
+.auth-modal.hidden {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition:
+    opacity 0.1s ease,
+    background 0.5s ease,
+    backdrop-filter 0.5s ease,
+    visibility 0s linear 0.5s;
+  visibility: hidden;
+}
+
+
+.auth-modal-content {
+  background: var(--bg-surface);
+  padding: 22px;
+  border: 0.5px solid var(--border);
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  /* transform: translateY(-10px); */
+  transition: transform 0.3s ease;  
+  border-radius: 3px;
+}
+
+.auth-modal:not(.hidden) .auth-modal-content {
+  transform: translateY(0);
+}
+
+.auth-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-title::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border);
+}
+
+.auth-input {
+  padding: 8px 10px;
+  background: var(--bg-deep);
+  border: 0.5px solid var(--border-strong);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-input:focus {
+  border-color: var(--gold-border);
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.auth-btn {
+  flex: 1;
+  padding: 8px 0;
+  background: var(--gold-bg);
+  border: 0.5px solid var(--gold-border);
+  color: var(--gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.auth-btn:hover {
+  background: rgba(201, 185, 122, 0.18);
+}
+
+.auth-btn.secondary {
+  background: transparent;
+  border: 0.5px solid var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.auth-btn.secondary:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-deep);
+}
+
+#logout-btn:hover {
+    border: 0.5px solid var(--error);
+    background: transparent;
+    color: var(--error)
+}
+
+
+.auth-error {
+  color: var(--error);
+  font-size: 13px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.auth-error.hidden {
+  display: none;
+}
+
+.auth-switch {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 2px;
+}
+
+.auth-switch-link {
+  color: var(--gold);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.auth-switch-link:hover {
+  opacity: 0.75;
+}
+
+.auth-success {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  padding: 6px 8px;
+  border: 0.5px solid;
+  text-align: center;
+}
+
+html:not(.dark) .auth-success {
+  color: #3a7d4a;
+  border-color: rgba(58, 125, 74, 0.3);
+  background: rgba(58, 125, 74, 0.07);
+}
+
+html.dark .auth-success {
+  color: #5a9e6a;
+  border-color: rgba(90, 158, 106, 0.3);
+  background: rgba(90, 158, 106, 0.07);
+}
+
+.auth-success.hidden {
+  display: none;
+}
+
+
+.progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);  
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.progress-row .progress-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.progress-track {
+  width: 100%;
+  height: 5px;
+  background: var(--border-strong);
+  border-radius: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  opacity: 0.6;
+  transition: width 0.4s ease;
+}    
+
+
+
+
+.profile-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.profile-left {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 5px;
+    align-self: flex-end;
+}
+
+
+.profile-username {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  align-self: flex-end;
+  white-space: normal;
+  overflow-wrap: break-word;
+  max-width: 140px;
+}
+
+#profile-rank {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  align-self: flex-end;
+}
+
+#profile-rank::before {
+  content: 'rank';
+  color: var(--text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+
+.profile-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold-bg);
+  border: 0.5px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--gold);
+  user-select: none;
+  font-family: 'DM Mono', monospace;
+}
+
+
+.profile-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 0.5px solid var(--border);  
+  padding-top: 8px;
+}
+
+#age-cursor {
+  display: inline-block;
+  width: 6px; /* keeps width stable */
+  animation: blink 1s steps(2, start) infinite;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0% { opacity: 0.8; }
+  50% { opacity: 0; }
+  100% { opacity: 0.8; }
+}
+
+.auth-modal.no-transition {
+  transition: none !important;
+}
+
+
+</style>
+
+<div id="auth-modal" class="auth-modal hidden">
+  <div class="auth-modal-content" id="auth-content"></div>
+</div>
+
+
+<div id="profile-modal" class="auth-modal hidden">
+  <div class="auth-modal-content">
+    <div class="auth-title">Profile</div>
+<div class="profile-header-row">
+    <div class="profile-left">
+    <div class="profile-username" id="profile-username"></div>
+    <div id="profile-rank"></div>
+    </div>
+    <div class="profile-avatar">
+        <span id="profile-avatar-initial">?</span>
+    </div>
+    
+</div>
+<div id="profile-progress" class="progress-row">Loading progress…</div>    
+<div id="profile-meta" class="profile-meta">
+<div id="profile-created"></div>
+<div id="profile-age">age → <span id="age-value"></span><span id="age-cursor">_</span></span></div>
+</div>
+
+
+    <div class="auth-buttons">
+      <button id="logout-btn" class="auth-btn secondary">Logout</button>
+    </div>
+  </div>
+</div>
+
+<script>    
+const loginHTML = `
+  <div class="auth-title">Login</div>
+
+  <input id="login-username" class="auth-input" placeholder="Username">
+  <input id="login-password" class="auth-input" type="password" placeholder="Password">
+
+  <div class="auth-buttons">
+    <button id="login-btn" class="auth-btn">Login</button>
+  </div>
+
+  <div id="login-error" class="auth-error hidden"></div> 
+  <div id="login-success" class="auth-success hidden"></div> 
+
+  <div class="auth-switch">
+    Don't have an account?
+    <span class="auth-switch-link" id="go-register">Register →</span>
+  </div>
+`;
+const registerHTML = `
+  <div class="auth-title">Register</div>
+
+  <input id="reg-username" class="auth-input" placeholder="Username">
+  <input id="reg-password" class="auth-input" type="password" placeholder="Password">
+
+  <div class="auth-buttons">
+    <button id="register-btn" class="auth-btn">Register</button>
+  </div>
+
+  <div id="register-error" class="auth-error hidden"></div>
+  <div id="register-success" class="auth-success hidden"></div>       
+
+  <div class="auth-switch">
+    Already have an account?
+    <span class="auth-switch-link" id="go-login">Login →</span>
+  </div>
+`;
+
+function showLogin() {
+    document.getElementById("auth-content").innerHTML = loginHTML;
+
+    document.getElementById("login-btn").onclick = () => doLogin();
+    enableLoginEnter();
+}
+
+function showRegister() {
+    document.getElementById("auth-content").innerHTML = registerHTML;
+
+    document.getElementById("register-btn").onclick = () => doRegister();
+    enableRegisterEnter();
+}
+
+
+
+async function api(path, method = "GET", body = null) {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`https://terril.duckdns.org/api/${path}`, {
+        method,
+        headers: {
+            "Content-Type": "application/json",
+            ...(token ? {
+                "Authorization": token
+            } : {})
+        },
+        body: body ? JSON.stringify(body) : null
+    });
+    let data = null;
+    try {
+        data = await res.json();
+    } catch {
+        data = null;
+    }
+    return {
+        status: res.status,
+        data
+    };
+}
+
+function enableLoginEnter() {
+    const u = document.getElementById("login-username");
+    const p = document.getElementById("login-password");
+
+    function handleLoginEnter(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("login-btn").click();
+        }
+    }
+    u.addEventListener("keydown", handleLoginEnter);
+    p.addEventListener("keydown", handleLoginEnter);
+    u._enterHandler = handleLoginEnter;
+    p._enterHandler = handleLoginEnter;
+}
+
+function enableRegisterEnter() {
+    const u = document.getElementById("reg-username");
+    const p = document.getElementById("reg-password");
+
+    function handleRegisterEnter(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("register-btn").click();
+        }
+    }
+    u.addEventListener("keydown", handleRegisterEnter);
+    p.addEventListener("keydown", handleRegisterEnter);
+    u._enterHandler = handleRegisterEnter;
+    p._enterHandler = handleRegisterEnter;
+}
+
+function disableAuthEnter() {
+    const ids = ["login-username", "login-password", "reg-username", "reg-password"];
+    for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el._enterHandler) {
+            el.removeEventListener("keydown", el._enterHandler);
+            el._enterHandler = null;
+        }
+    }
+}
+
+function closeAllModals() {
+    document.getElementById("auth-modal").classList.add("hidden");
+    document.getElementById("profile-modal").classList.add("hidden");
+
+    const regErr = document.getElementById("register-error");
+    const regSuc = document.getElementById("register-success");
+    const logErr = document.getElementById("login-error");
+    const logSuc = document.getElementById("login-success");
+
+    if (regErr) regErr.classList.add("hidden");
+    if (regSuc) regSuc.classList.add("hidden");
+    if (logErr) logErr.classList.add("hidden");
+    if (logSuc) logSuc.classList.add("hidden");
+
+    disableAuthEnter();
+}
+
+let isLoggedIn = false;
+
+function formatAgeOD(ms) {
+    let remaining = ms;
+    const y = Math.floor(remaining / (365 * 24 * 60 * 60 * 1000));
+    remaining %= 365 * 24 * 60 * 60 * 1000;
+    const m = Math.floor(remaining / (30 * 24 * 60 * 60 * 1000));
+    remaining %= 30 * 24 * 60 * 60 * 1000;
+    const d = Math.floor(remaining / (24 * 60 * 60 * 1000));
+    remaining %= 24 * 60 * 60 * 1000;
+    const h = Math.floor(remaining / (60 * 60 * 1000));
+    remaining %= 60 * 60 * 1000;
+    const min = Math.floor(remaining / (60 * 1000));
+    remaining %= 60 * 1000;
+    const s = Math.floor(remaining / 1000);
+    const ms2 = Math.floor(remaining % 1000);
+    const parts = [];
+    if (y > 0) parts.push(`${y}y`);
+    if (m > 0) parts.push(`${m}m`);
+    if (d > 0) parts.push(`${String(d).padStart(2, "0")}d`);
+    parts.push(String(h).padStart(2, "0"));
+    parts.push(String(min).padStart(2, "0"));
+    parts.push(String(s).padStart(2, "0"));
+    parts.push(String(ms2).padStart(3, "0"));
+    while (parts.length > 1 && (parts[0] === "00" || parts[0] === "000")) {
+        parts.shift();
+    }
+    return parts.join(":");
+}
+let ageInterval = null;
+async function checkLogin() {
+    
+    const {
+        status,
+        data
+    } = await api("me");
+    const entry = document.getElementById("auth-entry");
+    if (!entry) return;
+
+    const initialEl = document.getElementById("profile-avatar-initial");
+    if (initialEl && data.user && data.user.username) {
+        initialEl.textContent = data.user.username[0].toUpperCase();
+    }
+    const createdEl = document.getElementById("profile-created");
+    if (createdEl && data.user && data.user.created_at) {
+        const d = new Date(data.user.created_at * 1000);
+        const yy = String(d.getFullYear()).slice(2);
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        createdEl.textContent = `created_at → ${yy}${mm}${dd}`;
+    }
+    const ageValue = document.getElementById("age-value");
+    if (ageValue && data.user && data.user.created_at) {
+        const createdMs = data.user.created_at * 1000;
+        if (ageInterval !== null) {
+            clearInterval(ageInterval);
+            ageInterval = null;
+        }
+
+        function updateAge() {
+            const now = Date.now();
+            const diff = now - createdMs;
+            ageValue.textContent = formatAgeOD(diff);
+        }
+        updateAge();
+        ageInterval = setInterval(updateAge, 50);
+    }
+    if (!data || !data.user) {
+        isLoggedIn = false;
+        entry.textContent = "Login";
+        entry.onclick = () => openLoginModal();
+        return;
+    }
+    isLoggedIn = true;
+    entry.textContent = data.user.username;
+    closeAllModals();
+    entry.onclick = () => {
+        closeAllModals();
+        document.getElementById("profile-username").textContent = data.user.username;
+        document.getElementById("profile-modal").classList.remove("hidden");
+        loadProgress();
+        loadRank();
+    };
+}
+async function doLogin() {
+    clearAuthError("login");
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password").value.trim();
+    if (!username || !password) {
+        showAuthError("login", "Please enter both username and password.");
+        return;
+    }
+    const {
+        status,
+        data
+    } = await api("login", "POST", {
+        username,
+        password
+    });
+    if (status === 429) {
+        showAuthError("login", "Too many attempts. Please wait a moment.");
+        return;
+    }
+    if (status >= 500) {
+        showAuthError("login", "Server error. Please try again later.");
+        return;
+    }
+    if (data && data.token) {
+        showAuthSuccess("login", "Logged in successfully!");
+        setTimeout(() => {
+            localStorage.setItem("token", data.token);
+            closeAllModals();
+            checkLogin();
+        }, 800);
+        
+        return;
+    }
+    if (data && data.error === "missing_credentials") {
+        showAuthError("login", "Please enter both fields.");
+    } else if (data && data.error === "invalid_credentials") {
+        showAuthError("login", "Incorrect username or password.");
+    } else {
+        showAuthError("login", "Login failed. Try again.");
+    }
+}
+
+function openLoginModal() {
+    clearAuthError("login");
+    showLogin();
+    document.getElementById("auth-modal").classList.remove("hidden");
+}
+
+function openRegisterModal() {
+    clearAuthError("register");
+    showRegister();
+    document.getElementById("auth-modal").classList.remove("hidden");
+}
+
+
+async function doRegister() {
+    clearAuthError("register");
+    const username = document.getElementById("reg-username").value.trim();
+    const password = document.getElementById("reg-password").value.trim();
+    if (!username || !password) {
+        showAuthError("register", "Please fill out both fields.");
+        return;
+    }
+    const {
+        status,
+        data
+    } = await api("register", "POST", {
+        username,
+        password
+    });
+    if (status === 429) {
+        showAuthError("register", "Too many attempts. Please wait a moment.");
+        return;
+    }
+    if (status >= 500) {
+        showAuthError("register", "Server error. Please try again later.");
+        return;
+    }
+    if (data && data.status === "ok") {
+        showAuthSuccess("register", "Registered successfully! Logging in…");
+        setTimeout(async () => {
+            const loginResult = await api("login", "POST", {
+                username,
+                password
+            });
+            if (loginResult.data && loginResult.data.token) {
+                localStorage.setItem("token", loginResult.data.token);
+                closeAllModals();
+                checkLogin();
+            } else {
+                openLoginModal();
+            }
+        }, 1500);
+        return;
+    }
+    if (data && data.error === "username_taken") {
+        showAuthError("register", "That username is already taken.");
+    } else if (data && data.error === "username_too_short") {
+        showAuthError("register", "Username must be at least 3 characters.");
+    } else if (data && data.error === "password_too_short") {
+        showAuthError("register", "Password must be at least 6 characters.");
+    } else {
+        showAuthError("register", "Registration failed.");
+    }
+}
+
+
+async function doLogout() {
+    const token = localStorage.getItem("token");
+    if (token) {
+        await fetch("https://terril.duckdns.org/api/logout", {
+            method: "POST",
+            headers: {
+                "Authorization": token
+            }
+        });
+    }
+    localStorage.removeItem("token");
+    closeAllModals();
+    checkLogin();
+}
+document.addEventListener("click", e => {
+    const modal = e.target.closest(".auth-modal");
+    if (!modal) return;
+    if (e.target === modal) {
+        modal.classList.add("hidden");
+    }
+});
+document.getElementById("logout-btn").onclick = () => doLogout();
+document.addEventListener("click", e => {
+    if (e.target.id === "go-register") showRegister();
+    if (e.target.id === "go-login") showLogin();
+});
+
+
+function showAuthSuccess(modal, msg) {
+    const box = document.getElementById(`${modal}-success`);
+    if (!box) return;
+    box.textContent = msg;
+    box.classList.remove("hidden");
+}
+
+function clearAuthSuccess(modal) {
+    const box = document.getElementById(`${modal}-success`);
+    if (!box) return;
+    box.textContent = "";
+    box.classList.add("hidden");
+}
+
+function showAuthError(modal, msg) {
+    const box = document.getElementById(`${modal}-error`);
+    if (!box) return;
+    box.textContent = msg;
+    box.classList.remove("hidden");
+}
+
+function clearAuthError(modal) {
+    if (modal) {
+        const box = document.getElementById(`${modal}-error`);
+        if (box) {
+            box.textContent = "";
+            box.classList.add("hidden");
+        }
+    } else {
+        ["login", "register"].forEach(m => clearAuthError(m));
+    }
+}
+
+function setupViewTracking() {
+    const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const bitIndex = parseInt(entry.target.dataset.bitIndex, 10);
+            // entry.target.classList.add("seen-debug");
+            markViewed(bitIndex);
+        }
+    }, {
+        root: document.querySelector(".all"),
+        threshold: 0.5
+    });
+    return observer;
+}
+let viewedQueue = new Set();
+let viewedTimer = null;
+let viewedSet = new Set();
+
+async function markViewed(bitIndex) {
+    if (!isLoggedIn) return;
+    if (viewedSet.has(bitIndex)) return;
+    viewedSet.add(bitIndex);
+    viewedQueue.add(bitIndex);
+    if (!viewedTimer) {
+        viewedTimer = setTimeout(async () => {
+            const batch = Array.from(viewedQueue);
+            viewedQueue.clear();
+            viewedTimer = null;
+            try {
+                await api("viewed", "POST", { bit_indices: batch }); // single request
+            } catch (e) {
+                console.warn("markViewed failed", e);
+            }
+        }, 250);
+    }
+}
+
+async function loadProgress() {
+    const el = document.getElementById("profile-progress");
+    el.textContent = "Loading…";
+    try {
+        const {
+            status,
+            data
+        } = await api("progress", "GET");
+        if (status === 401 || !data || data.error === "not_logged_in") {
+            console.log("[loadProgress] not logged in");
+            el.textContent = "Not logged in";
+            return;
+        }
+        const {
+            viewed,
+            total,
+            bitset
+        } = data;
+        viewedSet = new Set();
+        if (bitset) {
+            const bytes = Uint8Array.from(atob(bitset), c => c.charCodeAt(0));
+            for (let i = 0; i < bytes.length; i++) {
+                const byte = bytes[i];
+                if (byte === 0) continue;
+                for (let b = 0; b < 8; b++) {
+                    if (byte & (1 << b)) {
+                        viewedSet.add(i * 8 + b);
+                    }
+                }
+            }
+        }
+        const pct = total > 0 ? ((viewed / total) * 100).toFixed(1) : "0.0";
+        el.innerHTML = `
+      <span class="progress-text">${viewed.toLocaleString()} / ${total.toLocaleString()} (${pct}%)</span>
+      <div class="progress-track">
+        <div class="progress-fill" style="width: ${pct}%"></div>
+      </div>
+    `;
+    } catch (err) {
+        console.error("[loadProgress] error", err);
+        el.textContent = "Error loading progress";
+    }
+}
+
+async function loadRank() {
+    const el = document.getElementById("profile-rank");
+    if (!el) return;
+
+    const res = await api("rank", "GET");
+    const rank = res.data?.rank;
+
+    if (rank === null || rank === undefined) {
+        el.textContent = "—";
+        return;
+    }
+
+    el.textContent = `#${rank}`;
+}
+
+</script>
