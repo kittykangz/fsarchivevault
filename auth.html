@@ -763,6 +763,10 @@ body.scroll-lock {
 
 
 <script>  
+function modalIsOpen() {
+    return document.querySelector('.auth-modal:not(.hidden)') !== null;
+}
+
 let favArrayFull = [];
 document.addEventListener('wheel', (e) => {
 	const modal = document.querySelector('.auth-modal:not(.hidden)');
