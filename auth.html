@@ -51,6 +51,11 @@
   transform: translateY(0);
 }
 
+#fav-grid-label {
+    font-size: 12px;
+    user-select: none;
+}
+
 .auth-title {
   font-family: 'DM Sans', sans-serif;
   font-size: 9px;
@@ -62,6 +67,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  user-select: none;
 }
 
 .auth-title::after {
@@ -112,6 +118,7 @@
   cursor: pointer;
   border-radius: 0;
   transition: background 0.15s, border-color 0.15s;
+  user-select: none;
 }
 
 .auth-btn:hover {
@@ -211,6 +218,7 @@ html.dark .auth-success {
   letter-spacing: 0.06em;
   color: var(--text-primary);
   text-align: center;
+  user-select: none;
 }
 
 .progress-track {
@@ -256,6 +264,7 @@ html.dark .auth-success {
   white-space: normal;
   overflow-wrap: break-word;
   max-width: 140px;
+  user-select: none;
 }
 
 #profile-rank {
@@ -264,6 +273,7 @@ html.dark .auth-success {
   letter-spacing: 0.06em;
   color: var(--gold);
   align-self: flex-end;
+  user-select: none;
 }
 
 #profile-rank::before {
@@ -303,11 +313,12 @@ html.dark .auth-success {
   gap: 2px;
   border-top: 0.5px solid var(--border);  
   padding-top: 8px;
+  user-select: none;
 }
 
 #age-cursor {
   display: inline-block;
-  width: 6px; /* keeps width stable */
+  width: 6px;
   animation: blink 1s steps(2, start) infinite;
   opacity: 0.8;
   margin-left: 2px;
@@ -321,6 +332,348 @@ html.dark .auth-success {
 
 .auth-modal.no-transition {
   transition: none !important;
+}
+.fav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 0.5px solid var(--border);
+  padding-top: 10px;
+}
+
+.fav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fav-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+
+.fav-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.fav-strip-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.fav-strip {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+  scroll-behavior: smooth;
+}
+.fav-strip::-webkit-scrollbar { display: none; }
+
+.fav-thumb {
+  flex-shrink: 0;
+  width: 56px;
+  height: 72px;
+  background: no-repeat;
+  border: 0.5px solid transparent;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.fav-thumb:hover {
+  border-color: var(--gold);
+}
+
+.fav-view-btn {
+  flex-shrink: 0;
+  width: 56px;
+  height: 72px;
+  background: transparent;
+  border: 0.5px dashed #3a3a36;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.fav-view-btn:hover { border-color: rgba(201,185,122,0.4); }
+.fav-view-btn span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #666;
+}
+.fav-view-btn svg { width: 12px; height: 12px; }
+
+.fav-edge {
+  position: absolute;
+  top: 0; right: 0;
+  width: 24px; height: 100%;
+  background: linear-gradient(to right, transparent, var(--bg-surface));
+  pointer-events: none;
+}
+
+.fav-view-btn-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 2px;
+    transition: background 0.15s;
+    user-select: none;
+}
+
+.fav-view-btn-header:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.fav-view-btn-header svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--text-secondary);
+}
+
+.fav-view-btn-header span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+.fav-modal-content {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  width: 520px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+}
+
+.fav-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 14px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.fav-modal-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s;
+  user-select: none;
+}
+.fav-modal-close:hover { color: var(--text-primary); }
+
+.fav-filters {
+  padding: 10px 18px;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  gap: 10px;
+}
+
+.filter-group { display: flex; align-items: center; gap: 5px; }
+
+.filter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.filter-select {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  color: var(--text-secondary);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 3px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  transition: border-color 0.15s, color 0.15s;
+  text-transform: uppercase;
+  user-select: none;
+}
+.filter-select:focus { border-color: var(--gold-border); color: var(--gold); }
+
+.fav-grid-wrap {
+  padding: 12px 0 18px;
+  overflow-y: auto;
+  max-height: 380px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 90px);
+  gap: 12px;
+  justify-content: center;
+}
+.fav-grid .grid-thumb {
+  width: 90px;
+  aspect-ratio: 3 / 4;
+}
+
+
+.grid-thumb {
+  width: 90px;
+  aspect-ratio: 3 / 4;
+  background: transparent no-repeat center / cover;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+
+.grid-thumb:hover {
+    border-color: var(--gold-border);
+ }
+
+.fav-modal-footer {
+  padding: 10px 18px;
+  border-top: 0.5px solid var(--border);
+}
+
+.footer-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+html.scroll-lock,
+body.scroll-lock {
+  overflow: clip !important;
+}
+
+#fav-context-menu {
+    font-family: 'DM Mono', consolas;
+    position: absolute;
+    background: var(--bg-surface);
+    color: var(--gold);
+    border: 0.5px solid var(--gold-border);
+    border-radius: 4px;
+    padding: 4px 0;
+    z-index: 999999999999999999999;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+#fav-context-menu.hidden {
+    display: none;
+}
+
+
+.fav-ctx-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.fav-ctx-item:hover {
+    background: var(--bg-deep);
+}
+.fav-thumb, .grid-thumb {
+    position: relative;
+}
+
+.fav-date-label {
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+    padding: 2px 4px;
+    font-size: 8px;
+    font-family: 'DM Mono', consolas;
+    letter-spacing: 0.04em;
+    background: var(--bg-surface);
+    color: var(--gold);
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    text-align: center;
+    user-select: none;
+}
+
+.fav-thumb .fav-date-label {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.grid-thumb .fav-date-label {
+    right: 6px;
+}
+
+
+.fav-thumb:hover .fav-date-label,
+.grid-thumb:hover .fav-date-label {
+    opacity: 1;
+}
+
+.fav-gm-label {
+    position: absolute;
+    top: 4px;
+    left: 2px;
+    padding: 2px 4px;
+    font-size: 8px;
+    font-family: 'DM Mono', consolas;
+    letter-spacing: 0.04em;
+    background: var(--bg-surface);
+    color: var(--gold);
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+}
+
+.grid-thumb:hover .fav-gm-label {
+    opacity: 1;
 }
 
 
@@ -344,7 +697,25 @@ html.dark .auth-success {
     </div>
     
 </div>
-<div id="profile-progress" class="progress-row">Loading progress…</div>    
+<div id="profile-progress" class="progress-row">Loading progress…</div>  
+    <div class="fav-section">
+        <div class="fav-header">
+            <div class="fav-label">Favorites</div>
+
+            <div class="fav-view-btn-header" id="view-all-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <span>view all</span>
+            </div>
+        </div>
+
+      <div class="fav-strip-wrap">
+        <div class="fav-strip" id="fav-strip">
+        </div>
+        <div class="fav-edge"></div>
+      </div>
+    </div>  
 <div id="profile-meta" class="profile-meta">
 <div id="profile-created"></div>
 <div id="profile-age">age → <span id="age-value"></span><span id="age-cursor">_</span></span></div>
@@ -356,8 +727,422 @@ html.dark .auth-success {
     </div>
   </div>
 </div>
+<div id="fav-modal" class="auth-modal hidden">
+  <div class="fav-modal-content">
+    <div class="fav-modal-header">
+      <div class="auth-title" id="fav-grid-label" style="margin-bottom:0;">Favorites</div>
+      <button class="fav-modal-close" id="fav-modal-close">✕</button>
+    </div>
+    <div class="fav-filters">
+      <div class="filter-group">
+        <span class="filter-label">group</span>
+        <select class="filter-select" id="fav-filter-group">
+          <option value="">all</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">member</span>
+        <select class="filter-select" id="fav-filter-member">
+          <option value="">ALL</option>
+        </select>
+      </div>
+    </div>
+    <div class="fav-grid-wrap">
+      <div class="fav-grid" id="fav-grid"></div>
+    </div>
+    <div class="fav-modal-footer">
+      <span class="footer-count" id="fav-footer-count"></span>
+    </div>
+  </div>
+</div>
+  <div id="fav-context-menu" class="hidden">
+  <div class="fav-ctx-item" data-action="open">Open image</div>
+  <div class="fav-ctx-item" data-action="download">Download</div>
+  <div class="fav-ctx-item" data-action="member">Go to member page</div>
+</div>
 
-<script>    
+
+<script>  
+let favArrayFull = [];
+document.addEventListener('wheel', (e) => {
+	const modal = document.querySelector('.auth-modal:not(.hidden)');
+	if (!modal) return;
+	const scroller = e.target.closest('.fav-grid-wrap');
+	if (scroller) {
+		const atTop = scroller.scrollTop === 0;
+		const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
+		const scrollingUp = e.deltaY < 0;
+		const scrollingDown = e.deltaY > 0;
+		if ((scrollingUp && atTop) || (scrollingDown && atBottom)) {
+			e.preventDefault();
+		}
+		return;
+	}
+	e.preventDefault();
+}, {
+	passive: false
+});
+let touchStartY = 0;
+document.addEventListener('touchstart', (e) => {
+	touchStartY = e.touches[0].clientY;
+}, {
+	passive: true
+});
+document.addEventListener('touchmove', (e) => {
+	const modal = document.querySelector('.auth-modal:not(.hidden)');
+	if (!modal) return;
+	const scroller = e.target.closest('.fav-grid-wrap');
+	if (scroller) {
+		const deltaY = touchStartY - e.touches[0].clientY;
+		const atTop = scroller.scrollTop === 0;
+		const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
+		const scrollingUp = deltaY < 0;
+		const scrollingDown = deltaY > 0;
+		if ((scrollingUp && atTop) || (scrollingDown && atBottom)) {
+			e.preventDefault();
+		}
+		return;
+	}
+	e.preventDefault();
+}, {
+	passive: false
+});
+
+function parseRel(rel) {
+	const parts = rel.split("/");
+	return {
+		group: parts[0] || "",
+		member: parts[1] || ""
+	};
+}
+
+function buildFavArray() {
+	return [...window.userFavorites].map(key => {
+		const [bit, rel] = key.split("|");
+		const parts = rel.split("/");
+		return {
+			bit,
+			rel_path: rel,
+			group: parts[0],
+			member: parts[1]
+		};
+	});
+}
+
+function populateFavFilters(favArray) {
+	const groupSelect = document.getElementById("fav-filter-group");
+	const memberSelect = document.getElementById("fav-filter-member");
+	groupSelect.innerHTML = '<option value="">all</option>';
+	memberSelect.innerHTML = '<option value="">all</option>';
+	const groups = new Set();
+	const members = new Set();
+	favArray.forEach(fav => {
+		groups.add(fav.group);
+		members.add(fav.member);
+	});
+	[...groups].sort().forEach(g => {
+		const opt = document.createElement("option");
+		opt.value = g;
+		opt.textContent = g;
+		groupSelect.appendChild(opt);
+	});
+	[...members].sort().forEach(m => {
+		const opt = document.createElement("option");
+		opt.value = m;
+		opt.textContent = m;
+		memberSelect.appendChild(opt);
+	});
+}
+
+function populateFavGrid() {
+	const grid = document.getElementById("fav-grid");
+	grid.innerHTML = "";
+	const favArray = [...window.userFavorites].map(key => {
+		const [bit, rel] = key.split("|");
+		return {
+			bit,
+			rel_path: rel
+		};
+	});
+	favArray.forEach(fav => {
+		const rel = fav.rel_path;
+		const parts = rel.split("/");
+		const filename = parts.pop();
+		const dir = parts.join("/");
+		const thumbUrl = `https://terril.duckdns.org/${dir}/thumbs/${filename}`;
+		const div = document.createElement("div");
+		div.className = "grid-thumb";
+		div.style.backgroundImage = `url('${thumbUrl}')`;
+		div.onclick = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			openFavContextMenu(e, fav);
+		};
+		const info = window.userFavoritesData[fav.bit];
+		if (info && info.assigned_date) {
+			const label = document.createElement("div");
+			label.className = "fav-date-label";
+			label.textContent = info.assigned_date;
+			div.appendChild(label);
+		}
+		const gmLabel = document.createElement("div");
+		const decodedDir = decodeURIComponent(dir);
+		gmLabel.className = "fav-gm-label";
+		gmLabel.textContent = decodedDir;
+		div.appendChild(gmLabel);
+		grid.appendChild(div);
+	});
+	document.getElementById("fav-footer-count").textContent =
+		`${favArray.length} favorites`;
+}
+
+function applyFavFilters() {
+	const group = document.getElementById("fav-filter-group").value;
+	const member = document.getElementById("fav-filter-member").value;
+	let filtered = favArrayFull;
+	if (group) {
+		filtered = filtered.filter(f => f.group === group);
+	}
+	if (member) {
+		filtered = filtered.filter(f => f.member === member);
+	}
+	renderFilteredGrid(filtered);
+}
+
+function rebuildMemberOptionsForGroup(group) {
+	const memberSelect = document.getElementById("fav-filter-member");
+	let source = favArrayFull;
+	if (group) {
+		source = source.filter(f => f.group === group);
+	}
+	const members = [...new Set(source.map(f => f.member))].sort();
+	const current = memberSelect.value;
+	memberSelect.innerHTML = '<option value="">all</option>';
+	members.forEach(m => {
+		const opt = document.createElement("option");
+		opt.value = m;
+		opt.textContent = m;
+		memberSelect.appendChild(opt);
+	});
+	if (members.includes(current)) {
+		memberSelect.value = current;
+	} else {
+		memberSelect.value = "";
+	}
+}
+
+function renderFilteredGrid(list) {
+	const grid = document.getElementById("fav-grid");
+	grid.innerHTML = "";
+	list.forEach(fav => {
+		const rel = fav.rel_path;
+		const parts = rel.split("/");
+		const filename = parts.pop();
+		const dir = parts.join("/");
+		const thumbUrl = `https://terril.duckdns.org/${dir}/thumbs/${filename}`;
+		const div = document.createElement("div");
+		div.className = "grid-thumb";
+		div.style.backgroundImage = `url('${thumbUrl}')`;
+		div.onclick = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			openFavContextMenu(e, fav);
+		};
+		grid.appendChild(div);
+	});
+	document.getElementById("fav-footer-count").textContent =
+		`${list.length} favorites`;
+}
+document.getElementById("fav-filter-group")
+	.addEventListener("change", () => {
+		const group = document.getElementById("fav-filter-group").value;
+		rebuildMemberOptionsForGroup(group);
+		applyFavFilters();
+	});
+document.getElementById("fav-filter-member")
+	.addEventListener("change", applyFavFilters);
+document.getElementById("view-all-btn").addEventListener("click", () => {
+	favArrayFull = buildFavArray();
+	document.getElementById("fav-modal").classList.remove("hidden");
+	populateFavGrid();
+	populateFavFilters(favArrayFull);
+});
+document.getElementById("fav-modal-close").addEventListener("click", () => {
+	document.getElementById("fav-modal").classList.add("hidden");
+});
+document.getElementById("fav-modal").addEventListener("click", function(e) {
+	if (e.target === this) this.classList.add("hidden");
+});
+const strip = document.getElementById("fav-strip");
+strip.addEventListener("mouseenter", () => {
+	const count = strip.querySelectorAll(".fav-thumb").length;
+	if (count < 5) return;
+	favStripSpeed = 0;
+});
+strip.addEventListener("mouseleave", () => {
+	const count = strip.querySelectorAll(".fav-thumb").length;
+	if (count < 5) return;
+	favStripSpeed = 6;
+});
+let favStripRAF = null;
+let favStripX = 0;
+let favStripSpeed = 6;
+let favStripCurrentSpeed = 6;
+let favStripPaused = false;
+let favContextTarget = null;
+
+function openFavContextMenu(event, fav) {
+	favContextTarget = fav;
+	favStripPaused = true;
+	const menu = document.getElementById("fav-context-menu");
+	menu.style.left = event.pageX + "px";
+	menu.style.top = event.pageY + "px";
+	menu.classList.remove("hidden");
+}
+document.addEventListener("click", (e) => {
+	const menu = document.getElementById("fav-context-menu");
+	if (!menu.contains(e.target)) {
+		menu.classList.add("hidden");
+		favStripPaused = false;
+	}
+});
+
+function startFavStripScroll() {
+	const strip = document.getElementById("fav-strip");
+	if (!strip) return;
+	const thumbs = strip.querySelectorAll(".fav-thumb");
+	const count = thumbs.length;
+	if (count < 5) {
+		favStripX = 0;
+		favStripSpeed = 0;
+		favStripCurrentSpeed = 0;
+		strip.style.transform = "translateX(0)";
+		return;
+	}
+	favStripSpeed = 6;
+	favStripCurrentSpeed = 6;
+	favStripX = 0;
+	favStripPaused = false;
+}
+
+function stopFavStripScroll() {
+	favStripPaused = true;
+}
+
+function favStripLoop(now) {
+	const dt = now - favStripLast;
+	favStripLast = now;
+	if (!favStripPaused) {
+		favStripCurrentSpeed += (favStripSpeed - favStripCurrentSpeed) * 0.02;
+		favStripX -= (favStripCurrentSpeed * dt) / 1000;
+		const strip = document.getElementById("fav-strip");
+		if (strip) {
+			const first = strip.children[0];
+			if (first) {
+				const firstWidth = first.offsetWidth + 4;
+				if (Math.abs(favStripX) >= firstWidth) {
+					strip.appendChild(first);
+					favStripX += firstWidth;
+				}
+				strip.style.transform = `translateX(${favStripX}px)`;
+			}
+		}
+	}
+	requestAnimationFrame(favStripLoop);
+}
+let favStripLast = performance.now();
+requestAnimationFrame(favStripLoop);
+document.getElementById("fav-context-menu").addEventListener("click", (e) => {
+	if (!e.target.dataset.action) return;
+	const action = e.target.dataset.action;
+	const fav = favContextTarget;
+	const rel = fav.rel_path;
+	const parts = rel.split("/");
+	const group = parts[0];
+	const member = parts[1];
+	const filename = parts[2];
+	const fullUrl = `https://terril.duckdns.org/${group}/${member}/${filename}`;
+	switch (action) {
+		case "open":
+			window.open(fullUrl, "_blank");
+			break;
+		case "download":
+			downloadImage(fullUrl, filename);
+			break;
+		case "member":
+			window.location.href = `/MEMBERS/${group}_${member}.html`;
+			break;
+	}
+	document.getElementById("fav-context-menu").classList.add("hidden");
+});
+
+function populateFavoriteStrip() {
+	const strip = document.getElementById("fav-strip");
+	const thumbCount = strip.querySelectorAll(".fav-thumb").length;
+	strip.dataset.thumbCount = thumbCount;
+	strip.querySelectorAll(".fav-thumb").forEach(el => el.remove());
+	const favArray = [...window.userFavorites].map(key => {
+		const [bit, rel] = key.split("|");
+		return {
+			bit,
+			rel_path: rel
+		};
+	});
+	favArray.slice(0, 20).forEach(fav => {
+		const rel = fav.rel_path;
+		const parts = rel.split("/");
+		const filename = parts.pop();
+		const dir = parts.join("/");
+		const thumbUrl = `https://terril.duckdns.org/${dir}/thumbs/${filename}`;
+		const div = document.createElement("div");
+		div.className = "fav-thumb";
+		div.style.backgroundImage = `url('${thumbUrl}')`;
+		div.style.backgroundSize = "cover";
+		div.style.backgroundPosition = "center";
+		div.onclick = (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			openFavContextMenu(e, fav);
+		};
+		const info = window.userFavoritesData[fav.bit];
+		if (info && info.assigned_date) {
+			const label = document.createElement("div");
+			label.className = "fav-date-label";
+			label.textContent = info.assigned_date;
+			div.appendChild(label);
+		}
+		strip.appendChild(div);
+	});
+}
+async function downloadImage(fullUrl, filename) {
+	try {
+		const res = await fetch(fullUrl, {
+			mode: "cors"
+		});
+		const blob = await res.blob();
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = filename;
+		document.body.appendChild(a);
+		a.click();
+		a.remove();
+		URL.revokeObjectURL(url);
+	} catch (err) {
+		console.error("Download failed:", err);
+		window.open(fullUrl, "_blank");
+	}
+}
+
+function getOriginalWidth() {
+	const strip = document.getElementById("fav-strip");
+	let width = 0;
+	for (const el of strip.children) {
+		if (!el.classList.contains("fav-thumb")) continue;
+		width += el.offsetWidth + 4;
+	}
+	return width;
+}
 const loginHTML = `
   <div class="auth-title">Login</div>
 
@@ -396,451 +1181,450 @@ const registerHTML = `
 `;
 
 function showLogin() {
-    document.getElementById("auth-content").innerHTML = loginHTML;
-
-    document.getElementById("login-btn").onclick = () => doLogin();
-    enableLoginEnter();
+	document.getElementById("auth-content").innerHTML = loginHTML;
+	document.getElementById("login-btn").onclick = () => doLogin();
+	enableLoginEnter();
 }
 
 function showRegister() {
-    document.getElementById("auth-content").innerHTML = registerHTML;
-
-    document.getElementById("register-btn").onclick = () => doRegister();
-    enableRegisterEnter();
+	document.getElementById("auth-content").innerHTML = registerHTML;
+	document.getElementById("register-btn").onclick = () => doRegister();
+	enableRegisterEnter();
 }
-
-
-
 async function api(path, method = "GET", body = null) {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`https://terril.duckdns.org/api/${path}`, {
-        method,
-        headers: {
-            "Content-Type": "application/json",
-            ...(token ? {
-                "Authorization": token
-            } : {})
-        },
-        body: body ? JSON.stringify(body) : null
-    });
-    let data = null;
-    try {
-        data = await res.json();
-    } catch {
-        data = null;
-    }
-    return {
-        status: res.status,
-        data
-    };
+	const token = localStorage.getItem("token");
+	const res = await fetch(`https://terril.duckdns.org/api/${path}`, {
+		method,
+		headers: {
+			"Content-Type": "application/json",
+			...(token ? {
+				"Authorization": token
+			} : {})
+		},
+		body: body ? JSON.stringify(body) : null
+	});
+	let data = null;
+	try {
+		data = await res.json();
+	} catch {
+		data = null;
+	}
+	return {
+		status: res.status,
+		data
+	};
 }
 
 function enableLoginEnter() {
-    const u = document.getElementById("login-username");
-    const p = document.getElementById("login-password");
+	const u = document.getElementById("login-username");
+	const p = document.getElementById("login-password");
 
-    function handleLoginEnter(e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            document.getElementById("login-btn").click();
-        }
-    }
-    u.addEventListener("keydown", handleLoginEnter);
-    p.addEventListener("keydown", handleLoginEnter);
-    u._enterHandler = handleLoginEnter;
-    p._enterHandler = handleLoginEnter;
+	function handleLoginEnter(e) {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			document.getElementById("login-btn").click();
+		}
+	}
+	u.addEventListener("keydown", handleLoginEnter);
+	p.addEventListener("keydown", handleLoginEnter);
+	u._enterHandler = handleLoginEnter;
+	p._enterHandler = handleLoginEnter;
 }
 
 function enableRegisterEnter() {
-    const u = document.getElementById("reg-username");
-    const p = document.getElementById("reg-password");
+	const u = document.getElementById("reg-username");
+	const p = document.getElementById("reg-password");
 
-    function handleRegisterEnter(e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            document.getElementById("register-btn").click();
-        }
-    }
-    u.addEventListener("keydown", handleRegisterEnter);
-    p.addEventListener("keydown", handleRegisterEnter);
-    u._enterHandler = handleRegisterEnter;
-    p._enterHandler = handleRegisterEnter;
+	function handleRegisterEnter(e) {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			document.getElementById("register-btn").click();
+		}
+	}
+	u.addEventListener("keydown", handleRegisterEnter);
+	p.addEventListener("keydown", handleRegisterEnter);
+	u._enterHandler = handleRegisterEnter;
+	p._enterHandler = handleRegisterEnter;
 }
 
 function disableAuthEnter() {
-    const ids = ["login-username", "login-password", "reg-username", "reg-password"];
-    for (const id of ids) {
-        const el = document.getElementById(id);
-        if (el && el._enterHandler) {
-            el.removeEventListener("keydown", el._enterHandler);
-            el._enterHandler = null;
-        }
-    }
+	const ids = ["login-username", "login-password", "reg-username", "reg-password"];
+	for (const id of ids) {
+		const el = document.getElementById(id);
+		if (el && el._enterHandler) {
+			el.removeEventListener("keydown", el._enterHandler);
+			el._enterHandler = null;
+		}
+	}
 }
 
 function closeAllModals() {
-    document.getElementById("auth-modal").classList.add("hidden");
-    document.getElementById("profile-modal").classList.add("hidden");
-
-    const regErr = document.getElementById("register-error");
-    const regSuc = document.getElementById("register-success");
-    const logErr = document.getElementById("login-error");
-    const logSuc = document.getElementById("login-success");
-
-    if (regErr) regErr.classList.add("hidden");
-    if (regSuc) regSuc.classList.add("hidden");
-    if (logErr) logErr.classList.add("hidden");
-    if (logSuc) logSuc.classList.add("hidden");
-
-    disableAuthEnter();
+	document.getElementById("auth-modal").classList.add("hidden");
+	document.getElementById("profile-modal").classList.add("hidden");
+	const regErr = document.getElementById("register-error");
+	const regSuc = document.getElementById("register-success");
+	const logErr = document.getElementById("login-error");
+	const logSuc = document.getElementById("login-success");
+	if (regErr) regErr.classList.add("hidden");
+	if (regSuc) regSuc.classList.add("hidden");
+	if (logErr) logErr.classList.add("hidden");
+	if (logSuc) logSuc.classList.add("hidden");
+	disableAuthEnter();
 }
-
 let isLoggedIn = false;
 
 function formatAgeOD(ms) {
-    let remaining = ms;
-    const y = Math.floor(remaining / (365 * 24 * 60 * 60 * 1000));
-    remaining %= 365 * 24 * 60 * 60 * 1000;
-    const m = Math.floor(remaining / (30 * 24 * 60 * 60 * 1000));
-    remaining %= 30 * 24 * 60 * 60 * 1000;
-    const d = Math.floor(remaining / (24 * 60 * 60 * 1000));
-    remaining %= 24 * 60 * 60 * 1000;
-    const h = Math.floor(remaining / (60 * 60 * 1000));
-    remaining %= 60 * 60 * 1000;
-    const min = Math.floor(remaining / (60 * 1000));
-    remaining %= 60 * 1000;
-    const s = Math.floor(remaining / 1000);
-    const ms2 = Math.floor(remaining % 1000);
-    const parts = [];
-    if (y > 0) parts.push(`${y}y`);
-    if (m > 0) parts.push(`${m}m`);
-    if (d > 0) parts.push(`${String(d).padStart(2, "0")}d`);
-    parts.push(String(h).padStart(2, "0"));
-    parts.push(String(min).padStart(2, "0"));
-    parts.push(String(s).padStart(2, "0"));
-    parts.push(String(ms2).padStart(3, "0"));
-    while (parts.length > 1 && (parts[0] === "00" || parts[0] === "000")) {
-        parts.shift();
-    }
-    return parts.join(":");
+	let remaining = ms;
+	const y = Math.floor(remaining / (365 * 24 * 60 * 60 * 1000));
+	remaining %= 365 * 24 * 60 * 60 * 1000;
+	const m = Math.floor(remaining / (30 * 24 * 60 * 60 * 1000));
+	remaining %= 30 * 24 * 60 * 60 * 1000;
+	const d = Math.floor(remaining / (24 * 60 * 60 * 1000));
+	remaining %= 24 * 60 * 60 * 1000;
+	const h = Math.floor(remaining / (60 * 60 * 1000));
+	remaining %= 60 * 60 * 1000;
+	const min = Math.floor(remaining / (60 * 1000));
+	remaining %= 60 * 1000;
+	const s = Math.floor(remaining / 1000);
+	const ms2 = Math.floor(remaining % 1000);
+	const parts = [];
+	if (y > 0) parts.push(`${y}y`);
+	if (m > 0) parts.push(`${m}m`);
+	if (d > 0) parts.push(`${String(d).padStart(2, "0")}d`);
+	parts.push(String(h).padStart(2, "0"));
+	parts.push(String(min).padStart(2, "0"));
+	parts.push(String(s).padStart(2, "0"));
+	parts.push(String(ms2).padStart(3, "0"));
+	while (parts.length > 1 && (parts[0] === "00" || parts[0] === "000")) {
+		parts.shift();
+	}
+	return parts.join(":");
 }
 let ageInterval = null;
 async function checkLogin() {
-    
-    const {
-        status,
-        data
-    } = await api("me");
-    const entry = document.getElementById("auth-entry");
-    if (!entry) return;
+	const {
+		status,
+		data
+	} = await api("me");
+	const entry = document.getElementById("auth-entry");
+	if (!entry) return;
+	const initialEl = document.getElementById("profile-avatar-initial");
+	if (initialEl && data.user && data.user.username) {
+		initialEl.textContent = data.user.username[0].toUpperCase();
+	}
+	const createdEl = document.getElementById("profile-created");
+	if (createdEl && data.user && data.user.created_at) {
+		const d = new Date(data.user.created_at * 1000);
+		const yy = String(d.getFullYear()).slice(2);
+		const mm = String(d.getMonth() + 1).padStart(2, "0");
+		const dd = String(d.getDate()).padStart(2, "0");
+		createdEl.textContent = `created_at → ${yy}${mm}${dd}`;
+	}
+	const ageValue = document.getElementById("age-value");
+	if (ageValue && data.user && data.user.created_at) {
+		const createdMs = data.user.created_at * 1000;
+		if (ageInterval !== null) {
+			clearInterval(ageInterval);
+			ageInterval = null;
+		}
 
-    const initialEl = document.getElementById("profile-avatar-initial");
-    if (initialEl && data.user && data.user.username) {
-        initialEl.textContent = data.user.username[0].toUpperCase();
-    }
-    const createdEl = document.getElementById("profile-created");
-    if (createdEl && data.user && data.user.created_at) {
-        const d = new Date(data.user.created_at * 1000);
-        const yy = String(d.getFullYear()).slice(2);
-        const mm = String(d.getMonth() + 1).padStart(2, "0");
-        const dd = String(d.getDate()).padStart(2, "0");
-        createdEl.textContent = `created_at → ${yy}${mm}${dd}`;
-    }
-    const ageValue = document.getElementById("age-value");
-    if (ageValue && data.user && data.user.created_at) {
-        const createdMs = data.user.created_at * 1000;
-        if (ageInterval !== null) {
-            clearInterval(ageInterval);
-            ageInterval = null;
-        }
-
-        function updateAge() {
-            const now = Date.now();
-            const diff = now - createdMs;
-            ageValue.textContent = formatAgeOD(diff);
-        }
-        updateAge();
-        ageInterval = setInterval(updateAge, 50);
-    }
-    if (!data || !data.user) {
-        isLoggedIn = false;
-        entry.textContent = "Login";
-        entry.onclick = () => openLoginModal();
-        return;
-    }
-    isLoggedIn = true;
-    entry.textContent = data.user.username;
-    closeAllModals();
-    entry.onclick = () => {
-        closeAllModals();
-        document.getElementById("profile-username").textContent = data.user.username;
-        document.getElementById("profile-modal").classList.remove("hidden");
-        loadProgress();
-        loadRank();
-    };
+		function updateAge() {
+			const now = Date.now();
+			const diff = now - createdMs;
+			ageValue.textContent = formatAgeOD(diff);
+		}
+		updateAge();
+		ageInterval = setInterval(updateAge, 50);
+	}
+	if (!data || !data.user) {
+		isLoggedIn = false;
+		entry.textContent = "Login";
+		entry.onclick = () => openLoginModal();
+		return;
+	}
+	isLoggedIn = true;
+	entry.textContent = data.user.username;
+	closeAllModals();
+	entry.onclick = () => {
+		closeAllModals();
+		document.getElementById("profile-username").textContent = data.user.username;
+		document.getElementById("profile-modal").classList.remove("hidden");
+		loadProgress();
+		loadRank();
+		populateFavoriteStrip();
+		startFavStripScroll();
+	};
 }
 async function doLogin() {
-    clearAuthError("login");
-    const username = document.getElementById("login-username").value.trim();
-    const password = document.getElementById("login-password").value.trim();
-    if (!username || !password) {
-        showAuthError("login", "Please enter both username and password.");
-        return;
-    }
-    const {
-        status,
-        data
-    } = await api("login", "POST", {
-        username,
-        password
-    });
-    if (status === 429) {
-        showAuthError("login", "Too many attempts. Please wait a moment.");
-        return;
-    }
-    if (status >= 500) {
-        showAuthError("login", "Server error. Please try again later.");
-        return;
-    }
-    if (data && data.token) {
-        showAuthSuccess("login", "Logged in successfully!");
-        setTimeout(() => {
-            localStorage.setItem("token", data.token);
-            closeAllModals();
-            checkLogin();
-        }, 800);
-        
-        return;
-    }
-    if (data && data.error === "missing_credentials") {
-        showAuthError("login", "Please enter both fields.");
-    } else if (data && data.error === "invalid_credentials") {
-        showAuthError("login", "Incorrect username or password.");
-    } else {
-        showAuthError("login", "Login failed. Try again.");
-    }
+	clearAuthError("login");
+	const username = document.getElementById("login-username").value.trim();
+	const password = document.getElementById("login-password").value.trim();
+	if (!username || !password) {
+		showAuthError("login", "Please enter both username and password.");
+		return;
+	}
+	const {
+		status,
+		data
+	} = await api("login", "POST", {
+		username,
+		password
+	});
+	if (status === 429) {
+		showAuthError("login", "Too many attempts. Please wait a moment.");
+		return;
+	}
+	if (status >= 500) {
+		showAuthError("login", "Server error. Please try again later.");
+		return;
+	}
+	if (data && data.token) {
+		showAuthSuccess("login", "Logged in successfully!");
+		setTimeout(() => {
+			localStorage.setItem("token", data.token);
+			closeAllModals();
+			checkLogin();
+		}, 800);
+		return;
+	}
+	if (data && data.error === "missing_credentials") {
+		showAuthError("login", "Please enter both fields.");
+	} else if (data && data.error === "invalid_credentials") {
+		showAuthError("login", "Incorrect username or password.");
+	} else {
+		showAuthError("login", "Login failed. Try again.");
+	}
 }
 
 function openLoginModal() {
-    clearAuthError("login");
-    showLogin();
-    document.getElementById("auth-modal").classList.remove("hidden");
+	clearAuthError("login");
+	showLogin();
+	document.getElementById("auth-modal").classList.remove("hidden");
 }
 
 function openRegisterModal() {
-    clearAuthError("register");
-    showRegister();
-    document.getElementById("auth-modal").classList.remove("hidden");
+	clearAuthError("register");
+	showRegister();
+	document.getElementById("auth-modal").classList.remove("hidden");
 }
-
-
 async function doRegister() {
-    clearAuthError("register");
-    const username = document.getElementById("reg-username").value.trim();
-    const password = document.getElementById("reg-password").value.trim();
-    if (!username || !password) {
-        showAuthError("register", "Please fill out both fields.");
-        return;
-    }
-    const {
-        status,
-        data
-    } = await api("register", "POST", {
-        username,
-        password
-    });
-    if (status === 429) {
-        showAuthError("register", "Too many attempts. Please wait a moment.");
-        return;
-    }
-    if (status >= 500) {
-        showAuthError("register", "Server error. Please try again later.");
-        return;
-    }
-    if (data && data.status === "ok") {
-        showAuthSuccess("register", "Registered successfully! Logging in…");
-        setTimeout(async () => {
-            const loginResult = await api("login", "POST", {
-                username,
-                password
-            });
-            if (loginResult.data && loginResult.data.token) {
-                localStorage.setItem("token", loginResult.data.token);
-                closeAllModals();
-                checkLogin();
-            } else {
-                openLoginModal();
-            }
-        }, 1500);
-        return;
-    }
-    if (data && data.error === "username_taken") {
-        showAuthError("register", "That username is already taken.");
-    } else if (data && data.error === "username_too_short") {
-        showAuthError("register", "Username must be at least 3 characters.");
-    } else if (data && data.error === "password_too_short") {
-        showAuthError("register", "Password must be at least 6 characters.");
-    } else {
-        showAuthError("register", "Registration failed.");
-    }
+	clearAuthError("register");
+	const username = document.getElementById("reg-username").value.trim();
+	const password = document.getElementById("reg-password").value.trim();
+	if (!username || !password) {
+		showAuthError("register", "Please fill out both fields.");
+		return;
+	}
+	const {
+		status,
+		data
+	} = await api("register", "POST", {
+		username,
+		password
+	});
+	if (status === 429) {
+		showAuthError("register", "Too many attempts. Please wait a moment.");
+		return;
+	}
+	if (status >= 500) {
+		showAuthError("register", "Server error. Please try again later.");
+		return;
+	}
+	if (data && data.status === "ok") {
+		showAuthSuccess("register", "Registered successfully! Logging in…");
+		setTimeout(async () => {
+			const loginResult = await api("login", "POST", {
+				username,
+				password
+			});
+			if (loginResult.data && loginResult.data.token) {
+				localStorage.setItem("token", loginResult.data.token);
+				closeAllModals();
+				checkLogin();
+			} else {
+				openLoginModal();
+			}
+		}, 1500);
+		return;
+	}
+	if (data && data.error === "username_taken") {
+		showAuthError("register", "That username is already taken.");
+	} else if (data && data.error === "username_too_short") {
+		showAuthError("register", "Username must be at least 3 characters.");
+	} else if (data && data.error === "password_too_short") {
+		showAuthError("register", "Password must be at least 6 characters.");
+	} else {
+		showAuthError("register", "Registration failed.");
+	}
 }
-
-
 async function doLogout() {
-    const token = localStorage.getItem("token");
-    if (token) {
-        await fetch("https://terril.duckdns.org/api/logout", {
-            method: "POST",
-            headers: {
-                "Authorization": token
-            }
-        });
-    }
-    localStorage.removeItem("token");
-    closeAllModals();
-    checkLogin();
+	const token = localStorage.getItem("token");
+	if (token) {
+		await fetch("https://terril.duckdns.org/api/logout", {
+			method: "POST",
+			headers: {
+				"Authorization": token
+			}
+		});
+	}
+	localStorage.removeItem("token");
+	closeAllModals();
+	checkLogin();
 }
 document.addEventListener("click", e => {
-    const modal = e.target.closest(".auth-modal");
-    if (!modal) return;
-    if (e.target === modal) {
-        modal.classList.add("hidden");
-    }
+	const modal = e.target.closest(".auth-modal");
+	if (!modal) return;
+	if (e.target === modal) {
+		modal.classList.add("hidden");
+	}
 });
 document.getElementById("logout-btn").onclick = () => doLogout();
 document.addEventListener("click", e => {
-    if (e.target.id === "go-register") showRegister();
-    if (e.target.id === "go-login") showLogin();
+	if (e.target.id === "go-register") showRegister();
+	if (e.target.id === "go-login") showLogin();
 });
 
-
 function showAuthSuccess(modal, msg) {
-    const box = document.getElementById(`${modal}-success`);
-    if (!box) return;
-    box.textContent = msg;
-    box.classList.remove("hidden");
+	const box = document.getElementById(`${modal}-success`);
+	if (!box) return;
+	box.textContent = msg;
+	box.classList.remove("hidden");
 }
 
 function clearAuthSuccess(modal) {
-    const box = document.getElementById(`${modal}-success`);
-    if (!box) return;
-    box.textContent = "";
-    box.classList.add("hidden");
+	const box = document.getElementById(`${modal}-success`);
+	if (!box) return;
+	box.textContent = "";
+	box.classList.add("hidden");
 }
 
 function showAuthError(modal, msg) {
-    const box = document.getElementById(`${modal}-error`);
-    if (!box) return;
-    box.textContent = msg;
-    box.classList.remove("hidden");
+	const box = document.getElementById(`${modal}-error`);
+	if (!box) return;
+	box.textContent = msg;
+	box.classList.remove("hidden");
 }
 
 function clearAuthError(modal) {
-    if (modal) {
-        const box = document.getElementById(`${modal}-error`);
-        if (box) {
-            box.textContent = "";
-            box.classList.add("hidden");
-        }
-    } else {
-        ["login", "register"].forEach(m => clearAuthError(m));
-    }
+	if (modal) {
+		const box = document.getElementById(`${modal}-error`);
+		if (box) {
+			box.textContent = "";
+			box.classList.add("hidden");
+		}
+	} else {
+		["login", "register"].forEach(m => clearAuthError(m));
+	}
 }
 
 function setupViewTracking() {
-    const observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            const bitIndex = parseInt(entry.target.dataset.bitIndex, 10);
-            // entry.target.classList.add("seen-debug");
-            markViewed(bitIndex);
-        }
-    }, {
-        root: document.querySelector(".all"),
-        threshold: 0.5
-    });
-    return observer;
+	const observer = new IntersectionObserver((entries) => {
+		for (const entry of entries) {
+			if (!entry.isIntersecting) continue;
+			const bitIndex = parseInt(entry.target.dataset.bitIndex, 10);
+			// entry.target.classList.add("seen-debug");
+			markViewed(bitIndex);
+		}
+	}, {
+		root: document.querySelector(".all"),
+		threshold: 0.5
+	});
+	return observer;
 }
 let viewedQueue = new Set();
 let viewedTimer = null;
 let viewedSet = new Set();
-
 async function markViewed(bitIndex) {
-    if (!isLoggedIn) return;
-    if (viewedSet.has(bitIndex)) return;
-    viewedSet.add(bitIndex);
-    viewedQueue.add(bitIndex);
-    if (!viewedTimer) {
-        viewedTimer = setTimeout(async () => {
-            const batch = Array.from(viewedQueue);
-            viewedQueue.clear();
-            viewedTimer = null;
-            try {
-                await api("viewed", "POST", { bit_indices: batch }); // single request
-            } catch (e) {
-                console.warn("markViewed failed", e);
-            }
-        }, 250);
-    }
+	if (!isLoggedIn) return;
+	if (viewedSet.has(bitIndex)) return;
+	viewedSet.add(bitIndex);
+	viewedQueue.add(bitIndex);
+	if (!viewedTimer) {
+		viewedTimer = setTimeout(async () => {
+			const batch = Array.from(viewedQueue);
+			viewedQueue.clear();
+			viewedTimer = null;
+			try {
+				await api("viewed", "POST", {
+					bit_indices: batch
+				}); // single request
+			} catch (e) {
+				console.warn("markViewed failed", e);
+			}
+		}, 250);
+	}
 }
-
 async function loadProgress() {
-    const el = document.getElementById("profile-progress");
-    el.textContent = "Loading…";
-    try {
-        const {
-            status,
-            data
-        } = await api("progress", "GET");
-        if (status === 401 || !data || data.error === "not_logged_in") {
-            console.log("[loadProgress] not logged in");
-            el.textContent = "Not logged in";
-            return;
-        }
-        const {
-            viewed,
-            total,
-            bitset
-        } = data;
-        viewedSet = new Set();
-        if (bitset) {
-            const bytes = Uint8Array.from(atob(bitset), c => c.charCodeAt(0));
-            for (let i = 0; i < bytes.length; i++) {
-                const byte = bytes[i];
-                if (byte === 0) continue;
-                for (let b = 0; b < 8; b++) {
-                    if (byte & (1 << b)) {
-                        viewedSet.add(i * 8 + b);
-                    }
-                }
-            }
-        }
-        const pct = total > 0 ? ((viewed / total) * 100).toFixed(1) : "0.0";
-        el.innerHTML = `
+	const el = document.getElementById("profile-progress");
+	el.textContent = "Loading…";
+	try {
+		const {
+			status,
+			data
+		} = await api("progress", "GET");
+		if (status === 401 || !data || data.error === "not_logged_in") {
+			console.log("[loadProgress] not logged in");
+			el.textContent = "Not logged in";
+			return;
+		}
+		const {
+			viewed,
+			total,
+			bitset
+		} = data;
+		viewedSet = new Set();
+		if (bitset) {
+			const bytes = Uint8Array.from(atob(bitset), c => c.charCodeAt(0));
+			for (let i = 0; i < bytes.length; i++) {
+				const byte = bytes[i];
+				if (byte === 0) continue;
+				for (let b = 0; b < 8; b++) {
+					if (byte & (1 << b)) {
+						viewedSet.add(i * 8 + b);
+					}
+				}
+			}
+		}
+		const pct = total > 0 ? ((viewed / total) * 100).toFixed(1) : "0.0";
+		el.innerHTML = `
       <span class="progress-text">${viewed.toLocaleString()} / ${total.toLocaleString()} (${pct}%)</span>
       <div class="progress-track">
         <div class="progress-fill" style="width: ${pct}%"></div>
       </div>
     `;
-    } catch (err) {
-        console.error("[loadProgress] error", err);
-        el.textContent = "Error loading progress";
-    }
+	} catch (err) {
+		console.error("[loadProgress] error", err);
+		el.textContent = "Error loading progress";
+	}
 }
-
 async function loadRank() {
-    const el = document.getElementById("profile-rank");
-    if (!el) return;
-
-    const res = await api("rank", "GET");
-    const rank = res.data?.rank;
-
-    if (rank === null || rank === undefined) {
-        el.textContent = "—";
-        return;
-    }
-
-    el.textContent = `#${rank}`;
+	const el = document.getElementById("profile-rank");
+	if (!el) return;
+	const res = await api("rank", "GET");
+	const rank = res.data?.rank;
+	if (rank === null || rank === undefined) {
+		el.textContent = "—";
+		return;
+	}
+	el.textContent = `#${rank}`;
 }
-
+window.userFavorites = new Set();
+window.userFavoritesData = {};
+window.loadFavorites = async function() {
+	const token = localStorage.getItem("token");
+	if (!token) return;
+	const res = await fetch("https://terril.duckdns.org/api/favorites", {
+		headers: {
+			"Authorization": token
+		}
+	});
+	const data = await res.json();
+	window.userFavorites = new Set(
+		data.favorites.map(f => `${f.bit_index}|${f.rel_path}`)
+	);
+	window.userFavoritesData = {};
+	for (const f of data.favorites) {
+		window.userFavoritesData[f.bit_index] = f;
+	}
+};
 </script>

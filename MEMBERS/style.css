@@ -2316,3 +2316,61 @@ html.dark .auth-success {
 .auth-success.hidden {
   display: none;
 }
+
+#lightbox-fav-btn {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+#fav-heart {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease-out;
+}
+
+#lightbox-fav-btn:hover #fav-heart {
+    transform: scale(1.10);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));    
+}
+
+.filled #fav-heart {
+    fill: #ffd6f9 ;
+    stroke: #ffd6f9 ;
+}
+
+
+#lightbox-fav-btn.filled #fav-heart {
+    animation: fav-pop 0.6s ease forwards;
+}
+
+#lightbox-fav-btn:not(.animating):hover #fav-heart {
+    transform: scale(1.10);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
+}
+
+
+@keyframes fav-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.15); }
+  60%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* #lightbox-fav-btn.unfilling #fav-heart {
+    animation: fav-unfill 0.5s ease-out forwards;
+}
+
+@keyframes fav-unfill {
+  0%   { transform: scale(0.95); }
+  100% { transform: scale(1); }
+} */
+
+
+
+
