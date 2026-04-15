@@ -1066,14 +1066,21 @@ document.getElementById("fav-context-menu").addEventListener("click", (e) => {
 		case "open":
 			window.open(fullUrl, "_blank");
 			break;
+
 		case "download":
 			downloadImage(fullUrl, filename);
 			break;
+
 		case "member":
-			window.location.href = `/MEMBERS/${group}_${member}.html`;
+			const base = window.location.pathname.startsWith("/fsarchivevault")
+				? "/fsarchivevault"
+				: "";
+			window.location.href = `${base}/MEMBERS/${group}_${member}.html`;
 			break;
 	}
+
 	document.getElementById("fav-context-menu").classList.add("hidden");
+
 });
 
 function populateFavoriteStrip() {
