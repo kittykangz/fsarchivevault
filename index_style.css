@@ -401,11 +401,19 @@ html.dark .button-link:hover {
   align-items: center;
 }
 
+#age-cursor {
+  display: inline-block;
+  width: 6px;
+  animation: blink 1s steps(2, start) infinite;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
 
 .about-and-gallery {
   display: grid;
   grid-template-columns: 600px 300px 300px;
-  gap: 24px;
+  gap: 14px;
   width: 100%;
   margin: 0 auto;
   padding-right: 50px;
@@ -1167,6 +1175,44 @@ html:not(.dark) .hero-caption {
   margin-left: 8px;
 }
 
+.topbar-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.topbar-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.social-icon svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--gold);
+  opacity: 0.7;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.github {
+  height: 19px;
+}
+
+.social-icon:hover svg {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+#age-cursor {
+  display: inline-block;
+  width: 6px;
+  animation: blink 1s steps(2, start) infinite;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
 .topbar-right {
   display: flex;
   align-items: center;
@@ -1319,7 +1365,7 @@ html.dark .topbar-donate input[type="image"] {
   .abgr {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 14px;
     align-items: start;
   }
 

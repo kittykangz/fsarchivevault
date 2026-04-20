@@ -1761,7 +1761,7 @@ html.dark #gallery-loading {
   gap: 10px;
   position: relative;
   width: 100%;
-  padding-bottom: 200px;
+  padding-bottom: 250px;
   transition: min-height 1s ease, filter 0.8s ease;
   min-height: 0px;
 }
