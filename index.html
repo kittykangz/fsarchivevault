@@ -397,6 +397,20 @@ async function loadAuthHTML() {
   container.innerHTML = html;
   executeScripts(container);
 }
+document.getElementById("auth-entry").addEventListener("click", () => {
+    const el = document.getElementById("auth-entry");
+    const state = el.textContent.trim();
+    const loggedIn = !!localStorage.getItem("token");
+
+    
+    const url =
+        `https://terril.duckdns.org/event/auth-entry/` +
+        `${encodeURIComponent(state)}/` +
+        `${loggedIn ? "logged-in" : "logged-out"}/`;
+        `${Date.now()}`;
+
+    new Image().src = url;
+});
 </script>
 
 
