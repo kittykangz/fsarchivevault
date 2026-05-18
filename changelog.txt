@@ -1,3 +1,4 @@
+260518 – Redesigned metabox and added a tweet info panel, powered by a backend resolver that maps media hashes to tweet metadata using locally scraped tweet databases; Added tweet data coverage timeline on gallery pages; Added member count badge on images with multiple members; Minor ui tweaks to lightbox controls
 260415 – Added the ability for users to favorite images and view them in the profile modal
 260406 – Added custom interactive gallery timeline scrollbar with drag and jump navigation; Launched full authentication system with a dedicated backend for user accounts, enabling bitset-based view tracking and global ranking system; Minor UI tweaks
 260329 – Overhauled styling across all pages and content panels; Added a hero strip to index
