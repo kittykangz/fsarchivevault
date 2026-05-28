@@ -1,26 +1,53 @@
+260528 – Added translate button for tweet captions, Topbar server status indicator and splash screen while page loads; Redesigned gallery controls; Changed device specific viewport scaling settings and breakpoints
+
 260518 – Redesigned metabox and added a tweet info panel, powered by a backend resolver that maps media hashes to tweet metadata using locally scraped tweet databases; Added tweet data coverage timeline on gallery pages; Added member count badge on images with multiple members; Minor ui tweaks to lightbox controls
+
 260415 – Added the ability for users to favorite images and view them in the profile modal
+
 260406 – Added custom interactive gallery timeline scrollbar with drag and jump navigation; Launched full authentication system with a dedicated backend for user accounts, enabling bitset-based view tracking and global ranking system; Minor UI tweaks
+
 260329 – Overhauled styling across all pages and content panels; Added a hero strip to index
+
 260315 – Replaced CSS Grid/Flex layout and chunk-based virtualization with a metadata-driven, absolute-positioned custom coordinate engine with per-item virtualization, allowing a true masonry layout, accurate date search across all devices with stable upward‑scroll anchoring, and preserved viewport position when toggling layouts; Virtualization now properly removes items far outside the viewport and mounts new items only as they approach view; Lightbox zoom lens now hides the cursor and controls while active, with redesigned navigation arrows correctly centered within the image wrapper; Added particles to loading overlay
+
 260307 – Changed loading messages to use a session shuffled queue instead of true random; Fixed mobile ghost text during transitions
+
 260227 – Reworked item indexing to use metadata instead of rebuilding the DOM for instant lightbox open and gallery sorting; Added loading progress overlay to the gallery while metadata is built
+
 260206 – Added random image button and image loading placeholder; Fixed lightbox indexing to use global data-index instead of current loaded chunks; Optimized lightbox to a single network load, single decode, and shared bitmap for all functions; Replaced emoji divider with member info and added member signatures to header, updated donate button
+
 260131 – Added custom WebGL glass shader zoom lens in lightbox; Refactored layout to isolate sidebar and unify scroll container; Added sticky header, updated settings box style+added theme indicator, resolved mobile Safari body scroll and padding/margin overflow; finally added favicon.ico to volume tree page; Improved event logging
+
 260122 – Certain stat calls now read from SQLite instead of filesystem; ft_index no longer includes single member images
+
 260112 – Fixed metabox being pushed off-screen on small screens/wide images; Improved logging
+
 251223 – Fixed scrolltodate loading all prior chunks
+
 251129 – Added update history to index and volume tree
+
 251111 – Redesigned volume tree; Added groupings section, undated and unique image count, feedback input to index
+
 251105 – Set default gallery layout to grid
+
 251018 – New group UNIS; Added toggle for flex vs grid layouts, gallery info header; Fixed volume tree counts, lightbox close button, lightbox min-height; Redesigned header controls; Removed volume tree button from index
+
 251009 – Added changelog, accent colors, and activity graph; Moved darkmode toggle to sidebar and fixed consistency; Redesigned lightbox, index, volume tree, and sidebar
+
 250925 – Added included members in metabox
+
 250912 – Fixed index layout
+
 250902 – Added volume tree page
+
 250820 – Added 1-click download; Fixed userselect
+
 250724 – +duck -cloudflare
+
 250719 – Added assigned state, chronological sorting; updated index; Fixed metabox filesize
+
 250705 – Added info box in lightbox ("metabox")
+
 250703 – Lightbox fixes + loading spinner
+
 250629 – release

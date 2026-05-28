@@ -1,0 +1,531 @@
+<style>
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 16px;
+  background: var(--bg-deep);
+  border-bottom: 0.5px solid var(--border);
+  backdrop-filter: blur(6px);
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.topbar-logo {
+  font-family: 'DM Mono', monospace;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.topbar-logo span {
+  font-style: normal;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#age-cursor {
+  display: inline-block;
+  width: 6px;
+  animation: blink 1s steps(2, start) infinite;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.topbar-donate {
+  display: flex;
+  align-items: center;
+  line-height: 0; 
+  user-select: none;
+}
+
+.topbar-donate input[type="image"] {
+  height: 40px;
+  width: auto;
+  display: block;
+  filter: invert(1);
+  transition: opacity 0.15s;
+}
+
+html.dark .topbar-donate input[type="image"] {
+  filter: none;
+}
+
+.topbar-donate input[type="image"]:hover { opacity: 1; }
+  .topbar-auth {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.topbar-auth:hover {
+  color: var(--gold);
+  border-color: var(--gold-border);
+}
+
+#server-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    position: relative;
+    line-height: 1;
+}
+
+#status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    flex-shrink: 0;
+}
+
+#status-dot.online {
+    background: #4caf82;
+    box-shadow: 0 0 6px #4caf8288;
+    animation: pulse-green 2s ease-in-out infinite;
+}
+
+#status-dot.offline {
+    background: #c0392b;
+    box-shadow: 0 0 6px #c0392b88;
+    animation: pulse-red 1s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+
+@keyframes pulse-red {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+#status-text {
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+
+#status-text.online  { color: #4caf82; }
+#status-text.offline { color: #c0392b; }
+
+#status-uptime {
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+
+#status-uptime-wrap {
+    display: inline-flex;
+    align-items: center;
+    min-width: 120px;
+    line-height: 1;
+}
+#status-db-icon {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+#status-images,
+#status-requests,
+#status-latency,
+#status-memory {
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+#status-images-wrap,
+#status-requests-wrap,
+#status-latency-wrap,
+#status-memory-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 6px;
+}
+#status-clock-icon {
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.9;
+    margin-right: 4px;
+}
+#status-images-icon,
+#status-requests-icon,
+#status-latency-icon,
+#status-memory-icon {
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.9;
+}
+</style>
+
+
+<header class="topbar">
+        <div class="topbar-left">
+    <div class="topbar-logo">t<span>/ archive</span>
+    </div>
+<div id="server-status">
+    <i class="ti ti-server-2" id="status-db-icon"></i>
+    <span id="status-dot"></span>
+    <span id="status-text">Server</span>
+    <span id="status-uptime-wrap">
+      <i class="ti ti-clock-hour-12" id="status-clock-icon"></i>
+        <span id="status-uptime"></span>
+<span id="status-requests-wrap">
+    <i class="ti ti-database" id="status-requests-icon"></i>
+    <span id="status-requests"></span>
+</span>
+<span id="status-images-wrap">
+    <i class="ti ti-photo" id="status-images-icon"></i>
+    <span id="status-images"></span>
+</span>
+    <span id="status-latency-wrap">
+        <i class="ti ti-wifi" id="status-latency-icon"></i>
+        <span id="status-latency"></span>
+    </span>
+
+    <span id="status-memory-wrap">
+        <i class="ti ti-cpu-2" id="status-memory-icon"></i>
+        <span id="status-memory"></span>
+        <span id="age-cursor">_</span>
+    </span>
+    </span>
+</div>
+</div>
+
+    <div class="topbar-right">
+      <div id="auth-entry" class="topbar-auth">Login</div>      
+      <div class="topbar-donate">
+        <form action="https://www.paypal.com/donate" method="post" target="_blank">
+          <input type="hidden" name="business" value="NZYY9RMN3P58C"/>
+          <input type="hidden" name="no_recurring" value="0"/>
+          <input type="hidden" name="currency_code" value="USD"/>
+          <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="Donate with PayPal" alt="Donate with PayPal"/>
+          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+        </form>
+      </div>
+    </div>
+  </header>
+
+
+<script>
+document.getElementById("auth-entry").addEventListener("click", () => {
+    const el = document.getElementById("auth-entry");
+    const state = el.textContent.trim();
+    const loggedIn = !!localStorage.getItem("token");
+
+    
+    const url =
+        `https://terril.duckdns.org/event/auth-entry/` +
+        `${encodeURIComponent(state)}/` +
+        `${loggedIn ? "logged-in" : "logged-out"}/`;
+        `${Date.now()}`;
+
+    new Image().src = url;
+});   
+(function () {
+
+    const dot        = document.getElementById('status-dot');
+    const text       = document.getElementById('status-text');
+    const uptimeEl   = document.getElementById('status-uptime');
+    const requestsEl = document.getElementById('status-requests');
+    const latencyEl  = document.getElementById('status-latency');
+    const memoryEl   = document.getElementById('status-memory');
+    const cursor     = document.getElementById('age-cursor');
+    const statusEl   = document.getElementById('server-status');
+    const imagesEl = document.getElementById('status-images');
+
+    let serverUptimeMs = null;
+    let fetchedAt      = null;
+    let tickTimer      = null;
+
+    function formatUptime(ms) {
+
+        let remaining = ms;
+
+        const y = Math.floor(
+            remaining / (365 * 24 * 60 * 60 * 1000)
+        );
+
+        remaining %= (
+            365 * 24 * 60 * 60 * 1000
+        );
+
+        const mo = Math.floor(
+            remaining / (30 * 24 * 60 * 60 * 1000)
+        );
+
+        remaining %= (
+            30 * 24 * 60 * 60 * 1000
+        );
+
+        const d = Math.floor(
+            remaining / (24 * 60 * 60 * 1000)
+        );
+
+        remaining %= (
+            24 * 60 * 60 * 1000
+        );
+
+        const h = Math.floor(
+            remaining / (60 * 60 * 1000)
+        );
+
+        remaining %= (
+            60 * 60 * 1000
+        );
+
+        const min = Math.floor(
+            remaining / (60 * 1000)
+        );
+
+        remaining %= (
+            60 * 1000
+        );
+
+        const s = Math.floor(
+            remaining / 1000
+        );
+
+        const ms2 = Math.floor(
+            remaining % 1000
+        );
+
+        const parts = [];
+
+        if (y > 0) {
+            parts.push(`${y}y`);
+        }
+
+        if (mo > 0) {
+            parts.push(`${mo}m`);
+        }
+
+        if (d > 0) {
+            parts.push(
+                `${String(d).padStart(2, '0')}d`
+            );
+        }
+
+        parts.push(
+            String(h).padStart(2, '0')
+        );
+
+        parts.push(
+            String(min).padStart(2, '0')
+        );
+
+        parts.push(
+            String(s).padStart(2, '0')
+        );
+
+        parts.push(
+            String(ms2).padStart(3, '0')
+        );
+
+        while (
+            parts.length > 1 &&
+            (
+                parts[0] === '00' ||
+                parts[0] === '000'
+            )
+        ) {
+            parts.shift();
+        }
+
+        return parts.join(':');
+    }
+
+    function tick() {
+
+        if (serverUptimeMs === null) {
+            return;
+        }
+
+        const elapsed =
+            performance.now() - fetchedAt;
+
+        uptimeEl.textContent =
+            formatUptime(serverUptimeMs + elapsed);
+    }
+
+    function setOnline(data) {
+
+        serverUptimeMs = data.uptime * 1000;
+        fetchedAt = performance.now();
+
+        dot.className = 'online';
+
+        text.className = 'online';
+        text.textContent = 'Online';
+
+        cursor.style.display = 'inline-block';
+
+        requestsEl.textContent =
+            `API→${data.requests.toLocaleString()}`;
+
+        latencyEl.textContent =
+            `${data.avg_latency_ms}ms`;
+
+        memoryEl.textContent =
+            `${data.memory_mb}MB`;
+
+        if (data.avg_latency_ms < 200) {
+            latencyEl.style.color = '#4caf82';
+        }
+        else if (data.avg_latency_ms < 550) {
+            latencyEl.style.color = '#d8b15a';
+        }
+        else {
+            latencyEl.style.color = '#c0392b';
+        }
+        if (imagesEl && data.image_requests !== undefined) {
+            imagesEl.textContent =
+                `IMG→${data.image_requests.toLocaleString()}`;
+        }        
+
+        clearInterval(tickTimer);
+
+        tickTimer = setInterval(tick, 50);
+
+        dot.animate([
+            { transform: 'scale(1)' },
+            { transform: 'scale(1.6)' },
+            { transform: 'scale(1)' }
+        ], {
+            duration: 250,
+            easing: 'ease-out'
+        });
+    }
+
+    function setOffline() {
+
+        dot.className = 'offline';
+
+        text.className = 'offline';
+        text.textContent = 'Offline';
+
+        cursor.style.display = 'none';
+
+        clearInterval(tickTimer);
+
+        tickTimer = null;
+        serverUptimeMs = null;
+
+        uptimeEl.textContent = '';
+        requestsEl.textContent = '';
+        latencyEl.textContent = '';
+        memoryEl.textContent = '';
+        if (imagesEl) {
+            imagesEl.textContent = '';
+        }        
+    }
+
+    async function checkStatus() {
+
+        try {
+
+            const res = await fetch(
+                'https://terril.duckdns.org/api/status',
+                {
+                    cache: 'no-store',
+                    signal: AbortSignal.timeout(5000)
+                }
+            );
+
+            if (!res.ok) {
+                throw new Error('non-2xx');
+            }
+
+            const data = await res.json();
+
+            setOnline(data);
+
+        }
+        catch {
+
+            setOffline();
+        }
+    }
+
+    function randomFlicker() {
+
+        if (Math.random() < 0.08) {
+
+            statusEl.style.opacity = '0.68';
+
+            statusEl.style.transform =
+                'translateX(0.1px)';
+
+            setTimeout(() => {
+
+                statusEl.style.opacity = '1';
+
+                statusEl.style.transform =
+                    'translateX(0)';
+
+            }, 40 + Math.random() * 80);
+        }
+    }
+
+    function updateClockIcon() {
+        const clockIcon = document.getElementById('status-clock-icon');
+
+        let hour = 1;
+
+        setInterval(() => {
+
+            clockIcon.className =
+                `ti ti-clock-hour-${hour}`;
+
+            hour++;
+
+            if (hour > 12) {
+                hour = 1;
+            }
+
+        }, 1000);      
+    }
+
+    checkStatus();
+    updateClockIcon();
+
+    setInterval(checkStatus, 30000);
+
+    setInterval(randomFlicker, 900);
+
+})();
+</script>
