@@ -911,7 +911,6 @@ html.dark .date {
   max-height: fit-content;
   text-align: center;
   background: hsla(0, 0%, 0%, 0.475);
-  /*0.875*/
   border: 2px solid rgba(255, 255, 255, 0.222);
   padding: 10px;
   border-radius: 0.9rem;
@@ -919,8 +918,6 @@ html.dark .date {
   backdrop-filter: blur(20px) brightness(2) saturate(250%);
   -webkit-backdrop-filter: blur(20px) brightness(2) saturate(250%);
   z-index: 99999;
-  /*border-bottom: 4px inset #ffffff45;*/
-  /*border-right: 4px inset var(--acc-light);*/
   justify-content: center;
   align-items: center;
   margin-left: 300px;
@@ -1348,14 +1345,46 @@ html.dark #scrollToTop svg {
 #sort-overlay.show {
   opacity: 1;
 }
+#lbDissolveCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 2;
+}
+
+#lbImageBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+}
 
 #lbImage {
-  opacity: 0;
-  transition: opacity 0.2s ease;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: none;
 }
+
 
 #lightbox:not(.hidden) #lbImage[src]:not([src=""]) {
   opacity: 1;
+}
+#lbImage:not([src]),
+#lbImage[src=""],
+#lbImageBg:not([src]),
+#lbImageBg[src=""] {
+    opacity: 0 !important;
+    visibility: hidden;
 }
 .lightbox-image-wrapper.lens-active {
   cursor: none;
@@ -2547,6 +2576,7 @@ html.dark .auth-success {
   height: 25px;
   width: 25px;
   cursor: pointer;
+  z-index: 10;
 }
 #fav-heart {
   width: 100%;
@@ -3645,6 +3675,7 @@ html.dark .auth-success {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 #lightbox-flag-btn .ti {
@@ -3925,4 +3956,109 @@ html.dark .auth-success {
 .report-modal-footer .ti {
   font-size: 12px;
   color: var(--success);
+}
+/* shimmer animation */
+@keyframes lb-shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.lb-shimmer {
+    display: inline-block;
+    height: 9px;
+    border-radius: 4px;
+    background: linear-gradient(
+        90deg,
+        var(--lb-panel-border) 25%,
+        rgba(255,255,255,0.08) 50%,
+        var(--lb-panel-border) 75%
+    );
+    background-size: 200% 100%;
+    animation: lb-shimmer 1.4s ease infinite;
+    vertical-align: middle;
+}
+
+/* metabox value placeholders */
+.lb-row-value.loading,
+#lbDateLabel.loading,
+#lbResolution.loading,
+#lbFilesize.loading {
+    color: transparent;
+}
+
+/* swatch shimmer pills */
+.lb-swatch-placeholder {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.lb-swatch-placeholder .lb-shimmer-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--lb-panel-border) 25%,
+        rgba(255,255,255,0.08) 50%,
+        var(--lb-panel-border) 75%
+    );
+    background-size: 200% 100%;
+    animation: lb-shimmer 1.4s ease infinite;
+}
+.lb-swatch-placeholder .lb-shimmer-label {
+    width: 44px;
+}
+
+/* tweet box states */
+#lbTweetBox.lb-tweet-loading .lb-tweet-id,
+#lbTweetBox.lb-tweet-loading .lb-tweet-author,
+#lbTweetBox.lb-tweet-loading .lb-tweet-handle,
+#lbTweetBox.lb-tweet-loading #lbTweetCaption,
+#lbTweetBox.lb-tweet-loading .lb-tweet-date-text {
+    color: transparent;
+}
+#lbTweetBox.lb-tweet-loading .lb-tweet-link {
+    opacity: 0.2;
+    pointer-events: none;
+}
+#lbTweetBox.lb-tweet-loading #lbTranslateRow {
+    display: none;
+}
+
+/* no data card */
+.lb-tweet-nodata {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    color: var(--lb-text-muted);
+    font-size: 11px;
+    opacity: 0.5;
+}
+.lb-tweet-nodata i {
+    font-size: 13px;
+    flex-shrink: 0;
+}
+#lbTweetBox.lb-tweet-nodata-state .lb-tweet-nodata {
+    display: flex;
+}
+#lbTweetBox.lb-tweet-nodata-state .lb-tweet-id,
+#lbTweetBox.lb-tweet-nodata-state .lb-tweet-author-row,
+#lbTweetBox.lb-tweet-nodata-state .lb-tweet-caption-wrap,
+#lbTweetBox.lb-tweet-nodata-state #lbTranslateRow,
+#lbTweetBox.lb-tweet-nodata-state .lb-tweet-footer {
+    display: none;
+}
+
+/* fade transition for tweet content */
+#lbTweetBox .lb-tweet-body {
+    transition: opacity 0.2s ease;
+}
+#lbTweetBox.lb-tweet-loading .lb-tweet-body {
+    opacity: 0.4;
+}
+#lightbox-fav-btn,
+#lightbox-flag-btn {
+    opacity: 1 !important;
+    transition: none;
 }

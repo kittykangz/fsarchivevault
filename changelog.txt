@@ -1,3 +1,5 @@
+260625 – Started covering and backfilling content from news sources; renamed tweet specific terminology
+
 260607 – Added a comprehensive gallery filter system accessible via a new filter button in the controls bar featuring CLIP-based visual search, powered by clip-vit-base-patch32, allowing natural language image search and semantic matching; Optimized gallery metadata loading and virtualization, reducing initial load times; Improved virtualization cleanup and image request prioritization during fast scrolling so visible images load immediately instead of waiting behind a queue of off-screen requests; Fixed a virtualization-related issue causing scroll performance to degrade over time; Added a report button in the lightbox to help identify incorrect data and improve gallery accuracy; Response time is now shown after translating captions
 
 260528 – Added translate button for tweet captions, Topbar server status indicator and splash screen while page loads; Redesigned gallery controls; Changed device specific viewport scaling settings and breakpoints
