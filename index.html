@@ -20,7 +20,7 @@ try {
   document.documentElement.classList.toggle('dark', theme === 'dark');
 } catch(e) {}
 </script>
-
+<script src="sound-fx.js"></script>
 
 <title>Home</title>
 
@@ -564,6 +564,7 @@ function setupSidebarToggles() {
       const isOpen = memberList.style.display === 'block';
       memberList.style.display = isOpen ? 'none' : 'block';
       localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
+      SoundFX.play(isOpen ? 'heavy_click_reverse' : 'heavy_click');
     });
   });
 }

@@ -96,6 +96,29 @@ html.dark .topbar-donate input[type="image"] {
   border-color: var(--gold-border);
 }
 
+.topbar-sfx-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 23px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.topbar-sfx-toggle:hover {
+  color: var(--gold);
+  border-color: var(--gold-border);
+}
+
+.topbar-sfx-toggle.muted {
+  color: var(--error);
+}
+
 #server-status {
     display: flex;
     align-items: center;
@@ -227,6 +250,9 @@ html.dark .topbar-donate input[type="image"] {
 </div>
 
     <div class="topbar-right">
+      <div id="sfx-toggle" class="topbar-sfx-toggle" title="Mute sound effects">
+        <i class="ti ti-volume" id="sfx-toggle-icon" aria-hidden="true"></i>
+      </div>
       <div id="auth-entry" class="topbar-auth">Login</div>      
       <div class="topbar-donate">
         <form action="https://www.paypal.com/donate" method="post" target="_blank">
@@ -403,10 +429,10 @@ document.getElementById("auth-entry").addEventListener("click", () => {
         memoryEl.textContent =
             `${data.memory_mb}MB`;
 
-        if (data.avg_latency_ms < 200) {
+        if (data.avg_latency_ms < 350) {
             latencyEl.style.color = '#4caf82';
         }
-        else if (data.avg_latency_ms < 550) {
+        else if (data.avg_latency_ms < 700) {
             latencyEl.style.color = '#d8b15a';
         }
         else {
@@ -527,5 +553,42 @@ document.getElementById("auth-entry").addEventListener("click", () => {
 
     setInterval(randomFlicker, 900);
 
+})();
+
+(function () {
+    const btn  = document.getElementById('sfx-toggle');
+    const icon = document.getElementById('sfx-toggle-icon');
+
+    // sound-fx.js loads synchronously in <head> on every page, well
+    // before this topbar is fetched and injected, but guard anyway.
+    if (!btn || !icon || !window.SoundFX) return;
+
+    function render() {
+        const muted = SoundFX.isMuted();
+        icon.className = muted ? 'ti ti-volume-off' : 'ti ti-volume';
+        btn.classList.toggle('muted', muted);
+        btn.title = muted ? 'Unmute sound effects' : 'Mute sound effects';
+    }
+
+    btn.addEventListener('click', () => {
+        const next = !SoundFX.isMuted();
+        SoundFX.setMuted(next);
+        render();
+        if (!next) SoundFX.play('generic_click'); // quick confirmation on unmute
+
+        const path = `sfx-toggle/${next ? 'muted' : 'unmuted'}`;
+        if (typeof logEvent === 'function') {
+            logEvent(path);
+        } else {
+            // Fallback in case topbar.html is ever used on a page that
+            // doesn't define logEvent().
+            new Image().src = `https://terril.duckdns.org/event/${path}`;
+        }
+    });
+
+    // Stay in sync if muted state is ever changed from elsewhere.
+    document.addEventListener('sfx-mute-change', render);
+
+    render();
 })();
 </script>
