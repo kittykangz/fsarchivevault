@@ -1,0 +1,377 @@
+[
+  {
+    "member_key": "AESPA_GISELLE",
+    "group": "AESPA",
+    "member": "GISELLE"
+  },
+  {
+    "member_key": "AESPA_KARINA",
+    "group": "AESPA",
+    "member": "KARINA"
+  },
+  {
+    "member_key": "AESPA_NINGNING",
+    "group": "AESPA",
+    "member": "NINGNING"
+  },
+  {
+    "member_key": "AESPA_WINTER",
+    "group": "AESPA",
+    "member": "WINTER"
+  },
+  {
+    "member_key": "FROMIS_CHAEYOUNG",
+    "group": "FROMIS",
+    "member": "CHAEYOUNG"
+  },
+  {
+    "member_key": "FROMIS_GYURI",
+    "group": "FROMIS",
+    "member": "GYURI"
+  },
+  {
+    "member_key": "FROMIS_HAYOUNG",
+    "group": "FROMIS",
+    "member": "HAYOUNG"
+  },
+  {
+    "member_key": "FROMIS_JIHEON",
+    "group": "FROMIS",
+    "member": "JIHEON"
+  },
+  {
+    "member_key": "FROMIS_JISUN",
+    "group": "FROMIS",
+    "member": "JISUN"
+  },
+  {
+    "member_key": "FROMIS_JIWON",
+    "group": "FROMIS",
+    "member": "JIWON"
+  },
+  {
+    "member_key": "FROMIS_NAKYUNG",
+    "group": "FROMIS",
+    "member": "NAKYUNG"
+  },
+  {
+    "member_key": "FROMIS_SAEROM",
+    "group": "FROMIS",
+    "member": "SAEROM"
+  },
+  {
+    "member_key": "FROMIS_SOYEON",
+    "group": "FROMIS",
+    "member": "SOYEON"
+  },
+  {
+    "member_key": "ILLIT_IROHA",
+    "group": "ILLIT",
+    "member": "IROHA"
+  },
+  {
+    "member_key": "ILLIT_MINJU",
+    "group": "ILLIT",
+    "member": "MINJU"
+  },
+  {
+    "member_key": "ILLIT_MOKA",
+    "group": "ILLIT",
+    "member": "MOKA"
+  },
+  {
+    "member_key": "ILLIT_WONHEE",
+    "group": "ILLIT",
+    "member": "WONHEE"
+  },
+  {
+    "member_key": "ILLIT_YUNAH",
+    "group": "ILLIT",
+    "member": "YUNAH"
+  },
+  {
+    "member_key": "ITZY_CHAERYEONG",
+    "group": "ITZY",
+    "member": "CHAERYEONG"
+  },
+  {
+    "member_key": "ITZY_LIA",
+    "group": "ITZY",
+    "member": "LIA"
+  },
+  {
+    "member_key": "ITZY_RYUJIN",
+    "group": "ITZY",
+    "member": "RYUJIN"
+  },
+  {
+    "member_key": "ITZY_YEJI",
+    "group": "ITZY",
+    "member": "YEJI"
+  },
+  {
+    "member_key": "ITZY_YUNA",
+    "group": "ITZY",
+    "member": "YUNA"
+  },
+  {
+    "member_key": "IU_IU",
+    "group": "IU",
+    "member": "IU"
+  },
+  {
+    "member_key": "IVE_GAEUL",
+    "group": "IVE",
+    "member": "GAEUL"
+  },
+  {
+    "member_key": "IVE_LEESEO",
+    "group": "IVE",
+    "member": "LEESEO"
+  },
+  {
+    "member_key": "IVE_LIZ",
+    "group": "IVE",
+    "member": "LIZ"
+  },
+  {
+    "member_key": "IVE_REI",
+    "group": "IVE",
+    "member": "REI"
+  },
+  {
+    "member_key": "IVE_WONYOUNG",
+    "group": "IVE",
+    "member": "WONYOUNG"
+  },
+  {
+    "member_key": "IVE_YUJIN",
+    "group": "IVE",
+    "member": "YUJIN"
+  },
+  {
+    "member_key": "LOONA_CHOERRY",
+    "group": "LOONA",
+    "member": "CHOERRY"
+  },
+  {
+    "member_key": "LOONA_CHUU",
+    "group": "LOONA",
+    "member": "CHUU"
+  },
+  {
+    "member_key": "LOONA_GOWON",
+    "group": "LOONA",
+    "member": "GOWON"
+  },
+  {
+    "member_key": "LOONA_HASEUL",
+    "group": "LOONA",
+    "member": "HASEUL"
+  },
+  {
+    "member_key": "LOONA_HEEJIN",
+    "group": "LOONA",
+    "member": "HEEJIN"
+  },
+  {
+    "member_key": "LOONA_HYUNJIN",
+    "group": "LOONA",
+    "member": "HYUNJIN"
+  },
+  {
+    "member_key": "LOONA_JINSOUL",
+    "group": "LOONA",
+    "member": "JINSOUL"
+  },
+  {
+    "member_key": "LOONA_KIMLIP",
+    "group": "LOONA",
+    "member": "KIMLIP"
+  },
+  {
+    "member_key": "LOONA_OLIVIA",
+    "group": "LOONA",
+    "member": "OLIVIA"
+  },
+  {
+    "member_key": "LOONA_VIVI",
+    "group": "LOONA",
+    "member": "VIVI"
+  },
+  {
+    "member_key": "LOONA_YEOJIN",
+    "group": "LOONA",
+    "member": "YEOJIN"
+  },
+  {
+    "member_key": "LOONA_YVES",
+    "group": "LOONA",
+    "member": "YVES"
+  },
+  {
+    "member_key": "NEWJEANS_DANIELLE",
+    "group": "NEWJEANS",
+    "member": "DANIELLE"
+  },
+  {
+    "member_key": "NEWJEANS_HAERIN",
+    "group": "NEWJEANS",
+    "member": "HAERIN"
+  },
+  {
+    "member_key": "NEWJEANS_HANNI",
+    "group": "NEWJEANS",
+    "member": "HANNI"
+  },
+  {
+    "member_key": "NEWJEANS_HYEIN",
+    "group": "NEWJEANS",
+    "member": "HYEIN"
+  },
+  {
+    "member_key": "NEWJEANS_MINJI",
+    "group": "NEWJEANS",
+    "member": "MINJI"
+  },
+  {
+    "member_key": "RED VELVET_IRENE",
+    "group": "RED VELVET",
+    "member": "IRENE"
+  },
+  {
+    "member_key": "RED VELVET_JOY",
+    "group": "RED VELVET",
+    "member": "JOY"
+  },
+  {
+    "member_key": "RED VELVET_SEULGI",
+    "group": "RED VELVET",
+    "member": "SEULGI"
+  },
+  {
+    "member_key": "RED VELVET_WENDY",
+    "group": "RED VELVET",
+    "member": "WENDY"
+  },
+  {
+    "member_key": "RED VELVET_YERI",
+    "group": "RED VELVET",
+    "member": "YERI"
+  },
+  {
+    "member_key": "STAYC_ISA",
+    "group": "STAYC",
+    "member": "ISA"
+  },
+  {
+    "member_key": "STAYC_J",
+    "group": "STAYC",
+    "member": "J"
+  },
+  {
+    "member_key": "STAYC_SEEUN",
+    "group": "STAYC",
+    "member": "SEEUN"
+  },
+  {
+    "member_key": "STAYC_SIEUN",
+    "group": "STAYC",
+    "member": "SIEUN"
+  },
+  {
+    "member_key": "STAYC_SUMIN",
+    "group": "STAYC",
+    "member": "SUMIN"
+  },
+  {
+    "member_key": "STAYC_YOON",
+    "group": "STAYC",
+    "member": "YOON"
+  },
+  {
+    "member_key": "TWICE_CHAEYOUNG",
+    "group": "TWICE",
+    "member": "CHAEYOUNG"
+  },
+  {
+    "member_key": "TWICE_DAHYUN",
+    "group": "TWICE",
+    "member": "DAHYUN"
+  },
+  {
+    "member_key": "TWICE_JEONGYEON",
+    "group": "TWICE",
+    "member": "JEONGYEON"
+  },
+  {
+    "member_key": "TWICE_JIHYO",
+    "group": "TWICE",
+    "member": "JIHYO"
+  },
+  {
+    "member_key": "TWICE_MINA",
+    "group": "TWICE",
+    "member": "MINA"
+  },
+  {
+    "member_key": "TWICE_MOMO",
+    "group": "TWICE",
+    "member": "MOMO"
+  },
+  {
+    "member_key": "TWICE_NAYEON",
+    "group": "TWICE",
+    "member": "NAYEON"
+  },
+  {
+    "member_key": "TWICE_SANA",
+    "group": "TWICE",
+    "member": "SANA"
+  },
+  {
+    "member_key": "TWICE_TZUYU",
+    "group": "TWICE",
+    "member": "TZUYU"
+  },
+  {
+    "member_key": "UNIS_ELISIA",
+    "group": "UNIS",
+    "member": "ELISIA"
+  },
+  {
+    "member_key": "UNIS_GEHLEE",
+    "group": "UNIS",
+    "member": "GEHLEE"
+  },
+  {
+    "member_key": "UNIS_HYEONJU",
+    "group": "UNIS",
+    "member": "HYEONJU"
+  },
+  {
+    "member_key": "UNIS_KOTOKO",
+    "group": "UNIS",
+    "member": "KOTOKO"
+  },
+  {
+    "member_key": "UNIS_NANA",
+    "group": "UNIS",
+    "member": "NANA"
+  },
+  {
+    "member_key": "UNIS_SEOWON",
+    "group": "UNIS",
+    "member": "SEOWON"
+  },
+  {
+    "member_key": "UNIS_YOONA",
+    "group": "UNIS",
+    "member": "YOONA"
+  },
+  {
+    "member_key": "UNIS_YUNHA",
+    "group": "UNIS",
+    "member": "YUNHA"
+  }
+]
