@@ -593,18 +593,18 @@ h1 {
 
 .grid-layout .item {
   width: var(--item-width);
-  height: 310px;
+  height: 300px;
   background: var(--bg-surface);
-  border-radius: 8px;
+  border: 0.5px solid var(--border-strong);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.2s;
+  transition: transform 0.2s, border-color 0.15s;
   cursor: pointer;
 }
 
 .item:hover {
-  transform: translate(var(--x), var(--y)) scale(1.05);
+  transform: translate(var(--x), calc(var(--y) - 2px));
+  border-color: var(--gold-border);
   z-index: 10;
 }
 
@@ -616,11 +616,10 @@ h1 {
   width: var(--masonry-width) !important;
   height: auto !important;
   background: var(--bg-surface);
-  border-radius: 8px;
+  border: 0.5px solid var(--border-strong);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.2s;
+  transition: transform 0.2s, border-color 0.15s;
 }
 
 .masonry-layout .item img {
@@ -628,18 +627,6 @@ h1 {
   height: auto;
   object-fit: contain;
   display: block;
-}
-
-.masonry-layout .filename {
-  display: inline-block;
-  padding: 8px 10px 0 10px;
-  margin: 0 auto;
-  max-width: calc(100% - 20px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  vertical-align: top;
 }
 
 .masonry-layout .thumb {
@@ -725,48 +712,79 @@ h1 {
     opacity: 0.4;
 } */
 
-.filename {
-  padding: 8px 6px 0px 6px;
-  margin-bottom: 0px;
-  font-size: 0.8rem;
-  color: var(--gold);
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 220px;
-  align-self: center;
-}
-
-.date {
-  font-size: 0.75rem;
-  color: #252525;
-  line-height: 1.2;
-  padding: 0;
-  margin: 0;
-}
-
-.dates {
+.item-footer {
+  height: 50px;
+  flex-shrink: 0;
+  border-top: 0.5px solid var(--border);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 36px;
-  padding-bottom: 0px;
+  gap: 3px;
+  text-align: left;
 }
 
-html.dark .date {
-  color: #aaa;
+.item-row1 {
+  padding: 8px 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
 }
 
-.unassigned {
-  color: #eb5e5e;
+.filename {
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.item-setid {
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  flex-shrink: 0;
+  color: var(--gold);
+  background: var(--bg-surface);
+  border: 0.5px solid var(--gold-border);
+  padding: 2px 6px;
+}
+
+.item-row2 {
+  padding: 0 10px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10.5px;
+  color: var(--text-secondary);
+}
+
+.item-row2 span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-row2 .ti {
+  font-size: 11px;
+}
+
+.item-status.assigned,
+.item-status.assigned .ti {
+  color: var(--success);
+}
+
+.item-status.unassigned .ti {
+  color: var(--error);
+}
+
+.item-status.unassigned .txt-unassigned {
+  color: var(--error);
   font-style: italic;
-  font-weight: 400;
-}
-
-.unassigned .emoji {
-  color: inherit;
-  filter: none;
 }
 
 #lbAssignedDate .unassigned {
@@ -2633,29 +2651,63 @@ html.dark .auth-success {
 .multi-badge {
   position: absolute;
   font-family: "DM Mono", monospace;
-  top: 5px;
-  right: 5px;
+  top: 6px;
+  right: 6px;
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 7px 3px 5px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 0.5px solid rgba(255, 255, 255, 0.25);
-  color: #fff;
-  font-size: 9px;
+  padding: 3px 6px;
+  background: rgba(15, 14, 13, 0.75);
+  border: 0.5px solid var(--gold-border);
+  color: var(--gold);
+  font-size: 9.5px;
   font-weight: 500;
-  border-radius: 10px;
-  pointer-events: none;
-  letter-spacing: 0.01em;
-  backdrop-filter: blur(4px) brightness(1.5) saturate(1.2);
-  -webkit-backdrop-filter: blur(4px) brightness(1.5) saturate(1.2);
+  letter-spacing: 0.02em;
+  pointer-events: auto;
   opacity: 0;
 }
 
 .multi-badge i {
   font-size: 10px;
-  opacity: 0.9;
+  opacity: 0.85;
   line-height: 1;
+}
+
+.activity-lights {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.activity-light {
+  width: 3px;
+  height: 3px;
+  background: var(--light-color, var(--text-faint));
+  opacity: 0.9;
+  box-shadow: 0 0 2px var(--light-color, transparent);
+}
+
+.activity-light.blink {
+  animation: light-blink var(--light-duration, 1.4s) steps(1, end) infinite;
+  animation-delay: var(--light-delay, 0s);
+}
+
+.activity-light.off {
+  opacity: 0.16;
+  box-shadow: none;
+}
+
+.activity-light.light-coverage {
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+@keyframes light-blink {
+  0%, 45%   { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
 }
 
 .tcw-wrap {

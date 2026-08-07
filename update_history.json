@@ -16630,5 +16630,383 @@
         ]
       }
     ]
+  },
+  {
+    "timestamp": "260806 9:53:16 PM",
+    "total": 36221,
+    "groups": [
+      {
+        "name": "ITZY",
+        "total": 9208,
+        "members": [
+          {
+            "name": "RYUJIN",
+            "count": 3099
+          },
+          {
+            "name": "YUNA",
+            "count": 2029
+          },
+          {
+            "name": "CHAERYEONG",
+            "count": 1834
+          },
+          {
+            "name": "YEJI",
+            "count": 1433
+          },
+          {
+            "name": "LIA",
+            "count": 813
+          }
+        ]
+      },
+      {
+        "name": "RED VELVET",
+        "total": 4542,
+        "members": [
+          {
+            "name": "IRENE",
+            "count": 1200
+          },
+          {
+            "name": "WENDY",
+            "count": 1073
+          },
+          {
+            "name": "SEULGI",
+            "count": 796
+          },
+          {
+            "name": "JOY",
+            "count": 773
+          },
+          {
+            "name": "YERI",
+            "count": 700
+          }
+        ]
+      },
+      {
+        "name": "IVE",
+        "total": 4181,
+        "members": [
+          {
+            "name": "WONYOUNG",
+            "count": 1244
+          },
+          {
+            "name": "YUJIN",
+            "count": 898
+          },
+          {
+            "name": "LEESEO",
+            "count": 556
+          },
+          {
+            "name": "GAEUL",
+            "count": 509
+          },
+          {
+            "name": "REI",
+            "count": 506
+          },
+          {
+            "name": "LIZ",
+            "count": 468
+          }
+        ]
+      },
+      {
+        "name": "TWICE",
+        "total": 3763,
+        "members": [
+          {
+            "name": "SANA",
+            "count": 595
+          },
+          {
+            "name": "DAHYUN",
+            "count": 526
+          },
+          {
+            "name": "TZUYU",
+            "count": 428
+          },
+          {
+            "name": "CHAEYOUNG",
+            "count": 425
+          },
+          {
+            "name": "NAYEON",
+            "count": 421
+          },
+          {
+            "name": "MOMO",
+            "count": 406
+          },
+          {
+            "name": "JIHYO",
+            "count": 362
+          },
+          {
+            "name": "MINA",
+            "count": 314
+          },
+          {
+            "name": "JEONGYEON",
+            "count": 286
+          }
+        ]
+      },
+      {
+        "name": "AESPA",
+        "total": 3178,
+        "members": [
+          {
+            "name": "KARINA",
+            "count": 1355
+          },
+          {
+            "name": "WINTER",
+            "count": 801
+          },
+          {
+            "name": "NINGNING",
+            "count": 583
+          },
+          {
+            "name": "GISELLE",
+            "count": 439
+          }
+        ]
+      },
+      {
+        "name": "FROMIS",
+        "total": 2685,
+        "members": [
+          {
+            "name": "GYURI",
+            "count": 679
+          },
+          {
+            "name": "NAKYUNG",
+            "count": 380
+          },
+          {
+            "name": "CHAEYOUNG",
+            "count": 351
+          },
+          {
+            "name": "JIWON",
+            "count": 333
+          },
+          {
+            "name": "JIHEON",
+            "count": 324
+          },
+          {
+            "name": "HAYOUNG",
+            "count": 300
+          },
+          {
+            "name": "SAEROM",
+            "count": 113
+          },
+          {
+            "name": "SOYEON",
+            "count": 104
+          },
+          {
+            "name": "JISUN",
+            "count": 101
+          }
+        ]
+      },
+      {
+        "name": "STAYC",
+        "total": 2234,
+        "members": [
+          {
+            "name": "YOON",
+            "count": 430
+          },
+          {
+            "name": "SIEUN",
+            "count": 420
+          },
+          {
+            "name": "SEEUN",
+            "count": 384
+          },
+          {
+            "name": "ISA",
+            "count": 362
+          },
+          {
+            "name": "J",
+            "count": 320
+          },
+          {
+            "name": "SUMIN",
+            "count": 318
+          }
+        ]
+      },
+      {
+        "name": "LOONA",
+        "total": 2196,
+        "members": [
+          {
+            "name": "HEEJIN",
+            "count": 290
+          },
+          {
+            "name": "YVES",
+            "count": 281
+          },
+          {
+            "name": "CHOERRY",
+            "count": 249
+          },
+          {
+            "name": "JINSOUL",
+            "count": 219
+          },
+          {
+            "name": "KIMLIP",
+            "count": 217
+          },
+          {
+            "name": "CHUU",
+            "count": 178
+          },
+          {
+            "name": "YEOJIN",
+            "count": 174
+          },
+          {
+            "name": "HYUNJIN",
+            "count": 170
+          },
+          {
+            "name": "GOWON",
+            "count": 121
+          },
+          {
+            "name": "OLIVIA",
+            "count": 114
+          },
+          {
+            "name": "VIVI",
+            "count": 101
+          },
+          {
+            "name": "HASEUL",
+            "count": 82
+          }
+        ]
+      },
+      {
+        "name": "UNIS",
+        "total": 1381,
+        "members": [
+          {
+            "name": "GEHLEE",
+            "count": 239
+          },
+          {
+            "name": "SEOWON",
+            "count": 202
+          },
+          {
+            "name": "KOTOKO",
+            "count": 188
+          },
+          {
+            "name": "ELISIA",
+            "count": 173
+          },
+          {
+            "name": "NANA",
+            "count": 167
+          },
+          {
+            "name": "HYEONJU",
+            "count": 161
+          },
+          {
+            "name": "YUNHA",
+            "count": 150
+          },
+          {
+            "name": "YOONA",
+            "count": 101
+          }
+        ]
+      },
+      {
+        "name": "NEWJEANS",
+        "total": 1249,
+        "members": [
+          {
+            "name": "DANIELLE",
+            "count": 294
+          },
+          {
+            "name": "HANNI",
+            "count": 254
+          },
+          {
+            "name": "HAERIN",
+            "count": 242
+          },
+          {
+            "name": "MINJI",
+            "count": 237
+          },
+          {
+            "name": "HYEIN",
+            "count": 222
+          }
+        ]
+      },
+      {
+        "name": "ILLIT",
+        "total": 1002,
+        "members": [
+          {
+            "name": "WONHEE",
+            "count": 242
+          },
+          {
+            "name": "MINJU",
+            "count": 227
+          },
+          {
+            "name": "IROHA",
+            "count": 211
+          },
+          {
+            "name": "YUNAH",
+            "count": 168
+          },
+          {
+            "name": "MOKA",
+            "count": 154
+          }
+        ]
+      },
+      {
+        "name": "IU",
+        "total": 602,
+        "members": [
+          {
+            "name": "IU",
+            "count": 602
+          }
+        ]
+      }
+    ]
   }
 ]

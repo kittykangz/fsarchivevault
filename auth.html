@@ -1395,6 +1395,8 @@ async function doLogin() {
 			localStorage.setItem("token", data.token);
 			closeAllModals();
 			checkLogin();
+			loadProgress();
+			loadFavorites();
 		}, 800);
 		return;
 	}
@@ -1452,6 +1454,8 @@ async function doRegister() {
 				localStorage.setItem("token", loginResult.data.token);
 				closeAllModals();
 				checkLogin();
+				loadProgress();
+				loadFavorites();
 			} else {
 				openLoginModal();
 			}
@@ -1481,6 +1485,11 @@ async function doLogout() {
 	localStorage.removeItem("token");
 	closeAllModals();
 	checkLogin();
+	window.userFavorites = new Set();
+	window.userFavoritesData = {};
+	viewedSet = new Set();
+	const progressEl = document.getElementById("profile-progress");
+	if (progressEl) progressEl.textContent = "Not logged in";
 }
 document.addEventListener("click", e => {
 	const modal = e.target.closest(".auth-modal");
