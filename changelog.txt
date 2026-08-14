@@ -1,3 +1,5 @@
+260814 – Date search no longer clears all filters; Images that fail to load in the lightbox now show a clear error message instead of loading indefinitely; Fixed a bug where quickly browsing past a slow loading image could cause its source info to load into the wrong photo; Unified sidebar into a single shared html file across pages; Tweaked activity lights
+
 260806 – Redesigned item cards; Optimized html data reducing filesize by ~40%; Fixed news IDs displaying an internal prefix in the source panel; Favorites and view progress now sync immediately after logging in
 
 260712 – Added sound effects, can be muted in the topbar; Source coverage now uses pre generated filename indexes, reducing the amount of data sent between the browser and server; Volume tree graph now has 3 view modes: default 2021-present, full history 2012-present static svgs, and an interactive ECharts modal with zoom/pan and filtering support; Translation API now uses thread pooling to parallelize requests, reducing latency by ~10x on multi line captions; Photo sets now use visual similarity sorting, so related images appear together instead of following their original download order.

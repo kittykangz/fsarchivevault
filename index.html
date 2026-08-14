@@ -84,197 +84,7 @@ body.loading {
 <div id="topbar-container"></div>
 <div class="all">
 
-<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
-<div class="sidebar">
-  <div class="searchandbuttons">
-    <div class="buttons">
-    <a href="index.html" class="home-icon-link">
-      <svg width="22" height="22" viewBox="0 0 24 24">
-        <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
-      </svg>
-    </a>
-       <a href="volume_tree.html" class="stats-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16"><path d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/><path d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
-      </svg>
-    </a>
-        <button id="toggle-darkmode" class="icon-button" aria-label="Toggle dark/light mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">
-      <svg id="sunmoon" viewBox="0 0 32 32">
-	  <defs>
-        <mask id="maskc">
-            <rect x="0" y="0" width="32" height="32" fill="white"/>
-            <circle id="mask-center" cx="40" cy="16" r="8" fill="black"/>
-        </mask>
-        <mask id="maskr">
-            <circle id="mask-rays" cx="16" cy="16" r="16" fill="white"/>
-        </mask>
-    </defs>
-    <circle id="center" mask="url(#maskc)" r="8" cx="16" cy="16"/>
-    <path id="rays" mask="url(#maskr)" d="M6,16l-6,0 M8.929,8.929l-4.243,-4.243 M8.929,23.071l-4.243,4.243 M16,26l-0,6 M27.314,27.314l-4.243,-4.243 M32,16l-6,0 M27.314,4.686l-4.243,4.243 M16,-0l-0,6"/>
-</svg>
-    </button> 
-</div>
-<hr>
-<div class="search-container">
-<input type="text" id="sidebarSearch" placeholder="Search..." />
-</div>
-<hr>
-  <div class="sidebar-scroll">
-
-    <div id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentcolor">
-    <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
-  </svg>
-</div>
-    <ul class="folder-tree">
-<li>
-    <button class="folder-toggle" data-folder="UNIS">UNIS</button>
-    <ul class="member-list" data-folder="UNIS">
-    <li><a href="MEMBERS/UNIS_HYEONJU.html">HYEONJU</a></li>
-    <li><a href="MEMBERS/UNIS_NANA.html">NANA</a></li>
-    <li><a href="MEMBERS/UNIS_GEHLEE.html">GEHLEE</a></li>
-    <li><a href="MEMBERS/UNIS_KOTOKO.html">KOTOKO</a></li>
-    <li><a href="MEMBERS/UNIS_YUNHA.html">YUNHA</a></li>
-    <li><a href="MEMBERS/UNIS_ELISIA.html">ELISIA</a></li>
-    <li><a href="MEMBERS/UNIS_YOONA.html">YOONA</a></li>
-    <li><a href="MEMBERS/UNIS_SEOWON.html">SEOWON</a></li>
-  </ul>
-</li>
-<li>
-  <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
-  <ul class="member-list" data-folder="ILLIT">
-    <li><a href="MEMBERS/ILLIT_YUNAH.html">YUNAH</a></li>
-    <li><a href="MEMBERS/ILLIT_MINJU.html">MINJU</a></li>
-    <li><a href="MEMBERS/ILLIT_MOKA.html">MOKA</a></li>
-    <li><a href="MEMBERS/ILLIT_WONHEE.html">WONHEE</a></li>
-    <li><a href="MEMBERS/ILLIT_IROHA.html">IROHA</a></li>
-  </ul>
-</li>
-<li>
-  <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
-  <ul class="member-list" data-folder="NEWJEANS">
-    <li><a href="MEMBERS/NEWJEANS_MINJI.html">MINJI</a></li>
-    <li><a href="MEMBERS/NEWJEANS_HANNI.html">HANNI</a></li>
-    <li><a href="MEMBERS/NEWJEANS_DANIELLE.html">DANIELLE</a></li>
-    <li><a href="MEMBERS/NEWJEANS_HAERIN.html">HAERIN</a></li>
-    <li><a href="MEMBERS/NEWJEANS_HYEIN.html">HYEIN</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="IVE">IVE</button>
-  <ul class="member-list" data-folder="IVE">
-    <li><a href="MEMBERS/IVE_GAEUL.html">GAEUL</a></li>    
-    <li><a href="MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
-    <li><a href="MEMBERS/IVE_REI.html">REI</a></li>
-    <li><a href="MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
-    <li><a href="MEMBERS/IVE_LIZ.html">LIZ</a></li>
-    <li><a href="MEMBERS/IVE_LEESEO.html">LEESEO</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="STAYC">STAYC</button>
-  <ul class="member-list" data-folder="STAYC">
-    <li><a href="MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>    
-    <li><a href="MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
-    <li><a href="MEMBERS/STAYC_ISA.html">ISA</a></li>    
-    <li><a href="MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
-    <li><a href="MEMBERS/STAYC_YOON.html">YOON</a></li>
-    <li><a href="MEMBERS/STAYC_J.html">J</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="AESPA">AESPA</button>
-  <ul class="member-list" data-folder="AESPA">
-    <li><a href="MEMBERS/AESPA_KARINA.html">KARINA</a></li>
-    <li><a href="MEMBERS/AESPA_GISELLE.html">GISELLE</a></li>
-    <li><a href="MEMBERS/AESPA_WINTER.html">WINTER</a></li>
-    <li><a href="MEMBERS/AESPA_NINGNING.html">NINGNING</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
-  <ul class="member-list" data-folder="FROMIS">
-    <li><a href="MEMBERS/FROMIS_SAEROM.html">SAEROM</a></li>
-    <li><a href="MEMBERS/FROMIS_HAYOUNG.html">HAYOUNG</a></li>
-    <li><a href="MEMBERS/FROMIS_GYURI.html">GYURI</a></li>
-    <li><a href="MEMBERS/FROMIS_JIWON.html">JIWON</a></li>
-    <li><a href="MEMBERS/FROMIS_JISUN.html">JISUN</a></li>
-    <li><a href="MEMBERS/FROMIS_SOYEON.html">SOYEON</a></li>
-    <li><a href="MEMBERS/FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
-    <li><a href="MEMBERS/FROMIS_NAKYUNG.html">NAKYUNG</a></li>
-    <li><a href="MEMBERS/FROMIS_JIHEON.html">JIHEON</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="LOONA">LOONA</button>
-  <ul class="member-list" data-folder="LOONA">
-    <li><a href="MEMBERS/LOONA_VIVI.html">VIVI</a></li>
-    <li><a href="MEMBERS/LOONA_YVES.html">YVES</a></li>    
-    <li><a href="MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
-    <li><a href="MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
-    <li><a href="MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
-    <li><a href="MEMBERS/LOONA_CHUU.html">CHUU</a></li>
-    <li><a href="MEMBERS/LOONA_HEEJIN.html">HEEJIN</a></li>
-    <li><a href="MEMBERS/LOONA_HYUNJIN.html">HYUNJIN</a></li>
-    <li><a href="MEMBERS/LOONA_GOWON.html">GOWON</a></li>
-    <li><a href="MEMBERS/LOONA_CHOERRY.html">CHOERRY</a></li>
-    <li><a href="MEMBERS/LOONA_OLIVIA.html">OLIVIA</a></li>
-    <li><a href="MEMBERS/LOONA_YEOJIN.html">YEOJIN</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="ITZY">ITZY</button>
-  <ul class="member-list" data-folder="ITZY">
-    <li><a href="MEMBERS/ITZY_YEJI.html">YEJI</a></li>
-    <li><a href="MEMBERS/ITZY_LIA.html">LIA</a></li>
-    <li><a href="MEMBERS/ITZY_RYUJIN.html">RYUJIN</a></li>
-    <li><a href="MEMBERS/ITZY_CHAERYEONG.html">CHAERYEONG</a></li>
-    <li><a href="MEMBERS/ITZY_YUNA.html">YUNA</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="IU">IU</button>
-  <ul class="member-list" data-folder="IU">
-    <li><a href="MEMBERS/IU_IU.html">IU</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
-  <ul class="member-list" data-folder="RED VELVET">
-    <li><a href="MEMBERS/RED VELVET_IRENE.html">IRENE</a></li>
-    <li><a href="MEMBERS/RED VELVET_SEULGI.html">SEULGI</a></li>
-    <li><a href="MEMBERS/RED VELVET_WENDY.html">WENDY</a></li>
-    <li><a href="MEMBERS/RED VELVET_JOY.html">JOY</a></li>
-    <li><a href="MEMBERS/RED VELVET_YERI.html">YERI</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="TWICE">TWICE</button>
-  <ul class="member-list" data-folder="TWICE">
-    <li><a href="MEMBERS/TWICE_NAYEON.html">NAYEON</a></li>
-    <li><a href="MEMBERS/TWICE_JEONGYEON.html">JEONGYEON</a></li>
-    <li><a href="MEMBERS/TWICE_MOMO.html">MOMO</a></li>
-    <li><a href="MEMBERS/TWICE_SANA.html">SANA</a></li>
-    <li><a href="MEMBERS/TWICE_JIHYO.html">JIHYO</a></li>
-    <li><a href="MEMBERS/TWICE_MINA.html">MINA</a></li>
-    <li><a href="MEMBERS/TWICE_DAHYUN.html">DAHYUN</a></li>
-    <li><a href="MEMBERS/TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
-    <li><a href="MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
-  </ul>
-</li>
-    </ul>
-  </div>
-</div>
-</div>
-</div>
+<div id="sidebar-container"></div>
 <div class="content-wrapper">
 <div class="hero" id="hero-strip"></div>
 <div class="about-and-gallery">
@@ -391,6 +201,13 @@ async function loadAuthHTML() {
 async function loadTopbarHTML() {
     const container = document.getElementById("topbar-container");
     const res = await fetch("topbar.html");
+    const html = await res.text();
+    container.innerHTML = html;
+    executeScripts(container);
+}
+async function loadSidebarHTML() {
+    const container = document.getElementById("sidebar-container");
+    const res = await fetch("sidebar.html");
     const html = await res.text();
     container.innerHTML = html;
     executeScripts(container);
@@ -518,97 +335,13 @@ fetch('update_history.json')
 </div>
 
 <script>
-  const toggleBtn = document.getElementById('toggle-sidebar');
-
-  toggleBtn.addEventListener('click', () => {
-    const allFolders = document.querySelectorAll('.member-list');
-
-    const isAnyOpen = Array.from(allFolders).some(ul => {
-      const computed = window.getComputedStyle(ul).display;
-      return computed !== 'none';
-    });
-
-    allFolders.forEach(ul => {
-      const group = ul.dataset.folder;
-      if (!group) return;
-
-      ul.style.display = isAnyOpen ? 'none' : 'block';
-
-      localStorage.setItem(`folder-${group}`, isAnyOpen ? 'closed' : 'open');
-    });
-  });
-
-
-try {
-  const sun = document.getElementById('sun-icon');
-  const moon = document.getElementById('moon-icon');
-  if (localStorage.getItem('darkmode') === 'true') {
-    document.documentElement.classList.add('dark');
-    sun.style.display = 'none';
-    moon.style.display = 'block';
-  }
-} catch(e){}
-
-</script>
-
-<script>
-function setupSidebarToggles() {
-  document.querySelectorAll('.folder-toggle').forEach(btn => {
-    const folderName = btn.dataset.folder;
-    const memberList = btn.nextElementSibling;
-    const savedState = localStorage.getItem(`folder-${folderName}`);
-
-    memberList.style.display = savedState === 'open' ? 'block' : 'none';
-
-    btn.addEventListener('click', () => {
-      const isOpen = memberList.style.display === 'block';
-      memberList.style.display = isOpen ? 'none' : 'block';
-      localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
-      SoundFX.play(isOpen ? 'heavy_click_reverse' : 'heavy_click');
-    });
-  });
-}
-
-function setupSidebarSearch() {
-  document.getElementById('sidebarSearch').addEventListener('input', function () {
-    const filter = this.value.toLowerCase();
-    const groups = document.querySelectorAll('.folder-tree > li');
-
-    groups.forEach(group => {
-      const folderToggle = group.querySelector('.folder-toggle');
-      const memberList = group.querySelector('.member-list');
-      const groupName = folderToggle.textContent.toLowerCase();
-      const members = group.querySelectorAll('.member-list li');
-      let groupMatches = groupName.includes(filter);
-      let memberMatches = false;
-
-      members.forEach(member => {
-        const name = member.textContent.toLowerCase();
-        const visible = filter === '' || name.includes(filter) || groupMatches;
-        member.style.display = visible ? '' : 'none';
-        if (visible) memberMatches = true;
-      });
-
-      group.style.display = groupMatches || memberMatches ? '' : 'none';
-
-      if (filter !== '') {
-        memberList.style.display = (groupMatches || memberMatches) ? 'block' : 'none';
-      } else {
-        const folderName = folderToggle.dataset.folder;
-        const saved = localStorage.getItem(`folder-${folderName}`);
-        memberList.style.display = saved === 'open' ? 'block' : 'none';
-      }
-    });
-  });
-}
 document.documentElement.classList.add('loading');
-document.body.classList.add('loading');  
+document.body.classList.add('loading');
 window.addEventListener('DOMContentLoaded', async () => {
   await loadTopbarHTML();
+  await loadSidebarHTML();
   await loadAuthHTML();
-  
-  setupSidebarToggles();
-  setupSidebarSearch();
+
   buildHero();
   checkLogin();
   loadFavorites();

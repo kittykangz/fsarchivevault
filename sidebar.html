@@ -1,0 +1,672 @@
+<style>
+.sidebar-container {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  z-index: 999;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -60px;
+  bottom: 0;
+  width: 253px;
+  font-family: "DM Sans", Tahoma, monospace;
+  background: var(--bg-deep);
+  border-right: 0.5px solid var(--border);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-top: 44px;
+}
+
+.sidebar hr {
+  border: none;
+  border-top: 0.5px solid var(--border);
+  margin: 0;
+}
+
+.searchandbuttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 55px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  align-items: center;
+  box-sizing: border-box;
+  fill: var(--text-secondary);
+}
+
+.home-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1.2);
+}
+
+.home-icon-link svg {
+  transition: none !important;
+}
+
+.home-icon-link:hover {
+  background: none !important;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transform: scale(1.3);
+  transition: ease 0.2s;
+}
+
+.stats-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-icon:hover {
+  background: none !important;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: ease 0.2s;
+  transform: scale(1.1);
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.icon-button:active {
+  opacity: 0.8;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+#toggle-darkmode {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  align-content: center;
+  z-index: 9999;
+  justify-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+#toggle-darkmode:hover {
+  color: #000;
+  transform: scale(1.1);
+  transition: ease 0.2s;
+}
+
+#center,
+#mask-rays,
+#mask-center {
+  transform-origin: center;
+  transition: transform 250ms ease-out;
+}
+
+#center {
+  fill: var(--text-secondary);
+  transform: rotate(-35deg);
+}
+
+#rays {
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+html.dark #center {
+  transform: rotate(-35deg) scale(2);
+}
+
+html.dark #mask-rays {
+  transform: scale(0.5);
+}
+
+html.dark #mask-center {
+  transform: translateX(-18px);
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0px 5px 70px;
+  background: transparent;
+  z-index: 2;
+}
+
+html.dark .search-container {
+  background: transparent;
+}
+
+.search-container a {
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.search-container a:hover {
+  background-color: #ddd;
+  text-decoration: none;
+}
+
+html.dark .search-container a:hover {
+  background-color: #444;
+}
+
+#sidebarSearch {
+  width: 140px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+#sidebarSearch::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+#sidebarSearch:focus {
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--gold-bg);
+}
+
+.sidebar-scroll {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  z-index: 9999999999;
+  padding-bottom: 100px;
+  overflow-x: hidden;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  border-right-color: #7a7a7a;
+  border-bottom-color: #7a7a7a;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+#toggle-sidebar {
+  position: fixed;
+  top: 115px;
+  left: 135px;
+  z-index: 9999;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+  transform: rotate(45deg);
+  color: var(--text-secondary);
+}
+
+.folder-tree,
+.folder-tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 20px;
+  white-space: nowrap;
+  color: #000;
+}
+
+.folder-tree li {
+  position: relative;
+  margin: 0;
+  padding-left: 25px;
+}
+
+.folder-tree > li::before {
+  content: none;
+}
+
+.folder-tree ul > li:last-child::before {
+  bottom: 12px;
+}
+
+.folder-tree > li > button.folder-toggle::after {
+  content: "/";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  font-weight: normal;
+  user-select: none;
+  z-index: 1;
+  bottom: -5px;
+}
+
+button.folder-toggle {
+  display: block;
+  height: 25px;
+  font-size: 15px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 4px 0 4px 37px;
+  color: var(--gold);
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter 0.5s ease;
+}
+
+.folder-toggle:hover {
+  background: transparent;
+  filter: brightness(2);
+}
+
+button.folder-toggle,
+button.folder-toggle:focus,
+button.folder-toggle:focus-visible,
+button.folder-toggle:focus-within,
+button.folder-toggle *:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+button.folder-toggle::-moz-focus-inner {
+  border: 0;
+}
+
+.member-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4px;
+}
+
+.member-list li a {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 2px 0 2px 32px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+  z-index: 2;
+  font-family: "DM Sans", Tahoma, monospace;
+  width: 100%;
+  transition: color 0.5s ease-out;
+}
+
+.member-list li a::before {
+  content: "├──";
+  position: absolute;
+  left: 0px;
+  color: var(--border-strong);
+  font-size: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  font-family: Tahoma;
+}
+
+.member-list li:last-child a::before {
+  content: "└──";
+}
+
+.member-list li a:hover {
+  color: var(--text-primary);
+}
+
+.member-list li a.current-member {
+  color: var(--gold);
+  font-weight: 500;
+}
+</style>
+
+<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
+<div class="sidebar">
+  <div class="searchandbuttons">
+    <div class="buttons">
+      <a href="/index.html" class="home-icon-link" title="Home">
+        <svg width="22" height="22" viewBox="0 0 24 24">
+          <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
+        </svg>
+      </a>
+      <a href="/volume_tree.html" class="stats-icon" title="Volume Tree">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16">
+          <path d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/>
+          <path d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
+        </svg>
+      </a>
+      <button id="toggle-darkmode" class="icon-button" aria-label="Toggle dark/light mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">
+        <svg id="sunmoon" viewBox="0 0 32 32">
+          <defs>
+            <mask id="maskc">
+              <rect x="0" y="0" width="32" height="32" fill="white"/>
+              <circle id="mask-center" cx="40" cy="16" r="8" fill="black"/>
+            </mask>
+            <mask id="maskr">
+              <circle id="mask-rays" cx="16" cy="16" r="16" fill="white"/>
+            </mask>
+          </defs>
+          <circle id="center" mask="url(#maskc)" r="8" cx="16" cy="16"/>
+          <path id="rays" mask="url(#maskr)" d="M6,16l-6,0 M8.929,8.929l-4.243,-4.243 M8.929,23.071l-4.243,4.243 M16,26l-0,6 M27.314,27.314l-4.243,-4.243 M32,16l-6,0 M27.314,4.686l-4.243,4.243 M16,-0l-0,6"/>
+        </svg>
+      </button>
+    </div>
+    <hr>
+    <div class="search-container">
+      <input type="text" id="sidebarSearch" placeholder="Search..." />
+    </div>
+    <hr>
+    <div class="sidebar-scroll">
+      <div id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
+        </svg>
+      </div>
+      <ul class="folder-tree">
+<li>
+    <button class="folder-toggle" data-folder="UNIS">UNIS</button>
+    <ul class="member-list" data-folder="UNIS" style="display: none;">
+    <li><a href="/MEMBERS/UNIS_HYEONJU.html">HYEONJU</a></li>
+    <li><a href="/MEMBERS/UNIS_NANA.html">NANA</a></li>
+    <li><a href="/MEMBERS/UNIS_GEHLEE.html">GEHLEE</a></li>
+    <li><a href="/MEMBERS/UNIS_KOTOKO.html">KOTOKO</a></li>
+    <li><a href="/MEMBERS/UNIS_YUNHA.html">YUNHA</a></li>
+    <li><a href="/MEMBERS/UNIS_ELISIA.html">ELISIA</a></li>
+    <li><a href="/MEMBERS/UNIS_YOONA.html">YOONA</a></li>
+    <li><a href="/MEMBERS/UNIS_SEOWON.html">SEOWON</a></li>
+  </ul>
+</li>
+<li>
+  <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
+  <ul class="member-list" data-folder="ILLIT" style="display: none;">
+    <li><a href="/MEMBERS/ILLIT_YUNAH.html">YUNAH</a></li>
+    <li><a href="/MEMBERS/ILLIT_MINJU.html">MINJU</a></li>
+    <li><a href="/MEMBERS/ILLIT_MOKA.html">MOKA</a></li>
+    <li><a href="/MEMBERS/ILLIT_WONHEE.html">WONHEE</a></li>
+    <li><a href="/MEMBERS/ILLIT_IROHA.html">IROHA</a></li>
+  </ul>
+</li>
+<li>
+  <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
+  <ul class="member-list" data-folder="NEWJEANS" style="display: none;">
+    <li><a href="/MEMBERS/NEWJEANS_MINJI.html">MINJI</a></li>
+    <li><a href="/MEMBERS/NEWJEANS_HANNI.html">HANNI</a></li>
+    <li><a href="/MEMBERS/NEWJEANS_DANIELLE.html">DANIELLE</a></li>
+    <li><a href="/MEMBERS/NEWJEANS_HAERIN.html">HAERIN</a></li>
+    <li><a href="/MEMBERS/NEWJEANS_HYEIN.html">HYEIN</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="IVE">IVE</button>
+  <ul class="member-list" data-folder="IVE" style="display: none;">
+    <li><a href="/MEMBERS/IVE_GAEUL.html">GAEUL</a></li>
+    <li><a href="/MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
+    <li><a href="/MEMBERS/IVE_REI.html">REI</a></li>
+    <li><a href="/MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
+    <li><a href="/MEMBERS/IVE_LIZ.html">LIZ</a></li>
+    <li><a href="/MEMBERS/IVE_LEESEO.html">LEESEO</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="STAYC">STAYC</button>
+  <ul class="member-list" data-folder="STAYC" style="display: none;">
+    <li><a href="/MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>
+    <li><a href="/MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
+    <li><a href="/MEMBERS/STAYC_ISA.html">ISA</a></li>
+    <li><a href="/MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
+    <li><a href="/MEMBERS/STAYC_YOON.html">YOON</a></li>
+    <li><a href="/MEMBERS/STAYC_J.html">J</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="AESPA">AESPA</button>
+  <ul class="member-list" data-folder="AESPA" style="display: none;">
+    <li><a href="/MEMBERS/AESPA_KARINA.html">KARINA</a></li>
+    <li><a href="/MEMBERS/AESPA_GISELLE.html">GISELLE</a></li>
+    <li><a href="/MEMBERS/AESPA_WINTER.html">WINTER</a></li>
+    <li><a href="/MEMBERS/AESPA_NINGNING.html">NINGNING</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
+  <ul class="member-list" data-folder="FROMIS" style="display: none;">
+    <li><a href="/MEMBERS/FROMIS_SAEROM.html">SAEROM</a></li>
+    <li><a href="/MEMBERS/FROMIS_HAYOUNG.html">HAYOUNG</a></li>
+    <li><a href="/MEMBERS/FROMIS_GYURI.html">GYURI</a></li>
+    <li><a href="/MEMBERS/FROMIS_JIWON.html">JIWON</a></li>
+    <li><a href="/MEMBERS/FROMIS_JISUN.html">JISUN</a></li>
+    <li><a href="/MEMBERS/FROMIS_SOYEON.html">SOYEON</a></li>
+    <li><a href="/MEMBERS/FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
+    <li><a href="/MEMBERS/FROMIS_NAKYUNG.html">NAKYUNG</a></li>
+    <li><a href="/MEMBERS/FROMIS_JIHEON.html">JIHEON</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="LOONA">LOONA</button>
+  <ul class="member-list" data-folder="LOONA" style="display: none;">
+    <li><a href="/MEMBERS/LOONA_VIVI.html">VIVI</a></li>
+    <li><a href="/MEMBERS/LOONA_YVES.html">YVES</a></li>
+    <li><a href="/MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
+    <li><a href="/MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
+    <li><a href="/MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
+    <li><a href="/MEMBERS/LOONA_CHUU.html">CHUU</a></li>
+    <li><a href="/MEMBERS/LOONA_HEEJIN.html">HEEJIN</a></li>
+    <li><a href="/MEMBERS/LOONA_HYUNJIN.html">HYUNJIN</a></li>
+    <li><a href="/MEMBERS/LOONA_GOWON.html">GOWON</a></li>
+    <li><a href="/MEMBERS/LOONA_CHOERRY.html">CHOERRY</a></li>
+    <li><a href="/MEMBERS/LOONA_OLIVIA.html">OLIVIA</a></li>
+    <li><a href="/MEMBERS/LOONA_YEOJIN.html">YEOJIN</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="ITZY">ITZY</button>
+  <ul class="member-list" data-folder="ITZY" style="display: none;">
+    <li><a href="/MEMBERS/ITZY_YEJI.html">YEJI</a></li>
+    <li><a href="/MEMBERS/ITZY_LIA.html">LIA</a></li>
+    <li><a href="/MEMBERS/ITZY_RYUJIN.html">RYUJIN</a></li>
+    <li><a href="/MEMBERS/ITZY_CHAERYEONG.html">CHAERYEONG</a></li>
+    <li><a href="/MEMBERS/ITZY_YUNA.html">YUNA</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="IU">IU</button>
+  <ul class="member-list" data-folder="IU" style="display: none;">
+    <li><a href="/MEMBERS/IU_IU.html">IU</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
+  <ul class="member-list" data-folder="RED VELVET" style="display: none;">
+    <li><a href="/MEMBERS/RED VELVET_IRENE.html">IRENE</a></li>
+    <li><a href="/MEMBERS/RED VELVET_SEULGI.html">SEULGI</a></li>
+    <li><a href="/MEMBERS/RED VELVET_WENDY.html">WENDY</a></li>
+    <li><a href="/MEMBERS/RED VELVET_JOY.html">JOY</a></li>
+    <li><a href="/MEMBERS/RED VELVET_YERI.html">YERI</a></li>
+  </ul>
+</li>
+
+<li>
+  <button class="folder-toggle" data-folder="TWICE">TWICE</button>
+  <ul class="member-list" data-folder="TWICE" style="display: none;">
+    <li><a href="/MEMBERS/TWICE_NAYEON.html">NAYEON</a></li>
+    <li><a href="/MEMBERS/TWICE_JEONGYEON.html">JEONGYEON</a></li>
+    <li><a href="/MEMBERS/TWICE_MOMO.html">MOMO</a></li>
+    <li><a href="/MEMBERS/TWICE_SANA.html">SANA</a></li>
+    <li><a href="/MEMBERS/TWICE_JIHYO.html">JIHYO</a></li>
+    <li><a href="/MEMBERS/TWICE_MINA.html">MINA</a></li>
+    <li><a href="/MEMBERS/TWICE_DAHYUN.html">DAHYUN</a></li>
+    <li><a href="/MEMBERS/TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
+    <li><a href="/MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
+  </ul>
+</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function () {
+  function setupSidebarToggles() {
+    document.querySelectorAll('.folder-toggle').forEach(btn => {
+      const folderName = btn.dataset.folder;
+      const memberList = document.querySelector(`.member-list[data-folder="${folderName}"]`);
+      if (!memberList) return;
+      if (!memberList.hasAttribute('data-init')) {
+        const saved = localStorage.getItem(`folder-${folderName}`);
+        memberList.style.setProperty('display', saved === 'open' ? 'block' : 'none', 'important');
+        memberList.setAttribute('data-init', '1');
+      }
+      btn.addEventListener('click', ev => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const isOpen = memberList.style.display === 'block';
+        memberList.style.setProperty('display', isOpen ? 'none' : 'block', 'important');
+        localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
+        if (window.SoundFX) SoundFX.play(isOpen ? 'heavy_click_reverse' : 'heavy_click');
+      });
+    });
+  }
+
+  function setupSidebarSearch() {
+    const input = document.getElementById('sidebarSearch');
+    if (!input) return;
+    input.addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      const groups = document.querySelectorAll('.folder-tree > li');
+      groups.forEach(group => {
+        const folderToggle = group.querySelector('.folder-toggle');
+        const memberList = group.querySelector('.member-list');
+        const groupName = folderToggle.textContent.toLowerCase();
+        const members = memberList.querySelectorAll('li');
+        let groupMatches = groupName.includes(filter);
+        let memberMatches = false;
+
+        members.forEach(member => {
+          const name = member.textContent.toLowerCase();
+          const visible = filter === '' || name.includes(filter) || groupMatches;
+          member.style.display = visible ? '' : 'none';
+          if (visible) memberMatches = true;
+        });
+
+        if (filter !== '') {
+          group.style.display = (groupMatches || memberMatches) ? '' : 'none';
+          memberList.style.setProperty('display', (groupMatches || memberMatches) ? 'block' : 'none', 'important');
+        } else {
+          group.style.display = '';
+          const folderName = folderToggle.dataset.folder;
+          const saved = localStorage.getItem(`folder-${folderName}`);
+          memberList.style.setProperty('display', saved === 'open' ? 'block' : 'none', 'important');
+        }
+      });
+    });
+  }
+
+  function setupToggleAll() {
+    const toggleBtn = document.getElementById('toggle-sidebar');
+    if (!toggleBtn) return;
+    toggleBtn.addEventListener('click', () => {
+      const allFolders = document.querySelectorAll('.member-list');
+      const isAnyOpen = Array.from(allFolders).some(ul => window.getComputedStyle(ul).display !== 'none');
+      allFolders.forEach(ul => {
+        const group = ul.dataset.folder;
+        if (!group) return;
+        ul.style.setProperty('display', isAnyOpen ? 'none' : 'block', 'important');
+        localStorage.setItem(`folder-${group}`, isAnyOpen ? 'closed' : 'open');
+      });
+    });
+  }
+
+  // Highlight the member link matching the current page (this used to be
+  // baked in server-side per generated page; now resolved client-side so
+  // one sidebar.html can serve every page) and reveal its group.
+  function highlightCurrentMember() {
+    const links = document.querySelectorAll('.member-list li a');
+    let current = null;
+    links.forEach(a => {
+      if (a.pathname === location.pathname) current = a;
+    });
+    if (!current) return;
+    current.classList.add('current-member');
+    const memberList = current.closest('.member-list');
+    if (memberList) {
+      memberList.style.setProperty('display', 'block', 'important');
+      memberList.setAttribute('data-init', '1');
+      const folderName = memberList.dataset.folder;
+      if (folderName) localStorage.setItem(`folder-${folderName}`, 'open');
+    }
+  }
+
+  setupSidebarToggles();
+  setupSidebarSearch();
+  setupToggleAll();
+  highlightCurrentMember();
+})();
+</script>
