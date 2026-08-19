@@ -4,10 +4,6 @@
 <meta charset="UTF-8">
 <title>Member Activity</title>
 <script>
-// Read the same 'theme' key the parent site uses. Since this page is served
-// from the same origin (loaded in an iframe on the same domain), localStorage
-// is shared — no postMessage needed. Runs synchronously before <style> so
-// there's no flash of the wrong theme.
 (function () {
   var theme = 'dark';
   try { theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
@@ -27,9 +23,7 @@
     --text-secondary: #a9a496;
     --text-muted: #6f6b60;
   }
-  /* Matches the parent site's light-mode :root palette exactly, so the
-     modal chrome and this page stay visually consistent with the rest
-     of the archive site. */
+
   html[data-theme="light"] {
     --gold: #c9b97a;
     --gold-border: rgba(201,185,122,0.30);
@@ -90,16 +84,12 @@
 </div>
 
 <script>
-const JSON_URL = "member_activity.json"; // relative to this page
+const JSON_URL = "member_activity.json";
 let chart;
 let data;
-let currentSeries = []; // the actively-rendered series, used to recompute y-max on zoom
+let currentSeries = [];
 
-// Chart colors live in JS (ECharts options), not CSS, so they can't just
-// reference the var(--...) custom properties in <style> — mirror the same
-// two palettes here instead. Read fresh (not cached) each call so a live
-// theme change (see the 'storage' listener in init()) is picked up on the
-// next render.
+
 function getPalette() {
   const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
   return theme === 'light' ? {
@@ -109,7 +99,7 @@ function getPalette() {
     tooltipBg: '#edeae3',
     gold: '#c9b97a',
     savedImageBg: '#f5f2ec',
-    lineLightness: 45, // darker lines read better against a light background
+    lineLightness: 45, 
   } : {
     text: '#eae7de',
     textSecondary: '#a9a496',
@@ -122,7 +112,7 @@ function getPalette() {
 }
 
 function goldenHue(i) {
-  return (i * 137.508) % 360; // golden-angle spacing, deterministic per index
+  return (i * 137.508) % 360; 
 }
 
 function paletteFor(n, palette) {
@@ -131,16 +121,10 @@ function paletteFor(n, palette) {
   );
 }
 
-// dataZoom's min/max (unlike startValue/endValue) must be numeric timestamps
-// on a time axis — a date string silently fails to restrict the range.
 function toTs(dateStr) {
   return new Date(dateStr).getTime();
 }
 
-// Highest value across all currently-rendered series within [startTs, endTs].
-// filterMode:'none' keeps ECharts from doing this rescale for us automatically
-// (that's the tradeoff for lines drawing continuously through the zoom edges),
-// so we replicate just the rescale part by hand.
 function visibleMax(startTs, endTs) {
   let max = 0;
   for (const s of currentSeries) {
@@ -157,8 +141,6 @@ function yMaxFor(startTs, endTs) {
   return max > 0 ? Math.ceil(max * 1.08) : 10;
 }
 
-// Earliest date at which ANY series in this mode has a non-zero value.
-// Used to stop the zoom slider from covering years of flat-zero padding.
 function earliestActiveIndex(valueArrays) {
   for (let i = 0; i < data.dates.length; i++) {
     if (valueArrays.some((arr) => arr[i] > 0)) return i;
@@ -166,18 +148,10 @@ function earliestActiveIndex(valueArrays) {
   return 0;
 }
 
-// Instead of asking the chart to *clamp* zoom past the floor date (ECharts'
-// dataZoom min/max on a time axis is unreliable across versions), we just
-// never hand it data before that point. Nothing there for the slider to
-// scroll into means nothing to clamp.
-//
-// LEAD_IN_MONTHS keeps a few zero months before the real floor so the line
-// visibly rises from 0 instead of appearing to start mid-air at whatever
-// its first real value happens to be.
 const LEAD_IN_MONTHS = 3;
 
 function buildSeries(mode, palette) {
-  let raw; // [{ name, values }]
+  let raw;
   if (mode === "All") {
     raw = data.groups.map((name) => ({ name, values: data.totals[name] }));
   } else {
@@ -213,9 +187,6 @@ function render(mode) {
   const lastDate = data.dates[data.dates.length - 1];
   const firstTs = toTs(floorDate);
   const lastTs = toTs(lastDate);
-  // Small margin so the line strokes at the very first/last point (and at
-  // whatever the visible peak is) don't render flush against the plot
-  // border — purely cosmetic breathing room, doesn't change zoom bounds.
   const xMargin = Math.max((lastTs - firstTs) * 0.02, 1000 * 60 * 60 * 24 * 3);
   const option = {
     backgroundColor: "transparent",
@@ -231,8 +202,6 @@ function render(mode) {
       borderColor: PALETTE.border,
       textStyle: { color: PALETTE.text, fontFamily: "DM Mono, monospace", fontSize: 11 },
       axisPointer: { type: "line", lineStyle: { color: PALETTE.gold, opacity: 0.4 } },
-      // Default axis-trigger tooltips list series in series order, not by
-      // value — sort descending so the highest count is always on top.
       formatter: (params) => {
         if (!params.length) return "";
         const date = new Date(params[0].axisValue).toISOString().slice(0, 10);
@@ -275,16 +244,16 @@ function render(mode) {
     },
     dataZoom: [
       {
-        type: "inside", // pinch/scroll zoom, click-drag pan
-        filterMode: "none", // keep out-of-view points attached so lines draw through the edges
-        throttle: 100, // limit event frequency during drag to avoid re-render flicker
+        type: "inside",
+        filterMode: "none",
+        throttle: 100,
         min: firstTs,
         max: lastTs,
         startValue: firstTs,
         endValue: lastTs,
       },
       {
-        type: "slider", // visible handle-drag zoom bar
+        type: "slider",
         filterMode: "none",
         throttle: 100,
         height: 22,
@@ -344,9 +313,6 @@ async function init() {
     `${data.dates[0]} — ${data.dates[data.dates.length - 1]} · generated ${data.generated}`;
   window.addEventListener("resize", () => chart.resize());
 
-  // filterMode:'none' (needed so lines draw continuously through the zoom
-  // edges) means ECharts won't auto-rescale the y-axis to the visible window
-  // on its own — so we do it by hand on every zoom/pan.
   chart.on("dataZoom", () => {
     const opt = chart.getOption();
     const dz = opt.dataZoom[0];
@@ -356,15 +322,10 @@ async function init() {
     });
   });
 
-  // Live theme sync: the 'storage' event fires on this document whenever
-  // another same-origin document (the parent page, in this case) writes to
-  // localStorage — including from inside an iframe, no postMessage needed.
-  // It does NOT fire on the document that made the change, only on others,
-  // which is exactly what we want here.
   window.addEventListener("storage", (e) => {
     if (e.key !== "theme") return;
     document.documentElement.dataset.theme = e.newValue === "light" ? "light" : "dark";
-    render(currentMode); // CSS vars update on their own; the chart needs a manual re-render
+    render(currentMode);
   });
 }
 

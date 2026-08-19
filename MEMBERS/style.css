@@ -1061,6 +1061,14 @@ html.dark #scrollToTop svg {
   cursor: none;
 }
 
+.lightbox-image-wrapper.lens-active #lbClose,
+.lightbox-image-wrapper.lens-active #lbPrev,
+.lightbox-image-wrapper.lens-active #lbNext,
+.lightbox-image-wrapper.lens-active #lightbox-fav-btn,
+.lightbox-image-wrapper.lens-active #lightbox-flag-btn {
+  pointer-events: none;
+}
+
 .lightbox-image-wrapper {
   position: relative;
   display: flex;
@@ -1229,6 +1237,59 @@ html.dark #scrollToTop svg {
 
 .lightbox-error.is-rate-limited .lightbox-error-retry:hover {
   background: rgba(192, 84, 74, 0.22);
+}
+
+.lightbox-error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.lightbox-error-upgrade {
+  margin-top: 6px;
+  padding: 9px 20px;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 0.5px solid var(--gold-border);
+  border-radius: 0;
+  background: var(--gold-bg);
+  color: var(--gold);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+#lightboxErrorUpgrade i {
+  font-size: 13px;
+  color: var(--gold);
+}
+
+.lightbox-error-upgrade:hover {
+  background: var(--gold-border);
+}
+
+.lightbox-error-upgrade.hidden {
+  display: none;
+}
+
+.rl-premium-icon {
+  color: var(--gold);
+  font-size: 13px;
+  margin-right: 3px;
+}
+
+.rl-premium-icon:last-child {
+  margin-right: 0;
+}
+
+.lightbox-error-budget-count .rl-premium-icon {
+  font-size: 15px;
 }
 
 #lightbox.load-failed .data-wrapper,
@@ -1517,6 +1578,8 @@ html.dark #scrollToTop svg {
 }
 
 .caption-wrapper {
+  position: relative;
+  z-index: 1;
   outline: none;
   pointer-events: auto;
 }
@@ -1595,6 +1658,7 @@ html.dark .download-btn:hover {
   scrollbar-width: none;
   padding: 20px;
   padding-right: 65px;
+  padding-bottom: 60px;
 }
 
 #lbLens {
@@ -1604,9 +1668,9 @@ html.dark .download-btn:hover {
   border-radius: 50%;
   pointer-events: none;
   z-index: 999999;
-  border: 3px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25),
-    0 0 40px rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 0 24px rgba(201, 185, 122, 0.18),
+    0 0 48px rgba(0, 0, 0, 0.35);
   inset: 0 0 30px rgba(0, 0, 0, 0.25);
   transition: box-shadow 0.6s ease-out;
   opacity: 0;
@@ -1619,25 +1683,39 @@ html.dark .download-btn:hover {
   border-radius: 50%;
   pointer-events: none;
   mix-blend-mode: screen;
-  background: radial-gradient(
-    circle at 30% 70%,
-    rgba(255, 0, 0, 0.1),
-    rgba(0, 255, 255, 0.1)
-  );
+  background:
+    radial-gradient(
+      circle at var(--hx, 50%) var(--hy, 50%),
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(201, 185, 122, 0.1) 75%,
+      rgba(201, 185, 122, 0.4) 100%
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      rgba(201, 185, 122, 0.08),
+      rgba(0, 0, 0, 0.06)
+    );
 }
 
 #lbLens.zooming {
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.623);
+  box-shadow: 0 0 30px rgba(201, 185, 122, 0.45);
 }
 
-/* #lbLens::before {
+#lbLens.clipped {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.45),
+    0 0 36px rgba(0, 0, 0, 0.3);
+}
+
+#lbLens::before {
     content: "";
     position: absolute;
-    inset: 12px;
+    inset: 10px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 0.5px solid var(--border-strong);
     pointer-events: none;
-} */
+}
 
 /* can add stuff */
 #lbLens.active {
@@ -1645,22 +1723,80 @@ html.dark .download-btn:hover {
   cursor: none;
 }
 
-#lbLens::before {
+#lens-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.3s ease-out;
+}
+
+#lens-crosshair::before,
+#lens-crosshair::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-
-  background: radial-gradient(
-    circle at var(--hx, 50%) var(--hy, 50%),
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(163, 253, 235, 0.082) 70%,
-    rgba(251, 177, 247, 0.468) 100%
-  );
+  background: var(--gold);
 }
+
+#lens-crosshair::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0.5px;
+  transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(to right, black 0 38%, transparent 38% 62%, black 62% 100%);
+  mask-image: linear-gradient(to right, black 0 38%, transparent 38% 62%, black 62% 100%);
+}
+
+#lens-crosshair::after {
+  left: 50%;
+  top: 0;
+  height: 100%;
+  width: 0.5px;
+  transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0 38%, transparent 38% 62%, black 62% 100%);
+  mask-image: linear-gradient(to bottom, black 0 38%, transparent 38% 62%, black 62% 100%);
+}
+
+#lbLens.active #lens-crosshair {
+  opacity: 1;
+}
+
+#lbLens.readout-flip #lens-readout {
+  bottom: auto;
+  top: -30px;
+}
+
+#lens-readout {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+#lbLens.active #lens-readout {
+  opacity: 1;
+}
+
+
 
 html.dark #randomBtn svg {
   fill: white;
@@ -1785,7 +1921,7 @@ html.dark #gallery-loading {
   gap: 10px;
   position: relative;
   width: 100%;
-  padding-bottom: 250px;
+  padding-bottom: 260px;
   transition: min-height 1s ease, filter 0.8s ease;
   min-height: 0px;
 }
@@ -2154,7 +2290,7 @@ html.dark .mid-message {
   position: fixed;
   right: 20px;
   top: 225px;
-  bottom: 20px;
+  bottom: 40px;
   width: 1px;
   background: var(--border-strong);
   border-radius: 0;
@@ -2545,7 +2681,7 @@ html.dark .auth-success {
 }
 .tcw-bar {
   width: 6px;
-  border-radius: 2px;
+  border-radius: 0px;
   transition: opacity 0.15s;
   cursor: default;
 }

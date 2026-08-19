@@ -19,12 +19,12 @@
         uniform vec2 u_resolution;
         uniform vec2 u_imageSize;
         uniform vec2 u_mouse;
-        uniform vec2 u_origin;     // ⭐ NEW: sampling origin in natural image pixels
+        uniform vec2 u_origin;     
         uniform float u_radius;
-        uniform float u_zoom;      // ⭐ NEW: your effZoom
+        uniform float u_zoom;      
         uniform float u_refraction;
         uniform float u_aberration;
-        uniform vec2 u_centerNat; // naturalX, naturalY
+        uniform vec2 u_centerNat; 
         uniform float u_ramp;
 
         void main() {
@@ -172,6 +172,8 @@
         let mouse = { x: 0, y: 0 };
         let centerNat = { x: 0, y: 0 };
         let zoom = 1.0;
+        let rafId = null;
+        let destroyed = false;
 
 
         let img;
@@ -191,6 +193,7 @@
         }
 
         function initializeTexture() {
+            if (destroyed) return;
             const tex = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, tex);
             gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -201,6 +204,7 @@
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
             function render() {
+                if (destroyed) return;
                 gl.clearColor(0, 0, 0, 0);
                 gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -216,7 +220,7 @@
                 gl.uniform1f(u_ramp, RAMP);
 
                 gl.drawArrays(gl.TRIANGLES, 0, 6);
-                requestAnimationFrame(render);
+                rafId = requestAnimationFrame(render);
             }
 
             render();
@@ -235,6 +239,15 @@
             },
             setZoom(z) {
                 zoom = z;
+            },
+            destroy() {
+                if (destroyed) return;
+                destroyed = true;
+                if (rafId !== null) cancelAnimationFrame(rafId);
+                window.removeEventListener('resize', resize);
+                const loseCtx = gl.getExtension('WEBGL_lose_context');
+                if (loseCtx) loseCtx.loseContext();
+                if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
             }
         };
 

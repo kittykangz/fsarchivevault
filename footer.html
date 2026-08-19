@@ -1,0 +1,337 @@
+<style>
+.site-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  background: var(--bg-deep);
+  border-top: 0.5px solid var(--border);
+  box-sizing: border-box;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  box-shadow: 0 2px 0 0 var(--bg-deep);
+}
+
+.site-footer-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5px 12px;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+.site-footer-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.site-footer-link:hover {
+  color: var(--gold);
+}
+
+.site-footer-sep {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--border-strong);
+  user-select: none;
+}
+
+.footer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999999;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 0.1s ease,
+    background 0.5s ease,
+    backdrop-filter 0.5s ease,
+    visibility 0s;
+}
+
+.footer-modal.hidden {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition:
+    opacity 0.1s ease,
+    background 0.5s ease,
+    backdrop-filter 0.5s ease,
+    visibility 0s linear 0.5s;
+  visibility: hidden;
+}
+
+.footer-modal-content {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: 3px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 120, 120, 0.6) transparent;
+}
+
+.footer-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.footer-modal-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+}
+
+.footer-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.footer-modal-close:hover {
+  color: var(--gold);
+}
+
+.footer-modal-body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.footer-modal-body p {
+  margin: 0 0 10px 0;
+}
+
+.footer-modal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.footer-modal-body h3,
+.footer-modal-body h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  margin: 14px 0 6px 0;
+}
+
+.footer-modal-body h3:first-child,
+.footer-modal-body h4:first-child {
+  margin-top: 0;
+}
+
+.footer-modal-body ul {
+  margin: 0 0 10px 0;
+  padding-left: 16px;
+}
+
+.footer-modal-body li {
+  margin-bottom: 4px;
+}
+
+.footer-modal-body strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.footer-modal-body a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.footer-modal-body a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<div id="site-footer" class="site-footer">
+  <div class="site-footer-inner">
+    <span class="site-footer-link" data-modal="tos">Terms of Service</span>
+    <span class="site-footer-sep">·</span>
+    <span class="site-footer-link" data-modal="privacy">Privacy Policy</span>
+    <span class="site-footer-sep">·</span>
+    <span class="site-footer-link" data-modal="refund">Refund Policy</span>
+    <span class="site-footer-sep">·</span>
+    <span class="site-footer-link" data-modal="contact">Contact</span>
+  </div>
+</div>
+
+<div id="footer-modal" class="footer-modal hidden">
+  <div class="footer-modal-content">
+    <div class="footer-modal-header">
+      <div class="footer-modal-title" id="footer-modal-title"></div>
+      <button class="footer-modal-close" id="footer-modal-close" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="footer-modal-body" id="footer-modal-body"></div>
+  </div>
+</div>
+
+<script>
+const FOOTER_MODAL_CONTENT = {
+	tos: {
+		title: "Terms of Service",
+		body: `
+			<p>By using fsarchivevault, you agree to use the website responsibly and not interfere with its operation or availability.</p>
+
+			<h3>Use of the Service</h3>
+			<p>You agree not to:</p>
+			<ul>
+				<li>Abuse or intentionally overload the service.</li>
+				<li>Attempt to circumvent rate limits, authentication, access controls, or other technical restrictions.</li>
+				<li>Interfere with the operation, security, or availability of the website or its servers.</li>
+				<li>Use automated tools or systems in a manner that negatively impacts the service or its infrastructure.</li>
+				<li>Attempt to gain unauthorized access to accounts, systems, or content.</li>
+			</ul>
+			<p>fsarchivevault may restrict or terminate access to accounts that abuse the service, attempt to circumvent technical restrictions, or otherwise interfere with its operation.</p>
+
+			<h3>Service Availability</h3>
+			<p>fsarchivevault may occasionally be unavailable due to maintenance, technical issues, or other circumstances. While reasonable efforts are made to keep the service available, uninterrupted access cannot be guaranteed.</p>
+
+			<h3>Contact</h3>
+			<p>For questions regarding these Terms or use of the service, contact <strong><a href="mailto:fsarchivevault@gmail.com">fsarchivevault@gmail.com</a></strong>.</p>
+		`
+	},
+	privacy: {
+		title: "Privacy Policy",
+		body: `
+			<p>fsarchivevault respects your privacy. This Privacy Policy explains what information may be collected when you use the website and how it is used.</p>
+
+			<h3>Information Collected</h3>
+			<p>fsarchivevault collects limited information necessary to operate and protect the website.</p>
+			<p><strong>Account information:</strong> If you create an account, fsarchivevault collects your chosen username and a securely hashed representation of your password for authentication. Passwords are not stored in plain text. Passwords entered during account creation or login are also redacted from server logs.</p>
+			<p><strong>IP addresses:</strong> IP addresses may be recorded in server logs and used for purposes such as rate limiting, security, abuse prevention, and troubleshooting.</p>
+			<p><strong>Usage information:</strong> Information such as images viewed or saved as favorites may be associated with your account to provide website features.</p>
+			<p><strong>Server logs:</strong> Requests to the website may be logged for security, troubleshooting, and maintaining the reliability of the service.</p>
+
+			<h3>Local Storage</h3>
+			<p>fsarchivevault uses your browser's local storage to save certain website information and preferences. This may include:</p>
+			<ul>
+				<li>Sidebar open/closed states.</li>
+				<li>Light/dark mode preferences.</li>
+				<li>Information used to help manage rate limits.</li>
+				<li>Login session information.</li>
+				<li>Premium access information.</li>
+			</ul>
+			<p>This information is stored in your browser and is used to provide website functionality, maintain your preferences, and manage access to the service.</p>
+			<p>fsarchivevault does not use cookies for these purposes.</p>
+
+			<h3>Payments</h3>
+			<p>Payments for Premium Access are processed by Stripe. fsarchivevault does not directly receive or store your full payment card number.</p>
+			<p>Stripe may collect and process payment and transaction information as necessary to process payments and provide its services. Your use of Stripe's payment services is also subject to Stripe's privacy policy.</p>
+
+			<h3>How Information Is Used</h3>
+			<p>Information collected by fsarchivevault may be used to:</p>
+			<ul>
+				<li>Provide and maintain the website and user accounts.</li>
+				<li>Provide account features such as favorites and usage tracking.</li>
+				<li>Process and manage Premium Access purchases.</li>
+				<li>Enforce rate limits and prevent abuse.</li>
+				<li>Maintain the security and reliability of the service.</li>
+				<li>Diagnose technical problems.</li>
+			</ul>
+			<p>fsarchivevault does not sell or rent your personal information to third parties.</p>
+
+			<h3>Data Retention</h3>
+			<p>Information is retained only for as long as reasonably necessary to provide the service, maintain security, prevent abuse, comply with applicable obligations, and resolve disputes or other issues.</p>
+
+			<h3>Third-Party Services</h3>
+			<p>fsarchivevault uses third-party services necessary to operate the website and process payments. These services may process information according to their own privacy policies.</p>
+
+			<h3>Contact</h3>
+			<p>If you have questions about this Privacy Policy or how your information is handled, contact:</p>
+			<p><strong><a href="mailto:fsarchivevault@gmail.com">fsarchivevault@gmail.com</a></strong></p>
+		`
+	},
+	refund: {
+		title: "Refund Policy",
+		body: `
+			<p>Premium access is a one-time purchase of $5 USD that provides 90 days of Premium access. Premium purchases are generally non-refundable.</p>
+
+			<p>Refunds may be issued in the following circumstances:</p>
+			<ul>
+				<li><strong>Duplicate charges:</strong> If the same Premium purchase is charged more than once, the duplicate charge may be refunded.</li>
+				<li><strong>Premium activation failure:</strong> If payment is successfully completed but Premium access cannot be properly activated on the customer's account, fsarchivevault will attempt to resolve the issue. If the issue cannot be resolved, the payment may be refunded.</li>
+				<li><strong>Technical service failure:</strong> If a technical problem prevents the purchased Premium functionality from being provided and the issue cannot be resolved, the payment may be refunded.</li>
+			</ul>
+
+			<p>Refund requests should be submitted by email to <strong><a href="mailto:fsarchivevault@gmail.com">fsarchivevault@gmail.com</a></strong> and should include the customer's account username and sufficient information to identify the transaction.</p>
+
+			<p>Refunds, when approved, will be issued to the original payment method used for the purchase. Refunds are limited to the amount of the applicable payment and do not include any additional compensation.</p>
+
+			<p>This policy does not affect any rights or remedies that may apply under applicable law.</p>
+		`
+	},
+	contact: {
+		title: "Contact",
+		body: `
+			<p>For questions or assistance regarding fsarchivevault, including account, Premium Access, payment, refund, or technical issues, please contact:</p>
+			<p><strong><a href="mailto:fsarchivevault@gmail.com">fsarchivevault@gmail.com</a></strong></p>
+			<p>When contacting fsarchivevault about an account or purchase, please include your fsarchivevault username and any relevant details about the issue. Do not send passwords or full payment card information by email.</p>
+		`
+	}
+};
+
+function openFooterModal(key) {
+	const entry = FOOTER_MODAL_CONTENT[key];
+	if (!entry) return;
+	document.getElementById("footer-modal-title").textContent = entry.title;
+	document.getElementById("footer-modal-body").innerHTML = entry.body;
+	document.getElementById("footer-modal").classList.remove("hidden");
+}
+
+function closeFooterModal() {
+	document.getElementById("footer-modal").classList.add("hidden");
+}
+
+document.querySelectorAll(".site-footer-link").forEach(link => {
+	link.addEventListener("click", () => openFooterModal(link.dataset.modal));
+});
+
+document.getElementById("footer-modal-close").addEventListener("click", closeFooterModal);
+
+document.addEventListener("click", e => {
+	const modal = e.target.closest(".footer-modal");
+	if (!modal) return;
+	if (e.target === modal) modal.classList.add("hidden");
+});
+</script>

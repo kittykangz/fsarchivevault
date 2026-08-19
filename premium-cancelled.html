@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Cancelled</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9b97a;
+    --gold-bg: rgba(201, 185, 122, 0.1);
+    --gold-border: rgba(201, 185, 122, 0.3);
+    --bg: #f5f2ec;
+    --bg-surface: #edeae3;
+    --bg-deep: #e4e0d8;
+    --border: rgba(0, 0, 0, 0.09);
+    --border-strong: rgba(0, 0, 0, 0.14);
+    --text-primary: #1a1916;
+    --text-secondary: #5a5650;
+    --text-muted: #8a857d;
+    --error: #c0544a;
+  }
+
+  html.dark {
+    --bg: #111010;
+    --bg-surface: #1a1917;
+    --bg-deep: #0d0c0b;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.12);
+    --text-primary: #e8e3dc;
+    --text-secondary: #7a7268;
+    --text-muted: #4a4840;
+    --error: #a83830;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    padding: 24px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    border: 0.5px solid var(--border-strong);
+    background: var(--bg-surface);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .icon-wrap {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.5px solid var(--border-strong);
+    background: var(--bg-deep);
+  }
+
+  .icon-wrap i {
+    font-size: 26px;
+    color: var(--text-secondary);
+  }
+
+  h1 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin: 0 0 10px;
+  }
+
+  p {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0 0 24px;
+  }
+
+  .note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin: -14px 0 24px;
+  }
+
+  button.btn, a.btn {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background: var(--gold-bg);
+    border: 0.5px solid var(--gold-border);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  button.btn:hover, a.btn:hover {
+    background: var(--gold-border);
+  }
+
+  a.btn.secondary {
+    margin-top: 10px;
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    color: var(--text-secondary);
+  }
+
+  a.btn.secondary:hover {
+    color: var(--text-primary);
+    background: var(--bg-deep);
+  }
+
+  #errorMsg {
+    font-size: 11px;
+    color: var(--error);
+    margin-top: 10px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+<script>
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === null) {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+
+<div class="card">
+  <div class="icon-wrap"><i class="ti ti-x"></i></div>
+  <h1>Checkout cancelled</h1>
+  <p>No payment was made and nothing was charged to your card.</p>
+  <div class="note">Changed your mind? You can try again anytime.</div>
+  <button class="btn" id="retryBtn">Try again</button>
+  <a href="#" class="btn secondary" id="returnLink">Return to site</a>
+  <div id="errorMsg">Couldn't start checkout. Please try again from your profile instead.</div>
+</div>
+
+<script>
+const API_BASE = "https://terril.duckdns.org/api/";
+
+function getSiteBase() {
+  const path = window.location.pathname;
+  const dir = path.substring(0, path.lastIndexOf('/') + 1);
+  return window.location.origin + dir;
+}
+
+const SITE_BASE = getSiteBase();
+document.getElementById("returnLink").href = SITE_BASE;
+
+document.getElementById("retryBtn").onclick = async function() {
+  const token = localStorage.getItem("token");
+  const errorMsg = document.getElementById("errorMsg");
+  errorMsg.style.display = "none";
+
+  if (!token) {
+    window.location.href = SITE_BASE;
+    return;
+  }
+
+  try {
+    const res = await fetch(API_BASE + "create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ site_base: SITE_BASE.replace(/\/$/, "") })
+    });
+    const data = await res.json().catch(() => null);
+    if (res.status === 200 && data && data.url) {
+      window.location.href = data.url;
+    } else {
+      errorMsg.style.display = "block";
+    }
+  } catch {
+    errorMsg.style.display = "block";
+  }
+};
+</script>
+
+</body>
+</html>

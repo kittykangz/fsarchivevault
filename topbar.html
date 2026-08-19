@@ -559,8 +559,6 @@ document.getElementById("auth-entry").addEventListener("click", () => {
     const btn  = document.getElementById('sfx-toggle');
     const icon = document.getElementById('sfx-toggle-icon');
 
-    // sound-fx.js loads synchronously in <head> on every page, well
-    // before this topbar is fetched and injected, but guard anyway.
     if (!btn || !icon || !window.SoundFX) return;
 
     function render() {
@@ -574,19 +572,16 @@ document.getElementById("auth-entry").addEventListener("click", () => {
         const next = !SoundFX.isMuted();
         SoundFX.setMuted(next);
         render();
-        if (!next) SoundFX.play('generic_click'); // quick confirmation on unmute
+        if (!next) SoundFX.play('generic_click');
 
         const path = `sfx-toggle/${next ? 'muted' : 'unmuted'}`;
         if (typeof logEvent === 'function') {
             logEvent(path);
         } else {
-            // Fallback in case topbar.html is ever used on a page that
-            // doesn't define logEvent().
             new Image().src = `https://terril.duckdns.org/event/${path}`;
         }
     });
 
-    // Stay in sync if muted state is ever changed from elsewhere.
     document.addEventListener('sfx-mute-change', render);
 
     render();

@@ -1,3 +1,5 @@
+260819 – Optimized lightbox image loading by removing a redundant re-encoding step and speeding up color/histogram analysis by capping analysis resolution at 600px instead of processing the full resolution image; Restyled zoom lens, added mouse smoothing, a coordinate + zoom readout, and a center crosshair. WebGL contexts and resize listeners no longer stack for each opened image, Fixed a coordinate calculation bug that could cause the lens to sample the wrong image region, Fixed the download button rendering above the lens, and UI buttons no longer respond to hover/clicks while the lens is active
+
 260814 – Date search no longer clears all filters; Images that fail to load in the lightbox now show a clear error message instead of loading indefinitely; Fixed a bug where quickly browsing past a slow loading image could cause its source info to load into the wrong photo; Unified sidebar into a single shared html file across pages; Tweaked activity lights
 
 260806 – Redesigned item cards; Optimized html data reducing filesize by ~40%; Fixed news IDs displaying an internal prefix in the source panel; Favorites and view progress now sync immediately after logging in

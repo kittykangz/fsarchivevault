@@ -129,6 +129,7 @@ body.loading {
 <link rel="stylesheet" href="style.css?v=20343334333143333343000">
 <div id="auth-container"></div>
 <div id="topbar-container"></div>
+<div id="footer-container"></div>
 <div id="report-modal" class="report-modal-overlay" style="display:none;">
   <div class="report-modal">
     <div class="report-modal-header">
@@ -621,7 +622,7 @@ body.loading {
                 </div>
               </div>
               <img id="lbImage" src="" alt="" />
-              <div id="lbLens"></div>
+              <div id="lbLens"><div id="lens-crosshair"></div><div id="lens-readout"></div></div>
               <div id="lightboxError" class="lightbox-error hidden">
                 <i class="ti ti-alert-triangle" aria-hidden="true"></i>
                 <div id="lightboxErrorKicker" class="lightbox-error-kicker">Image unavailable</div>
@@ -635,7 +636,10 @@ body.loading {
                   </div>
                 </div>
                 <div id="lightboxErrorText" class="lightbox-error-text">Failed to load image.</div>
-                <button id="lightboxErrorRetry" class="lightbox-error-retry">Retry</button>
+                <div class="lightbox-error-actions">
+                  <button id="lightboxErrorRetry" class="lightbox-error-retry">Retry</button>
+                  <button id="lightboxErrorUpgrade" class="lightbox-error-upgrade hidden"><i class="ti ti-crown" aria-hidden="true"></i> Upgrade to Premium</button>
+                </div>
               </div>
             </div>
             <div class="caption-wrapper">
@@ -729,6 +733,10 @@ const RL_KEY = 'rl_fullimg_budget_v1';
 const RL_CAPACITY = 50;
 const RL_REFILL_MS = 5000; // 12/min == 1 slot freed every 5s
 
+function rlIsPremium() {
+	return localStorage.getItem('isPremium') === '1';
+}
+
 function rlRead() {
 	try {
 		const raw = localStorage.getItem(RL_KEY);
@@ -764,6 +772,10 @@ function rlPeek() {
 }
 
 function rlConsume() {
+	if (rlIsPremium()) {
+		rlRenderAll();
+		return RL_CAPACITY;
+	}
 	const state = rlRefill(rlRead());
 	state.tokens = Math.max(0, state.tokens - 1);
 	rlWrite(state);
@@ -787,19 +799,29 @@ function rlFormatSeconds(ms) {
 }
 
 function rlRenderAll() {
+	const sbText = document.getElementById('rlBudgetText');
+	const sbTimer = document.getElementById('rlBudgetTimer');
+	const lbText = document.getElementById('lightboxErrorBudgetText');
+	const lbTimer = document.getElementById('lightboxErrorBudgetTimer');
+	const lbFill = document.getElementById('lightboxErrorBudgetFill');
+
+	if (rlIsPremium()) {
+		const premiumMarkup = '<i class="ti ti-crown rl-premium-icon"></i><i class="ti ti-infinity rl-premium-icon"></i>';
+		if (sbText) sbText.innerHTML = premiumMarkup;
+		if (sbTimer) sbTimer.textContent = '';
+		if (lbText) lbText.innerHTML = premiumMarkup;
+		if (lbTimer) lbTimer.textContent = '';
+		if (lbFill) lbFill.style.width = '100%';
+		return;
+	}
+
 	const state = rlPeek();
 	const remaining = state.tokens;
 	const msUntilNext = rlMsUntilNext(state);
 	const pct = Math.round((remaining / RL_CAPACITY) * 100);
 
-	const sbText = document.getElementById('rlBudgetText');
-	const sbTimer = document.getElementById('rlBudgetTimer');
 	if (sbText) sbText.textContent = `${remaining}/${RL_CAPACITY}`;
 	if (sbTimer) sbTimer.textContent = msUntilNext > 0 ? `+1 in ${rlFormatSeconds(msUntilNext)}` : '';
-
-	const lbText = document.getElementById('lightboxErrorBudgetText');
-	const lbTimer = document.getElementById('lightboxErrorBudgetTimer');
-	const lbFill = document.getElementById('lightboxErrorBudgetFill');
 	if (lbText) lbText.textContent = `${remaining}/${RL_CAPACITY}`;
 	if (lbTimer) lbTimer.textContent = msUntilNext > 0 ? `Next +1 in ${rlFormatSeconds(msUntilNext)}` : 'Full';
 	if (lbFill) lbFill.style.width = `${pct}%`;
@@ -820,11 +842,15 @@ function updateSettingsBox() {
     const themeText  = document.documentElement.classList.contains('dark') ? "Dark" : "Light";
 	const soundText  = (window.SoundFX && SoundFX.isMuted()) ? "Off" : "On";
 
-	const rlState = rlPeek();
-	const rlRemaining = rlState.tokens;
-	const rlMs = rlMsUntilNext(rlState);
-	const rlTimerText = rlMs > 0 ? `+1 in ${rlFormatSeconds(rlMs)}` : '';
-	const budgetHTML = `<strong>Budget:</strong> <span id="rlBudgetText">${rlRemaining}/${RL_CAPACITY}</span><span id="rlBudgetTimer" class="rl-timer">${rlTimerText}</span>`;
+	const budgetHTML = rlIsPremium()
+		? `<strong>Budget:</strong> <span id="rlBudgetText"><i class="ti ti-crown rl-premium-icon"></i><i class="ti ti-infinity rl-premium-icon"></i></span><span id="rlBudgetTimer" class="rl-timer"></span>`
+		: (() => {
+			const rlState = rlPeek();
+			const rlRemaining = rlState.tokens;
+			const rlMs = rlMsUntilNext(rlState);
+			const rlTimerText = rlMs > 0 ? `+1 in ${rlFormatSeconds(rlMs)}` : '';
+			return `<strong>Budget:</strong> <span id="rlBudgetText">${rlRemaining}/${RL_CAPACITY}</span><span id="rlBudgetTimer" class="rl-timer">${rlTimerText}</span>`;
+		})();
 
     if (clipIsActive()) {
         box.innerHTML = `
@@ -922,6 +948,11 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 		let rafRunning = false;
 		let easedHX = 50;
 		let easedHY = 50;
+		let smoothX = null;
+		let smoothY = null;
+		let readoutFlipped = false;
+		let readoutFading = false;
+		let readoutFlipTimeout = null;
 		let glassLens = null;
 		let magnifierHintShown = false;
 		let allItemsCache = null;
@@ -1022,7 +1053,23 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 			const res = await fetch("../sidebar.html");
 			const html = await res.text();
 			container.innerHTML = html;
+			rewriteSidebarLinks(container, res.url);
 			executeScripts(container);
+		}
+		async function loadFooterHTML() {
+			const container = document.getElementById("footer-container");
+			const res = await fetch("../footer.html");
+			const html = await res.text();
+			container.innerHTML = html;
+			executeScripts(container);
+		}
+
+		function rewriteSidebarLinks(container, sidebarUrl) {
+			const siteRoot = new URL(".", sidebarUrl);
+			container.querySelectorAll('a[href^="/"]').forEach(a => {
+				const path = a.getAttribute("href").slice(1);
+				a.setAttribute("href", new URL(path, siteRoot).pathname);
+			});
 		}
 
 		function updateTimelineCurrentPosition() {
@@ -1831,10 +1878,12 @@ function buildAllItemsChunked(onComplete, bar, progressEl) {
 		function getAverageColor(img, callback) {
 			try {
 				const canvas = document.createElement('canvas');
-				const ctx = canvas.getContext('2d');
-				canvas.width = img.naturalWidth;
-				canvas.height = img.naturalHeight;
-				ctx.drawImage(img, 0, 0);
+				const ctx = canvas.getContext('2d', { willReadFrequently: true });
+				const MAX_DIM = 600;
+				const scale = Math.min(1, MAX_DIM / Math.max(img.naturalWidth, img.naturalHeight));
+				canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+				canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+				ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 				const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 				const colors = {};
 				const histogram = new Array(256).fill(0);
@@ -1922,6 +1971,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	await loadTopbarHTML();
 	await loadSidebarHTML();
 	await loadAuthHTML();
+	await loadFooterHTML();
 	await checkLogin();
 	await Promise.race([
 		document.fonts.ready,
@@ -2315,8 +2365,12 @@ const lightbox = document.getElementById('lightbox'),
 const lbDateLabel = document.getElementById("lbDateLabel");
 
 function rebuildLens(sharedImage) {
-	const oldCanvas = lbLens.querySelector('canvas');
-	if (oldCanvas) oldCanvas.remove();
+	if (glassLens && typeof glassLens.destroy === 'function') {
+		glassLens.destroy();
+	} else {
+		const oldCanvas = lbLens.querySelector('canvas');
+		if (oldCanvas) oldCanvas.remove();
+	}
 	const radius = (lbLens.offsetWidth / 2) || 300;
 	glassLens = createLensInstance(sharedImage, radius);
 	const canvas = lbLens.querySelector('canvas');
@@ -2326,6 +2380,7 @@ function rebuildLens(sharedImage) {
 	}
 }
 const lbLens = document.getElementById('lbLens');
+const lensReadout = document.getElementById('lens-readout');
 const imageWrapper = document.querySelector('.lightbox-image-wrapper');
 // document.addEventListener('mousedown', e => {
 //     console.log('MOUSEDOWN TARGET:', e.target);
@@ -2361,6 +2416,8 @@ function activateLens() {
 		const rect = imageWrapper.getBoundingClientRect();
 		pendingX = lastMouseX - rect.left;
 		pendingY = lastMouseY - rect.top;
+		smoothX = pendingX;
+		smoothY = pendingY;
 		updateLensPosition();
 		lbLens.style.opacity = '1';
 		lbLens.classList.add('active');
@@ -2374,7 +2431,21 @@ function deactivateLens() {
 		imageWrapper.classList.remove('lens-active');
 		lbLens.style.opacity = '0';
 		lbLens.classList.remove('active');
+		lbLens.classList.remove('clipped');
 		imageWrapper.classList.remove('lens-active');
+		smoothX = null;
+		smoothY = null;
+		if (readoutFlipTimeout) {
+			clearTimeout(readoutFlipTimeout);
+			readoutFlipTimeout = null;
+		}
+		readoutFading = false;
+		readoutFlipped = false;
+		lbLens.classList.remove('readout-flip');
+		if (lensReadout) {
+			lensReadout.style.opacity = '';
+			lensReadout.style.transition = '';
+		}
 	}
 }
 
@@ -2384,16 +2455,47 @@ function updateLensPosition() {
 		return;
 	}
 	const radius = lbLens.offsetWidth / 2;
-	lbLens.style.left = (pendingX - radius) + 'px';
-	lbLens.style.top = (pendingY - radius) + 'px';
+
+
+	if (smoothX === null) { smoothX = pendingX; smoothY = pendingY; }
+	const posEase = 0.1; // lens smoothing
+	smoothX += (pendingX - smoothX) * posEase;
+	smoothY += (pendingY - smoothY) * posEase;
+
+	lbLens.style.left = (smoothX - radius) + 'px';
+	lbLens.style.top = (smoothY - radius) + 'px';
+
+	const wrapperRect = imageWrapper.getBoundingClientRect();
+
+	const lensBottomOnScreen = wrapperRect.top + (smoothY + radius);
+	const readoutSpace = 40;
+	const shouldFlip = lensBottomOnScreen + readoutSpace > window.innerHeight;
+	if (shouldFlip !== readoutFlipped && !readoutFading && lensReadout) {
+		readoutFading = true;
+		lensReadout.style.transition = 'opacity 0.15s ease-out';
+		lensReadout.style.opacity = '0';
+		readoutFlipTimeout = setTimeout(() => {
+			lbLens.classList.toggle('readout-flip', shouldFlip);
+			readoutFlipped = shouldFlip;
+			lensReadout.style.opacity = '';
+			readoutFading = false;
+			readoutFlipTimeout = null;
+		}, 150);
+	}
+
 	const naturalW = parseInt(lbLens.dataset.naturalWidth, 10);
 	const naturalH = parseInt(lbLens.dataset.naturalHeight, 10);
 	const displayW = lbImage.clientWidth;
 	const displayH = lbImage.clientHeight;
 	const scaleX = naturalW / displayW;
 	const scaleY = naturalH / displayH;
-	const naturalX = pendingX * scaleX;
-	const naturalY = pendingY * scaleY;
+
+	const imgRect = lbImage.getBoundingClientRect();
+	const imgOffsetX = imgRect.left - wrapperRect.left;
+	const imgOffsetY = imgRect.top - wrapperRect.top;
+	const naturalX = (smoothX - imgOffsetX) * scaleX;
+	const naturalY = (smoothY - imgOffsetY) * scaleY;
+
 	const LENS_ADJUST = 1;
 	const Y_OFFSET = -3;
 	const X_OFFSET = -3;
@@ -2402,8 +2504,8 @@ function updateLensPosition() {
 	const bgH = naturalH * effZoom;
 	const bgX = -(naturalX * effZoom - radius) + X_OFFSET;
 	const bgY = -(naturalY * effZoom - radius) + Y_OFFSET;
-	let hx = ((pendingX - radius) / (radius * 2)) * 100;
-	let hy = ((pendingY - radius) / (radius * 2)) * 100;
+	let hx = ((smoothX - radius) / (radius * 2)) * 100;
+	let hy = ((smoothY - radius) / (radius * 2)) * 100;
 	hx = 100 - hx;
 	hy = 100 - hy;
 	hx = Math.max(0, Math.min(100, hx));
@@ -2412,13 +2514,30 @@ function updateLensPosition() {
 	easedHX += (hx - easedHX) * ease;
 	easedHY += (hy - easedHY) * ease;
 	if (glassLens) {
-		const rect = imageWrapper.getBoundingClientRect();
-		const px = rect.left + pendingX;
-		const py = rect.top + pendingY;
+		const px = wrapperRect.left + smoothX;
+		const py = wrapperRect.top + smoothY;
 		glassLens.setPointer(px, py);
 		glassLens.setCenter(naturalX, naturalH - naturalY);
 		glassLens.setZoom(effZoom);
 	}
+
+	// Edge-of-image clamping feedback: does the sampled circle extend
+	// past the natural image bounds at the current position/zoom?
+	const sampleRadiusNat = radius / effZoom;
+	const isClipped = (
+		naturalX - sampleRadiusNat < 0 ||
+		naturalX + sampleRadiusNat > naturalW ||
+		naturalY - sampleRadiusNat < 0 ||
+		naturalY + sampleRadiusNat > naturalH
+	);
+	lbLens.classList.toggle('clipped', isClipped);
+
+	if (lensReadout) {
+		const rx = Math.round(naturalX);
+		const ry = Math.round(naturalY);
+		lensReadout.textContent = rx + ', ' + ry + '  \u00b7  ' + effZoom.toFixed(1) + '\u00d7';
+	}
+
 	requestAnimationFrame(updateLensPosition);
 }
 const sharedImageCache = new Map();
@@ -2430,7 +2549,12 @@ function loadSharedImage(url) {
 			return;
 		}
 		rlConsume();
-		fetch(url, { mode: 'cors' })
+		const fetchOpts = { mode: 'cors' };
+		const ptoken = localStorage.getItem('ptoken');
+		if (ptoken) {
+			fetchOpts.headers = { 'X-Premium-Token': ptoken };
+		}
+		fetch(url, fetchOpts)
 			.then(res => {
 				if (!res.ok) {
 					if (res.status === 403) rlForceEmpty();
@@ -2444,8 +2568,8 @@ function loadSharedImage(url) {
 				const objectUrl = URL.createObjectURL(blob);
 				const img = new Image();
 				img.onload = () => {
+					img._sharedBlobUrl = objectUrl;
 					sharedImageCache.set(url, img);
-					URL.revokeObjectURL(objectUrl);
 					resolve(img);
 				};
 				img.onerror = () => {
@@ -2462,7 +2586,8 @@ function loadSharedImage(url) {
 			});
 	});
 }
-async function imageToBlobURL(img) {
+function getDisplayURL(img) {
+	if (img._sharedBlobUrl) return Promise.resolve(img._sharedBlobUrl);
 	const canvas = document.createElement('canvas');
 	canvas.width = img.naturalWidth;
 	canvas.height = img.naturalHeight;
@@ -2957,7 +3082,7 @@ const translationCache = new Map(); window.openLightbox = function(idx) {
 			} else {
 				lbHistogram.textContent = '–';
 			}
-			imageToBlobURL(preload).then(blobURL => {
+			getDisplayURL(preload).then(blobURL => {
 				lbImage.src = blobURL;
 				const size = meta.size ?? 0;
 				lbFilesize.textContent = size > 0 ?
@@ -3017,14 +3142,19 @@ function handleLightboxLoadError(err, requestIndex) {
 	const kicker = document.getElementById('lightboxErrorKicker');
 	const text = document.getElementById('lightboxErrorText');
 	const budgetBox = document.getElementById('lightboxErrorBudget');
+	const upgradeBtn = document.getElementById('lightboxErrorUpgrade');
 	const isRateLimited = status === 403;
+	const showUpgrade = isRateLimited && !rlIsPremium();
 
 	box.classList.toggle('is-rate-limited', isRateLimited);
 	budgetBox.classList.toggle('hidden', !isRateLimited);
+	if (upgradeBtn) upgradeBtn.classList.toggle('hidden', !showUpgrade);
 
 	if (isRateLimited) {
 		kicker.textContent = "Rate limited";
-		text.textContent = "Too many requests, please wait a moment and try again.";
+		text.textContent = showUpgrade
+			? "Too many requests. Premium removes this limit entirely."
+			: "Too many requests, please wait a moment and try again.";
 		rlRenderAll();
 	} else if (status === 404) {
 		kicker.textContent = "Image unavailable";
@@ -3052,6 +3182,10 @@ document.getElementById('lightboxErrorRetry').onclick = function() {
 	if (currentIndex >= 0) openLightbox(currentIndex);
 };
 
+document.getElementById('lightboxErrorUpgrade').onclick = function() {
+	if (typeof openPremiumInfoModal === 'function') openPremiumInfoModal(false);
+};
+
 function translateTimeColor(ms) {
 	if (ms < 1000) return 'rgba(100, 200, 120, 0.8)';
 	if (ms < 2000) return 'rgba(201, 185, 122, 0.8)';
@@ -3068,6 +3202,10 @@ function closeLightbox() {
 	window.removeEventListener('resize', adjustWrapperTop);
 	currentIndex = -1;
 	deactivateLens();
+	if (glassLens && typeof glassLens.destroy === 'function') {
+		glassLens.destroy();
+		glassLens = null;
+	}
 	closeReportModal();
 	ctrlDown = false;
 	mouseDown = false;

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Activated</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9b97a;
+    --gold-bg: rgba(201, 185, 122, 0.1);
+    --gold-border: rgba(201, 185, 122, 0.3);
+    --bg: #f5f2ec;
+    --bg-surface: #edeae3;
+    --bg-deep: #e4e0d8;
+    --border: rgba(0, 0, 0, 0.09);
+    --border-strong: rgba(0, 0, 0, 0.14);
+    --text-primary: #1a1916;
+    --text-secondary: #5a5650;
+    --text-muted: #8a857d;
+    --error: #c0544a;
+  }
+
+  html.dark {
+    --bg: #111010;
+    --bg-surface: #1a1917;
+    --bg-deep: #0d0c0b;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.12);
+    --text-primary: #e8e3dc;
+    --text-secondary: #7a7268;
+    --text-muted: #4a4840;
+    --error: #a83830;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    padding: 24px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 380px;
+    border: 0.5px solid var(--border-strong);
+    background: var(--bg-surface);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .icon-wrap {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.5px solid var(--gold-border);
+    background: var(--gold-bg);
+  }
+
+  .icon-wrap i {
+    font-size: 26px;
+    color: var(--gold);
+  }
+
+  .icon-wrap.is-error i {
+    color: var(--error);
+  }
+
+  .icon-wrap.is-error {
+    border-color: rgba(160, 60, 50, 0.35);
+    background: rgba(160, 60, 50, 0.08);
+  }
+
+  h1 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin: 0 0 10px;
+  }
+
+  p {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0 0 24px;
+  }
+
+  .status-line {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    min-height: 14px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1.5px solid var(--border-strong);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  a.btn {
+    display: block;
+    padding: 10px 0;
+    background: var(--gold-bg);
+    border: 0.5px solid var(--gold-border);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  a.btn:hover {
+    background: var(--gold-border);
+  }
+
+  .retry-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    color: var(--text-secondary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 10px 0;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .retry-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-deep);
+  }
+</style>
+</head>
+<body>
+<script>
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === null) {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+
+
+<div class="card">
+  <div class="icon-wrap" id="iconWrap"><i class="ti ti-crown"></i></div>
+  <h1 id="title">Confirming your payment…</h1>
+  <p id="subtext">Give us a moment to activate your premium access.</p>
+  <div class="status-line" id="statusLine"><span class="spinner"></span>Checking status</div>
+  <a href="#" class="btn" id="returnLink">Return to site</a>
+</div>
+
+<script>
+function getSiteBase() {
+  const path = window.location.pathname;
+  const dir = path.substring(0, path.lastIndexOf('/') + 1);
+  return window.location.origin + dir;
+}
+
+const RETURN_URL = getSiteBase();
+document.getElementById("returnLink").href = RETURN_URL;
+
+const API_BASE = "https://terril.duckdns.org/api/";
+const MAX_ATTEMPTS = 10;
+const POLL_INTERVAL_MS = 2000;
+
+async function api(path) {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await fetch(API_BASE + path, {
+      headers: token ? { "Authorization": token } : {}
+    });
+    const data = await res.json().catch(() => null);
+    return { status: res.status, data };
+  } catch {
+    return { status: 0, data: null };
+  }
+}
+
+function setState(iconClass, isError, title, subtext, status) {
+  const iconWrap = document.getElementById("iconWrap");
+  iconWrap.className = "icon-wrap" + (isError ? " is-error" : "");
+  iconWrap.innerHTML = `<i class="${iconClass}"></i>`;
+  document.getElementById("title").textContent = title;
+  document.getElementById("subtext").textContent = subtext;
+  document.getElementById("statusLine").innerHTML = status || "";
+}
+
+async function pollForPremium(attempt = 0) {
+  if (!localStorage.getItem("token")) {
+    setState(
+      "ti ti-crown",
+      false,
+      "Payment received",
+      "Log back into your account to see your premium status reflected.",
+      ""
+    );
+    return;
+  }
+
+  const { status, data } = await api("me");
+
+  if (status === 200 && data && data.premium) {
+    setState(
+      "ti ti-crown",
+      false,
+      "Premium activated",
+      "Full-resolution images are now unlimited on your account.",
+      ""
+    );
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem("isPremium", "1");
+    }
+    return;
+  }
+
+  if (attempt >= MAX_ATTEMPTS) {
+    setState(
+      "ti ti-clock",
+      false,
+      "Still processing",
+      "Your payment went through, but activation is taking longer than usual. This page will keep checking — feel free to return to the site in the meantime.",
+      '<span class="spinner"></span>Still checking'
+    );
+    setTimeout(() => pollForPremium(attempt), POLL_INTERVAL_MS * 3);
+    return;
+  }
+
+  setTimeout(() => pollForPremium(attempt + 1), POLL_INTERVAL_MS);
+}
+
+pollForPremium();
+</script>
+
+</body>
+</html>

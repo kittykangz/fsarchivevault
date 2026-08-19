@@ -82,6 +82,7 @@ body.loading {
 </style>
 <div id="auth-container"></div>
 <div id="topbar-container"></div>
+<div id="footer-container"></div>
 <div class="all">
 
 <div id="sidebar-container"></div>
@@ -210,7 +211,23 @@ async function loadSidebarHTML() {
     const res = await fetch("sidebar.html");
     const html = await res.text();
     container.innerHTML = html;
+    rewriteSidebarLinks(container, res.url);
     executeScripts(container);
+}
+async function loadFooterHTML() {
+    const container = document.getElementById("footer-container");
+    const res = await fetch("footer.html");
+    const html = await res.text();
+    container.innerHTML = html;
+    executeScripts(container);
+}
+
+function rewriteSidebarLinks(container, sidebarUrl) {
+    const siteRoot = new URL(".", sidebarUrl);
+    container.querySelectorAll('a[href^="/"]').forEach(a => {
+        const path = a.getAttribute("href").slice(1);
+        a.setAttribute("href", new URL(path, siteRoot).pathname);
+    });
 }
 </script>
 
@@ -341,6 +358,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   await loadTopbarHTML();
   await loadSidebarHTML();
   await loadAuthHTML();
+  await loadFooterHTML();
 
   buildHero();
   checkLogin();
