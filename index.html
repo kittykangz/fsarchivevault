@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 
 <script>
 try {
@@ -21,6 +21,7 @@ try {
 } catch(e) {}
 </script>
 <script src="sound-fx.js"></script>
+<!-- <script src="scroll-fx.js"></script> -->
 
 <title>Home</title>
 
@@ -88,93 +89,99 @@ body.loading {
 <div id="sidebar-container"></div>
 <div class="content-wrapper">
 <div class="hero" id="hero-strip"></div>
+<div class="stat-strip" id="stat-strip"></div>
 <div class="about-and-gallery">
-<div class="abgr">
-<div class="about-window win98-style">
+
+<div class="bento-left">
+<div class="about-window bento-about">
   <div class="about-section-content">
     <h3>About</h3>
 
     <p>
-      This archive is a personal collection of chronologically sorted fansite images. 
-      Every photo is manually dated, though TWICE and ITZY are still 
-      missing accurate dates.
+    This archive is a personal collection of chronologically sorted fansite images.
+    Every photo is manually dated, though TWICE and ITZY are still missing accurate dates.
     </p>
 
-    <p>
-      I began archiving fansite photos of my favorite groups back in 2021 and have been 
-      collecting and organizing them ever since.
-    </p>
+    <div class="about-more" id="aboutMore">
+      <div class="about-more-inner">
+        <p>
+        I began archiving fansite photos of my favorite groups back in 2021 and have been collecting and organizing them ever since.
+        </p>
 
-    <p>
-      This project was built for fun, as a way to share a photo archiving hobby I started 
-      in my free time. I'm glad I could turn it into something easy to browse, and I hope 
-      others enjoy it as much as I do.
-    </p>
+        <p>
+        This project was built for fun, as a way to share a photo archiving hobby I started in my free time.
+        I'm glad I could turn it into something easy to browse, and I hope others enjoy it as much as I do.
+        </p>
+      </div>
+    </div>
 
-    <p>
-      Enjoy browsing! 
-      <a href="https://linktr.ee/teppil" class="pink-heart" target="_blank" rel="noopener noreferrer">♡</a>
-    </p>
+    <button type="button" class="about-toggle" id="aboutToggle" aria-expanded="false" aria-controls="aboutMore">
+      <span class="about-toggle-label">Read more</span>
+      <i class="ti ti-chevron-down"></i>
+    </button>
 
-    <div class="feedback-note">
-      If you’d like to help sort photos, report issues, or suggest improvements, message me on 
+    <div class="enjoy-row">
+      Enjoy browsing
+      <a href="https://linktr.ee/teppil" class="heart-link" target="_blank" rel="noopener noreferrer" aria-label="Linktree">
+        <i class="ti ti-heart"></i>
+      </a>
+    </div>
+
+    <!-- 
+    <div class="links-row">
       <span id="discordText" class="discord-tooltip-wrapper">
         Discord
         <span class="discord-tooltip">@terril</span>
         <span id="copyMessage">Copied!</span>
-      </span>.
-      <br>
-      Layout may not display well on mobile.
+      </span>
     </div>
+    -->
+
+    <!-- <div class="mobile-note">Layout may not display well on mobile.</div> -->
   </div>
 </div>
 
-<div class="about-window win98-style">
+<div class="about-window bento-explore">
   <div class="about-section-content">
-    <h3>Usage</h3>
+    <h3>Usage/Features</h3>
 
-    <ul class="usage-list">
-      <li>Use the left sidebar to browse groups and select a member, or search for a specific name.</li>
-      <li>Once you're viewing a member's gallery, you can type a date into the search bar to quickly jump to the closest set of images from that day.</li>
-      <li>Use the random button to open a random image from the current gallery.</li>
-      <li>Click any image to open the lightbox and view the full resolution version, and use the download button to save it.</li>
-      <li>In the lightbox, hold Ctrl and click on an image to open the magnifier, then use your scroll wheel to zoom in and out.</li>
-    </ul>
-
-    <h4 class="usage-subheader">Buttons</h4>
-
-    <ul class="usage-list">
-      <li><strong>Sort by Date:</strong> Toggle between ascending/descending date order.</li>
-      <li><strong>Chronological / Recent:</strong> Toggle sorting between manually assigned dates (chronological) or by the most recently saved images. Useful for seeing new additions even if they're from earlier dates.</li>
-      <li><strong>Grid / Masonry:</strong> Toggle between uniform grid or natural aspect‑ratio layout.</li>
-    </ul>
-  </div>
+    <div class="feature-grid">
+      <div class="feature-item"><i class="ti ti-search"></i><span>Search for a member</span></div>
+      <div class="feature-item"><i class="ti ti-calendar"></i><span>Date search</span></div>
+      <div class="feature-item"><i class="ti ti-timeline"></i><span>Timeline scrubber</span></div>
+      <div class="feature-item"><i class="ti ti-dice-3"></i><span>Random image button</span></div>
+      <div class="feature-item"><i class="ti ti-sort-descending"></i><span>Asc / desc date sort</span></div>
+      <div class="feature-item"><i class="ti ti-clock"></i><span>Chronological / recent</span></div>
+      <div class="feature-item"><i class="ti ti-layout-grid"></i><span>Grid / masonry layouts</span></div>
+      <div class="feature-item"><i class="ti ti-users"></i><span>Filter by other members</span></div>
+      <div class="feature-item"><i class="ti ti-brain"></i><span>CLIP Visual search</span></div>
+      <!-- <div class="feature-item"><i class="ti ti-layout-rows"></i><span>Filter by orientation</span></div> -->
+      <div class="feature-item"><i class="ti ti-adjustments-horizontal"></i><span>Size & resolution filters</span></div>
+      <div class="feature-item"><i class="ti ti-zoom-in"></i><span>Ctrl+click to magnify</span></div>
+      <div class="feature-item"><i class="ti ti-download"></i><span>Download full resolution</span></div>
+    </div>
   </div>
 </div>
 
-
-  <div class="right-column">
-  <div class="recent-wrapper">
-   <h2>Recent Uploads</h2>
-  <div class="recent-gallery-box"></div>
-    <div id="recent-uploads-placeholder">
+<div class="about-window bento-feedback">
+  <div class="about-section-content">
+    <h3>Feedback</h3>
+    <textarea class="feedback-textarea" id="feedback-input" placeholder="Report issues, suggest improvements…"></textarea>
+    <button class="feedback-btn" id="feedback-btn">Send feedback</button>
   </div>
-    </div>
-<div class="right-bottom">
-        <div class="feedback-section">
-          <div class="rp-label">Leave feedback</div>
-          <textarea class="feedback-textarea" id="feedback-input" placeholder="Report issues, suggest improvements…"></textarea>
-          <button class="feedback-btn" id="feedback-btn">Send feedback</button>
-        </div>
-      <div class="rp-footer">
-        <div class="rp-footer-stat" id="stats-footer"></div>
-      </div>
+</div>
+</div>
 
-<div id="changelog-wrapper">
-  <details id="changelog">
-    <summary>Changelog <span class="caret">&#9656;</span></summary>
-    <ul id="changelog-list"></ul>
-  </details>
+<div class="recent-wrapper bento-gallery">
+  <h2>Recent Uploads</h2>
+  <div class="recent-gallery-box"></div>
+</div>
+
+<div class="update-history">
+  <h3>Update Log</h3>
+  <ol class="update-list"></ol>
+</div>
+
 </div>
 
 <script>
@@ -234,22 +241,6 @@ function rewriteSidebarLinks(container, sidebarUrl) {
 
 
 <script>
-fetch("changelog.txt")
-  .then(response => response.text())
-  .then(text => {
-    const ul = document.getElementById("changelog-list");
-    text.split("\n").forEach(line => {
-      if (line.trim()) {
-        const li = document.createElement("li");
-        li.textContent = line.trim();
-        ul.appendChild(li);
-      }
-    });
-  })
-  .catch(err => console.error("Error loading changelog:", err));
-</script>
-
-<script>
 const button = document.getElementById("feedback-btn");
 
 if (button) {
@@ -277,15 +268,27 @@ if (button) {
   });
 }
 </script>
-</div>
-</div>
-<div class="update-history">
-  <h3>Update Log</h3>
-  <div class="update-list"></div>
-</div>
 
 <script>
-    const discordText = document.getElementById('discordText');
+(function () {
+  const toggle = document.getElementById('aboutToggle');
+  const more = document.getElementById('aboutMore');
+  const label = toggle ? toggle.querySelector('.about-toggle-label') : null;
+  if (!toggle || !more || !label) return;
+
+  toggle.addEventListener('click', () => {
+    const expanded = more.classList.toggle('expanded');
+    toggle.classList.toggle('expanded', expanded);
+    toggle.setAttribute('aria-expanded', expanded);
+    label.textContent = expanded ? 'Show less' : 'Read more';
+    SoundFX.play(expanded ? 'heavy_click' : 'heavy_click_reverse');
+  });
+})();
+</script>
+
+<script>
+  /* Discord temporarily removed from the page. Functionality preserved for easy restore.
+  const discordText = document.getElementById('discordText');
   const copyMessage = document.getElementById('copyMessage');
   const discordUsername = '@terril';
 
@@ -297,45 +300,141 @@ if (button) {
       }, 1500);
     });
   });
+  */
+
 fetch('update_history.json')
   .then(res => res.json())
   .then(history => {
     const container = document.querySelector('.update-list');
     container.innerHTML = '';
 
-    history.slice().reverse().forEach(update => {
+    const totalCount = history.length;
 
-      const timestampDiv = document.createElement('div');
-      timestampDiv.className = 'update-timestamp';
+    history.slice().reverse().forEach((update, i) => {
+      const blockNumber = totalCount - i;
+      const block = document.createElement('li');
+      block.className = 'update-block' + (i === 0 ? ' update-block-new' : '');
 
-      const formattedTotal = update.total
-        ? `[+${update.total.toLocaleString()}]`
-        : '';
+      const head = document.createElement('div');
+      head.className = 'update-block-head';
 
-      timestampDiv.textContent = `${update.timestamp} ${formattedTotal}`;
-      container.appendChild(timestampDiv);
+      const [date, ...timeParts] = update.timestamp.split(' ');
+
+      const numberEl = document.createElement('span');
+      numberEl.className = 'update-block-number';
+      numberEl.textContent = `#${blockNumber}`;
+
+      const dateEl = document.createElement('span');
+      dateEl.className = 'update-block-date';
+      dateEl.textContent = date;
+
+      const timeEl = document.createElement('span');
+      timeEl.className = 'update-block-time';
+      timeEl.textContent = timeParts.join(' ');
+
+      head.appendChild(numberEl);
+      head.appendChild(dateEl);
+      head.appendChild(timeEl);
+
+      if (update.total) {
+        const totalEl = document.createElement('span');
+        totalEl.className = 'update-block-total';
+        totalEl.textContent = `+${update.total.toLocaleString()}`;
+        head.appendChild(totalEl);
+      }
+
+      block.appendChild(head);
+
+      const groupList = document.createElement('ul');
+      groupList.className = 'update-group-list';
 
       update.groups.forEach(group => {
-        const groupDiv = document.createElement('div');
-        groupDiv.className = 'update-entry';
+        const groupItem = document.createElement('li');
+        groupItem.className = 'update-group';
 
-        const members = group.members
+        const name = document.createElement('div');
+        name.className = 'update-group-name';
+        name.innerHTML = `${group.name} <span class="update-group-total">+${group.total}</span>`;
+
+        const members = document.createElement('div');
+        members.className = 'update-group-members';
+        members.textContent = group.members
           .map(m => `${m.name} +${m.count}`)
           .join(', ');
 
-        groupDiv.textContent = `${group.name} (+${group.total}) | ${members}`;
-        container.appendChild(groupDiv);
+        groupItem.appendChild(name);
+        groupItem.appendChild(members);
+        groupList.appendChild(groupItem);
       });
 
-      const sep = document.createElement('hr');
-      sep.style.margin = '8px 0';
-      container.appendChild(sep);
+      block.appendChild(groupList);
+      container.appendChild(block);
     });
   })
   .catch(err => console.error('Failed to load update history:', err));
 </script>
-</div>
-</div>
+
+<script>
+(function () {
+  const MAX_BLUR = 1.5;          // px — blur applied to fully-inactive blocks
+  const UNBLUR_DISTANCE = 500; // px — how far below the top a block is when it starts unblurring
+
+  const list = document.querySelector('.update-list');
+  if (!list) return;
+
+  let blocks = [];
+  let ticking = false;
+
+  function collectBlocks() {
+    blocks = Array.from(list.querySelectorAll('.update-block'))
+      .map(el => ({ el, head: el.querySelector('.update-block-head') }))
+      .filter(b => b.head);
+  }
+
+  function updateBlur() {
+    ticking = false;
+    if (!blocks.length) return;
+
+    const containerTop = list.getBoundingClientRect().top;
+    const relTops = blocks.map(b => b.head.getBoundingClientRect().top - containerTop);
+    let currentIndex = 0;
+    relTops.forEach((relTop, i) => {
+      if (relTop <= 1) currentIndex = i;
+    });
+
+    blocks.forEach((b, i) => {
+      let blur;
+      if (i === currentIndex) {
+        blur = 0;
+      } else if (i === currentIndex + 1) {
+        const progress = 1 - Math.min(Math.max(relTops[i] / UNBLUR_DISTANCE, 0), 1);
+        blur = MAX_BLUR * (1 - progress);
+      } else {
+        blur = MAX_BLUR;
+      }
+      b.el.style.setProperty('--block-blur', blur.toFixed(2) + 'px');
+      b.el.classList.toggle('update-block-current', i === currentIndex);
+    });
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(updateBlur);
+    }
+  }
+
+  new MutationObserver(() => { collectBlocks(); updateBlur(); })
+    .observe(list, { childList: true });
+
+  list.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  collectBlocks();
+  updateBlur();
+})();
+</script>
+
 <script>
   fetch('recent_uploads.html')
   .then(res => res.text())
@@ -347,6 +446,41 @@ fetch('update_history.json')
     console.error('Error loading recent uploads:', err);
   });
 </script>
+
+<script>
+(function () {
+  const left = document.querySelector('.bento-left');
+  const recent = document.querySelector('.recent-wrapper');
+  const updates = document.querySelector('.update-history');
+  if (!left || !recent || !updates) return;
+
+  function syncBentoHeights() {
+    const h = left.getBoundingClientRect().height;
+    if (h > 0) {
+      recent.style.height = h + 'px';
+      updates.style.height = h + 'px';
+    }
+  }
+
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(syncBentoHeights).observe(left);
+  } else {
+    window.addEventListener('resize', syncBentoHeights);
+  }
+
+  document.addEventListener('DOMContentLoaded', syncBentoHeights);
+  window.addEventListener('load', syncBentoHeights);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncBentoHeights);
+  }
+  syncBentoHeights();
+})();
+</script>
+
+<!-- <script>
+  ScrollFX.init('.update-list', { ease: 0.1, wheelMultiplier: 0.7 });
+  ScrollFX.init('.recent-gallery-box', { ease: 0.1, wheelMultiplier: 0.85 });
+</script> -->
 
 </div>
 </div>
@@ -361,6 +495,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   await loadFooterHTML();
 
   buildHero();
+  buildStatStrip();
   checkLogin();
   loadFavorites();
 
@@ -390,13 +525,48 @@ setTimeout(() => {
 
 
 <script>
- 
-fetch('stats.json')
-  .then(r => r.json())
-  .then(s => {
-    document.getElementById('stats-footer').innerHTML =
-      `Last updated: ${s.last_updated}<br>${s.groups} groups · ${s.members} members · ${s.images.toLocaleString()} images`;
-  }).catch(() => {});
+function relativeTime(date) {
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+  const units = [
+    ['year', 31536000], ['month', 2592000], ['week', 604800],
+    ['day', 86400], ['hour', 3600], ['minute', 60]
+  ];
+  for (const [name, secs] of units) {
+    const value = Math.floor(seconds / secs);
+    if (value >= 1) return `${value} ${name}${value !== 1 ? 's' : ''} ago`;
+  }
+  return 'just now';
+}
+
+function buildStatStrip() {
+  const strip = document.getElementById('stat-strip');
+
+  fetch('stats.json')
+    .then(r => r.json())
+    .then(s => {
+      const parsed = /^(\d{2})(\d{2})(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec(s.last_updated);
+      let dateLabel = s.last_updated;
+      let relLabel = '';
+
+      if (parsed) {
+        const [, yy, mm, dd, hh, min, ss] = parsed;
+        dateLabel = `${yy}${mm}${dd}`;
+        const updated = new Date(2000 + Number(yy), Number(mm) - 1, Number(dd), Number(hh), Number(min), Number(ss));
+        relLabel = relativeTime(updated);
+      }
+
+      strip.innerHTML = `
+        <div class="stat-cell"><div class="stat-value">${s.images.toLocaleString()}</div><div class="stat-label">images</div></div>
+        <div class="stat-cell"><div class="stat-value">${s.groups}</div><div class="stat-label">groups</div></div>
+        <div class="stat-cell"><div class="stat-value">${s.members}</div><div class="stat-label">members</div></div>
+        <div class="stat-cell">
+          <div class="stat-value">${dateLabel}</div>
+          <div class="stat-label">last updated${relLabel ? ` <span class="stat-sub">· ${relLabel}</span>` : ''}</div>
+        </div>
+      `;
+    })
+    .catch(() => { strip.style.display = 'none'; });
+}
 </script>
 <script>
 try {

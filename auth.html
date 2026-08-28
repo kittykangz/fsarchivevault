@@ -361,84 +361,385 @@ html.dark .auth-success {
   80% { transform: translateX(3px); }
 }
 
-.profile-premium-row {
+/* ===== Profile modal: horizontal grid layout ===== */
+
+#profile-modal .auth-modal-content {
+  width: min(640px, calc(100vw - 32px));
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1.35fr;
+  gap: 18px;
+}
+
+.profile-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.profile-col:not(:last-child) {
+  border-right: 0.5px solid var(--border);
+  padding-right: 18px;
+}
+
+.profile-col-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.profile-subsection:not(:first-child) {
+  border-top: 0.5px solid var(--border);
+  padding-top: 10px;
+}
+
+.profile-subsection .profile-col-label {
+  margin-bottom: 8px;
+}
+
+/* -- identity column -- */
+
+.profile-id-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 8px 10px;
-  margin-top: 12px;
-  border: 0.5px solid var(--border);
+  gap: 10px;
+}
+
+.profile-rank-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 0.5px solid var(--gold-border);
+  background: var(--gold-bg);
+  color: var(--gold);
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
-.profile-premium-row.is-premium {
+.profile-rank-chip svg {
+  flex-shrink: 0;
+}
+
+.profile-premium-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 0.5px solid var(--border);
+}
+
+.profile-premium-panel.is-premium {
   border-color: var(--gold-border);
   background: var(--gold-bg);
-  color: var(--gold);
-}
-
-.profile-premium-row .ti-crown {
-  color: var(--gold);
-  font-size: 14px;
-}
-
-.profile-premium-row .ti-crown.hidden {
-  display: none;
 }
 
 .profile-premium-status {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
+  min-width: 0;
+}
+
+.profile-premium-panel .ti-crown {
+  color: var(--text-secondary);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.profile-premium-panel.is-premium .ti-crown {
+  color: var(--gold);
+}
+
+.profile-premium-status-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.profile-premium-panel.is-premium .profile-premium-status-text {
+  color: var(--gold);
 }
 
 .profile-premium-countdown {
+  font-family: 'DM Mono', monospace;
   color: var(--text-secondary);
-  font-size: 10px;
+  font-size: 9px;
+  flex-shrink: 0;
 }
 
-.profile-recovery-row {
+.profile-premium-countdown.is-timer {
+  margin-left: 22px;
+}
+
+.profile-premium-countdown.hidden {
+  display: none;
+}
+
+.profile-upgrade-btn {
+  padding: 7px;
+  background: var(--gold-bg);
+  border: 0.5px solid var(--gold-border);
+  color: var(--gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.profile-upgrade-btn.hidden {
+  display: none;
+}
+
+.profile-upgrade-btn:hover {
+  background: var(--gold-border);
+}
+
+.profile-col .auth-btn.secondary {
+  flex: none;
+  margin-top: auto;
+}
+
+/* -- account column: progress + recovery -- */
+
+.profile-recovery-panel {
+  border: 0.5px solid var(--border);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-recovery-status {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
-  padding: 8px 10px;
-  margin-top: 8px;
-  border: 0.5px solid var(--border);
+}
+
+.profile-recovery-status svg {
+  flex-shrink: 0;
+  color: var(--gold);
+}
+
+.profile-recovery-status-text {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
+  color: var(--text-primary);
+}
+
+.profile-recovery-panel .auth-switch-link {
+  display: inline-block;
+  padding: 6px;
+  border: 0.5px solid var(--border);
+  border-radius: 3px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
   color: var(--text-secondary);
 }
 
-.profile-recovery-row .auth-switch-link {
-  font-size: 10px;
+/* -- most-viewed column: scrollable group/member lists -- */
+
+.mv-sublabel {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.mv-block:not(:first-child) {
+  border-top: 0.5px solid var(--border);
+  padding-top: 10px;
+}
+
+.mv-scroll-wrap {
+  position: relative;
+}
+
+.mv-scroll-list {
+  max-height: 92px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  scrollbar-width: none;
+}
+
+.mv-scroll-list::-webkit-scrollbar {
+  display: none;
+}
+
+.mv-empty {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+}
+
+.mv-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.mv-fade.top {
+  top: 0;
+  background: linear-gradient(var(--bg-surface), transparent);
+}
+
+.mv-fade.bottom {
+  bottom: 0;
+  background: linear-gradient(transparent, var(--bg-surface));
+}
+
+.mv-chev {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold);
+  font-size: 9px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.mv-chev.up {
+  top: -2px;
+}
+
+.mv-chev.down {
+  bottom: -2px;
+}
+
+.mv-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mv-row-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  width: 62px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
+.mv-row-track {
+  flex: 1;
+  height: 6px;
+  background: var(--border-strong);
+}
+
+.mv-row-fill {
+  height: 100%;
+  background: var(--gold);
+}
+
+.mv-row-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text-secondary);
+  width: 54px;
+  text-align: right;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.mv-row-pct {
+  color: var(--gold);
+  opacity: 0.6;
+  font-size: 8px;
+}
+
+/* -- skeleton loading state -- */
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  display: inline-block;
+  color: transparent;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--border-strong) 25%, rgba(255, 255, 255, 0.07) 50%, var(--border-strong) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.progress-fill.skeleton,
+.mv-row-fill.skeleton {
+  background: linear-gradient(90deg, var(--border-strong) 25%, rgba(255, 255, 255, 0.07) 50%, var(--border-strong) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  opacity: 1;
+}
+
+.mv-row-skeleton .mv-row-label,
+.mv-row-skeleton .mv-row-count {
+  border-radius: 2px;
+}
+
+@media (max-width: 640px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-col:not(:last-child) {
+    border-right: none;
+    border-bottom: 0.5px solid var(--border);
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
 }
 
 
 .progress-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px 0;
+  gap: 2px;
   font-family: 'DM Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.04em;
-  color: var(--text-primary);  
-  margin-top: 20px;
-  margin-bottom: 20px;
+  color: var(--text-primary);
 }
 
 .progress-row .progress-text {
   font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 16px;
+  letter-spacing: 0.02em;
   color: var(--text-primary);
-  text-align: center;
+  text-align: left;
+  user-select: none;
+}
+
+.progress-row .progress-subtext {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
   user-select: none;
 }
 
@@ -447,6 +748,7 @@ html.dark .auth-success {
   height: 5px;
   background: var(--border-strong);
   border-radius: 5px;
+  margin-top: 8px;
 }
 
 .progress-fill {
@@ -459,66 +761,37 @@ html.dark .auth-success {
 
 
 
-.profile-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 8px;
-  border-bottom: 0.5px solid var(--border);
-}
-
-.profile-left {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 5px;
-    align-self: flex-end;
-}
-
-
 .profile-username {
   font-family: 'DM Mono', monospace;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.06em;
   color: var(--text-primary);
-  align-self: flex-end;
   white-space: normal;
   overflow-wrap: break-word;
-  max-width: 140px;
   user-select: none;
 }
 
 #profile-rank {
   font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--gold);
-  align-self: flex-end;
+  letter-spacing: 0.04em;
   user-select: none;
 }
 
-#profile-rank::before {
-  content: 'rank';
-  color: var(--text-secondary);
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
-
 .profile-avatar {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--gold-bg);
   border: 0.5px solid var(--gold-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--gold);
   user-select: none;
   font-family: 'DM Mono', monospace;
+  flex-shrink: 0;
 }
 
 
@@ -537,7 +810,7 @@ html.dark .auth-success {
   user-select: none;
 }
 
-#age-cursor {
+#profile-age-cursor {
   display: inline-block;
   width: 6px;
   animation: blink 1s steps(2, start) infinite;
@@ -597,7 +870,7 @@ html.dark .auth-success {
   display: inline-flex;
   white-space: nowrap;
   will-change: transform;
-  gap: 4px;
+  gap: 6px;
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 2px;
@@ -607,8 +880,8 @@ html.dark .auth-success {
 
 .fav-thumb {
   flex-shrink: 0;
-  width: 56px;
-  height: 72px;
+  width: 72px;
+  height: 92px;
   background: no-repeat;
   border: 0.5px solid transparent;
   border-radius: 2px;
@@ -624,8 +897,8 @@ html.dark .auth-success {
 
 .fav-view-btn {
   flex-shrink: 0;
-  width: 56px;
-  height: 72px;
+  width: 72px;
+  height: 92px;
   background: transparent;
   border: 0.5px dashed #3a3a36;
   border-radius: 2px;
@@ -908,28 +1181,80 @@ body.scroll-lock {
 <div id="profile-modal" class="auth-modal hidden">
   <div class="auth-modal-content">
     <div class="auth-title">Profile</div>
-<div class="profile-header-row">
-    <div class="profile-left">
-    <div class="profile-username" id="profile-username"></div>
-    <div id="profile-rank"></div>
+
+    <div class="profile-grid">
+
+      <div class="profile-col">
+        <div class="profile-id-row">
+          <div class="profile-avatar">
+            <span id="profile-avatar-initial">?</span>
+          </div>
+          <div class="profile-username" id="profile-username"></div>
+        </div>
+
+        <div class="profile-rank-chip">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 21l5-2.5 5 2.5-1.5-8.5"/></svg>
+          <span>Rank <span id="profile-rank">—</span></span>
+        </div>
+
+        <div id="profile-premium-row" class="profile-premium-panel">
+          <div class="profile-premium-status">
+            <i class="ti ti-crown" id="profile-premium-crown"></i>
+            <span class="profile-premium-status-text" id="profile-premium-text">Loading…</span>
+          </div>
+          <span class="profile-premium-countdown hidden" id="profile-premium-countdown"></span>
+          <button class="profile-upgrade-btn hidden" id="profile-upgrade-btn" type="button">Upgrade to Premium</button>
+        </div>
+
+        <button id="logout-btn" class="auth-btn secondary">Logout</button>
+      </div>
+
+      <div class="profile-col">
+        <div class="profile-subsection">
+          <div class="profile-col-label">Progress</div>
+          <div id="profile-progress" class="progress-row">Loading progress…</div>
+        </div>
+
+        <div class="profile-subsection">
+          <div class="profile-col-label">Account recovery</div>
+          <div class="profile-recovery-panel">
+            <div class="profile-recovery-status">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg>
+              <span class="profile-recovery-status-text" id="profile-recovery-text">Account recovery</span>
+            </div>
+            <span class="auth-switch-link" id="profile-recovery-btn">Generate code</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-col">
+        <div class="profile-col-label">Most viewed</div>
+
+        <div class="mv-block">
+          <div class="mv-sublabel">Groups</div>
+          <div class="mv-scroll-wrap">
+            <div class="mv-scroll-list" id="mv-groups-list"></div>
+            <div class="mv-fade top"></div>
+            <div class="mv-fade bottom"></div>
+            <div class="mv-chev up">⌃</div>
+            <div class="mv-chev down">⌄</div>
+          </div>
+        </div>
+
+        <div class="mv-block">
+          <div class="mv-sublabel">Members</div>
+          <div class="mv-scroll-wrap">
+            <div class="mv-scroll-list" id="mv-members-list"></div>
+            <div class="mv-fade top"></div>
+            <div class="mv-fade bottom"></div>
+            <div class="mv-chev up">⌃</div>
+            <div class="mv-chev down">⌄</div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="profile-avatar">
-        <span id="profile-avatar-initial">?</span>
-    </div>
-    
-</div>
-<div id="profile-premium-row" class="profile-premium-row">
-    <div class="profile-premium-status">
-        <i class="ti ti-crown hidden" id="profile-premium-crown"></i>
-        <span id="profile-premium-text" style="color: var(--gold);">Loading…</span>
-    </div>
-    <span class="profile-premium-countdown" id="profile-premium-countdown"></span>
-</div>
-<div class="profile-recovery-row">
-    <span id="profile-recovery-text">Account recovery</span>
-    <span class="auth-switch-link" id="profile-recovery-btn">Generate code</span>
-</div>
-<div id="profile-progress" class="progress-row">Loading progress…</div>  
+
     <div class="fav-section">
         <div class="fav-header">
             <div class="fav-label">Favorites</div>
@@ -947,16 +1272,13 @@ body.scroll-lock {
         </div>
         <div class="fav-edge"></div>
       </div>
-    </div>  
-<div id="profile-meta" class="profile-meta">
-<div id="profile-created"></div>
-<div id="profile-age">age → <span id="age-value"></span><span id="age-cursor">_</span></span></div>
-</div>
-
-
-    <div class="auth-buttons">
-      <button id="logout-btn" class="auth-btn secondary">Logout</button>
     </div>
+
+    <div id="profile-meta" class="profile-meta">
+      <div id="profile-created"></div>
+      <div id="profile-age">age → <span id="age-value"></span><span id="profile-age-cursor">_</span></span></div>
+    </div>
+
   </div>
 </div>
 <div id="premium-info-modal" class="auth-modal hidden">
@@ -1026,7 +1348,7 @@ let favArrayFull = [];
 document.addEventListener('wheel', (e) => {
 	const modal = document.querySelector('.auth-modal:not(.hidden)');
 	if (!modal) return;
-	const scroller = e.target.closest('.fav-grid-wrap');
+	const scroller = e.target.closest('.fav-grid-wrap, .mv-scroll-list');
 	if (scroller) {
 		const atTop = scroller.scrollTop === 0;
 		const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight;
@@ -1050,7 +1372,7 @@ document.addEventListener('touchstart', (e) => {
 document.addEventListener('touchmove', (e) => {
 	const modal = document.querySelector('.auth-modal:not(.hidden)');
 	if (!modal) return;
-	const scroller = e.target.closest('.fav-grid-wrap');
+	const scroller = e.target.closest('.fav-grid-wrap, .mv-scroll-list');
 	if (scroller) {
 		const deltaY = touchStartY - e.touches[0].clientY;
 		const atTop = scroller.scrollTop === 0;
@@ -1514,6 +1836,7 @@ function recoveryCodeRevealHTML(code, context) {
 }
 
 function showLogin() {
+	delete document.getElementById("auth-modal").dataset.lockClose;
 	document.getElementById("auth-content").innerHTML = loginHTML;
 	document.getElementById("login-btn").onclick = () => doLogin();
 	document.getElementById("go-recover").onclick = () => showRecover();
@@ -1521,6 +1844,7 @@ function showLogin() {
 }
 
 function showRecover() {
+	delete document.getElementById("auth-modal").dataset.lockClose;
 	document.getElementById("auth-content").innerHTML = recoverHTML;
 	document.getElementById("recover-btn").onclick = () => doRecoverAccount();
 	document.getElementById("go-login-from-recover").onclick = () => showLogin();
@@ -1531,6 +1855,8 @@ function showRecoveryCodeReveal(code, context, onContinue) {
 	const ack = document.getElementById("recovery-code-ack");
 	const continueBtn = document.getElementById("recovery-code-continue");
 	const confirmLabel = document.getElementById("recovery-code-confirm-label");
+	const modal = document.getElementById("auth-modal");
+	modal.dataset.lockClose = "1";
 	ack.onchange = () => { continueBtn.classList.toggle("is-disabled", !ack.checked); };
 	document.getElementById("recovery-code-reveal").onclick = () => {
 		document.getElementById("recovery-code-display").classList.remove("is-concealed");
@@ -1545,6 +1871,7 @@ function showRecoveryCodeReveal(code, context, onContinue) {
 	};
 	continueBtn.onclick = () => {
 		if (continueBtn.classList.contains("is-disabled")) return;
+		delete modal.dataset.lockClose;
 		onContinue();
 	};
 
@@ -1560,6 +1887,7 @@ function showRecoveryCodeReveal(code, context, onContinue) {
 }
 
 function showRegister() {
+	delete document.getElementById("auth-modal").dataset.lockClose;
 	document.getElementById("auth-content").innerHTML = registerHTML;
 	document.getElementById("register-btn").onclick = () => doRegister();
 	enableRegisterEnter();
@@ -1679,6 +2007,7 @@ function disableAuthEnter() {
 }
 
 function closeAllModals() {
+	delete document.getElementById("auth-modal").dataset.lockClose;
 	document.getElementById("auth-modal").classList.add("hidden");
 	document.getElementById("profile-modal").classList.add("hidden");
 	document.getElementById("premium-info-modal").classList.add("hidden");
@@ -1745,7 +2074,8 @@ function renderProfilePremiumSection(premium, premiumUntil, hasRecoveryCode) {
 	const crown = document.getElementById("profile-premium-crown");
 	const text = document.getElementById("profile-premium-text");
 	const countdown = document.getElementById("profile-premium-countdown");
-	if (!row || !crown || !text || !countdown) return;
+	const upgradeBtn = document.getElementById("profile-upgrade-btn");
+	if (!row || !crown || !text || !countdown || !upgradeBtn) return;
 
 	if (premiumCountdownInterval !== null) {
 		clearInterval(premiumCountdownInterval);
@@ -1754,8 +2084,10 @@ function renderProfilePremiumSection(premium, premiumUntil, hasRecoveryCode) {
 
 	if (premium) {
 		row.classList.add("is-premium");
-		crown.classList.remove("hidden");
 		text.textContent = "Premium";
+		countdown.classList.remove("hidden");
+		countdown.classList.add("is-timer");
+		upgradeBtn.classList.add("hidden");
 		if (premiumUntil) {
 			const untilMs = premiumUntil * 1000;
 			const updateCountdown = () => {
@@ -1775,17 +2107,23 @@ function renderProfilePremiumSection(premium, premiumUntil, hasRecoveryCode) {
 		}
 	} else {
 		row.classList.remove("is-premium");
-		crown.classList.add("hidden");
-		text.textContent = "Free";
-		countdown.innerHTML = `<span class="auth-switch-link" id="profile-upgrade-link">Upgrade</span>`;
-		const upgradeLink = document.getElementById("profile-upgrade-link");
-		if (upgradeLink) upgradeLink.onclick = () => openPremiumInfoModal(true);
+		text.textContent = "Free plan";
+		countdown.classList.add("hidden");
+		countdown.classList.remove("is-timer");
+		countdown.textContent = "";
+		upgradeBtn.classList.remove("hidden");
+		upgradeBtn.onclick = () => openPremiumInfoModal(true);
 	}
 
 	const recoveryBtn = document.getElementById("profile-recovery-btn");
 	if (recoveryBtn) {
 		recoveryBtn.textContent = hasRecoveryCode ? "Regenerate code" : "Generate code";
 		recoveryBtn.onclick = () => doGenerateRecoveryCode();
+	}
+
+	const recoveryStatusText = document.getElementById("profile-recovery-text");
+	if (recoveryStatusText) {
+		recoveryStatusText.textContent = hasRecoveryCode ? "Code active" : "No code yet";
 	}
 }
 
@@ -1867,6 +2205,7 @@ async function checkLogin() {
 		loadRank();
 		populateFavoriteStrip();
 		startFavStripScroll();
+		loadMostViewed();
 	};
 }
 async function doLogin() {
@@ -1903,6 +2242,7 @@ async function doLogin() {
 			checkLogin();
 			loadProgress();
 			loadFavorites();
+			loadMostViewed();
 		}, 800);
 		return;
 	}
@@ -1965,6 +2305,7 @@ async function doRegister() {
 				checkLogin();
 				loadProgress();
 				loadFavorites();
+				loadMostViewed();
 			} else {
 				openLoginModal();
 			}
@@ -2035,6 +2376,8 @@ async function doLogout() {
 	localStorage.removeItem("isPremium");
 	cachedPremium = false;
 	cachedPremiumUntil = null;
+	cachedProgressData = null;
+	cachedMostViewedData = null;
 	if (typeof rlRenderAll === 'function') rlRenderAll();
 	closeAllModals();
 	checkLogin();
@@ -2048,6 +2391,15 @@ document.addEventListener("click", e => {
 	const modal = e.target.closest(".auth-modal");
 	if (!modal) return;
 	if (e.target === modal) {
+		if (modal.dataset.lockClose === "1") {
+			const confirmLabel = document.getElementById("recovery-code-confirm-label");
+			if (confirmLabel) {
+				confirmLabel.classList.remove("attn");
+				void confirmLabel.offsetWidth;
+				confirmLabel.classList.add("attn");
+			}
+			return;
+		}
 		modal.classList.add("hidden");
 	}
 });
@@ -2127,9 +2479,48 @@ async function markViewed(bitIndex) {
 		}, 250);
 	}
 }
+let cachedProgressData = null;
+function renderProgressContent(el, data) {
+	const {
+		viewed,
+		total,
+		bitset
+	} = data;
+	viewedSet = new Set();
+	if (bitset) {
+		const bytes = Uint8Array.from(atob(bitset), c => c.charCodeAt(0));
+		for (let i = 0; i < bytes.length; i++) {
+			const byte = bytes[i];
+			if (byte === 0) continue;
+			for (let b = 0; b < 8; b++) {
+				if (byte & (1 << b)) {
+					viewedSet.add(i * 8 + b);
+				}
+			}
+		}
+	}
+	const pct = total > 0 ? ((viewed / total) * 100).toFixed(1) : "0.0";
+	el.innerHTML = `
+      <span class="progress-text">${viewed.toLocaleString()}</span>
+      <span class="progress-subtext">/ ${total.toLocaleString()} · ${pct}%</span>
+      <div class="progress-track">
+        <div class="progress-fill" style="width: ${pct}%"></div>
+      </div>
+    `;
+}
 async function loadProgress() {
 	const el = document.getElementById("profile-progress");
-	el.textContent = "Loading…";
+	if (cachedProgressData) {
+		renderProgressContent(el, cachedProgressData);
+	} else {
+		el.innerHTML = `
+      <span class="progress-text skeleton" style="width: 74px; height: 19px;">&nbsp;</span>
+      <span class="progress-subtext skeleton" style="width: 118px; height: 12px;">&nbsp;</span>
+      <div class="progress-track">
+        <div class="progress-fill skeleton" style="width: 100%"></div>
+      </div>
+    `;
+	}
 	try {
 		const {
 			status,
@@ -2137,37 +2528,14 @@ async function loadProgress() {
 		} = await api("progress", "GET");
 		if (status === 401 || !data || data.error === "not_logged_in") {
 			console.log("[loadProgress] not logged in");
-			el.textContent = "Not logged in";
+			if (!cachedProgressData) el.textContent = "Not logged in";
 			return;
 		}
-		const {
-			viewed,
-			total,
-			bitset
-		} = data;
-		viewedSet = new Set();
-		if (bitset) {
-			const bytes = Uint8Array.from(atob(bitset), c => c.charCodeAt(0));
-			for (let i = 0; i < bytes.length; i++) {
-				const byte = bytes[i];
-				if (byte === 0) continue;
-				for (let b = 0; b < 8; b++) {
-					if (byte & (1 << b)) {
-						viewedSet.add(i * 8 + b);
-					}
-				}
-			}
-		}
-		const pct = total > 0 ? ((viewed / total) * 100).toFixed(1) : "0.0";
-		el.innerHTML = `
-      <span class="progress-text">${viewed.toLocaleString()} / ${total.toLocaleString()} (${pct}%)</span>
-      <div class="progress-track">
-        <div class="progress-fill" style="width: ${pct}%"></div>
-      </div>
-    `;
+		cachedProgressData = data;
+		renderProgressContent(el, data);
 	} catch (err) {
 		console.error("[loadProgress] error", err);
-		el.textContent = "Error loading progress";
+		if (!cachedProgressData) el.textContent = "Error loading progress";
 	}
 }
 async function loadRank() {
@@ -2200,4 +2568,71 @@ window.loadFavorites = async function() {
 		window.userFavoritesData[f.bit_index] = f;
 	}
 };
+
+let cachedMostViewedData = null;
+async function loadMostViewed() {
+    if (cachedMostViewedData) {
+        renderMostViewedList("mv-groups-list", cachedMostViewedData.groups);
+        renderMostViewedList("mv-members-list", cachedMostViewedData.members);
+    } else {
+        renderMostViewedSkeleton("mv-groups-list");
+        renderMostViewedSkeleton("mv-members-list");
+    }
+    const { status, data } = await api("most-viewed", "GET");
+    if (status === 401 || !data) return;
+    cachedMostViewedData = data;
+    renderMostViewedList("mv-groups-list", data.groups);
+    renderMostViewedList("mv-members-list", data.members);
+}
+function renderMostViewedSkeleton(listId, rowCount = 6) {
+	const list = document.getElementById(listId);
+	if (!list) return;
+	list.innerHTML = Array.from({ length: rowCount }).map(() => `
+		<div class="mv-row mv-row-skeleton">
+			<span class="mv-row-label skeleton">&nbsp;</span>
+			<div class="mv-row-track"><div class="mv-row-fill skeleton" style="width: 100%"></div></div>
+			<span class="mv-row-count skeleton">&nbsp;</span>
+		</div>
+	`).join("");
+}
+function renderMostViewedList(listId, rows) {
+	const list = document.getElementById(listId);
+	if (!list) return;
+	if (!rows || !rows.length) {
+		list.innerHTML = `<div class="mv-empty">No data yet</div>`;
+		return;
+	}
+	const max = Math.max(...rows.map(r => r.count), 1);
+	list.innerHTML = rows.map(r => {
+		const slash = r.name.indexOf("/");
+		const label = slash >= 0 ? r.name.slice(slash + 1) : r.name;
+		const title = slash >= 0 ? r.name.replace("/", " / ") : r.name;
+		return `
+		<div class="mv-row">
+			<span class="mv-row-label" title="${title}">${label}</span>
+			<div class="mv-row-track"><div class="mv-row-fill" style="width:${(r.count / max) * 100}%"></div></div>
+			<span class="mv-row-count">${r.count.toLocaleString()}<span class="mv-row-pct"> ${Math.round(r.pct)}%</span></span>
+		</div>
+	`;
+	}).join("");
+	attachMvScrollHandlers(list);
+}
+
+function attachMvScrollHandlers(list) {
+	const wrap = list.closest(".mv-scroll-wrap");
+	if (!wrap) return;
+	const fadeTop = wrap.querySelector(".mv-fade.top");
+	const fadeBottom = wrap.querySelector(".mv-fade.bottom");
+	const chevUp = wrap.querySelector(".mv-chev.up");
+	const chevDown = wrap.querySelector(".mv-chev.down");
+	const update = () => {
+		const atTop = list.scrollTop <= 1;
+		const atBottom = list.scrollTop + list.clientHeight >= list.scrollHeight - 1;
+		const overflowing = list.scrollHeight > list.clientHeight + 1;
+		[fadeTop, chevUp].forEach(el => { if (el) el.style.opacity = (!atTop && overflowing) ? "1" : "0"; });
+		[fadeBottom, chevDown].forEach(el => { if (el) el.style.opacity = (!atBottom && overflowing) ? "1" : "0"; });
+	};
+	list.addEventListener("scroll", update);
+	update();
+}
 </script>
