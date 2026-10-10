@@ -59,30 +59,58 @@
 
 
 .topbar-donate {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
-  line-height: 0; 
+  gap: 6px;
+  padding: 5px 10px;
+  color: var(--gold);
+  background: var(--gold-bg);
+  border: 0.5px solid var(--gold-border);
+  border-radius: 2px;
+  text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  cursor: pointer;
   user-select: none;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 
-.topbar-donate input[type="image"] {
-  height: 40px;
-  width: auto;
-  display: block;
-  filter: invert(1);
-  transition: opacity 0.15s;
+/* gold is too pale on the light topbar; same darker gold the sidebar uses */
+html:not(.dark) .topbar-donate {
+  color: var(--gold-deep);
 }
 
-html.dark .topbar-donate input[type="image"] {
-  filter: none;
+.topbar-donate .ti {
+  font-size: 13px;
+  line-height: 1;
+  transition: transform 0.15s ease;
 }
 
-.topbar-donate input[type="image"]:hover { opacity: 1; }
+.topbar-donate:hover {
+  background: rgba(var(--gold-rgb), 0.18);
+}
+
+.topbar-donate:hover .ti {
+  transform: scale(1.18);
+}
+
+.topbar-donate:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: 1px;
+}
   .topbar-auth {
   font-family: 'DM Sans', sans-serif;
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: var(--text-secondary);
   cursor: pointer;
   padding: 5px 10px;
@@ -90,6 +118,9 @@ html.dark .topbar-donate input[type="image"] {
   border-radius: 2px;
   transition: color 0.15s, border-color 0.15s;
 }
+
+.topbar-auth .ti { font-size: 13px; line-height: 1; }
+.topbar-lang-toggle .ti { font-size: 14px; line-height: 1; }
 
 .topbar-auth:hover {
   color: var(--gold);
@@ -213,6 +244,349 @@ html.dark .topbar-donate input[type="image"] {
     color: var(--text-muted);
     opacity: 0.9;
 }
+
+/* single characters of the status text glitch through these looks (the header's looks, but in the text's own muted
+   colour instead of gold; text-fill-color keeps currentColor usable for the outline / block) */
+.st-ch.lk-off     { opacity: 0; }
+.st-ch.lk-ghost   { opacity: 0.2; }
+.st-ch.lk-dim     { opacity: 0.55; }
+.st-ch.lk-bright  { opacity: 1; text-shadow: 0 0 5px color-mix(in srgb, currentColor 100%, transparent); color: var(--text-secondary) }
+.st-ch.lk-outline { -webkit-text-fill-color: transparent; -webkit-text-stroke: 0.6px currentColor; opacity: 0.9; }
+.st-ch.lk-block   { background: currentColor; -webkit-text-fill-color: var(--bg); opacity: 0.85; }
+
+/* ---------- language toggle ---------- */
+.topbar-lang-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 23px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.topbar-lang-toggle:hover {
+  color: var(--gold);
+  border-color: var(--gold-border);
+}
+
+.topbar-lang-toggle.on {
+  color: var(--gold);
+  border-color: var(--gold-border);
+}
+
+/* English shows Tabler's "abc"; Tabler has no Hangul glyph, so Korean shows 한 sized to match */
+.topbar-lang-toggle .ti-abc { font-size: 17px; }
+
+.lang-ico--ko {
+  display: none;
+  font-family: 'DM Sans', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.topbar-lang-toggle.on .lang-ico--en { display: none; }
+.topbar-lang-toggle.on .lang-ico--ko { display: block; }
+
+/* ---------- accent picker ---------- */
+.accent-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.topbar-accent-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 23px;
+  padding: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.topbar-accent-toggle:hover,
+.topbar-accent-toggle[aria-expanded="true"] {
+  color: var(--gold);
+  border-color: var(--gold-border);
+}
+
+.accent-panel {
+  /* absolute (not fixed): .topbar has backdrop-filter, which would re-anchor fixed children */
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 272px;
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  font-family: 'DM Sans', sans-serif;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.14s ease, transform 0.14s ease, visibility 0s linear 0.14s;
+}
+
+.accent-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity 0.14s ease, transform 0.14s ease, visibility 0s;
+}
+
+.accent-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accent-panel-title {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.accent-preview {
+  width: 34px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--gold);
+  border: 0.5px solid var(--gold-border);
+}
+
+.accent-presets {
+  display: grid;
+  /* default swatch | divider | 7 saveable slots */
+  grid-template-columns: 1fr 1px repeat(7, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+
+.accent-divider {
+  width: 1px;
+  height: 16px;
+  justify-self: center;
+  background: var(--border-strong);
+  pointer-events: none;
+}
+
+.accent-swatch {
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 2px;
+  border: 0.5px solid var(--border-strong);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  /* long-press restores a preset, so stop the browser from selecting / showing its own menu */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.accent-swatch:hover { border-color: var(--text-secondary); }
+
+.accent-swatch.active {
+  box-shadow: 0 0 0 1.5px var(--bg-surface), 0 0 0 2.5px var(--text-primary);
+}
+
+.accent-row { display: flex; flex-direction: column; gap: 6px; }
+
+.accent-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* value readout: a real text field so it can be selected, copied, pasted into or typed in */
+.accent-readout {
+  width: 52px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1px 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  text-align: right;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0.5px solid transparent;
+  border-radius: 2px;
+  outline: none;
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.accent-readout:hover { border-color: var(--border-strong); }
+
+.accent-readout:focus {
+  color: var(--text-primary);
+  border-color: var(--gold-border);
+  background: var(--gold-bg);
+}
+
+.accent-readout::selection { background: var(--gold-border); }
+
+.accent-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  margin: 0;
+  border-radius: 2px;
+  border: 0.5px solid var(--border-strong);
+  outline: none;
+  cursor: pointer;
+}
+
+.accent-slider:focus-visible { box-shadow: 0 0 0 1.5px var(--gold-border); }
+
+/* block thumb, like the cursor in the sidebar's pwd bar */
+.accent-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 8px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--bg);
+  border: 1.5px solid var(--text-primary);
+}
+
+.accent-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 8px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--bg);
+  border: 1.5px solid var(--text-primary);
+}
+
+/* track gradients follow the other two sliders, so you see the result before you drag */
+.accent-slider.hue {
+  background: linear-gradient(to right,
+    hsl(0 var(--ac-s) var(--ac-l)), hsl(40 var(--ac-s) var(--ac-l)), hsl(80 var(--ac-s) var(--ac-l)),
+    hsl(120 var(--ac-s) var(--ac-l)), hsl(160 var(--ac-s) var(--ac-l)), hsl(200 var(--ac-s) var(--ac-l)),
+    hsl(240 var(--ac-s) var(--ac-l)), hsl(280 var(--ac-s) var(--ac-l)), hsl(320 var(--ac-s) var(--ac-l)),
+    hsl(360 var(--ac-s) var(--ac-l)));
+}
+.accent-slider.sat {
+  background: linear-gradient(to right, hsl(var(--ac-h) 0% var(--ac-l)), hsl(var(--ac-h) 100% var(--ac-l)));
+}
+.accent-slider.lit {
+  background: linear-gradient(to right, hsl(var(--ac-h) var(--ac-s) 48%), hsl(var(--ac-h) var(--ac-s) 78%));
+}
+
+.accent-actions { display: flex; gap: 6px; }
+
+.accent-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 6px 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.accent-btn:hover:not(:disabled) { color: var(--gold); border-color: var(--gold-border); }
+.accent-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* ---------- topbar button: lit while the accent differs from the default ---------- */
+.topbar-accent-toggle.modified {
+  color: var(--gold);
+  border-color: var(--gold-border);
+  background: var(--gold-bg);
+}
+
+/* ---------- saveable preset slots ---------- */
+.accent-swatch { position: relative; }
+
+/* tiny dot marks a slot that holds one of your own presets */
+.accent-swatch.custom::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 0;
+  background: var(--bg-surface);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.accent-hint {
+  margin-top: -4px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.accent-presets.saving .accent-swatch:not(.stock) {
+  outline: 1px dashed var(--text-secondary);
+  outline-offset: 2px;
+  animation: accent-slot-pulse 1.1s ease-in-out infinite;
+}
+
+.accent-presets.saving .accent-swatch.stock {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes accent-slot-pulse {
+  0%, 100% { outline-color: var(--text-muted); }
+  50%      { outline-color: var(--gold); }
+}
+
+.accent-btn.on { color: var(--gold); border-color: var(--gold-border); background: var(--gold-bg); }
+.accent-btn .lbl-cancel,
+.accent-btn.on .lbl-save { display: none; }
+.accent-btn.on .lbl-cancel { display: inline; }
 </style>
 
 
@@ -253,34 +627,53 @@ html.dark .topbar-donate input[type="image"] {
       <div id="sfx-toggle" class="topbar-sfx-toggle" title="Mute sound effects">
         <i class="ti ti-volume" id="sfx-toggle-icon" aria-hidden="true"></i>
       </div>
-      <div id="auth-entry" class="topbar-auth">Login</div>      
-      <div class="topbar-donate">
-        <form action="https://www.paypal.com/donate" method="post" target="_blank">
-          <input type="hidden" name="business" value="NZYY9RMN3P58C"/>
-          <input type="hidden" name="no_recurring" value="0"/>
-          <input type="hidden" name="currency_code" value="USD"/>
-          <input type="image" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" border="0" name="submit" title="Donate with PayPal" alt="Donate with PayPal"/>
-          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
-        </form>
+      <div class="accent-wrap">
+        <button id="accent-toggle" class="topbar-accent-toggle" type="button" title="Accent color"
+                aria-label="Accent color" aria-haspopup="dialog" aria-expanded="false" aria-controls="accent-panel">
+          <i class="ti ti-palette" aria-hidden="true"></i>
+        </button>
+        <div id="accent-panel" class="accent-panel" role="dialog" aria-label="Accent color">
+          <div class="accent-panel-head">
+            <span class="accent-panel-title">Accent</span>
+            <span class="accent-preview" id="accent-preview"></span>
+          </div>
+          <div class="accent-presets" id="accent-presets"></div>
+          <div class="accent-hint" id="accent-hint" hidden>Pick a slot to save this color</div>
+          <div class="accent-row">
+            <div class="accent-label"><span>Hue</span><input type="text" id="accent-hue-val" class="accent-readout" autocomplete="off" spellcheck="false" maxlength="8" size="5" aria-label="Hue value" title="Click to copy, paste or type a value, then press Enter"></div>
+            <input type="range" id="accent-hue" class="accent-slider hue" min="0" max="359" step="1" aria-label="Hue">
+          </div>
+          <div class="accent-row">
+            <div class="accent-label"><span>Saturation</span><input type="text" id="accent-sat-val" class="accent-readout" autocomplete="off" spellcheck="false" maxlength="8" size="5" aria-label="Saturation value" title="Click to copy, paste or type a value, then press Enter"></div>
+            <input type="range" id="accent-sat" class="accent-slider sat" min="0" max="100" step="1" aria-label="Saturation">
+          </div>
+          <div class="accent-row">
+            <div class="accent-label"><span>Lightness</span><input type="text" id="accent-lit-val" class="accent-readout" autocomplete="off" spellcheck="false" maxlength="8" size="5" aria-label="Lightness value" title="Click to copy, paste or type a value, then press Enter"></div>
+            <input type="range" id="accent-lit" class="accent-slider lit" min="-15" max="15" step="1" aria-label="Lightness">
+          </div>
+          <div class="accent-actions">
+            <button type="button" class="accent-btn" id="accent-random"><i class="ti ti-dice-3" aria-hidden="true"></i>Random</button>
+            <button type="button" class="accent-btn" id="accent-reset"><i class="ti ti-restore" aria-hidden="true"></i>Reset</button>
+            <button type="button" class="accent-btn" id="accent-save" aria-pressed="false"><i class="ti ti-device-floppy" aria-hidden="true"></i><span class="lbl-save">Save</span><span class="lbl-cancel">Cancel</span></button>
+          </div>
+        </div>
       </div>
+      <button id="lang-toggle" class="topbar-lang-toggle" type="button" title="English / 한국어"
+               aria-label="Language: English / 한국어" aria-pressed="false" data-i18n-skip><i class="ti ti-language" aria-hidden="true"></i></button>
+      <div id="auth-entry" class="topbar-auth"><i class="ti ti-user" aria-hidden="true"></i><span class="auth-entry-text">Login</span></div>      
+      <button type="button" class="topbar-donate" title="Support the archive" aria-label="Donate"><i class="ti ti-brand-paypal" aria-hidden="true"></i><span class="topbar-donate-text">Donate</span></button>
     </div>
   </header>
 
 
 <script>
+document.querySelector(".topbar-donate").addEventListener("click", () => {
+    if (typeof logEvent === "function") logEvent("donate/topbar");
+    else new Image().src = "https://terril.duckdns.org/event/donate/topbar";
+    if (typeof openPremiumInfoModal === "function") openPremiumInfoModal(false, true);
+});
 document.getElementById("auth-entry").addEventListener("click", () => {
-    const el = document.getElementById("auth-entry");
-    const state = el.textContent.trim();
-    const loggedIn = !!localStorage.getItem("token");
-
-    
-    const url =
-        `https://terril.duckdns.org/event/auth-entry/` +
-        `${encodeURIComponent(state)}/` +
-        `${loggedIn ? "logged-in" : "logged-out"}/`;
-        `${Date.now()}`;
-
-    new Image().src = url;
+    logEvent(`auth-entry/${localStorage.getItem("token") ? "logged-in" : "logged-out"}`);
 });   
 (function () {
 
@@ -291,7 +684,6 @@ document.getElementById("auth-entry").addEventListener("click", () => {
     const latencyEl  = document.getElementById('status-latency');
     const memoryEl   = document.getElementById('status-memory');
     const cursor     = document.getElementById('age-cursor');
-    const statusEl   = document.getElementById('server-status');
     const imagesEl = document.getElementById('status-images');
 
     let serverUptimeMs = null;
@@ -507,25 +899,109 @@ document.getElementById("auth-entry").addEventListener("click", () => {
         }
     }
 
-    function randomFlicker() {
+    const GLITCH = {
+        first:  [3000, 5000],     
+        every:  [5000, 10000],    
+        count:  [5, 10],          
+        spread: [0, 700],         
+        length: [250, 500],       
+        step:   120,                // ms between glyph / look changes of one character
+        looks:  { off: 3, outline: 4, bright: 8, block: 1 }
+    };
+    const GLITCH_IDS = ['status-text', 'status-uptime', 'status-requests', 'status-images', 'status-latency', 'status-memory'];
+    const gR  = r => r[0] + Math.random() * (r[1] - r[0]);
+    const gRI = r => Math.floor(r[0] + Math.random() * (r[1] - r[0] + 1));
+    const gRnd = s => s[Math.floor(Math.random() * s.length)];
+    const G_UP = 'ABCDEFGHJKLNOPQRSTUVXYZ', G_LO = 'abcdeghknopqsuvxyz', G_DG = '0123456789';
+    const G_LIVE = /[A-Za-z0-9]/;
+    let glitchRunning = false;
 
-        if (Math.random() < 0.08) {
+    function glitchGlyph(ch) {
+        if (/[0-9]/.test(ch)) return gRnd(G_DG);
+        if (!/[A-Za-z]/.test(ch)) return ch;
+        return ch === ch.toUpperCase() ? gRnd(G_UP) : gRnd(G_LO);
+    }
 
-            statusEl.style.opacity = '0.68';
+    function glitchLook() {
+        const w = GLITCH.looks;
+        let tot = 0, k;
+        for (k in w) tot += w[k];
+        let x = Math.random() * tot, last = 'bright';
+        for (k in w) { last = k; x -= w[k]; if (x < 0) return k; }
+        return last;
+    }
 
-            statusEl.style.transform =
-                'translateX(0.1px)';
+    function glitchBurst() {
+        if (glitchRunning || document.hidden) return;
 
-            setTimeout(() => {
+        const live = [];
+        GLITCH_IDS.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el || el.children.length > 0 || !el.textContent.trim() || el.getBoundingClientRect().width <= 0) return;
+            Array.from(el.textContent).forEach((ch, i) => { if (G_LIVE.test(ch)) live.push({ el, i }); });
+        });
+        const n = Math.min(live.length, gRI(GLITCH.count));
+        if (n <= 0) return;
 
-                statusEl.style.opacity = '1';
+        const hit = live.sort(() => Math.random() - 0.5).slice(0, n);
+        const originals = new Map();
+        glitchRunning = true;
+        try {
+            new Set(hit.map(h => h.el)).forEach(el => {
+                const text = el.textContent;
+                originals.set(el, text);
+                el.textContent = '';
+                Array.from(text).forEach(ch => {
+                    const sp = document.createElement('span');
+                    sp.className = 'st-ch';
+                    sp.textContent = ch;
+                    el.appendChild(sp);
+                });
+            });
 
-                statusEl.style.transform =
-                    'translateX(0)';
+            const t0 = performance.now();
+            let end = 0;
+            hit.forEach(h => {
+                h.sp = h.el.children[h.i];
+                h.final = h.sp.textContent;
+                h.gs = t0 + gR(GLITCH.spread);
+                h.ge = h.gs + gR(GLITCH.length);
+                h.nextAt = 0;
+                h.done = false;
+                end = Math.max(end, h.ge);
+            });
 
-            }, 40 + Math.random() * 80);
+            const finish = () => {
+                originals.forEach((text, el) => { if (el.querySelector('.st-ch')) el.textContent = text; });
+                glitchRunning = false;
+            };
+
+            const iv = setInterval(() => {
+                const now = performance.now();
+                hit.forEach(h => {
+                    if (now >= h.gs && now < h.ge) {
+                        if (now >= h.nextAt) {
+                            h.sp.textContent = glitchGlyph(h.final);
+                            h.sp.className = 'st-ch lk-' + glitchLook();
+                            h.nextAt = now + GLITCH.step;
+                        }
+                    } else if (now >= h.ge && !h.done) {
+                        h.sp.textContent = h.final;
+                        h.sp.className = 'st-ch';
+                        h.done = true;
+                    }
+                });
+                if (now > end + 30) { clearInterval(iv); finish(); }
+            }, 30);
+        } catch (e) {
+            originals.forEach((text, el) => { el.textContent = text; });
+            glitchRunning = false;
         }
     }
+
+    (function scheduleGlitch(first) {
+        setTimeout(() => { glitchBurst(); scheduleGlitch(false); }, gR(first ? GLITCH.first : GLITCH.every));
+    })(true);
 
     function updateClockIcon() {
         const clockIcon = document.getElementById('status-clock-icon');
@@ -551,7 +1027,6 @@ document.getElementById("auth-entry").addEventListener("click", () => {
 
     setInterval(checkStatus, 30000);
 
-    setInterval(randomFlicker, 900);
 
 })();
 
@@ -585,5 +1060,296 @@ document.getElementById("auth-entry").addEventListener("click", () => {
     document.addEventListener('sfx-mute-change', render);
 
     render();
+})();
+</script>
+
+<script>
+(function () {
+    const btn = document.getElementById('lang-toggle');
+    if (!btn) return;
+
+    function render() {
+        const ko = window.I18n && I18n.lang === 'ko';
+        btn.classList.toggle('on', !!ko);
+        btn.setAttribute('aria-pressed', ko ? 'true' : 'false');
+    }
+
+    btn.addEventListener('click', () => {
+        if (!window.I18n) return;
+        const lang = I18n.toggle();
+        render();
+        if (window.SoundFX && typeof SoundFX.play === 'function') { try { SoundFX.play('generic_click'); } catch (e) {} }
+        const path = 'lang-toggle/' + lang;
+        if (typeof logEvent === 'function') logEvent(path);
+        else new Image().src = 'https://terril.duckdns.org/event/' + path;
+    });
+
+    document.addEventListener('lang-change', render);
+    render();
+})();
+</script>
+
+<script>
+(function () {
+    const AT = window.AccentTheme;
+    const btn   = document.getElementById('accent-toggle');
+    const panel = document.getElementById('accent-panel');
+    if (!AT || !btn || !panel) return;
+
+    const hue = document.getElementById('accent-hue');
+    const sat = document.getElementById('accent-sat');
+    const lit = document.getElementById('accent-lit');
+    const presetsEl = document.getElementById('accent-presets');
+    const resetBtn  = document.getElementById('accent-reset');
+    const saveBtn   = document.getElementById('accent-save');
+    const hintEl    = document.getElementById('accent-hint');
+
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+    function log(what) {
+        if (typeof logEvent === 'function') logEvent('accent/' + what);
+    }
+
+    const FIELDS = [
+        { key: 'h', slider: hue, out: document.getElementById('accent-hue-val'), min: 0,   max: 359, fmt: v => v + '\u00b0' },
+        { key: 's', slider: sat, out: document.getElementById('accent-sat-val'), min: 0,   max: 100, fmt: v => v + '%' },
+        { key: 'l', slider: lit, out: document.getElementById('accent-lit-val'), min: -15, max: 15,  fmt: v => (v > 0 ? '+' : '') + v }
+    ];
+
+    function parseNum(str) {
+        const m = String(str).replace(/\u2212/g, '-').match(/[-+]?\d+(?:\.\d+)?/);
+        return m ? Number(m[0]) : NaN;
+    }
+
+    FIELDS.forEach(f => {
+        const out = f.out;
+        let fresh = false;  
+
+        out.addEventListener('focus', () => { fresh = true; out.select(); });
+        out.addEventListener('mouseup', e => { if (fresh) { e.preventDefault(); fresh = false; } });
+        out.addEventListener('blur', () => { fresh = false; });
+
+        out.addEventListener('change', () => {
+            const n = parseNum(out.value);
+            const cur = AT.get()[f.key];
+            if (!Number.isFinite(n)) { out.value = f.fmt(cur); return; }  
+            let v = Math.round(n);
+            v = f.key === 'h' ? ((v % 360) + 360) % 360 : clamp(v, f.min, f.max);   
+            out.value = f.fmt(v);
+            if (v !== cur) { AT.set({ [f.key]: v }, true); log('type-' + f.key); }
+        });
+
+        out.addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); out.blur(); }
+            else if (e.key === 'Escape') {
+                e.stopPropagation(); 
+                out.value = f.fmt(AT.get()[f.key]);
+                out.blur();
+            }
+        });
+    });
+
+    const FACTORY = [
+        { name: 'Gold',    stock: true },
+        { name: 'Rose',    h: 345, s: 48, l: 0 },
+        { name: 'Coral',   h: 12,  s: 62, l: 0 },
+        { name: 'Lime',    h: 85,  s: 42, l: 0 },
+        { name: 'Emerald', h: 145, s: 38, l: 0 },
+        { name: 'Teal',    h: 178, s: 42, l: 0 },
+        { name: 'Sky',     h: 205, s: 52, l: 0 },
+        { name: 'Violet',  h: 268, s: 48, l: 0 }
+    ];
+
+    const STORE_KEY = 'accent-user-presets';
+
+    function cleanPreset(v) {
+        if (!v || typeof v !== 'object') return null;
+        const h = Number(v.h), s = Number(v.s), l = Number(v.l);
+        if (![h, s, l].every(Number.isFinite)) return null;
+        return { h: clamp(Math.round(h), 0, 359), s: clamp(Math.round(s), 0, 100), l: clamp(Math.round(l), -15, 15) };
+    }
+    function loadUser() {
+        try {
+            const a = JSON.parse(localStorage.getItem(STORE_KEY));
+            if (Array.isArray(a)) return FACTORY.map((p, i) => p.stock ? null : cleanPreset(a[i]));
+        } catch (e) {}
+        return FACTORY.map(() => null);
+    }
+    function saveUser() {
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(user)); } catch (e) {}
+    }
+
+    let user = loadUser();     
+    let saving = false;
+    let lpTimer = null;       
+    let lpFired = false;      
+
+    const atDefault = () => {
+        if (AT.isDefault()) return true;
+        const t = AT.get(), k = AT.STOCK;
+        return t.h === k.h && t.s === k.s && t.l === k.l;
+    };
+
+    const slotOf = i => user[i] || FACTORY[i];
+    const colorOf = p => p.stock ? '#c9b97a' : `hsl(${p.h} ${p.s}% ${63 + p.l}%)`;
+
+    function restoreSlot(i) {
+        if (!user[i]) return false;
+        user[i] = null;
+        saveUser();
+        renderSwatch(i);
+        sync();
+        log('restore-slot-' + i);
+        return true;
+    }
+
+    function renderSwatch(i) {
+        const p = slotOf(i), sw = swatches[i], custom = !!user[i];
+        sw.style.background = colorOf(p);
+        sw.classList.toggle('custom', custom);
+        sw.title = custom ? 'Your preset (right-click or long-press to restore)' : FACTORY[i].name;
+        sw.setAttribute('aria-label', sw.title);
+    }
+
+    const swatches = FACTORY.map((p, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'accent-swatch' + (p.stock ? ' stock' : '');
+        presetsEl.appendChild(b);
+
+        if (i === 0) {  
+            const d = document.createElement('span');
+            d.className = 'accent-divider';
+            d.setAttribute('aria-hidden', 'true');
+            presetsEl.appendChild(d);
+        }
+
+        b.addEventListener('click', e => {
+            if (lpFired) { lpFired = false; e.preventDefault(); return; } 
+            if (saving) {
+                if (p.stock) return;
+                const t = AT.get();
+                user[i] = { h: t.h, s: t.s, l: t.l };
+                saveUser();
+                renderSwatch(i);
+                setSaving(false);
+                sync();
+                log('save-slot-' + i);
+                return;
+            }
+            const q = slotOf(i);
+            if (q.stock) AT.reset(); else AT.set({ h: q.h, s: q.s, l: q.l });
+            log('preset-' + (user[i] ? 'custom-' + i : p.name.toLowerCase()));
+        });
+
+        b.addEventListener('contextmenu', e => {
+            if (!user[i] && !lpFired) return; 
+            e.preventDefault();               
+            restoreSlot(i);
+        });
+
+        let lpX = 0, lpY = 0;
+        const lpCancel = () => { clearTimeout(lpTimer); lpTimer = null; };
+
+        b.addEventListener('pointerdown', e => {
+            lpFired = false;
+            lpCancel();
+            if (e.pointerType === 'mouse' || saving || !user[i]) return;
+            lpX = e.clientX; lpY = e.clientY;
+            lpTimer = setTimeout(() => {
+                lpTimer = null;
+                if (restoreSlot(i)) {
+                    lpFired = true;
+                    try { if (navigator.vibrate) navigator.vibrate(15); } catch (err) {}
+                }
+            }, 500);
+        });
+        b.addEventListener('pointermove', e => {
+            if (lpTimer && Math.hypot(e.clientX - lpX, e.clientY - lpY) > 8) lpCancel();
+        });
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => b.addEventListener(t, lpCancel));
+        return b;
+    });
+    swatches.forEach((_, i) => renderSwatch(i));
+
+    function setSaving(on) {
+        saving = on;
+        presetsEl.classList.toggle('saving', on);
+        saveBtn.classList.toggle('on', on);
+        saveBtn.setAttribute('aria-pressed', String(on));
+        hintEl.hidden = !on;
+    }
+
+    saveBtn.addEventListener('click', () => {
+        if (atDefault()) return;
+        setSaving(!saving);
+        if (saving) log('save-mode');
+    });
+
+    /* ---------------- sync ---------------- */
+    function sync() {
+        const t = AT.get();
+        const goldL = 63 + t.l;
+        hue.value = t.h; sat.value = t.s; lit.value = t.l;
+        FIELDS.forEach(f => { if (document.activeElement !== f.out) f.out.value = f.fmt(t[f.key]); });
+        panel.style.setProperty('--ac-h', t.h);
+        panel.style.setProperty('--ac-s', t.s + '%');
+        panel.style.setProperty('--ac-l', goldL + '%');
+
+        const def = atDefault();
+        resetBtn.disabled = AT.isDefault(); 
+        saveBtn.disabled = def;
+        if (def && saving) setSaving(false);
+        btn.classList.toggle('modified', !def);
+
+        swatches.forEach((sw, i) => {
+            const p = slotOf(i);
+            const on = p.stock ? def
+                : (!def && t.l === p.l && Math.abs(t.h - p.h) < 1 && Math.abs(t.s - p.s) < 1);
+            sw.classList.toggle('active', on);
+        });
+    }
+
+    [[hue, 'h'], [sat, 's'], [lit, 'l']].forEach(([el, key]) => {
+        el.addEventListener('input',  () => AT.set({ [key]: Number(el.value) }, false));
+        el.addEventListener('change', () => { AT.set({ [key]: Number(el.value) }, true); log('slider-' + key); });
+    });
+
+    document.getElementById('accent-random').addEventListener('click', () => { AT.random(); log('random'); });
+    resetBtn.addEventListener('click', () => { AT.reset(); log('reset'); });
+    document.addEventListener('accent-change', sync);
+    window.addEventListener('storage', e => {
+        if (e.key !== STORE_KEY) return;
+        user = loadUser();
+        swatches.forEach((_, i) => renderSwatch(i));
+        sync();
+    });
+
+    function setOpen(open) {
+        panel.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+        if (!open) setSaving(false);
+        if (open) sync();
+    }
+
+    btn.addEventListener('click', () => {
+        const open = !panel.classList.contains('open');
+        setOpen(open);
+        if (window.SoundFX && typeof SoundFX.play === 'function') { try { SoundFX.play('generic_click'); } catch (e) {} }
+        if (open) log('open');
+    });
+
+    document.addEventListener('click', e => {
+        if (!panel.classList.contains('open')) return;
+        if (e.target.closest('.accent-wrap')) return;
+        setOpen(false);
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape' || !panel.classList.contains('open')) return;
+        if (saving) { setSaving(false); return; }  
+        setOpen(false); btn.focus();
+    });
+
+    sync();
 })();
 </script>

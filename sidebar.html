@@ -1,669 +1,1222 @@
 <style>
-.sidebar-container {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  gap: 6px;
-  z-index: 999;
+:root {
+  --sb-w: 185px;
+  --sb-indent: 45px;
 }
 
-.sidebar {
+.sb {
+  --sb-top: var(--topbar-h, 44px);
+  --sb-accent: var(--gold);
+  --typer-hl-bg: var(--sb-accent);
+  --typer-hl-fg: var(--bg-deep);
+  --sb-fade: 0.2s;
+  --sb-collapse: 0.10s;
+
   position: fixed;
-  top: 0;
-  left: -60px;
+  top: var(--sb-top);
   bottom: 0;
-  width: 253px;
-  font-family: "DM Sans", Tahoma, monospace;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--sb-w);
   background: var(--bg-deep);
   border-right: 0.5px solid var(--border);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin-top: 44px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: var(--text-secondary);
 }
 
-.sidebar hr {
-  border: none;
-  border-top: 0.5px solid var(--border);
-  margin: 0;
+html:not(.dark) .sb {
+  --sb-accent: var(--gold-deep);
 }
 
-.searchandbuttons {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  overflow-y: auto;
+.sb-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sb-accent);
+  line-height: 1;
 }
 
-.buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-left: 55px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 5px;
-  align-items: center;
-  box-sizing: border-box;
-  fill: var(--text-secondary);
-}
-
-.home-icon-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(1.2);
-}
-
-.home-icon-link svg {
+.sb.is-theming *:not(.sb-theme__sun):not(.sb-theme__moon),
+.sb.is-theming *::before,
+.sb.is-theming *::after {
   transition: none !important;
 }
 
-.home-icon-link:hover {
-  background: none !important;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-  transform: scale(1.3);
-  transition: ease 0.2s;
-}
-
-.stats-icon {
+.sb-tools {
   display: flex;
+  flex: none;
   align-items: center;
-  justify-content: center;
+  gap: 2px;
+  padding: 8px 10px;
+  border-bottom: 0.5px solid var(--border);
 }
 
-.stats-icon:hover {
-  background: none !important;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-  transition: ease 0.2s;
-  transform: scale(1.1);
+.sb-tools__gap {
+  flex: 1;
 }
 
-.icon-button {
-  background: transparent;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
+.sb-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
   color: var(--text-secondary);
-  transition: color 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.icon-button:active {
+.sb-btn i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.sb-btn:hover {
+  color: var(--text-primary);
+}
+
+.sb-btn:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: 1px;
+}
+
+.sb-btn[aria-current="page"] {
+  color: var(--sb-accent);
+}
+
+.sb-btn.is-premium {
+  color: var(--sb-accent);
+}
+.sb-btn.is-premium:hover {
+  filter: brightness(1.15);
+}
+
+.sb-theme {
+  position: relative;
+}
+
+.sb-theme i {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 220ms ease-out, opacity 220ms ease-out;
+}
+
+.sb-theme__moon,
+html.dark .sb-theme__sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.sb-theme__sun,
+html.dark .sb-theme__moon {
+  opacity: 1;
+  transform: none;
+}
+
+html.dark .sb-theme__sun {
+  transform: rotate(90deg) scale(0.5);
+}
+
+.sb-search {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  height: 26px;
+  box-sizing: border-box;
+  margin: 8px 10px 6px;
+  padding: 0 6px 0 9px;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  transition: border-color 0.1s ease, background-color 0.1s ease;
+}
+
+.sb-search:focus-within {
+  background: var(--bg);
+  border-color: var(--gold-border);
+}
+
+.sb-search__prompt,
+.sb-search__input,
+.sb-search__ghost,
+.sb-kbd,
+.sb-pwd,
+.sb-hint,
+.sb-recent__group {
+  font-family: "DM Mono", ui-monospace, monospace;
+}
+
+.sb-search__prompt {
+  color: var(--sb-accent);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.sb-search__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--text-primary);
+  font-size: 11px;
+  appearance: none;
+  margin-left: -2px;
+}
+
+.sb-search__input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.sb-search__input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+.sb-search__field {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  min-width: 0;
+}
+
+.sb-search__ghost {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -3px;                         
+  display: none;
+  align-items: center;
+  max-width: 100%;
+  padding: 0 3px;
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1;
+  white-space: pre;
+}
+
+.sb-search.typer-active .sb-search__ghost {
+  display: flex;
+}
+
+.sb-kbd {
+  padding: 0 5px;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 2px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.sb-search:focus-within .sb-kbd,
+.sb.is-filtering .sb-kbd {
+  visibility: hidden;
+}
+
+.sb-pwd {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0;
+  height: 22px;
+  box-sizing: border-box;
+  padding: 0 6px 0 12px;         
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  border-bottom: 0.5px solid var(--border);
+  color: var(--text-muted);
+  font-size: 10px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.sb-pwd__path {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sb-pwd__rand {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--text-muted);
+}
+
+.sb-pwd__rand i {
+  font-size: 13px;
+}
+
+.sb-pwd__rand:hover {
+  color: var(--sb-accent);
+}
+
+.sb-pwd__rand:focus-visible {
+  outline-offset: -2px;               
+}
+
+.sb-pwd__group {
+  color: var(--text-secondary);
+}
+
+.sb-pwd__member {
+  color: var(--sb-accent);
+}
+
+.sb-pwd__cursor {
+  width: 5px;
+  height: 10px;
+  margin-left: 3px;
+  background: var(--sb-accent);
   opacity: 0.8;
 }
 
-.icon-button svg {
-  width: 24px;
-  height: 24px;
+
+  .sb-pwd__cursor {
+    animation: sb-blink 2.2s steps(1) infinite;
+  }
+
+
+@keyframes sb-blink {
+  50% { opacity: 0; }
 }
 
-#toggle-darkmode {
-  display: inline-flex;
-  cursor: pointer;
+.sb-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-gutter: stable;
+}
+
+.sb-recent {
+  padding: 10px 6px 8px 12px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.sb.is-filtering .sb-recent,
+.sb-recent[hidden] {
+  display: none;
+}
+
+.sb-recent__toggle {
+  display: flex;
   align-items: center;
-  align-content: center;
-  z-index: 9999;
-  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2px 5.5px 2px 0;       
+  border: 0;
+  background: none;
+  color: var(--sb-accent);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sb-recent__toggle:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: 1px;
+}
+
+.sb-recent__toggle > i {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.sb-recent__chev {
+  margin-left: auto;
+  color: var(--text-muted);
+  transition: transform var(--sb-collapse) ease, color var(--sb-fade) ease;
+}
+
+.sb-recent__toggle:hover .sb-recent__chev {
+  color: var(--text-primary);
+}
+
+.sb-recent.is-collapsed .sb-recent__chev {
+  transform: rotate(-90deg);
+}
+
+.sb-recent__body {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin-top: 4px;
+}
+
+.sb-recent.is-collapsed .sb-recent__body {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+}
+
+.sb-recent.is-ready .sb-recent__body {
+  transition: grid-template-rows var(--sb-collapse) ease;
+}
+
+.sb-recent__list {
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+}
+
+.sb-recent.is-collapsed .sb-recent__list {
+  visibility: hidden;
+}
+
+.sb-recent__item {
+  display: flex;
+  align-items: center;
+}
+
+.sb-recent__link {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: baseline;
+  gap: 7px;
+  height: 22px;
+  box-sizing: border-box;
+  padding-top: 4px;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--sb-fade) ease-out;
+  text-transform: uppercase;
+}
+
+.sb-recent__group {
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.sb-recent__link:hover {
+  color: var(--sb-accent);
+}
+
+.sb-recent__link:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: 2px;
+}
+
+.sb-recent__x {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
   justify-content: center;
-  max-width: 100%;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--sb-fade) ease-out;
 }
 
-#toggle-darkmode:hover {
-  color: #000;
-  transform: scale(1.1);
-  transition: ease 0.2s;
+.sb-recent__x i {
+  font-size: 12px;
+  line-height: 1;
 }
 
-#center,
-#mask-rays,
-#mask-center {
-  transform-origin: center;
-  transition: transform 250ms ease-out;
+.sb-recent__x:hover {
+  color: var(--text-primary);
 }
 
-#center {
-  fill: var(--text-secondary);
-  transform: rotate(-35deg);
+.sb-recent__x:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: -1px;
 }
 
-#rays {
-  stroke: #000;
-  stroke-width: 2px;
-}
-
-html.dark #center {
-  transform: rotate(-35deg) scale(2);
-}
-
-html.dark #mask-rays {
-  transform: scale(0.5);
-}
-
-html.dark #mask-center {
-  transform: translateX(-18px);
-}
-
-.search-container {
+.sb-groups-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 0px 5px 70px;
-  background: transparent;
-  z-index: 2;
+  padding: 12px 6px 4px 12px;
 }
 
-html.dark .search-container {
-  background: transparent;
+.sb-groups-head .sb-btn {
+  width: 22px;
+  height: 22px;
 }
 
-.search-container a {
-  cursor: pointer;
-  user-select: none;
-  line-height: 1;
-  padding: 2px 4px;
-  border-radius: 3px;
-  transition: background-color 0.2s ease;
-}
-
-.search-container a:hover {
-  background-color: #ddd;
-  text-decoration: none;
-}
-
-html.dark .search-container a:hover {
-  background-color: #444;
-}
-
-#sidebarSearch {
-  width: 140px;
-  padding: 6px 10px;
-  font-size: 12px;
-  font-family: "DM Sans", sans-serif;
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  border: 1px solid var(--border-strong);
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.1s ease, box-shadow 0.1s ease;
-}
-
-#sidebarSearch::placeholder {
-  color: var(--text-muted);
-  opacity: 0.7;
-}
-
-#sidebarSearch:focus {
-  background: var(--bg);
-  box-shadow: 0 0 0 1px var(--gold-bg);
-}
-
-.sidebar-scroll {
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  z-index: 9999999999;
-  padding-bottom: 100px;
-  overflow-x: hidden;
-}
-
-.sidebar-scroll::-webkit-scrollbar {
-  width: 0;
-}
-
-.sidebar-scroll:hover::-webkit-scrollbar {
-  width: 10px;
-}
-
-.sidebar-scroll::-webkit-scrollbar-thumb {
-  background-color: #999;
-  border-radius: 6px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-.sidebar-scroll:hover::-webkit-scrollbar-thumb {
-  background: #c0c0c0;
-  border: 2px outset #fff;
-  border-right-color: #7a7a7a;
-  border-bottom-color: #7a7a7a;
-}
-
-.sidebar-scroll:hover::-webkit-scrollbar-track {
-  background: #e0e0e0;
-}
-
-.sidebar-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #666;
-}
-
-#toggle-sidebar {
-  position: fixed;
-  top: 115px;
-  left: 135px;
-  z-index: 9999;
-  width: 50px;
-  height: 50px;
-  margin-top: 10px;
-  transform: rotate(45deg);
-  color: var(--text-secondary);
-}
-
-.folder-tree,
-.folder-tree ul {
-  list-style: none;
-  margin: 0;
-  padding-left: 20px;
-  white-space: nowrap;
-  color: #000;
-}
-
-.folder-tree li {
-  position: relative;
-  margin: 0;
-  padding-left: 25px;
-}
-
-.folder-tree > li::before {
-  content: none;
-}
-
-.folder-tree ul > li:last-child::before {
-  bottom: 12px;
-}
-
-.folder-tree > li > button.folder-toggle::after {
-  content: "/";
-  position: absolute;
-  right: -12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--gold);
-  font-weight: normal;
-  user-select: none;
-  z-index: 1;
-  bottom: -5px;
-}
-
-button.folder-toggle {
-  display: block;
-  height: 25px;
+.sb-groups-head .sb-btn i {
   font-size: 15px;
-  font-family: "DM Sans", sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  padding: 4px 0 4px 37px;
-  color: var(--gold);
-  position: relative;
-  user-select: none;
-  white-space: nowrap;
-  z-index: 2;
-  -webkit-tap-highlight-color: transparent;
-  transition: filter 0.5s ease;
 }
 
-.folder-toggle:hover {
-  background: transparent;
-  filter: brightness(2);
-}
-
-button.folder-toggle,
-button.folder-toggle:focus,
-button.folder-toggle:focus-visible,
-button.folder-toggle:focus-within,
-button.folder-toggle *:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  background: transparent !important;
-}
-
-button.folder-toggle::-moz-focus-inner {
-  border: 0;
-}
-
-.member-list {
-  list-style: none;
+.sb-groups,
+.sb-members {
+  margin: 0;
   padding: 0;
-  margin: 0 0 4px;
+  list-style: none;
 }
 
-.member-list li a {
+.sb-groups {
+  padding-bottom: 16px;
+}
+
+.sb-group__toggle {
   display: block;
-  font-size: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  background: none;
   color: var(--text-secondary);
-  padding: 2px 0 2px 32px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--sb-fade) ease;
+}
+
+.sb-group__toggle::after {
+  content: "/";
+  margin-left: 3px;
+  color: var(--text-muted);
+  transition: color var(--sb-fade) ease;
+}
+
+.sb-group.is-open > .sb-group__toggle,
+.sb-group__toggle:hover {
+  color: var(--text-primary);
+}
+
+.sb-group.is-open > .sb-group__toggle::after {
+  color: var(--sb-accent);
+}
+
+.sb-group.is-current > .sb-group__toggle::after {
+  content: attr(data-spin);
+  display: inline-block;
+  width: 0.6em;
+  text-align: center;
+  color: var(--sb-accent);
+  font-family: "DM Mono", ui-monospace, monospace;
+}
+
+.sb-group__toggle:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: -1px;
+}
+
+.sb-group__body {
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.sb-members {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.sb-member:last-child {
+  padding-bottom: 6px;
+}
+
+.sb-group.is-open > .sb-group__body,
+.sb.is-filtering .sb-group__body {
+  grid-template-rows: 1fr;
+}
+
+.sb-group.is-open .sb-members,
+.sb.is-filtering .sb-members {
+  visibility: visible;
+}
+
+
+  .sb.is-ready .sb-group__body {
+    transition: grid-template-rows var(--sb-collapse) ease;
+  }
+
+  .sb.is-ready .sb-members {
+    transition: visibility 0s linear var(--sb-collapse);
+  }
+
+  .sb.is-ready .sb-group.is-open .sb-members,
+  .sb.is-ready.is-filtering .sb-members {
+    transition-delay: 0s;
+  }
+
+
+.sb-member a {
+  position: relative;
+  display: block;
+  padding: 2px 10px 2px var(--sb-indent);
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 16px;
   letter-spacing: 0.04em;
   text-decoration: none;
-  position: relative;
-  transition: color 0.15s, background 0.15s;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  z-index: 2;
-  font-family: "DM Sans", Tahoma, monospace;
-  width: 100%;
-  transition: color 0.5s ease-out;
+  transition: color var(--sb-fade) ease-out;
 }
 
-.member-list li a::before {
-  content: "├──";
-  position: absolute;
-  left: 0px;
-  color: var(--border-strong);
-  font-size: 9px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  font-family: Tahoma;
-}
-
-.member-list li:last-child a::before {
-  content: "└──";
-}
-
-.member-list li a:hover {
-  color: var(--text-primary);
-}
-
-.member-list li a.current-member {
+.sb-member a:hover {
   color: var(--gold);
+}
+
+.sb-member a:focus-visible {
+  outline: 1px solid var(--gold-border);
+  outline-offset: -1px;
+}
+
+.sb-member a[aria-current="page"] {
+  color: var(--sb-accent);
   font-weight: 500;
+  background: var(--gold-bg);
+}
+
+.sb-member a[aria-current="page"]::before {
+  content: ">";
+  position: absolute;
+  top: 2px;
+  left: calc(var(--sb-indent) - 14px);
+  color: var(--sb-accent);
+  font: 500 12px/16px "DM Mono", ui-monospace, monospace;
+}
+
+.sb-empty {
+  margin: 0;
+  padding: 10px 12px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.sb-hint {
+  display: none;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  border-top: 0.5px solid var(--border);
+  color: var(--text-muted);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.sb.is-member .sb-hint {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sb-hint .sb-kbd {
+  padding: 0 4px;
+}
+
+.sb-hint span:last-child {
+  margin-left: 4px;
 }
 </style>
 
-<div class="sidebar-container" style="display: flex; align-items: flex-start; gap: 6px;">
-<div class="sidebar">
-  <div class="searchandbuttons">
-    <div class="buttons">
-      <a href="/index.html" class="home-icon-link" title="Home">
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"/>
-        </svg>
-      </a>
-      <a href="/volume_tree.html" class="stats-icon" title="Volume Tree">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16">
-          <path d="M1.75 13.25V1.5H.5v12a1.24 1.24 0 0 0 1.22 1H15.5v-1.25z"/>
-          <path d="M3.15 8H4.4v3.9H3.15zm3.26-4h1.26v7.9H6.41zm3.27 2h1.25v5.9H9.68zm3.27-3.5h1.25v9.4h-1.25z"/>
-        </svg>
-      </a>
-      <button id="toggle-darkmode" class="icon-button" aria-label="Toggle dark/light mode" title="Toggle Dark Mode" onclick="toggleDarkMode()">
-        <svg id="sunmoon" viewBox="0 0 32 32">
-          <defs>
-            <mask id="maskc">
-              <rect x="0" y="0" width="32" height="32" fill="white"/>
-              <circle id="mask-center" cx="40" cy="16" r="8" fill="black"/>
-            </mask>
-            <mask id="maskr">
-              <circle id="mask-rays" cx="16" cy="16" r="16" fill="white"/>
-            </mask>
-          </defs>
-          <circle id="center" mask="url(#maskc)" r="8" cx="16" cy="16"/>
-          <path id="rays" mask="url(#maskr)" d="M6,16l-6,0 M8.929,8.929l-4.243,-4.243 M8.929,23.071l-4.243,4.243 M16,26l-0,6 M27.314,27.314l-4.243,-4.243 M32,16l-6,0 M27.314,4.686l-4.243,4.243 M16,-0l-0,6"/>
-        </svg>
-      </button>
-    </div>
-    <hr>
-    <div class="search-container">
-      <input type="text" id="sidebarSearch" placeholder="Search..." />
-    </div>
-    <hr>
-    <div class="sidebar-scroll">
-      <div id="toggle-sidebar" class="icon-button" aria-label="Collapse or expand all folders" title="Collapse/Expand All">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"/>
-        </svg>
-      </div>
-      <ul class="folder-tree">
-<li>
-    <button class="folder-toggle" data-folder="UNIS">UNIS</button>
-    <ul class="member-list" data-folder="UNIS" style="display: none;">
-    <li><a href="/MEMBERS/UNIS_HYEONJU.html">HYEONJU</a></li>
-    <li><a href="/MEMBERS/UNIS_NANA.html">NANA</a></li>
-    <li><a href="/MEMBERS/UNIS_GEHLEE.html">GEHLEE</a></li>
-    <li><a href="/MEMBERS/UNIS_KOTOKO.html">KOTOKO</a></li>
-    <li><a href="/MEMBERS/UNIS_YUNHA.html">YUNHA</a></li>
-    <li><a href="/MEMBERS/UNIS_ELISIA.html">ELISIA</a></li>
-    <li><a href="/MEMBERS/UNIS_YOONA.html">YOONA</a></li>
-    <li><a href="/MEMBERS/UNIS_SEOWON.html">SEOWON</a></li>
-  </ul>
-</li>
-<li>
-  <button class="folder-toggle" data-folder="ILLIT">ILLIT</button>
-  <ul class="member-list" data-folder="ILLIT" style="display: none;">
-    <li><a href="/MEMBERS/ILLIT_YUNAH.html">YUNAH</a></li>
-    <li><a href="/MEMBERS/ILLIT_MINJU.html">MINJU</a></li>
-    <li><a href="/MEMBERS/ILLIT_MOKA.html">MOKA</a></li>
-    <li><a href="/MEMBERS/ILLIT_WONHEE.html">WONHEE</a></li>
-    <li><a href="/MEMBERS/ILLIT_IROHA.html">IROHA</a></li>
-  </ul>
-</li>
-<li>
-  <button class="folder-toggle" data-folder="NEWJEANS">NEWJEANS</button>
-  <ul class="member-list" data-folder="NEWJEANS" style="display: none;">
-    <li><a href="/MEMBERS/NEWJEANS_MINJI.html">MINJI</a></li>
-    <li><a href="/MEMBERS/NEWJEANS_HANNI.html">HANNI</a></li>
-    <li><a href="/MEMBERS/NEWJEANS_DANIELLE.html">DANIELLE</a></li>
-    <li><a href="/MEMBERS/NEWJEANS_HAERIN.html">HAERIN</a></li>
-    <li><a href="/MEMBERS/NEWJEANS_HYEIN.html">HYEIN</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="IVE">IVE</button>
-  <ul class="member-list" data-folder="IVE" style="display: none;">
-    <li><a href="/MEMBERS/IVE_GAEUL.html">GAEUL</a></li>
-    <li><a href="/MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
-    <li><a href="/MEMBERS/IVE_REI.html">REI</a></li>
-    <li><a href="/MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
-    <li><a href="/MEMBERS/IVE_LIZ.html">LIZ</a></li>
-    <li><a href="/MEMBERS/IVE_LEESEO.html">LEESEO</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="STAYC">STAYC</button>
-  <ul class="member-list" data-folder="STAYC" style="display: none;">
-    <li><a href="/MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>
-    <li><a href="/MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
-    <li><a href="/MEMBERS/STAYC_ISA.html">ISA</a></li>
-    <li><a href="/MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
-    <li><a href="/MEMBERS/STAYC_YOON.html">YOON</a></li>
-    <li><a href="/MEMBERS/STAYC_J.html">J</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="AESPA">AESPA</button>
-  <ul class="member-list" data-folder="AESPA" style="display: none;">
-    <li><a href="/MEMBERS/AESPA_KARINA.html">KARINA</a></li>
-    <li><a href="/MEMBERS/AESPA_GISELLE.html">GISELLE</a></li>
-    <li><a href="/MEMBERS/AESPA_WINTER.html">WINTER</a></li>
-    <li><a href="/MEMBERS/AESPA_NINGNING.html">NINGNING</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="FROMIS">FROMIS</button>
-  <ul class="member-list" data-folder="FROMIS" style="display: none;">
-    <li><a href="/MEMBERS/FROMIS_SAEROM.html">SAEROM</a></li>
-    <li><a href="/MEMBERS/FROMIS_HAYOUNG.html">HAYOUNG</a></li>
-    <li><a href="/MEMBERS/FROMIS_GYURI.html">GYURI</a></li>
-    <li><a href="/MEMBERS/FROMIS_JIWON.html">JIWON</a></li>
-    <li><a href="/MEMBERS/FROMIS_JISUN.html">JISUN</a></li>
-    <li><a href="/MEMBERS/FROMIS_SOYEON.html">SOYEON</a></li>
-    <li><a href="/MEMBERS/FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
-    <li><a href="/MEMBERS/FROMIS_NAKYUNG.html">NAKYUNG</a></li>
-    <li><a href="/MEMBERS/FROMIS_JIHEON.html">JIHEON</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="LOONA">LOONA</button>
-  <ul class="member-list" data-folder="LOONA" style="display: none;">
-    <li><a href="/MEMBERS/LOONA_VIVI.html">VIVI</a></li>
-    <li><a href="/MEMBERS/LOONA_YVES.html">YVES</a></li>
-    <li><a href="/MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
-    <li><a href="/MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
-    <li><a href="/MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
-    <li><a href="/MEMBERS/LOONA_CHUU.html">CHUU</a></li>
-    <li><a href="/MEMBERS/LOONA_HEEJIN.html">HEEJIN</a></li>
-    <li><a href="/MEMBERS/LOONA_HYUNJIN.html">HYUNJIN</a></li>
-    <li><a href="/MEMBERS/LOONA_GOWON.html">GOWON</a></li>
-    <li><a href="/MEMBERS/LOONA_CHOERRY.html">CHOERRY</a></li>
-    <li><a href="/MEMBERS/LOONA_OLIVIA.html">OLIVIA</a></li>
-    <li><a href="/MEMBERS/LOONA_YEOJIN.html">YEOJIN</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="ITZY">ITZY</button>
-  <ul class="member-list" data-folder="ITZY" style="display: none;">
-    <li><a href="/MEMBERS/ITZY_YEJI.html">YEJI</a></li>
-    <li><a href="/MEMBERS/ITZY_LIA.html">LIA</a></li>
-    <li><a href="/MEMBERS/ITZY_RYUJIN.html">RYUJIN</a></li>
-    <li><a href="/MEMBERS/ITZY_CHAERYEONG.html">CHAERYEONG</a></li>
-    <li><a href="/MEMBERS/ITZY_YUNA.html">YUNA</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="IU">IU</button>
-  <ul class="member-list" data-folder="IU" style="display: none;">
-    <li><a href="/MEMBERS/IU_IU.html">IU</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="RED VELVET">RED VELVET</button>
-  <ul class="member-list" data-folder="RED VELVET" style="display: none;">
-    <li><a href="/MEMBERS/RED VELVET_IRENE.html">IRENE</a></li>
-    <li><a href="/MEMBERS/RED VELVET_SEULGI.html">SEULGI</a></li>
-    <li><a href="/MEMBERS/RED VELVET_WENDY.html">WENDY</a></li>
-    <li><a href="/MEMBERS/RED VELVET_JOY.html">JOY</a></li>
-    <li><a href="/MEMBERS/RED VELVET_YERI.html">YERI</a></li>
-  </ul>
-</li>
-
-<li>
-  <button class="folder-toggle" data-folder="TWICE">TWICE</button>
-  <ul class="member-list" data-folder="TWICE" style="display: none;">
-    <li><a href="/MEMBERS/TWICE_NAYEON.html">NAYEON</a></li>
-    <li><a href="/MEMBERS/TWICE_JEONGYEON.html">JEONGYEON</a></li>
-    <li><a href="/MEMBERS/TWICE_MOMO.html">MOMO</a></li>
-    <li><a href="/MEMBERS/TWICE_SANA.html">SANA</a></li>
-    <li><a href="/MEMBERS/TWICE_JIHYO.html">JIHYO</a></li>
-    <li><a href="/MEMBERS/TWICE_MINA.html">MINA</a></li>
-    <li><a href="/MEMBERS/TWICE_DAHYUN.html">DAHYUN</a></li>
-    <li><a href="/MEMBERS/TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
-    <li><a href="/MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
-  </ul>
-</li>
-      </ul>
-    </div>
+<aside class="sb" id="sb" aria-label="Archive navigation">
+<div class="sb-tools">
+  <a class="sb-btn" href="/index.html" title="Home" aria-label="Home" data-recent="Home"><i class="ti ti-home" aria-hidden="true"></i></a>
+  <a class="sb-btn" href="/volume_tree.html" title="Volume Tree" aria-label="Volume Tree" data-recent="Volume Tree"><i class="ti ti-chart-bar" aria-hidden="true"></i></a>
+  <button class="sb-btn sb-premium" type="button" data-action="premium" title="Get Premium" aria-label="Get Premium"><i class="ti ti-crown" aria-hidden="true"></i></button>
+  <span class="sb-tools__gap"></span>
+    <button class="sb-btn sb-theme" type="button" data-action="theme" title="Toggle dark mode" aria-label="Dark mode" aria-pressed="false">
+      <i class="ti ti-sun sb-theme__sun" aria-hidden="true"></i><i class="ti ti-moon sb-theme__moon" aria-hidden="true"></i>
+    </button>
   </div>
-</div>
-</div>
+
+  <label class="sb-search">
+    <span class="sb-search__prompt" aria-hidden="true">&gt;</span>
+    <span class="sb-search__field">
+      <input class="sb-search__input" type="search" placeholder="search" aria-label="Search groups and members" aria-keyshortcuts="/" autocomplete="off" spellcheck="false">
+      <span class="sb-search__ghost" aria-hidden="true" data-i18n-skip><span class="sb-search__ghost-text"></span></span>
+    </span>
+    <kbd class="sb-kbd" aria-hidden="true">/</kbd>
+  </label>
+
+  <div class="sb-pwd">
+    <span class="sb-pwd__path" aria-hidden="true"><span>~/</span><span class="sb-pwd__group"></span><span class="sb-pwd__slash"></span><span class="sb-pwd__member"></span><span class="sb-pwd__cursor"></span></span>
+    <button class="sb-btn sb-pwd__rand" type="button" data-action="random" title="Random member" aria-label="Random member"><i class="ti ti-dice-3" aria-hidden="true"></i></button>
+  </div>
+
+  <nav class="sb-nav" aria-label="Archive">
+    <section class="sb-recent" hidden aria-label="Recently viewed">
+      <button class="sb-recent__toggle" type="button" data-action="toggle-recent" aria-expanded="true" title="Collapse recent" aria-label="Collapse recent">
+        <i class="ti ti-history" aria-hidden="true"></i><span class="sb-label">Recent</span><i class="ti ti-chevron-down sb-recent__chev" aria-hidden="true"></i>
+      </button>
+      <div class="sb-recent__body"><ul class="sb-recent__list"></ul></div>
+    </section>
+
+    <div class="sb-groups-head">
+      <span class="sb-label">Groups</span>
+      <button class="sb-btn" type="button" data-action="toggle-all" title="Expand all" aria-label="Expand all folders"><i class="ti ti-arrows-vertical" aria-hidden="true"></i></button>
+    </div>
+
+    <ul class="sb-groups">
+      <li class="sb-group" data-group="UNIS">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-unis">UNIS</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-unis">
+          <li class="sb-member"><a href="/MEMBERS/UNIS_HYEONJU.html">HYEONJU</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_NANA.html">NANA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_GEHLEE.html">GEHLEE</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_KOTOKO.html">KOTOKO</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_YUNHA.html">YUNHA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_ELISIA.html">ELISIA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_YOONA.html">YOONA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/UNIS_SEOWON.html">SEOWON</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="ILLIT">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-illit">ILLIT</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-illit">
+          <li class="sb-member"><a href="/MEMBERS/ILLIT_YUNAH.html">YUNAH</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ILLIT_MINJU.html">MINJU</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ILLIT_MOKA.html">MOKA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ILLIT_WONHEE.html">WONHEE</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ILLIT_IROHA.html">IROHA</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="NEWJEANS">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-newjeans">NEWJEANS</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-newjeans">
+          <li class="sb-member"><a href="/MEMBERS/NEWJEANS_MINJI.html">MINJI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/NEWJEANS_HANNI.html">HANNI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/NEWJEANS_DANIELLE.html">DANIELLE</a></li>
+          <li class="sb-member"><a href="/MEMBERS/NEWJEANS_HAERIN.html">HAERIN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/NEWJEANS_HYEIN.html">HYEIN</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="IVE">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-ive">IVE</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-ive">
+          <li class="sb-member"><a href="/MEMBERS/IVE_GAEUL.html">GAEUL</a></li>
+          <li class="sb-member"><a href="/MEMBERS/IVE_YUJIN.html">YUJIN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/IVE_REI.html">REI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/IVE_WONYOUNG.html">WONYOUNG</a></li>
+          <li class="sb-member"><a href="/MEMBERS/IVE_LIZ.html">LIZ</a></li>
+          <li class="sb-member"><a href="/MEMBERS/IVE_LEESEO.html">LEESEO</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="STAYC">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-stayc">STAYC</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-stayc">
+          <li class="sb-member"><a href="/MEMBERS/STAYC_SUMIN.html">SUMIN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/STAYC_SIEUN.html">SIEUN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/STAYC_ISA.html">ISA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/STAYC_SEEUN.html">SEEUN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/STAYC_YOON.html">YOON</a></li>
+          <li class="sb-member"><a href="/MEMBERS/STAYC_J.html">J</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="AESPA">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-aespa">AESPA</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-aespa">
+          <li class="sb-member"><a href="/MEMBERS/AESPA_KARINA.html">KARINA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/AESPA_GISELLE.html">GISELLE</a></li>
+          <li class="sb-member"><a href="/MEMBERS/AESPA_WINTER.html">WINTER</a></li>
+          <li class="sb-member"><a href="/MEMBERS/AESPA_NINGNING.html">NINGNING</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="FROMIS">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-fromis">FROMIS</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-fromis">
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_SAEROM.html">SAEROM</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_HAYOUNG.html">HAYOUNG</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_GYURI.html">GYURI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_JIWON.html">JIWON</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_JISUN.html">JISUN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_SOYEON.html">SOYEON</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_CHAEYOUNG.html">CHAEYOUNG</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_NAKYUNG.html">NAKYUNG</a></li>
+          <li class="sb-member"><a href="/MEMBERS/FROMIS_JIHEON.html">JIHEON</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="LOONA">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-loona">LOONA</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-loona">
+          <li class="sb-member"><a href="/MEMBERS/LOONA_VIVI.html">VIVI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_YVES.html">YVES</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_JINSOUL.html">JINSOUL</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_HASEUL.html">HASEUL</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_KIMLIP.html">KIMLIP</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_CHUU.html">CHUU</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_HEEJIN.html">HEEJIN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_HYUNJIN.html">HYUNJIN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_GOWON.html">GOWON</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_CHOERRY.html">CHOERRY</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_OLIVIA.html">OLIVIA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/LOONA_YEOJIN.html">YEOJIN</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="ITZY">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-itzy">ITZY</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-itzy">
+          <li class="sb-member"><a href="/MEMBERS/ITZY_YEJI.html">YEJI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ITZY_LIA.html">LIA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ITZY_RYUJIN.html">RYUJIN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ITZY_CHAERYEONG.html">CHAERYEONG</a></li>
+          <li class="sb-member"><a href="/MEMBERS/ITZY_YUNA.html">YUNA</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="IU">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-iu">IU</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-iu">
+          <li class="sb-member"><a href="/MEMBERS/IU_IU.html">IU</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="RED VELVET">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-red-velvet">RED VELVET</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-red-velvet">
+          <li class="sb-member"><a href="/MEMBERS/RED VELVET_IRENE.html">IRENE</a></li>
+          <li class="sb-member"><a href="/MEMBERS/RED VELVET_SEULGI.html">SEULGI</a></li>
+          <li class="sb-member"><a href="/MEMBERS/RED VELVET_WENDY.html">WENDY</a></li>
+          <li class="sb-member"><a href="/MEMBERS/RED VELVET_JOY.html">JOY</a></li>
+          <li class="sb-member"><a href="/MEMBERS/RED VELVET_YERI.html">YERI</a></li>
+        </ul></div>
+      </li>
+      <li class="sb-group" data-group="TWICE">
+        <button class="sb-group__toggle" type="button" data-action="toggle-group" aria-expanded="false" aria-controls="sb-list-twice">TWICE</button>
+        <div class="sb-group__body"><ul class="sb-members" id="sb-list-twice">
+          <li class="sb-member"><a href="/MEMBERS/TWICE_NAYEON.html">NAYEON</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_JEONGYEON.html">JEONGYEON</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_MOMO.html">MOMO</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_SANA.html">SANA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_JIHYO.html">JIHYO</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_MINA.html">MINA</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_DAHYUN.html">DAHYUN</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_CHAEYOUNG.html">CHAEYOUNG</a></li>
+          <li class="sb-member"><a href="/MEMBERS/TWICE_TZUYU.html">TZUYU</a></li>
+        </ul></div>
+      </li>
+    </ul>
+    <p class="sb-empty" hidden>No matches</p>
+  </nav>
+
+  <div class="sb-hint" aria-hidden="true">
+    <kbd class="sb-kbd">[</kbd><kbd class="sb-kbd">]</kbd><span>prev / next</span>
+  </div>
+</aside>
 
 <script>
 (function () {
-  function setupSidebarToggles() {
-    document.querySelectorAll('.folder-toggle').forEach(btn => {
-      const folderName = btn.dataset.folder;
-      const memberList = document.querySelector(`.member-list[data-folder="${folderName}"]`);
-      if (!memberList) return;
-      if (!memberList.hasAttribute('data-init')) {
-        const saved = localStorage.getItem(`folder-${folderName}`);
-        memberList.style.setProperty('display', saved === 'open' ? 'block' : 'none', 'important');
-        memberList.setAttribute('data-init', '1');
-      }
-      btn.addEventListener('click', ev => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        const isOpen = memberList.style.display === 'block';
-        memberList.style.setProperty('display', isOpen ? 'none' : 'block', 'important');
-        localStorage.setItem(`folder-${folderName}`, isOpen ? 'closed' : 'open');
-        if (window.SoundFX) SoundFX.play(isOpen ? 'heavy_click_reverse' : 'heavy_click');
-      });
-    });
+  var sb = document.getElementById('sb');
+  if (!sb || sb.dataset.ready) return;
+  sb.dataset.ready = '1';
+
+  var root = document.documentElement;
+  function enText(el) {
+    return (window.I18n && I18n.original) ? I18n.original(el) : el.textContent.trim();
+  }
+  var groups = Array.prototype.slice.call(sb.querySelectorAll('.sb-group'));
+  var nav = sb.querySelector('.sb-nav');
+  var input = sb.querySelector('.sb-search__input');
+  var empty = sb.querySelector('.sb-empty');
+  var themeBtn = sb.querySelector('[data-action="theme"]');
+  var allBtn = sb.querySelector('[data-action="toggle-all"]');
+  var allIcon = allBtn.querySelector('i');
+  var recentBox = sb.querySelector('.sb-recent');
+  var recentList = sb.querySelector('.sb-recent__list');
+
+  function read(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function write(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
+
+  function isOpen(group) { return group.classList.contains('is-open'); }
+
+  function setOpen(group, open, persist) {
+    group.classList.toggle('is-open', open);
+    group.querySelector('.sb-group__toggle').setAttribute('aria-expanded', String(open));
+    if (persist !== false) write('folder-' + group.dataset.group, open ? 'open' : 'closed');
   }
 
-  function setupSidebarSearch() {
-    const input = document.getElementById('sidebarSearch');
-    if (!input) return;
-    input.addEventListener('input', function () {
-      const filter = this.value.toLowerCase();
-      const groups = document.querySelectorAll('.folder-tree > li');
-      groups.forEach(group => {
-        const folderToggle = group.querySelector('.folder-toggle');
-        const memberList = group.querySelector('.member-list');
-        const groupName = folderToggle.textContent.toLowerCase();
-        const members = memberList.querySelectorAll('li');
-        let groupMatches = groupName.includes(filter);
-        let memberMatches = false;
-
-        members.forEach(member => {
-          const name = member.textContent.toLowerCase();
-          const visible = filter === '' || name.includes(filter) || groupMatches;
-          member.style.display = visible ? '' : 'none';
-          if (visible) memberMatches = true;
-        });
-
-        if (filter !== '') {
-          group.style.display = (groupMatches || memberMatches) ? '' : 'none';
-          memberList.style.setProperty('display', (groupMatches || memberMatches) ? 'block' : 'none', 'important');
-        } else {
-          group.style.display = '';
-          const folderName = folderToggle.dataset.folder;
-          const saved = localStorage.getItem(`folder-${folderName}`);
-          memberList.style.setProperty('display', saved === 'open' ? 'block' : 'none', 'important');
-        }
-      });
-    });
+  function click(sound) {
+    if (window.SoundFX) window.SoundFX.play(sound);
   }
 
-  function setupToggleAll() {
-    const toggleBtn = document.getElementById('toggle-sidebar');
-    if (!toggleBtn) return;
-    toggleBtn.addEventListener('click', () => {
-      const allFolders = document.querySelectorAll('.member-list');
-      const isAnyOpen = Array.from(allFolders).some(ul => window.getComputedStyle(ul).display !== 'none');
-      allFolders.forEach(ul => {
-        const group = ul.dataset.folder;
-        if (!group) return;
-        ul.style.setProperty('display', isAnyOpen ? 'none' : 'block', 'important');
-        localStorage.setItem(`folder-${group}`, isAnyOpen ? 'closed' : 'open');
-      });
-    });
+  function syncAllButton() {
+    var anyOpen = groups.some(isOpen);
+    var label = anyOpen ? 'Collapse all folders' : 'Expand all folders';
+    allBtn.title = label.replace(' folders', '');
+    allBtn.setAttribute('aria-label', label);
+    allIcon.className = 'ti ' + (anyOpen ? 'ti-fold' : 'ti-arrows-vertical');
   }
 
-  function highlightCurrentMember() {
-    const links = document.querySelectorAll('.member-list li a');
-    let current = null;
-    links.forEach(a => {
-      if (a.pathname === location.pathname) current = a;
+
+  var byKey = {};
+  groups.forEach(function (g) {
+    Array.prototype.forEach.call(g.querySelectorAll('.sb-member a'), function (a) {
+      byKey[g.dataset.group + '/' + enText(a)] = a;
     });
-    if (!current) return;
-    current.classList.add('current-member');
-    const memberList = current.closest('.member-list');
-    if (memberList) {
-      memberList.style.setProperty('display', 'block', 'important');
-      memberList.setAttribute('data-init', '1');
-      const folderName = memberList.dataset.folder;
-      if (folderName) localStorage.setItem(`folder-${folderName}`, 'open');
+  });
+
+  var pagePath = location.pathname.replace(/\/$/, '/index.html');
+  var pageKey = null;
+  Array.prototype.forEach.call(sb.querySelectorAll('a[data-recent]'), function (a) {
+    var key = 'SITE/' + a.dataset.recent;
+    byKey[key] = a;
+    if (a.pathname === pagePath) pageKey = key;
+  });
+  var recentKey = null;
+  groups.forEach(function (g) {
+    setOpen(g, read('folder-' + g.dataset.group) === 'open', false);
+  });
+
+  var currentKey = null;
+  var currentLink = null;
+
+  Array.prototype.forEach.call(sb.querySelectorAll('a[href]'), function (a) {
+    if (a.pathname !== location.pathname) return;
+    a.setAttribute('aria-current', 'page');
+    var group = a.closest('.sb-group');
+    if (!group) return;
+    currentLink = a;
+    currentKey = group.dataset.group + '/' + enText(a);
+    setOpen(group, true);
+    group.classList.add('is-current');
+  });
+  recentKey = currentKey || pageKey;
+  syncAllButton();
+
+  (function () {
+    var el = sb.querySelector('.sb-group.is-current > .sb-group__toggle');
+    if (!el) return;
+    var frames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+    var speed = 250;
+    var i = 0;
+    el.dataset.spin = frames[0];
+    setInterval(function () {
+      if (document.hidden) return;
+      i = (i + 1) % frames.length;
+      el.dataset.spin = frames[i];
+    }, speed);
+  })();
+
+  (function () {
+    var g = sb.querySelector('.sb-pwd__group');
+    var s = sb.querySelector('.sb-pwd__slash');
+    var m = sb.querySelector('.sb-pwd__member');
+    if (!currentKey) {
+      if (pageKey) m.textContent = pageKey.split('/')[1].toLowerCase().replace(/\s+/g, '_');
+      return;
+    }
+    var parts = currentKey.split('/');
+    g.textContent = parts[0];
+    s.textContent = '/';
+    m.textContent = parts[1];
+    sb.classList.add('is-member');
+  })();
+
+  function revealCurrent() {
+    if (!currentLink) return;
+    var r = currentLink.getBoundingClientRect();
+    var nr = nav.getBoundingClientRect();
+    if (r.top < nr.top || r.bottom > nr.bottom) {
+      nav.scrollTop += r.top - nr.top - nav.clientHeight / 2;
     }
   }
 
-  setupSidebarToggles();
-  setupSidebarSearch();
-  setupToggleAll();
-  highlightCurrentMember();
+  var MAX_STORED = 6, MAX_SHOWN = 3;
+  var recent = [];
+  try { recent = JSON.parse(read('sb-recent') || '[]'); } catch (e) { recent = []; }
+  if (!Array.isArray(recent)) recent = [];
+  recent = recent.filter(function (k) { return typeof k === 'string' && byKey[k]; });
+
+  if (recentKey) {
+    recent = [recentKey].concat(recent.filter(function (k) { return k !== recentKey; })).slice(0, MAX_STORED);
+    write('sb-recent', JSON.stringify(recent));
+  }
+
+  function renderRecent() {
+    recentList.textContent = '';
+    recent.filter(function (k) { return k !== recentKey; }).slice(0, MAX_SHOWN).forEach(function (k) {
+      var parts = k.split('/');
+      var li = document.createElement('li');
+      li.className = 'sb-recent__item';
+
+      var a = document.createElement('a');
+      a.className = 'sb-recent__link';
+      a.href = byKey[k].getAttribute('href');
+      var name = document.createElement('span');
+      name.textContent = parts[1];
+      var grp = document.createElement('span');
+      grp.className = 'sb-recent__group';
+      grp.textContent = parts[0] + '/';
+      a.appendChild(name);
+      a.appendChild(grp);
+
+      var x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'sb-recent__x';
+      x.dataset.action = 'remove-recent';
+      x.dataset.key = k;
+      x.title = 'Remove from recent';
+      x.setAttribute('aria-label', 'Remove ' + parts[1] + ' from recent');
+      var xi = document.createElement('i');
+      xi.className = 'ti ti-x';
+      xi.setAttribute('aria-hidden', 'true');
+      x.appendChild(xi);
+
+      li.appendChild(a);
+      li.appendChild(x);
+      recentList.appendChild(li);
+    });
+    recentBox.hidden = !recentList.children.length;
+  }
+
+  function setRecentCollapsed(collapsed, persist) {
+    recentBox.classList.toggle('is-collapsed', collapsed);
+    var t = recentBox.querySelector('.sb-recent__toggle');
+    var label = collapsed ? 'Expand recent' : 'Collapse recent';
+    t.setAttribute('aria-expanded', String(!collapsed));
+    t.title = label;
+    t.setAttribute('aria-label', label);
+    if (persist !== false) write('sb-recent-collapsed', collapsed ? '1' : '0');
+  }
+
+  setRecentCollapsed(read('sb-recent-collapsed') === '1', false);
+  renderRecent();
+
+  revealCurrent();
+
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { sb.classList.add('is-ready'); recentBox.classList.add('is-ready'); });
+  });
+
+
+  var premBtn = sb.querySelector('[data-action="premium"]');
+  var premIcon = premBtn.querySelector('i');
+
+  var SWAP_PREMIUM_ICON = true;
+  var ICON_PREMIUM = 'ti-crown';
+  var ICON_FREE = 'ti-cash-banknote-heart';
+
+  function isPremiumUser() { return read('isPremium') === '1' && !!read('token'); }
+  function syncPremium() {
+    var prem = isPremiumUser();
+    var label = prem ? 'Premium active' : 'Get Premium';
+    premBtn.classList.toggle('is-premium', prem);
+    premBtn.title = label;
+    premBtn.setAttribute('aria-label', label);
+    if (SWAP_PREMIUM_ICON && premIcon) {
+      premIcon.className = 'ti ' + (prem ? ICON_PREMIUM : ICON_FREE);
+    }
+  }
+  syncPremium();
+  document.addEventListener('premium-state-change', syncPremium);
+  window.addEventListener('storage', syncPremium);
+
+  sb.addEventListener('click', function (ev) {
+    var target = ev.target.closest('[data-action]');
+    if (!target || !sb.contains(target)) return;
+
+    switch (target.dataset.action) {
+      case 'toggle-group':
+        var group = target.closest('.sb-group');
+        var open = !isOpen(group);
+        setOpen(group, open);
+        click(open ? 'heavy_click' : 'heavy_click_reverse');
+        syncAllButton();
+        break;
+
+      case 'toggle-all':
+        var expand = !groups.some(isOpen);
+        groups.forEach(function (g) { setOpen(g, expand); });
+        syncAllButton();
+        break;
+
+      case 'toggle-recent':
+        setRecentCollapsed(!recentBox.classList.contains('is-collapsed'));
+        break;
+
+      case 'remove-recent':
+        ev.preventDefault();
+        recent = recent.filter(function (k) { return k !== target.dataset.key; });
+        write('sb-recent', JSON.stringify(recent));
+        renderRecent();
+        break;
+
+      case 'random':
+        var pool = Array.prototype.filter.call(
+          sb.querySelectorAll('.sb-member a'), function (a) { return a !== currentLink; });
+        if (!pool.length) break;
+        click('heavy_click');
+        var pick = pool[Math.floor(Math.random() * pool.length)];
+        if (window.Log) {
+          var dest = pick.pathname.split('/').pop();
+          try { dest = decodeURIComponent(dest); } catch (e) {}
+          dest = dest.replace(/\.html$/i, '');
+          Log.send(Log.ui('sb-random', dest));
+          Log.send(Log.ev('go', dest, 'sidebar-random'));
+          Log.setNav(dest, 'sidebar-random');
+        }
+        location.href = pick.href;
+        break;
+
+      case 'theme':
+        toggleTheme();
+        break;
+
+      case 'premium':
+        click('heavy_click');
+        if (isPremiumUser()) {
+          if (typeof openProfileModal === 'function') openProfileModal();
+        } else if (typeof openPremiumInfoModal === 'function') {
+          openPremiumInfoModal(false);
+        }
+        break;        
+    }
+  });
+
+  var I = window.I18n || null;
+  function jm(s) { return I ? I.jamo(s) : s; }
+  function cho(s) { return I ? I.choseong(s) : s; }
+  function koOf(en) { return I ? I.ko(en) : ''; }
+  var INITIALS = /^[ㄱ-ㅎ]+$/;
+
+  function applyFilter() {
+    var raw = input.value;
+    if (raw.normalize) raw = raw.normalize('NFC');
+    var tokens = raw.toLowerCase().split(/\s+/).filter(Boolean);
+    var filtering = tokens.length > 0;
+    sb.classList.toggle('is-filtering', filtering);
+
+    function hit(t, hay, ini) {
+      return hay.indexOf(jm(t)) !== -1 || (INITIALS.test(t) && ini.indexOf(t) !== -1);
+    }
+
+    var anyGroup = false;
+    groups.forEach(function (g) {
+      var gEn = g.dataset.group;
+      var gKo = koOf(gEn);
+      var gHay = (gEn + ' ' + jm(gKo)).toLowerCase();
+      var gIni = cho(gKo);
+      var groupHit = tokens.every(function (t) { return hit(t, gHay, gIni); });
+      var anyMember = false;
+
+      Array.prototype.forEach.call(g.querySelectorAll('.sb-member'), function (li) {
+        var mEn = enText(li);
+        var mKo = koOf(mEn);
+        var hay = (gEn + ' ' + jm(gKo) + ' ' + mEn + ' ' + jm(mKo)).toLowerCase();
+        var ini = cho(gKo) + ' ' + cho(mKo);
+        var show = !filtering || groupHit || tokens.every(function (t) { return hit(t, hay, ini); });
+        li.hidden = !show;
+        anyMember = anyMember || show;
+      });
+
+      g.hidden = filtering && !anyMember;
+      anyGroup = anyGroup || !g.hidden;
+    });
+
+    empty.hidden = anyGroup;
+  }
+
+  input.addEventListener('input', applyFilter);
+
+  input.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') {
+      if (input.value) { input.value = ''; applyFilter(); } else { input.blur(); }
+    } else if (ev.key === 'Enter') {
+      var first = sb.querySelector('.sb-member:not([hidden]) a');
+      if (input.value && first) location.href = first.href;
+    }
+  });
+
+  (function () {
+    if (!window.Typer) return;
+    var names = [];
+    groups.forEach(function (g) {
+      names.push(g.dataset.group);
+      Array.prototype.forEach.call(g.querySelectorAll('.sb-member a'), function (a) { names.push(enText(a)); });
+    });
+    Typer.attach(input, {
+      source: names.map(function (n) { return (n || '').trim().toUpperCase(); }),
+      queueKey: 'sb-ph-queue',
+      when: 'focus',
+      ghost: sb.querySelector('.sb-search__ghost-text'),
+      host: sb.querySelector('.sb-search'),
+      localize: function (name) { return window.I18n ? I18n.ko(name) : ''; }
+    });
+  })();
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.ctrlKey || ev.metaKey || ev.altKey || ev.defaultPrevented) return;
+    var t = ev.target;
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+    var lb = document.getElementById('lightbox');
+    if (lb && !lb.classList.contains('hidden')) return;
+
+    if (ev.key === '/') {
+      ev.preventDefault();
+      input.focus();
+      input.select();
+    } else if ((ev.key === '[' || ev.key === ']') && currentLink) {
+      var links = Array.prototype.slice.call(
+        currentLink.closest('.sb-members').querySelectorAll('.sb-member a'));
+      if (links.length < 2) return;
+      var i = links.indexOf(currentLink) + (ev.key === ']' ? 1 : -1);
+      location.href = links[(i + links.length) % links.length].href;
+    }
+  });
+
+  function toggleTheme() {
+    if (typeof window.toggleDarkMode === 'function') {
+      window.toggleDarkMode();
+    } else {
+      var dark = root.classList.toggle('dark');
+      write('theme', dark ? 'dark' : 'light');
+    }
+  }
+
+  function syncTheme() {
+    themeBtn.setAttribute('aria-pressed', String(root.classList.contains('dark')));
+  }
+  var wasDark = root.classList.contains('dark');
+  syncTheme();
+  new MutationObserver(function () {
+    syncTheme();
+    var dark = root.classList.contains('dark');
+    if (dark === wasDark) return;
+    wasDark = dark;
+    sb.classList.add('is-theming'); 
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { sb.classList.remove('is-theming'); });
+    });
+  }).observe(root, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>

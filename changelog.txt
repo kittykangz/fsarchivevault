@@ -1,3 +1,54 @@
+261010 – Redesigned header, sidebar, volume tree, lightbox, timeline scrollbar, and source coverage graph
+
+### Lightbox
+
+* Redesigned the lightbox UI, and loading spinner.
+* Added **same source image thumbnails**, displaying related images beneath the source caption.
+* Added toggleable source and file details panels.
+* Added a new options toolbar.
+
+### Header
+
+* Redesigned the header with new animations, glitch effects, and a theme aware profile picture.
+* Integrated the new source coverage graph into the header.
+
+### Source coverage graph
+
+* Redesigned the graph with a gold area chart and a color coded coverage line.
+* Added a legend and coverage breakdown showing the distribution across the three source coverage tiers.
+
+### Timeline scrollbar
+
+* Redesigned the timeline scrollbar with a gradient heatmap representing source coverage activity.
+* Reworked timeline calculations to respect active filters, dynamically updating instead of hiding the timeline when filters are applied.
+* Added a hover preview displaying a random image from the selected period alongside that periods coverage breakdown.
+
+### Sidebar
+
+* Redesigned the sidebar, added a recently visited pages section and a random gallery button.
+
+### Volume Tree
+* Redesigned Volume tree, added changelog formatting and combined volume and contribution into one section per group, replaced svg graphs with a new interactive layout.
+
+### Performance improvements
+
+* Added hover prefetching to load data ahead of time and a buffer in the lightbox to improve navigation responsiveness.
+* Switched to Google official translation API
+
+### Personalization and accessibility
+
+* Added image deep links using URL fragments for linking directly to individual images inside a gallery.
+* Added a language toggle to the topbar for switching the page to Korean.
+* Added an accent color panel with adjustable color sliders and presets, allowing users to customize and save their own accent colors.
+
+### Additional improvements
+* Created a custom placeholder typing engine for the sidebar, filter panel, and date search.
+* Added responsive animations that adapt to available space.
+* Restyled profile modal
+* Added glitch effects, refined animations and other ui changes/fixes
+
+
+
 260828 – Updated user profile modal layout and added a most viewed section; Redesigned home page
 
 260819 – Optimized lightbox image loading by removing a redundant re-encoding step and speeding up color/histogram analysis by capping analysis resolution at 600px instead of processing the full resolution image; Restyled zoom lens, added mouse smoothing, a coordinate + zoom readout, and a center crosshair. WebGL contexts and resize listeners no longer stack for each opened image, Fixed a coordinate calculation bug that could cause the lens to sample the wrong image region, Fixed the download button rendering above the lens, and UI buttons no longer respond to hover/clicks while the lens is active

@@ -20,7 +20,10 @@ try {
   document.documentElement.classList.toggle('dark', theme === 'dark');
 } catch(e) {}
 </script>
+<script src="log.js"></script>
+<script src="i18n.js"></script>
 <script src="sound-fx.js"></script>
+<script src="accent-theme.js"></script>
 <!-- <script src="scroll-fx.js"></script> -->
 
 <title>Home</title>
@@ -201,21 +204,21 @@ function executeScripts(container) {
   
 async function loadAuthHTML() {
   const container = document.getElementById("auth-container");
-  const res = await fetch("auth.html");
+  const res = await fetch("auth.html", { cache: "no-cache" });
   const html = await res.text();
   container.innerHTML = html;
   executeScripts(container);
 }
 async function loadTopbarHTML() {
     const container = document.getElementById("topbar-container");
-    const res = await fetch("topbar.html");
+    const res = await fetch("topbar.html", { cache: "no-cache" });
     const html = await res.text();
     container.innerHTML = html;
     executeScripts(container);
 }
 async function loadSidebarHTML() {
     const container = document.getElementById("sidebar-container");
-    const res = await fetch("sidebar.html");
+    const res = await fetch("sidebar.html", { cache: "no-cache" });
     const html = await res.text();
     container.innerHTML = html;
     rewriteSidebarLinks(container, res.url);
@@ -223,7 +226,7 @@ async function loadSidebarHTML() {
 }
 async function loadFooterHTML() {
     const container = document.getElementById("footer-container");
-    const res = await fetch("footer.html");
+    const res = await fetch("footer.html", { cache: "no-cache" });
     const html = await res.text();
     container.innerHTML = html;
     executeScripts(container);
@@ -302,7 +305,7 @@ if (button) {
   });
   */
 
-fetch('update_history.json')
+fetch('update_history.json', { cache: "no-cache" })
   .then(res => res.json())
   .then(history => {
     const container = document.querySelector('.update-list');
@@ -436,7 +439,7 @@ fetch('update_history.json')
 </script>
 
 <script>
-  fetch('recent_uploads.html')
+  fetch('recent_uploads.html', { cache: "no-cache" })
   .then(res => res.text())
   .then(html => {
     document.querySelector('.recent-gallery-box').innerHTML = html;
@@ -541,7 +544,7 @@ function relativeTime(date) {
 function buildStatStrip() {
   const strip = document.getElementById('stat-strip');
 
-  fetch('stats.json')
+  fetch('stats.json', { cache: "no-cache" })
     .then(r => r.json())
     .then(s => {
       const parsed = /^(\d{2})(\d{2})(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec(s.last_updated);
@@ -608,7 +611,7 @@ async function buildHero() {
   const strip = document.getElementById('hero-strip');
 
   try {
-    const hist   = await fetch('update_history.json').then(r => r.json());
+    const hist   = await fetch('update_history.json', { cache: "no-cache" }).then(r => r.json());
     const latest = hist[hist.length - 1];
 
     const members = [];
@@ -625,7 +628,7 @@ async function buildHero() {
 
     strip.style.gridTemplateColumns = `repeat(${top.length}, 1fr)`;
 
-    const latestImages = await fetch('member_latest_images.json').then(r => r.json());
+    const latestImages = await fetch('member_latest_images.json', { cache: "no-cache" }).then(r => r.json());
 
     top.forEach(member => {
       const key = `${member.group}/${member.name}`;

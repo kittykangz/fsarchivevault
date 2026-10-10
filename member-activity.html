@@ -302,6 +302,10 @@ function buildTabs() {
     tabsEl.appendChild(el);
   });
 }
+   const want = decodeURIComponent(location.hash.slice(1));
+   if (want && data.groups.includes(want)) {
+     document.querySelectorAll(".tab").forEach(t => { if (t.textContent === want) t.click(); });
+   }
 
 async function init() {
   const res = await fetch(JSON_URL);
