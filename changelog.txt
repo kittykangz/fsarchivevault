@@ -1,3 +1,33 @@
+261019 – Added an author filter, header assignment and update indicators, faster clip loading, image deep links from the homepage and profile favorites, and other small changes and bug fixes
+
+### Header
+
+* Added an **Assignment** ring to the header showing the percentage of images assigned a date.
+* Added a **last updated** stamp.
+* Header birthday now follows the selected language.
+
+### Filters
+
+* Added an **author filter** to the filter panel.
+* Clicking a handle in the lightbox source panel now adds that author to the active filters.
+
+### Deep links
+
+* Clicking images in recent uploads, the hero section, or the profile modal’s favorites now opens them directly in the gallery.
+
+### Performance
+
+* Gallery pages now preload the member clip cache on load instead of after the first search.
+* (maybe) fixed an auth bug invalidating premium tokens.
+
+### Volume Tree
+
+* Fixed the interactive graph modals not opening, and they now follow the selected language and accent color.
+
+### Translations
+
+* Tightened and expanded the Korean translations, covering previously missed tooltips, labels, and alerts.
+
 261010 – Redesigned header, sidebar, volume tree, lightbox, timeline scrollbar, and source coverage graph
 
 ### Lightbox

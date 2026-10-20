@@ -8,13 +8,18 @@
   var theme = 'dark';
   try { theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
   document.documentElement.dataset.theme = theme;
+  document.documentElement.classList.toggle('dark', theme === 'dark');
 })();
 </script>
+<script src="log.js"></script>
+<script src="i18n.js"></script>
+<script src="accent-theme.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
 <style>
   :root {
     --gold: #c9b97a;
-    --gold-border: rgba(201,185,122,0.30);
+    --gold-rgb: 201, 185, 122;
+    --gold-border: rgba(var(--gold-rgb), 0.30);
     --bg-deep: #111010;
     --bg-surface: #1a1917;
     --border: #2c2a26;
@@ -25,8 +30,6 @@
   }
 
   html[data-theme="light"] {
-    --gold: #c9b97a;
-    --gold-border: rgba(201,185,122,0.30);
     --bg-deep: #e4e0d8;
     --bg-surface: #edeae3;
     --border: rgba(0,0,0,0.09);
@@ -80,7 +83,7 @@
 <div id="app">
   <div id="tabs"></div>
   <div id="chart"></div>
-  <div id="meta"></div>
+  <div id="meta" data-i18n-skip></div>
 </div>
 
 <script>
@@ -88,31 +91,53 @@ const JSON_URL = "member_activity.json";
 let chart;
 let data;
 let currentSeries = [];
+let currentMode = "All";
+let rawNames = {};
+
+
+const T = (s) => (window.I18n && window.I18n.tr) ? window.I18n.tr(s) : s;
+const isKo = () => !!(window.I18n && window.I18n.lang === "ko");
+
+function vlog() {
+  try { if (window.Log) window.Log.send(window.Log.ui.apply(null, arguments)); } catch (e) {}
+}
+
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function ym(ts) {
+  return new Date(ts).toISOString().slice(0, 7);
+}
 
 
 function getPalette() {
   const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+  const gold = cssVar('--gold') || '#c9b97a';
+  const goldRgb = (cssVar('--gold-rgb') || '201,185,122').split(',').map((x) => x.trim()).join(',');
   return theme === 'light' ? {
     text: '#1a1916',
     textSecondary: '#5a5650',
     border: 'rgba(0,0,0,0.09)',
     tooltipBg: '#edeae3',
-    gold: '#c9b97a',
+    gold,
+    goldRgb,
     savedImageBg: '#f5f2ec',
-    lineLightness: 45, 
+    lineLightness: 45,
   } : {
     text: '#eae7de',
     textSecondary: '#a9a496',
     border: '#2c2a26',
     tooltipBg: '#1a1917',
-    gold: '#c9b97a',
+    gold,
+    goldRgb,
     savedImageBg: '#111010',
     lineLightness: 68,
   };
 }
 
 function goldenHue(i) {
-  return (i * 137.508) % 360; 
+  return (i * 137.508) % 360;
 }
 
 function paletteFor(n, palette) {
@@ -120,6 +145,23 @@ function paletteFor(n, palette) {
     `hsl(${goldenHue(i).toFixed(1)}, 65%, ${palette.lineLightness}%)`
   );
 }
+
+let koFontPending = false;
+let koFontDone = false;
+function ensureKoFont() {
+  if (!isKo() || koFontDone || koFontPending || !document.fonts || !document.fonts.load) return;
+  koFontPending = true;
+  const link = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).find((l) => /Noto\+Sans\+KR/.test(l.href));
+  const sheet = link && !link.sheet
+    ? new Promise((r) => { link.addEventListener("load", r, { once: true }); link.addEventListener("error", r, { once: true }); })
+    : Promise.resolve();
+  sheet
+    .then(() => document.fonts.load('12px "Noto Sans KR"'))
+    .catch(() => {})
+    .then(() => { koFontPending = false; koFontDone = true; if (chart) render(currentMode); });
+}
+
+/* ---------------------------------------------------------------- data */
 
 function toTs(dateStr) {
   return new Date(dateStr).getTime();
@@ -162,25 +204,40 @@ function buildSeries(mode, palette) {
   const trueFloorIndex = earliestActiveIndex(raw.map((s) => s.values));
   const floorIndex = Math.max(0, trueFloorIndex - LEAD_IN_MONTHS);
   const colors = paletteFor(raw.length, palette);
-  const series = raw.map((s, i) => ({
-    name: s.name,
-    type: "line",
-    showSymbol: false,
-    lineStyle: { width: mode === "All" ? 1.6 : 1.8 },
-    color: colors[i],
-    data: s.values
-      .slice(floorIndex)
-      .map((v, j) => [data.dates[floorIndex + j], v]),
-  }));
-
-  console.log(
-    `[${mode}] first non-zero: ${data.dates[trueFloorIndex]} · view starts: ${data.dates[floorIndex]}`
-  );
+  rawNames = {};
+  const series = raw.map((s, i) => {
+    const shown = T(s.name);
+    rawNames[shown] = s.name;
+    return {
+      name: shown,
+      type: "line",
+      showSymbol: false,
+      lineStyle: { width: mode === "All" ? 1.6 : 1.8 },
+      color: colors[i],
+      data: s.values
+        .slice(floorIndex)
+        .map((v, j) => [data.dates[floorIndex + j], v]),
+    };
+  });
 
   return { series, floorDate: data.dates[floorIndex] };
 }
 
+/* ---------------------------------------------------------------- chart */
+
+function saveImage() {
+  const url = chart.getDataURL({ type: "png", pixelRatio: 2, backgroundColor: getPalette().savedImageBg });
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `member-activity-${currentMode}.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  vlog("activity-save-image", currentMode);
+}
+
 function render(mode) {
+  ensureKoFont();
   const PALETTE = getPalette();
   const { series, floorDate } = buildSeries(mode, PALETTE);
   currentSeries = series;
@@ -188,19 +245,21 @@ function render(mode) {
   const firstTs = toTs(floorDate);
   const lastTs = toTs(lastDate);
   const xMargin = Math.max((lastTs - firstTs) * 0.02, 1000 * 60 * 60 * 24 * 3);
+  const sans = isKo() ? '"Noto Sans KR", "DM Sans", sans-serif' : "DM Sans, sans-serif";
+  const mono = isKo() ? '"DM Mono", "Noto Sans KR", monospace' : "DM Mono, monospace";
   const option = {
     backgroundColor: "transparent",
-    textStyle: { color: PALETTE.text, fontFamily: "DM Sans, sans-serif" },
+    textStyle: { color: PALETTE.text, fontFamily: sans },
     title: {
-      text: mode,
+      text: T(mode),
       left: "center",
-      textStyle: { color: PALETTE.text, fontSize: 20, fontWeight: 500 },
+      textStyle: { color: PALETTE.text, fontSize: 20, fontWeight: 500, fontFamily: sans },
     },
     tooltip: {
       trigger: "axis",
       backgroundColor: PALETTE.tooltipBg,
       borderColor: PALETTE.border,
-      textStyle: { color: PALETTE.text, fontFamily: "DM Mono, monospace", fontSize: 11 },
+      textStyle: { color: PALETTE.text, fontFamily: mono, fontSize: 11 },
       axisPointer: { type: "line", lineStyle: { color: PALETTE.gold, opacity: 0.4 } },
       formatter: (params) => {
         if (!params.length) return "";
@@ -221,7 +280,7 @@ function render(mode) {
     legend: {
       type: "scroll",
       top: 34,
-      textStyle: { color: PALETTE.textSecondary, fontSize: 11 },
+      textStyle: { color: PALETTE.textSecondary, fontSize: 11, fontFamily: sans },
       pageIconColor: PALETTE.gold,
       pageTextStyle: { color: PALETTE.textSecondary },
     },
@@ -231,7 +290,7 @@ function render(mode) {
       min: firstTs - xMargin,
       max: lastTs + xMargin,
       axisLine: { lineStyle: { color: PALETTE.border } },
-      axisLabel: { color: PALETTE.textSecondary, fontFamily: "DM Mono, monospace" },
+      axisLabel: { color: PALETTE.textSecondary, fontFamily: mono },
       splitLine: { show: false },
     },
     yAxis: {
@@ -239,7 +298,7 @@ function render(mode) {
       min: 0,
       max: yMaxFor(firstTs, lastTs),
       axisLine: { show: false },
-      axisLabel: { color: PALETTE.textSecondary, fontFamily: "DM Mono, monospace" },
+      axisLabel: { color: PALETTE.textSecondary, fontFamily: mono },
       splitLine: { lineStyle: { color: PALETTE.border, opacity: 0.5 } },
     },
     dataZoom: [
@@ -264,9 +323,9 @@ function render(mode) {
         endValue: lastTs,
         borderColor: PALETTE.border,
         backgroundColor: PALETTE.tooltipBg,
-        fillerColor: "rgba(201,185,122,0.15)",
+        fillerColor: `rgba(${PALETTE.goldRgb},0.15)`,
         handleStyle: { color: PALETTE.gold },
-        textStyle: { color: PALETTE.textSecondary, fontFamily: "DM Mono, monospace" },
+        textStyle: { color: PALETTE.textSecondary, fontFamily: mono },
       },
     ],
     toolbox: {
@@ -275,8 +334,13 @@ function render(mode) {
       iconStyle: { borderColor: PALETTE.textSecondary },
       emphasis: { iconStyle: { borderColor: PALETTE.gold } },
       feature: {
-        restore: { title: "Reset view" },
-        saveAsImage: { title: "Save as image", backgroundColor: PALETTE.savedImageBg },
+        restore: { title: T("Reset view") },
+        saveImage: {
+          show: true,
+          title: T("Save as image"),
+          icon: "path://M4.7,22.9L29.3,45.5L54.7,23.4M4.6,43.6L4.6,58L53.3,58L53.3,43.6M29.3,45.5L29.3,-0.6",
+          onclick: saveImage,
+        },
       },
     },
     series,
@@ -284,7 +348,23 @@ function render(mode) {
   chart.setOption(option, true);
 }
 
-let currentMode = "All";
+function renderMeta() {
+  if (!data) return;
+  document.getElementById("meta").textContent =
+    `${data.dates[0]} — ${data.dates[data.dates.length - 1]} · ${T("generated")} ${data.generated}`;
+}
+
+
+function selectMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.dataset.mode === mode));
+  render(mode);
+}
+
+function modeFromHash() {
+  const want = decodeURIComponent(location.hash.slice(1));
+  return want && data.groups.includes(want) ? want : "All";
+}
 
 function buildTabs() {
   const tabsEl = document.getElementById("tabs");
@@ -292,31 +372,41 @@ function buildTabs() {
   modes.forEach((mode) => {
     const el = document.createElement("div");
     el.className = "tab" + (mode === "All" ? " active" : "");
+    el.dataset.mode = mode;
     el.textContent = mode;
     el.onclick = () => {
-      document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
-      el.classList.add("active");
-      currentMode = mode;
-      render(mode);
+      if (mode === currentMode) return;
+      selectMode(mode);
+      vlog("activity-tab", mode);
     };
     tabsEl.appendChild(el);
   });
 }
-   const want = decodeURIComponent(location.hash.slice(1));
-   if (want && data.groups.includes(want)) {
-     document.querySelectorAll(".tab").forEach(t => { if (t.textContent === want) t.click(); });
-   }
+
+/* ---------------------------------------------------------------- start */
 
 async function init() {
-  const res = await fetch(JSON_URL);
-  data = await res.json();
+  let res;
+  try {
+    res = await fetch(JSON_URL);
+    data = await res.json();
+  } catch (e) {
+    vlog("activity-load-fail", res ? res.status : "network");
+    throw e;
+  }
   chart = echarts.init(document.getElementById("chart"));
   buildTabs();
-  render("All");
-  document.getElementById("meta").textContent =
-    `${data.dates[0]} — ${data.dates[data.dates.length - 1]} · generated ${data.generated}`;
+  selectMode(modeFromHash());
+  renderMeta();
+  vlog("activity-open", currentMode);
   window.addEventListener("resize", () => chart.resize());
 
+  window.addEventListener("hashchange", () => {
+    selectMode(modeFromHash());
+    vlog("activity-open", currentMode);
+  });
+
+  let zoomTimer;
   chart.on("dataZoom", () => {
     const opt = chart.getOption();
     const dz = opt.dataZoom[0];
@@ -324,13 +414,41 @@ async function init() {
     chart.setOption({
       yAxis: { max: yMaxFor(dz.startValue, dz.endValue) },
     });
+    clearTimeout(zoomTimer);
+    zoomTimer = setTimeout(() => vlog("activity-zoom", currentMode, ym(dz.startValue), ym(dz.endValue)), 700);
   });
 
-  window.addEventListener("storage", (e) => {
-    if (e.key !== "theme") return;
-    document.documentElement.dataset.theme = e.newValue === "light" ? "light" : "dark";
-    render(currentMode);
+  chart.on("restore", () => {
+    vlog("activity-restore", currentMode);
+    setTimeout(() => render(currentMode), 0);
   });
+
+  chart.on("legendselectchanged", (p) => {
+    vlog("activity-legend", currentMode, rawNames[p.name] || p.name, p.selected[p.name] ? "on" : "off");
+  });
+
+  chart.on("legendscroll", () => vlog("activity-legend-page", currentMode));
+
+  window.addEventListener("storage", (e) => {
+    if (e.key === "theme") {
+      const theme = e.newValue === "light" ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      render(currentMode);
+    } else if (e.key === "lang" && window.I18n) {
+      window.I18n.set(e.newValue === "ko" ? "ko" : "en");
+    }
+  });
+  document.addEventListener("lang-change", () => { render(currentMode); renderMeta(); });
+  document.addEventListener("accent-change", () => render(currentMode));
+
+  window.openMode = (mode) => {
+    mode = data.groups.includes(mode) ? mode : "All";
+    selectMode(mode);
+    history.replaceState(null, "", "#" + encodeURIComponent(mode));
+    vlog("activity-open", mode);
+  };
+  window.__activityReady = true;
 }
 
 init();

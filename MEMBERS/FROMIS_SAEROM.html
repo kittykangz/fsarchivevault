@@ -28,10 +28,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">    
-<script src="../log.js?v=af86c12941"></script>
+<script src="../log.js?v=c4f46cc24d"></script>
 <script src="glass-lens.js?v=ebb03382ca"></script>
-<script src="../i18n.js?v=ba188fddef"></script>
-<script src="../typer.js?v=d467f99076"></script>
+<script src="../i18n.js?v=1b4e853b13"></script>
+<script src="../typer.js?v=0c9f566b98"></script>
 <script src="../sound-fx.js?v=56246d5849"></script>
 <script src="../accent-theme.js?v=6de7bee351"></script>
 <script>
@@ -134,7 +134,7 @@ body.loading {
 .pfp-fx .fl { fill: var(--gold); stroke: none; }
 .pfp-fx .tx { fill: var(--gold); font: 8px "DM Mono", monospace; letter-spacing: 0.08em; }
 </style>
-<link rel="stylesheet" href="style.css?v=6be55dc22a">
+<link rel="stylesheet" href="style.css?v=e7d6637913">
 <div id="auth-container"></div>
 <div id="topbar-container"></div>
 <div id="footer-container"></div>
@@ -174,10 +174,8 @@ body.loading {
   </div>
 </div>
 <div class="real-all">
-  <div id="scrollToTop" aria-label="Scroll to top">
-    <svg viewBox="0 0 40 40" width="800" height="800" fill-rule="nonzero" fill="#000000" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 12l6 5.656-1.5 1.414-3.44-3.242V28h-2.12V15.828L15.5 19.07 14 17.656z"/>
-    </svg>
+  <div id="scrollToTop" aria-label="Scroll to top" role="button">
+    <i class="ti ti-arrow-up" aria-hidden="true"></i>
   </div>
   <div id="sidebar-container"></div>
   <div id="timeline-bar">
@@ -231,6 +229,18 @@ body.loading {
           <div class="header3">
             <div id="tweetCoverageWidget" class="tcw-wrap"></div>
           </div>
+          <div class="hdr-sep hdr-sep-assign"></div>
+          <div class="header4 hdr-assign " id="hdrAssign" title="11,026 of 11,028 assigned (99.9%)" aria-label="11,026 of 11,028 assigned (99.9%)">
+            <div class="tcw-title">Assignment</div>
+            <div class="asg-ring">
+              <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"><circle class="asg-no" cx="32" cy="32" r="28"/><circle class="asg-ok" cx="32" cy="32" r="28" pathLength="100" stroke-dasharray="98.8 100" transform="rotate(-90 32 32)"/></svg>
+              <div class="asg-pct">99<span>%</span></div>
+            </div>
+            <div class="asg-foot">
+              <span class="asg-key" title="Assigned"><i class="asg-sw ok"></i>11,026</span>
+              <span class="asg-key" title="Not assigned"><i class="asg-sw no"></i>2</span>
+            </div>
+          </div>
         </div>
         <div class="hdr-card hdr-controls">
         <div id="controls">
@@ -283,6 +293,13 @@ body.loading {
                 <i class="ti ti-sparkles"></i>
                 Try the new filters!
             </div>         -->
+        <div class="ctl-stamp" id="ctlStamp" data-ts="1792455722">
+          <span class="ctl-dot"></span>
+          <span class="ctl-lab ctl-lab-full">Last updated</span>
+          <span class="ctl-lab ctl-lab-short">Updated</span>
+          <span class="ctl-date" data-i18n-skip>261019<span class="ctl-time">20:22</span></span>
+          <span class="ctl-ago" id="ctlAgo"></span>
+        </div>
         </div>
         </div>
       </div>
@@ -365,6 +382,33 @@ body.loading {
             <div id="fp-comember-error" class="fp-comember-error">Deselect a member to add another</div>
             <div id="fp-comember-error-empty" class="fp-comember-error">No images with this combination</div>
         </div>      
+    </div>
+    <div id="fp-author-section" class="fp-author-section hidden">
+      <div class="fp-divider"></div>
+      <div class="fp-row">
+        <div class="fp-label-row">
+          <i class="ti ti-at fp-label-icon"></i>
+          <span class="fp-label">Author</span>
+          <span class="fp-range-readout" id="fp-author-readout" data-i18n-skip></span>
+          <button class="fp-reset-field" data-field="authors" title="Reset authors">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+        <div class="fp-author-search">
+          <i class="ti ti-search fp-author-search-icon" aria-hidden="true"></i>
+          <input type="text" id="fp-author-search" class="fp-clip-input fp-author-search-input" placeholder="Search authors…" autocomplete="off" spellcheck="false" disabled>
+          <span class="fp-author-ghost" aria-hidden="true" data-i18n-skip><span id="fp-author-ghost-text"></span></span>
+        </div>
+        <div class="fp-author-list-wrap">
+          <div id="fp-author-list" class="fp-author-list" role="group" aria-label="Authors"></div>
+          <div id="fp-author-fade-top" class="fp-author-fade fp-author-fade-top" aria-hidden="true">
+            <i class="ti ti-chevron-up fp-author-fade-icon"></i>
+          </div>
+          <div id="fp-author-fade-bottom" class="fp-author-fade fp-author-fade-bottom" aria-hidden="true">
+            <i class="ti ti-chevron-down fp-author-fade-icon"></i>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="fp-divider"></div>    
     <div class="fp-row">
@@ -721,6 +765,8 @@ document.addEventListener('wheel', (e) => {
 </script>
 <script src="../msg.js?v=44f427a6ed"></script>
 <script>
+	function uiTr(s) { return (window.I18n && window.I18n.tr) ? window.I18n.tr(s) : s; }
+
 let lastMouseX = 0;
 let lastMouseY = 0;
 
@@ -945,7 +991,7 @@ let fitState = null;
 let fitArmed = false;
 let fitAnimating = false;
 let fitTimer = 0;
-const HM_STEPS = ['graph1', 'graph2', 'nograph', 'nocount', 'nosig', 'nopfp', 'wrap'];
+const HM_STEPS = ['graph1', 'graph2', 'nograph', 'noassign', 'nocount', 'nosig', 'nopfp', 'wrap'];
 function fitHeader() {
     if (!hdrHost || !hdrCards || !hdrMain || !controlsEl) return;
     const prev = hdrCards.getBoundingClientRect();
@@ -960,7 +1006,7 @@ function fitHeader() {
     const pillEl = document.getElementById('settings-box');
     if (pillEl) pillEl.style.left = '';
     HM_STEPS.forEach(k => hdrMain.classList.remove('hm-' + k));
-    controlsEl.classList.remove('chips', 'icons', 'wrap');
+    controlsEl.classList.remove('stamp1', 'stamp2', 'stamp3', 'stamp4', 'chips', 'icons', 'wrap');
 
     let stage = 0;
     const mainOver = () => {
@@ -985,11 +1031,26 @@ function fitHeader() {
         }
         return max > r.right - pr + 1;
     };
-    if (ctlOver()) {
+
+    const STAMP_STEPS = ['stamp1', 'stamp2', 'stamp3', 'stamp4'];
+    const fitStamp = () => {
+        controlsEl.classList.remove(...STAMP_STEPS);
+        let tight = ctlOver();
+        for (const s of STAMP_STEPS) {
+            if (!tight) break;
+            controlsEl.classList.add(s);
+            tight = ctlOver();
+        }
+        return tight;
+    };
+    if (fitStamp()) {
         controlsEl.classList.add('chips');
-        if (ctlOver()) {
+        if (fitStamp()) {
             controlsEl.classList.add('icons');
-            if (ctlOver()) controlsEl.classList.add('wrap');
+            if (fitStamp()) {
+                controlsEl.classList.add('wrap');
+                controlsEl.classList.remove(...STAMP_STEPS);
+            }
         }
     }
     const hostLeft = hdrHost.getBoundingClientRect().left;
@@ -1008,7 +1069,7 @@ function fitHeader() {
     const state = {
         g: false,
         stage,
-        ctl: ['chips', 'icons', 'wrap'].filter(k => controlsEl.classList.contains(k)).join(' ')
+        ctl: ['stamp1', 'stamp2', 'stamp3', 'stamp4', 'chips', 'icons', 'wrap'].filter(k => controlsEl.classList.contains(k)).join(' ')
     };
     const before = fitState;
     fitState = state;
@@ -1056,6 +1117,24 @@ function fitHeader() {
     fitHeader();   
 })();
 
+
+(function () {
+    const host = document.getElementById('ctlStamp'), out = document.getElementById('ctlAgo');
+    if (!host || !out) return;
+    const ts = (+host.dataset.ts || 0) * 1000;
+    const UNITS = [['year', 31536000], ['month', 2592000], ['week', 604800], ['day', 86400], ['hour', 3600], ['minute', 60]];
+    function ago() {
+        const s = Math.max(0, (Date.now() - ts) / 1000);
+        for (const [u, n] of UNITS) {
+            const v = Math.floor(s / n);
+            if (v >= 1) return '\u00b7 ' + v + ' ' + u + (v > 1 ? 's' : '') + ' ago';
+        }
+        return '\u00b7 just now';
+    }
+    function tick() { const t = ago(); if (out.textContent !== t) { out.textContent = t; if (typeof fitHeader === 'function') fitHeader(); } }
+    tick();
+    setInterval(tick, 60000);
+})();
 
 // HEADER ANIMATION SETTINGS
 
@@ -1326,11 +1405,17 @@ window.hdrFlickerPlan = function (n, ms) {
         }
     }
     function explode(el, isTitle) {
-        const text = el.textContent;
+        let text = el.textContent, orig = text;
+        if (el.classList.contains('birthday') && window.I18n) {
+            /* Korean mode: animate the Korean text, but put the English original back at the end so i18n.js
+               translates and re-wraps it (restoring Korean text directly would lose its font / size wrapper) */
+            if (I18n.original) orig = I18n.original(el);
+            if (I18n.tr) text = I18n.tr(orig);
+        }
         const w = measure(el, text);
         const widths = isTitle ? w : null;
         const fc = getComputedStyle(el).color;          
-        restore.push([el, text]);
+        restore.push([el, text, orig]);
         lockBox(el, w);
         el.textContent = '';
         for (let i = 0; i < text.length; i++) {
@@ -1350,7 +1435,9 @@ window.hdrFlickerPlan = function (n, ms) {
         const out = [];
         if (nameEl && nameEl.childNodes.length === 1 && nameEl.firstChild.nodeType === 3 && !SURR.test(nameEl.textContent)) out.push([nameEl, true]);
         id.querySelectorAll('.member-info > *').forEach(el => {
-            const textOnly = el.tagName !== 'IMG' && el.children.length === 0 && el.textContent.trim().length > 0 &&
+            /* in Korean mode i18n.js wraps the translated text in one <span class="i18n-ko">: still text-only */
+            const onlyKoWrap = el.children.length === 1 && el.childNodes.length === 1 && el.firstElementChild.classList.contains('i18n-ko');
+            const textOnly = el.tagName !== 'IMG' && (el.children.length === 0 || onlyKoWrap) && el.textContent.trim().length > 0 &&
                              !SURR.test(el.textContent) && !el.classList.contains('dot') && !el.classList.contains('flag-sep');
             if (textOnly) out.push([el, false]);
         });
@@ -1369,8 +1456,8 @@ window.hdrFlickerPlan = function (n, ms) {
         });
     }
     function restoreAll() {
-        restore.forEach(([el, text]) => {
-            el.textContent = text;
+        restore.forEach(([el, text, orig]) => {
+            el.textContent = orig;
             el.style.removeProperty('width'); el.style.removeProperty('height'); el.style.removeProperty('flex');
             if (!el.getAttribute('style')) el.removeAttribute('style');
         });
@@ -2135,6 +2222,8 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 });
 
 
+var currentIndex = -1;
+
 // SCOPE A
 (() => {
 		// 1) Injected by Python:
@@ -2543,8 +2632,9 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 		function tlTipTop(y) {
 		    const bar = scrollbarEl.getBoundingClientRect();
 		    const h = tipEl.offsetHeight;
+		    const FOOTER_H = 20;
 		    const minTop = 8 - bar.top;
-		    const maxTop = window.innerHeight - 8 - bar.top - h;
+		    const maxTop = window.innerHeight - FOOTER_H - 8 - bar.top - h;
 		    return Math.min(Math.max(y - h / 2, minTop), Math.max(minTop, maxTop));
 		}
 
@@ -3690,7 +3780,7 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 		).join('');
 	}
 
-	const COV_CACHE_PREFIX = 'cov_cache_v2:';
+	const COV_CACHE_PREFIX = 'cov_cache_v3:';
 	const COV_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 	const COV_TIER_CODE = { primary: '1', fallback: '2', news: '3' };
 	const COV_CODE_TIER = { '1': 'primary', '2': 'fallback', '3': 'news' };
@@ -3730,9 +3820,19 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 		} catch {}
 	}
 
-	function covCacheWrite(key, sortedNames, tierMap, buckets, totals) {
+	function covCacheWrite(key, sortedNames, tierMap, buckets, totals, authors) {
 		const s = sortedNames.map(f => COV_TIER_CODE[tierMap.get(f)] || '0').join('');
-		const payload = JSON.stringify({ t: Date.now(), b: BUILD_ID, n: sortedNames.length, s, k: buckets, tot: totals });
+		const entry = { t: Date.now(), b: BUILD_ID, n: sortedNames.length, s, k: buckets, tot: totals };
+		if (authors && authors.table.length) {
+			let aw = 1;
+			while (Math.pow(36, aw) <= authors.table.length) aw++;
+			entry.a = authors.table.map(t => [t.h, t.n]);
+			entry.aw = aw;
+			entry.ac = sortedNames.map(f => (authors.codes.get(f) || 0).toString(36).padStart(aw, '0')).join('');
+		} else {
+			entry.a = [];
+		}
+		const payload = JSON.stringify(entry);
 		covCacheSweep(false);
 		try {
 			localStorage.setItem(COV_CACHE_PREFIX + key, payload);
@@ -3865,8 +3965,12 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 		const names = all.map(m => m.filename).sort();
 		const entry = covCacheEntry(memberKey);
 		const codes = (entry && entry.n === names.length && typeof entry.s === 'string' && entry.s.length === names.length) ? entry.s : null;
-		const fromCache = !!codes;
+		const authorsCached = !!entry && Array.isArray(entry.a) &&
+			(entry.a.length === 0 || (typeof entry.ac === 'string' && entry.aw > 0 && entry.ac.length === names.length * entry.aw));
+		const fromCache = !!codes && authorsCached;
 		let cacheable = false;
+		let authorTable = [];
+		const authorCodes = new Map();
 
 		if (fromCache) {
 			names.forEach((f, i) => {
@@ -3877,10 +3981,19 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 				}
 			});
 			window.tweetCoverageLoaded = true;
+			authorTable = entry.a.map(p => ({ h: p[0], n: p[1] }));
+			if (authorTable.length) {
+				const aw = entry.aw, ac = entry.ac;
+				names.forEach((f, i) => {
+					const c = parseInt(ac.substr(i * aw, aw), 36);
+					if (c > 0) authorCodes.set(f, c);
+				});
+			}
 		} else {
+			if (window.authorsLoading) window.authorsLoading();
 			try {
 				const resp = await fetch(
-					`https://terril.duckdns.org/api/tweet-coverage?member=${encodeURIComponent(memberKey)}`
+					`https://terril.duckdns.org/api/tweet-coverage?member=${encodeURIComponent(memberKey)}&authors=1`
 				);
 				const data = await resp.json();
 				if (data.covered) {
@@ -3889,8 +4002,15 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 						tierMap.set(f, tier);
 					});
 				}
+				if (Array.isArray(data.authors) && data.by_file) {
+					authorTable = data.authors.map(a => ({ h: a.h, n: a.n || '' }));
+					names.forEach(f => {
+						const idx = data.by_file[f];
+						if (idx !== undefined) authorCodes.set(f, idx + 1);
+					});
+				}
 				window.tweetCoverageLoaded = true;
-				cacheable = resp.ok && !!data.covered;
+				cacheable = resp.ok && !!data.covered && !data.partial;
 			} catch (e) {
 				console.warn("coverage fetch failed", e);
 			}
@@ -3898,6 +4018,7 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 
 		window.tweetCoverage = covered;
 		window.tweetCoverageTiers = tierMap;
+		if (window.authorsApply) window.authorsApply(all, authorTable, authorCodes);
 		if (window.hdrStatusRefresh) window.hdrStatusRefresh(all);
 		document.querySelectorAll('.light-coverage').forEach(dot => {
 			applyCoverageTier(dot, coverageTierFor(dot.dataset.filename));
@@ -3908,7 +4029,7 @@ document.getElementById("lbTweetLink").addEventListener("click", function () {
 		if (fromCache && window.covPaintedEarly) return;
 
 		const { buckets, totals } = covBuckets(all, tierMap);
-		if (cacheable) covCacheWrite(memberKey, names, tierMap, buckets, totals);
+		if (cacheable) covCacheWrite(memberKey, names, tierMap, buckets, totals, { table: authorTable, codes: authorCodes });
 
 		const chartEl = document.getElementById('tcwChart');
 		const footEl = document.getElementById('tcwFoot');
@@ -4310,6 +4431,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         buildTweetCoverageWidget();
+        warmClipCache();
+        preloadRandomPick();
         if (window.LBPost) window.LBPost.deepLink();
     }, bar, progressEl);
 
@@ -4435,7 +4558,7 @@ window.rerenderVirtualized = function() {
 		}
 	}
 	if (bestIndex < 0) {
-		return alert("No images found.");
+		return alert(uiTr("No images found."));
 	}
 	const target = allItems[bestIndex];
 	const scroller = document.querySelector('.all');
@@ -4692,7 +4815,13 @@ function loadSharedImage(url) {
 		fetch(url, fetchOpts)
 			.then(res => {
 				if (!res.ok) {
-					if (res.status === 403) rlForceEmpty();
+					if (res.status === 403) {
+						rlForceEmpty();
+						if (localStorage.getItem('isPremium') === '1' && !window._ptokenHealTried && typeof checkLogin === 'function') {
+							window._ptokenHealTried = true;
+							checkLogin();
+						}
+					}
 					const err = new Error(`HTTP ${res.status}`);
 					err.status = res.status;
 					throw err;
@@ -4821,7 +4950,7 @@ document.getElementById("lightbox-fav-btn").onclick = async function() {
 			return;
 		}
 		if (res.status === 429) {
-			alert("Too many requests.");
+			alert(uiTr("Too many requests."));
 			return;
 		}
 		if (res.ok) {
@@ -4854,7 +4983,7 @@ document.getElementById("lightbox-fav-btn").onclick = async function() {
 		return;
 	}
 	if (res.status === 429) {
-		alert("Too many requests.");
+		alert(uiTr("Too many requests."));
 		return;
 	}
 	if (res.ok) {
@@ -5124,6 +5253,7 @@ function getTweetData(filename) {
 const PF_MAX_INFLIGHT = 2;
 const PF_BUFFER = 3;          // how many images to prefetch in each direction
 const PF_PRIO_HOVER = 1000;   // always behind neighbour prefetches (those use 0..2*PF_BUFFER-1)
+const PF_PRIO_RANDOM = 1001;  // random-button pick: behind neighbours/hover, and (>= 1000) survives their queue clean-ups
 let pfInflight = 0;
 const pfQueue = [];
 
@@ -5231,31 +5361,19 @@ function takeRandomPick() {
 	return (window.allItems || []).findIndex(it => it.filename === name);   
 }
 
-(function setupRandomPreload() {
-	const HOVER_DWELL_MS = 120;   // ignore the pointer just flying across the button
-	let timer = null;
-
-	const arm = () => {
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-			const all = window.allItems || [];
-			if (!all.length) return;
-			let keep = randomPickName && all.some(it => it.filename === randomPickName);
-			if (!keep) randomPickName = all[Math.floor(Math.random() * all.length)].filename;
-			pfEnqueue(randomPickName, PF_PRIO_HOVER);
-		}, HOVER_DWELL_MS);
-	};
-
-	randomBtn.addEventListener('pointerenter', e => {
-		if (e.pointerType && e.pointerType !== 'mouse') return;
-		arm();
-	});
-	randomBtn.addEventListener('focus', arm);
-	randomBtn.addEventListener('pointerleave', () => {
-		clearTimeout(timer);
-		pfDropHover();
-	});
-})();
+function preloadRandomPick() {
+	const all = window.allItems || [];
+	if (all.length < 2) return;
+	if (navigator.connection && navigator.connection.saveData) return;
+	const shown = all[currentIndex] ? all[currentIndex].filename : null;
+	let keep = randomPickName && randomPickName !== shown && all.some(it => it.filename === randomPickName);
+	if (!keep) {
+		let pick, tries = 0;
+		do { pick = all[Math.floor(Math.random() * all.length)]; } while (pick.filename === shown && ++tries < 20);
+		randomPickName = pick.filename;
+	}
+	pfEnqueue(randomPickName, PF_PRIO_RANDOM);
+}
 
 (function setupShimmerJitter() {
 	const ANGLE_BASE = 100;
@@ -5330,9 +5448,11 @@ function setSpinner(on) {
 		if (wasLoading) stopSweep();
 	}
 }
+window.closeLightbox = closeLightbox;
 window.openLightbox = function(idx) {
 	SoundFX.play('generic_click');
 	currentIndex = idx;
+	preloadRandomPick();
 	const requestIndex = idx;
 	const all = window.allItems;
 	const meta = all[idx];
@@ -5375,7 +5495,7 @@ window.openLightbox = function(idx) {
 			minute: 'numeric',
 			second: 'numeric'
 		});
-		lbFullDate.textContent = `${datePart} at ${timePart}`;
+		lbFullDate.textContent = `${datePart} ${timePart}`;
 		if (meta.assigned) {
 			const formatted = formatYymmdd(meta.yymmdd);
 			lbAssignedDate.innerHTML = `<span class="lb-assigned-pill">${formatted}</span>`;
@@ -5431,6 +5551,7 @@ window.openLightbox = function(idx) {
 				lbTweetHandle.textContent = "";
 				lbTweetHandle.style.display = "none";
 			}
+			if (window.authorsMarkHandle) window.authorsMarkHandle(lbTweetHandle, t.author_handle);
 			lbTweetCaption.scrollTop = 0;
 			lbTweetCaption.textContent = t.caption ?
 				t.caption.replace(/ #/g, '\u00A0#') :
@@ -5514,7 +5635,7 @@ window.openLightbox = function(idx) {
 						})
 					});
 					if (res.status === 429) {
-						alert("Too many requests.");
+						alert(uiTr("Too many requests."));
 						translateBtn.innerHTML = '<i class="ti ti-alert-circle" aria-hidden="true"></i><span>Failed</span>';
 						translateBtn.dataset.state = 'failed';
 						return;
@@ -5980,8 +6101,9 @@ const lbRandomBtn = document.getElementById('lbRandomBtn');
 function openRandomFromLightbox() {
 	const all = window.allItems || [];
 	if (all.length < 2) return;
-	let idx;
-	do { idx = Math.floor(Math.random() * all.length); } while (idx === currentIndex);
+	let idx = takeRandomPick();
+	if (idx === currentIndex) idx = -1;
+	if (idx < 0) do { idx = Math.floor(Math.random() * all.length); } while (idx === currentIndex);
 	SoundFX.play('generic_click');
 	openLightbox(idx);
 	logEvent(`random-lb/${galleryName}`);
@@ -6205,9 +6327,9 @@ document.getElementById('lbDownload').addEventListener('click', async (e) => {
 	if (!response.ok) {
 		if (response.status === 403) {
 			rlForceEmpty();
-			alert("Too many requests.");
+			alert(uiTr("Too many requests."));
 		} else {
-			alert(`Download failed (HTTP ${response.status}).`);
+			alert(uiTr(`Download failed (HTTP ${response.status}).`));
 		}
 		return;
 	}
@@ -6257,7 +6379,6 @@ try {
 		localStorage.setItem('theme', isDark ? 'dark' : 'light');
 	}
 } catch (e) {}
-// (birthday text is now normalised inside the header intro script)
 document.addEventListener('click', (e) => {
 const dl = e.target.closest('#lbDownload');
 if (!dl) return;
@@ -6297,6 +6418,7 @@ const filterState = {
 	dateMin: null,
 	dateMax: null,
 	coMembers: new Set(),
+	authors: new Set(),
 };
 let originalAllItems = null;
 let isDraggingSlider = false;
@@ -6328,7 +6450,8 @@ function hasActiveFilters() {
 		filterState.resMax !== null ||
 		filterState.dateMin !== null ||
 		filterState.dateMax !== null ||
-		filterState.coMembers.size > 0
+		filterState.coMembers.size > 0 ||
+		filterState.authors.size > 0
 	);
 }
 
@@ -6365,6 +6488,7 @@ function applyFilters(skipEnsure = false) {
 				if (!(item.ft || []).includes(m)) return false;
 			}
 		}
+		if (filterState.authors.size > 0 && !filterState.authors.has(item.au || 0)) return false;
 		if (filterState.sizeMin !== null && (item.size || 0) < filterState.sizeMin) return false;
 		if (filterState.sizeMax !== null && (item.size || 0) > filterState.sizeMax) return false;
 		if (filterState.dateMin !== null && (item.date || 0) < filterState.dateMin) return false;
@@ -6414,6 +6538,8 @@ function resetFilters() {
 	filterState.dateMax = null;
 	filterState.coMembers.clear();
 	document.getElementById('fp-comember-wrap')?.classList.add('hidden');
+	filterState.authors.clear();
+	authorsResetUI();
 	if (originalAllItems) {
 		originalAllItems.forEach(item => {
 			delete item.filteredIndex;
@@ -6472,7 +6598,8 @@ function hasNonClipFilters() {
 		filterState.sizeMax !== null ||
 		filterState.resMin !== null ||
 		filterState.resMax !== null ||
-		filterState.coMembers.size > 0
+		filterState.coMembers.size > 0 ||
+		filterState.authors.size > 0
 	);
 }
 
@@ -6481,6 +6608,7 @@ function countActiveFilters() {
 	if (filterState.orientation.size > 0) count++;
 	if (filterState.memberCount.size > 0) count++;
 	if (filterState.coMembers.size > 0) count++;
+	if (filterState.authors.size > 0) count++;
 	if (filterState.assigned.size > 0) count++;
 	if (filterState.dateMin !== null || filterState.dateMax !== null) count++;
 	if (filterState.sizeMin !== null || filterState.sizeMax !== null) count++;
@@ -6885,6 +7013,9 @@ function setupFieldResets() {
 				filterState.dateMin = null;
 				filterState.dateMax = null;
 				resetDateSliderUI();
+			} else if (field === 'authors') {
+				filterState.authors.clear();
+				authorsResetUI();
 			} else if (field === 'clip') {
 				clearClipSearch();
 				logEvent(`filter-reset-field/${galleryName}/clip`);
@@ -6966,6 +7097,7 @@ function setupPanelToggle() {
 				requestAnimationFrame(updateChevron);
 			});
 			logEvent(`filter-panel-open/${galleryName}`);
+			warmClipCache();
 			SoundFX.play('generic_click');
 		} else {
 			logEvent(`filter-panel-close/${galleryName}`);
@@ -6993,6 +7125,408 @@ function setupResetAll() {
 	document.getElementById('fp-reset-all')?.addEventListener('click', resetFilters);
 	document.getElementById('filter-indicator-reset')?.addEventListener('click', resetFilters);
 }
+const AUTHOR_CHUNK = 60;
+const AUTHOR_TYPER_POOL = 100;
+const AUTHOR_TYPER_MAX_CHARS = 22;
+const AUTHOR_TYPER_UNSAFE = /[\p{M}\p{C}\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF]/u;
+let authorRows = [];
+let authorRowByCode = new Map();
+let authorView = [];
+let authorShown = 0;
+let authorQuery = '';
+let authorsReady = false;
+let authorDomReady = false;
+let authorSearchTimer = null;
+let authorHandleToCode = new Map();
+let authorPendingReveal = null;
+
+function authorsRefreshChevron() {
+	requestAnimationFrame(() => {
+		const panel = document.getElementById('filterPanel');
+		if (panel && !panel.classList.contains('hidden') && typeof updateChevron === 'function') updateChevron();
+		authorsUpdateFade();
+	});
+}
+
+function authorsUpdateFade() {
+	const list = document.getElementById('fp-author-list');
+	const top = document.getElementById('fp-author-fade-top');
+	const bottom = document.getElementById('fp-author-fade-bottom');
+	if (!list || !top || !bottom) return;
+	const canUp = list.scrollTop > 2;
+	const canDown = authorShown < authorView.length || list.scrollTop + list.clientHeight < list.scrollHeight - 2;
+	if (canUp) top.classList.add('visible'); else top.classList.remove('visible');
+	if (canDown) bottom.classList.add('visible'); else bottom.classList.remove('visible');
+}
+
+function authorsLoading() {
+	const sec = document.getElementById('fp-author-section');
+	const list = document.getElementById('fp-author-list');
+	const input = document.getElementById('fp-author-search');
+	if (!sec || !list) return;
+	sec.classList.remove('hidden');
+	list.textContent = '';
+	const msg = document.createElement('div');
+	msg.className = 'fp-author-empty';
+	msg.textContent = 'Loading authors…';
+	list.appendChild(msg);
+	if (input) input.disabled = true;
+	authorsRefreshChevron();
+}
+
+function authorsNormQuery(s) {
+	return String(s || '').trim().toLowerCase().replace(/^@+/, '');
+}
+
+function authorsTypingText(r) {
+	const name = (r.name || '').normalize('NFC').trim();
+	if (name && Array.from(name).length <= AUTHOR_TYPER_MAX_CHARS && !AUTHOR_TYPER_UNSAFE.test(name)) return name;
+	return /^[a-z0-9_]{1,24}$/.test(r.handle) ? r.handle : '';
+}
+
+function authorsAttachTyper() {
+	const input = document.getElementById('fp-author-search');
+	if (!input) return;
+	if (input._typer) input._typer.destroy();
+	if (!window.Typer || !authorsReady) return;
+	const pool = [];
+	for (const r of authorRows) {
+		if (r.unknown) continue;
+		const t = authorsTypingText(r);
+		if (t) pool.push(t);
+		if (pool.length >= AUTHOR_TYPER_POOL) break;
+	}
+	if (!pool.length) return;
+	Typer.attach(input, {
+		source: pool, when: 'focus', hold: [1400, 2400],
+		queueKey: 'author-typer:' + galleryName,
+		ghost: document.getElementById('fp-author-ghost-text'),
+		host: input.parentElement
+	});
+}
+
+function authorsApply(items, table, codeMap) {
+	const sec = document.getElementById('fp-author-section');
+	const input = document.getElementById('fp-author-search');
+	if (!sec || !items) return;
+	const counts = new Map();
+	let unknown = 0;
+	for (const it of items) {
+		const c = (codeMap && codeMap.get(it.filename)) || 0;
+		it.au = c;
+		if (c) counts.set(c, (counts.get(c) || 0) + 1);
+		else unknown++;
+	}
+	const rows = [];
+	(table || []).forEach((t, i) => {
+		const count = counts.get(i + 1) || 0;
+		if (!count) return;
+		const name = String(t.n || '');
+		rows.push({ code: i + 1, name, nameLc: name.toLowerCase(), handle: String(t.h || ''), count, unknown: false });
+	});
+	if (rows.length === 0) {
+		authorsReady = false;
+		authorRows = [];
+		authorRowByCode = new Map();
+		authorHandleToCode = new Map();
+		filterState.authors.clear();
+		sec.classList.add('hidden');
+		if (input) input.disabled = false;
+		authorsAttachTyper();
+		authorsRefreshChevron();
+		authorsRemarkLightboxHandle();
+		return;
+	}
+	rows.sort((a, b) => (b.count - a.count) || (a.handle < b.handle ? -1 : a.handle > b.handle ? 1 : 0));
+	if (unknown > 0) {
+		rows.push({ code: 0, name: 'Unknown source', nameLc: 'unknown source', handle: '', count: unknown, unknown: true });
+	}
+	authorRows = rows;
+	authorRowByCode = new Map(rows.map(r => [r.code, r]));
+	authorHandleToCode = new Map(rows.filter(r => !r.unknown && r.handle).map(r => [r.handle, r.code]));
+	filterState.authors.clear();
+	authorQuery = '';
+	if (input) {
+		input.value = '';
+		input.disabled = false;
+	}
+	authorsInitDom();
+	authorsReady = true;
+	sec.classList.remove('hidden');
+	authorsRenderList(false);
+	authorsAttachTyper();
+	authorsRefreshChevron();
+	authorsRemarkLightboxHandle();
+}
+window.authorsApply = authorsApply;
+window.authorsLoading = authorsLoading;
+
+function authorsInitDom() {
+	if (authorDomReady) return;
+	const list = document.getElementById('fp-author-list');
+	const input = document.getElementById('fp-author-search');
+	if (!list || !input) return;
+	authorDomReady = true;
+	list.addEventListener('click', (e) => {
+		e.stopPropagation();
+		const row = e.target.closest('.fp-author-item');
+		if (row) authorsToggle(parseInt(row.dataset.code, 10));
+	});
+	list.addEventListener('scroll', () => {
+		if (authorShown < authorView.length && list.scrollTop + list.clientHeight >= list.scrollHeight - 60) {
+			authorsAppendRows(AUTHOR_CHUNK);
+		}
+		authorsUpdateFade();
+	}, { passive: true });
+	if (typeof ResizeObserver === 'function') new ResizeObserver(() => authorsOnListResize()).observe(list);
+	input.addEventListener('input', () => {
+		clearTimeout(authorSearchTimer);
+		authorSearchTimer = setTimeout(() => {
+			authorQuery = authorsNormQuery(input.value);
+			authorsRenderList(false);
+		}, 80);
+	});
+	input.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && input.value) {
+			e.stopPropagation();
+			input.value = '';
+			authorQuery = '';
+			authorsRenderList(false);
+		}
+	});
+}
+
+function authorsComputeView() {
+	const q = authorQuery;
+	if (!q) return authorRows;
+	const hits = [];
+	for (const r of authorRows) {
+		let rank = -1;
+		if (r.handle.startsWith(q) || r.nameLc.startsWith(q)) rank = 0;
+		else if (r.handle.includes(q) || r.nameLc.includes(q)) rank = 1;
+		if (rank >= 0) hits.push({ r, rank });
+	}
+	hits.sort((a, b) => a.rank - b.rank);
+	return hits.map(x => x.r);
+}
+
+function authorsBuildRow(r) {
+	const on = filterState.authors.has(r.code);
+	const row = document.createElement('button');
+	row.type = 'button';
+	row.className = 'fp-author-item' + (on ? ' active' : '') + (r.unknown ? ' unknown' : '');
+	row.dataset.code = String(r.code);
+	row.setAttribute('role', 'checkbox');
+	row.setAttribute('aria-checked', on ? 'true' : 'false');
+	if (!r.unknown) {
+		row.setAttribute('data-i18n-skip', '');
+		row.title = r.name ? `${r.name} @${r.handle}` : `@${r.handle}`;
+	}
+
+	const box = document.createElement('span');
+	box.className = 'fp-author-check';
+	const tick = document.createElement('i');
+	tick.className = 'ti ti-check';
+	box.appendChild(tick);
+
+	const main = document.createElement('span');
+	main.className = 'fp-author-main';
+	const name = document.createElement('span');
+	name.className = 'fp-author-name';
+	name.textContent = r.name || (r.handle ? '@' + r.handle : '');
+	main.appendChild(name);
+	if (r.name && r.handle) {
+		const handle = document.createElement('span');
+		handle.className = 'fp-author-handle';
+		handle.textContent = '@' + r.handle;
+		main.appendChild(handle);
+	}
+
+	const count = document.createElement('span');
+	count.className = 'fp-author-count';
+	count.textContent = r.count.toLocaleString();
+
+	row.appendChild(box);
+	row.appendChild(main);
+	row.appendChild(count);
+	return row;
+}
+
+function authorsAppendRows(n) {
+	const list = document.getElementById('fp-author-list');
+	if (!list) return;
+	const end = Math.min(authorShown + n, authorView.length);
+	const frag = document.createDocumentFragment();
+	for (let i = authorShown; i < end; i++) frag.appendChild(authorsBuildRow(authorView[i]));
+	authorShown = end;
+	list.appendChild(frag);
+}
+
+function authorsRenderList(keepScroll) {
+	const list = document.getElementById('fp-author-list');
+	if (!list || !authorsReady) return;
+	const prevTop = keepScroll ? list.scrollTop : 0;
+	const want = keepScroll ? Math.max(AUTHOR_CHUNK, authorShown) : AUTHOR_CHUNK;
+	authorView = authorsComputeView();
+	list.textContent = '';
+	authorShown = 0;
+	if (authorView.length === 0) {
+		const msg = document.createElement('div');
+		msg.className = 'fp-author-empty';
+		msg.textContent = 'No matching authors';
+		list.appendChild(msg);
+	} else {
+		authorsAppendRows(want);
+	}
+	list.scrollTop = prevTop;
+	authorsUpdateReadout();
+	authorsUpdateFade();
+}
+
+function authorsUpdateReadout() {
+	const el = document.getElementById('fp-author-readout');
+	if (!el) return;
+	const total = authorRows.length.toLocaleString();
+	const n = filterState.authors.size;
+	el.textContent = n > 0 ? `${n} / ${total}` : total;
+}
+
+function authorsLogLabel() {
+	if (filterState.authors.size === 0) return 'none';
+	const parts = [];
+	for (const code of filterState.authors) {
+		const r = authorRowByCode.get(code);
+		parts.push(r ? (r.unknown ? 'unknown' : r.handle) : String(code));
+		if (parts.length >= 5) break;
+	}
+	const extra = filterState.authors.size - parts.length;
+	return parts.join(',') + (extra > 0 ? `+${extra}` : '');
+}
+
+function authorsToggle(code) {
+	if (!authorRowByCode.has(code)) return;
+	if (filterState.authors.has(code)) {
+		filterState.authors.delete(code);
+		SoundFX.play('heavy_click_reverse');
+	} else {
+		filterState.authors.add(code);
+		SoundFX.play('heavy_click');
+	}
+	const on = filterState.authors.has(code);
+	const list = document.getElementById('fp-author-list');
+	let patched = false;
+	if (list) {
+		for (const el of list.children) {
+			if (el.dataset && el.dataset.code === String(code)) {
+				if (on) el.classList.add('active');
+				else el.classList.remove('active');
+				el.setAttribute('aria-checked', on ? 'true' : 'false');
+				patched = true;
+				break;
+			}
+		}
+	}
+	if (!patched) authorsRenderList(true);
+	authorsUpdateReadout();
+	applyFilters();
+	logEvent(`filter-author/${galleryName}/${authorsLogLabel()}`);
+}
+
+function authorsResetUI() {
+	const input = document.getElementById('fp-author-search');
+	if (input) input.value = '';
+	authorQuery = '';
+	authorsRenderList(false);
+}
+
+function authorsOnListResize() {
+	authorsUpdateFade();
+	if (authorPendingReveal === null) return;
+	const list = document.getElementById('fp-author-list');
+	if (!list || list.clientHeight <= 0) return;
+	const code = authorPendingReveal;
+	authorPendingReveal = null;
+	authorsRevealRow(code);
+}
+
+function authorsRevealRow(code) {
+	const list = document.getElementById('fp-author-list');
+	if (!list) return;
+	if (list.clientHeight <= 0) {
+		authorPendingReveal = code;
+		return;
+	}
+	const idx = authorView.findIndex(r => r.code === code);
+	if (idx < 0) return;
+	if (idx >= authorShown) authorsAppendRows(idx - authorShown + 1 + 5);
+	const cs = getComputedStyle(list);
+	const rowH = parseFloat(cs.getPropertyValue('--fp-author-row-h')) || 28;
+	const gap = parseFloat(cs.getPropertyValue('--fp-author-gap')) || 1;
+	list.scrollTop = Math.max(0, idx * (rowH + gap) - rowH);
+	authorsUpdateFade();
+}
+
+function authorsFilterTo(code) {
+	if (!authorsReady || !authorRowByCode.has(code)) return false;
+	filterState.authors.clear();
+	filterState.authors.add(code);
+	const input = document.getElementById('fp-author-search');
+	if (input) input.value = '';
+	authorQuery = '';
+	authorsRenderList(false);
+	authorsRevealRow(code);
+	SoundFX.play('heavy_click');
+	applyFilters();
+	logEvent(`filter-author/${galleryName}/${authorsLogLabel()}`);
+	return true;
+}
+
+function authorsNormHandle(h) {
+	return String(h || '').trim().replace(/^@+/, '').toLowerCase();
+}
+
+function authorsMarkHandle(el, handle) {
+	if (!el) return;
+	const h = authorsNormHandle(handle);
+	el.dataset.handle = h;
+	if (authorsReady && h && authorHandleToCode.has(h)) {
+		el.classList.add('filterable');
+		el.setAttribute('role', 'button');
+		el.setAttribute('tabindex', '0');
+		el.title = 'Filter by this author';
+	} else {
+		el.classList.remove('filterable');
+		el.removeAttribute('role');
+		el.removeAttribute('tabindex');
+		el.removeAttribute('title');
+	}
+}
+window.authorsMarkHandle = authorsMarkHandle;
+
+function authorsRemarkLightboxHandle() {
+	const el = document.getElementById('lbTweetHandle');
+	if (el) authorsMarkHandle(el, el.dataset.handle);
+}
+
+(function () {
+	const el = document.getElementById('lbTweetHandle');
+	if (!el) return;
+	const activate = (e) => {
+		if (!el.classList.contains('filterable')) return;
+		const code = authorHandleToCode.get(el.dataset.handle);
+		if (code === undefined) return;
+		e.preventDefault();
+		e.stopPropagation();
+		if (window.closeLightbox) window.closeLightbox();
+		authorsFilterTo(code);
+		document.querySelector('.all')?.scrollTo({ top: 0, behavior: 'instant' });
+	};
+	el.addEventListener('click', activate);
+	el.addEventListener('keydown', (e) => {
+		if (e.key === 'Enter' || e.key === ' ') activate(e);
+	});
+})();
+
 let clipResults = null;
 let clipQuery = "";
 let clipAbortCtrl = null;
@@ -7011,6 +7545,27 @@ function getGroupMember() {
 		group,
 		member
 	};
+}
+
+let clipWarmAt = 0;
+
+function warmClipCache() {
+	const gm = getGroupMember();
+	if (!gm) return;
+	const now = Date.now();
+	if (now - clipWarmAt < 60000) return;
+	clipWarmAt = now;
+	fetch("https://terril.duckdns.org/api/clip-warm", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			group: gm.group,
+			member: gm.member
+		}),
+		keepalive: true,
+	}).catch(() => {});
 }
 
 function clipIsActive() {
@@ -7094,8 +7649,10 @@ async function runClipSearch(query) {
 	}
 	if (clipAbortCtrl) clipAbortCtrl.abort();
 	clipAbortCtrl = new AbortController();
+	const t0 = performance.now();
+	const qLog = encodeURIComponent(query.slice(0, 80));
+	logEvent(`filter-clip-start/${galleryName}/${qLog}`);
 	try {
-		const t0 = performance.now();
 		const res = await fetch("https://terril.duckdns.org/api/clip-search", {
 			method: "POST",
 			headers: {
@@ -7113,6 +7670,7 @@ async function runClipSearch(query) {
 				status.textContent = "too many requests";
 				status.className = "fp-clip-status fp-clip-error";
 			}
+			logEvent(`filter-clip-fail/${galleryName}/429/${Math.round(performance.now() - t0)}ms`);
 			return;
 		}
 		if (!res.ok) {
@@ -7120,6 +7678,7 @@ async function runClipSearch(query) {
 				status.textContent = "search failed";
 				status.className = "fp-clip-status fp-clip-error";
 			}
+			logEvent(`filter-clip-fail/${galleryName}/http-${res.status}/${Math.round(performance.now() - t0)}ms`);
 			return;
 		}
 		const data = await res.json();
@@ -7128,6 +7687,7 @@ async function runClipSearch(query) {
 				status.textContent = data.error;
 				status.className = "fp-clip-status fp-clip-error";
 			}
+			logEvent(`filter-clip-fail/${galleryName}/${encodeURIComponent(String(data.error).slice(0, 40))}/${Math.round(performance.now() - t0)}ms`);
 			return;
 		}
 		clipResults = new Map();
@@ -7158,9 +7718,13 @@ async function runClipSearch(query) {
 			top: 0,
 			behavior: 'instant'
 		});
-		logEvent(`filter-clip/${galleryName}/${encodeURIComponent(query.slice(0, 80))}`);
+		logEvent(`filter-clip/${galleryName}/${qLog}/${elapsed}ms/${data.cache || 'unknown'}`);
 	} catch (e) {
-		if (e.name === "AbortError") return;
+		if (e.name === "AbortError") {
+			logEvent(`filter-clip-abort/${galleryName}/${Math.round(performance.now() - t0)}ms`);
+			return;
+		}
+		logEvent(`filter-clip-fail/${galleryName}/${encodeURIComponent(e.name || 'error')}/${Math.round(performance.now() - t0)}ms`);
 		console.error("CLIP search error:", e);
 		if (status) {
 			status.textContent = "search failed";

@@ -1207,8 +1207,8 @@ html.dark .auth-success {
   opacity: 1;
 }
 
-.mv-row-skeleton .mv-row-label { flex: none; width: 64px; }
-.mv-row-skeleton .mv-row-count { width: 40px; }
+.mv-row-skeleton .mv-row-label { flex: none; }
+.mv-row-skeleton .mv-row-pct { color: transparent; }
 
 
 .profile-meta {
@@ -1932,7 +1932,6 @@ body.scroll-lock {
   <div id="fav-context-menu" class="hidden">
   <div class="fav-ctx-item" data-action="open">Open image</div>
   <div class="fav-ctx-item" data-action="download">Download</div>
-  <div class="fav-ctx-item" data-action="member">Go to member page</div>
 </div>
 
 
@@ -1942,7 +1941,9 @@ function setEntryText(entry, text) {
 	(t || entry).textContent = text;
 }
 </script>
-<script>  
+<script>
+	function uiTr(s) { return (window.I18n && window.I18n.tr) ? window.I18n.tr(s) : s; }
+  
 function modalIsOpen() {
     return document.querySelector('.auth-modal:not(.hidden)') !== null ||
         document.querySelector('.footer-modal:not(.hidden)') !== null;
@@ -2299,9 +2300,29 @@ function favStripLoop(now) {
 }
 let favStripLast = performance.now();
 requestAnimationFrame(favStripLoop);
+function safeDecode(s) {
+	try { return decodeURIComponent(s); } catch (_) { return s; }
+}
+function openFavInGallery(group, member, filename) {
+	const hash = `#img=${encodeURIComponent(safeDecode(filename))}`;
+	const page = `${group}_${member}.html`;
+	const onSamePage = safeDecode(window.location.pathname.split("/").pop()) === safeDecode(page);
+	if (onSamePage && window.LBPost && typeof window.LBPost.deepLink === "function") {
+		closeAllModals();
+		document.getElementById("fav-modal").classList.add("hidden");
+		history.replaceState(null, "", window.location.pathname + window.location.search + hash);
+		window.LBPost.deepLink();
+		return;
+	}
+	const base = window.location.pathname.startsWith("/fsarchivevault")
+		? "/fsarchivevault"
+		: "";
+	window.location.href = `${base}/MEMBERS/${page}${hash}`;
+}
 document.getElementById("fav-context-menu").addEventListener("click", (e) => {
-	if (!e.target.dataset.action) return;
-	const action = e.target.dataset.action;
+	const item = e.target.closest("[data-action]");
+	if (!item) return;
+	const action = item.dataset.action;
 	const fav = favContextTarget;
 	const rel = fav.rel_path;
 	const parts = rel.split("/");
@@ -2311,18 +2332,11 @@ document.getElementById("fav-context-menu").addEventListener("click", (e) => {
 	const fullUrl = `https://terril.duckdns.org/${group}/${member}/${filename}`;
 	switch (action) {
 		case "open":
-			window.open(fullUrl, "_blank");
+			openFavInGallery(group, member, filename);
 			break;
 
 		case "download":
 			downloadImage(fullUrl, filename);
-			break;
-
-		case "member":
-			const base = window.location.pathname.startsWith("/fsarchivevault")
-				? "/fsarchivevault"
-				: "";
-			window.location.href = `${base}/MEMBERS/${group}_${member}.html`;
 			break;
 	}
 
@@ -2560,6 +2574,7 @@ function showRegister() {
 }
 async function api(path, method = "GET", body = null) {
 	const token = localStorage.getItem("token");
+	const ptoken = localStorage.getItem("ptoken");
 	let res;
 	try {
 		res = await fetch(`https://terril.duckdns.org/api/${path}`, {
@@ -2568,6 +2583,9 @@ async function api(path, method = "GET", body = null) {
 				"Content-Type": "application/json",
 				...(token ? {
 					"Authorization": token
+				} : {}),
+				...(ptoken ? {
+					"X-Premium-Token": ptoken
 				} : {})
 			},
 			body: body ? JSON.stringify(body) : null
@@ -2603,7 +2621,7 @@ async function startPremiumCheckout() {
 	if (status === 200 && data && data.url) {
 		window.location.href = data.url;
 	} else {
-		alert("Couldn't start checkout. Please try again in a moment.");
+		alert(uiTr("Couldn't start checkout. Please try again in a moment."));
 	}
 }
 
@@ -2727,9 +2745,10 @@ function formatAgeOD(ms) {
 	const s = Math.floor(remaining / 1000);
 	const ms2 = Math.floor(remaining % 1000);
 	const parts = [];
-	if (y > 0) parts.push(`${y}y`);
-	if (m > 0) parts.push(`${m}m`);
-	if (d > 0) parts.push(`${String(d).padStart(2, "0")}d`);
+	const ko = !!(window.I18n && window.I18n.lang === "ko");
+	if (y > 0) parts.push(`${y}${ko ? "년" : "y"}`);
+	if (m > 0) parts.push(`${m}${ko ? "개월" : "m"}`);
+	if (d > 0) parts.push(`${String(d).padStart(2, "0")}${ko ? "일" : "d"}`);
 	parts.push(String(h).padStart(2, "0"));
 	parts.push(String(min).padStart(2, "0"));
 	parts.push(String(s).padStart(2, "0"));
@@ -2826,7 +2845,7 @@ async function doGenerateRecoveryCode() {
 			renderProfilePremiumSection(cachedPremium, cachedPremiumUntil, true);
 		});
 	} else {
-		alert("Couldn't generate a recovery code. Please try again.");
+		alert(uiTr("Couldn't generate a recovery code. Please try again."));
 	}
 }
 
@@ -3075,11 +3094,13 @@ async function doRecoverAccount() {
 }
 async function doLogout() {
 	const token = localStorage.getItem("token");
+	const ptoken = localStorage.getItem("ptoken");
 	if (token) {
 		await fetch("https://terril.duckdns.org/api/logout", {
 			method: "POST",
 			headers: {
-				"Authorization": token
+				"Authorization": token,
+				...(ptoken ? { "X-Premium-Token": ptoken } : {})
 			}
 		});
 	}
@@ -3305,26 +3326,42 @@ async function loadMostViewed() {
     renderMostViewedList("mv-groups-list", data.groups);
     renderMostViewedList("mv-members-list", data.members);
 }
-function renderMostViewedSkeleton(listId, rowCount = 6) {
+const MV_SKELETON_DEFAULT_ROWS = 6;
+const MV_SKELETON_MAX_ROWS = 12;
+const MV_SKELETON_LABEL_PX = [68, 56, 62, 48, 58, 44];
+const MV_SKELETON_BAR_PCT = [100, 84, 70, 58, 46, 36];
+function mvStoredRowCount(listId) {
+	try {
+		const n = parseInt(localStorage.getItem("mvRows:" + listId), 10);
+		if (n > 0) return Math.min(n, MV_SKELETON_MAX_ROWS);
+	} catch (_) {}
+	return MV_SKELETON_DEFAULT_ROWS;
+}
+function renderMostViewedSkeleton(listId, rowCount) {
 	const list = document.getElementById(listId);
 	if (!list) return;
-	list.innerHTML = Array.from({ length: rowCount }).map(() => `
+	if (!rowCount) rowCount = mvStoredRowCount(listId);
+	list.innerHTML = Array.from({ length: rowCount }).map((_, i) => `
 		<div class="mv-row mv-row-skeleton">
 			<div class="mv-row-top">
-				<span class="mv-row-label skeleton">&nbsp;</span>
-				<span class="mv-row-count skeleton">&nbsp;</span>
+				<span class="mv-row-label skeleton" style="width:${MV_SKELETON_LABEL_PX[i % MV_SKELETON_LABEL_PX.length]}px">&nbsp;</span>
+				<span class="mv-row-count skeleton">0,000<span class="mv-row-pct">00%</span></span>
 			</div>
-			<div class="mv-row-track"><div class="mv-row-fill skeleton" style="width: 100%"></div></div>
+			<div class="mv-row-track"><div class="mv-row-fill skeleton" style="width:${MV_SKELETON_BAR_PCT[i % MV_SKELETON_BAR_PCT.length]}%"></div></div>
 		</div>
 	`).join("");
+	list.scrollTop = 0;
+	list.style.overflowY = "hidden";
 }
 function renderMostViewedList(listId, rows) {
 	const list = document.getElementById(listId);
 	if (!list) return;
+	list.style.overflowY = "";
 	if (!rows || !rows.length) {
 		list.innerHTML = `<div class="mv-empty">No data yet</div>`;
 		return;
 	}
+	try { localStorage.setItem("mvRows:" + listId, String(rows.length)); } catch (_) {}
 	const max = Math.max(...rows.map(r => r.count), 1);
 	list.innerHTML = rows.map(r => {
 		const slash = r.name.indexOf("/");

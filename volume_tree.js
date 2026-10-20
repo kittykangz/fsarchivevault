@@ -299,21 +299,38 @@ function vtInitGraphs() {
 
 function vtWireRows() {
   document.querySelectorAll('.vt-group').forEach(function (g) {
-    var tile = VT.tiles[g.dataset.group];
+    var group = g.dataset.group;
+    var tile = VT.tiles[group];
+    var all = VT.tiles['All'];
     if (!tile) return;
+
+    function clear(t) {
+      t.el.removeAttribute('data-hi');
+      t.svg.querySelectorAll('.ln.hi').forEach(function (p) { p.classList.remove('hi'); });
+    }
+    function light(t, i) {
+      if (i < 0) return;
+      t.el.dataset.hi = i;
+      var p = t.svg.querySelector('.ln[data-i="' + i + '"]');
+      if (p) p.classList.add('hi');
+    }
+
     g.querySelectorAll('.vt-row').forEach(function (row) {
       row.addEventListener('mouseenter', function () {
-        var i = Object.keys(VT.data.members[g.dataset.group] || {}).indexOf(row.dataset.member);
-        if (i < 0) return;
-        tile.el.dataset.hi = i;
-        var p = tile.svg.querySelector('.ln[data-i="' + i + '"]');
-        if (p) p.classList.add('hi');
+        light(tile, Object.keys(VT.data.members[group] || {}).indexOf(row.dataset.member));
+        if (all) light(all, VT.data.groups.indexOf(group));
       });
       row.addEventListener('mouseleave', function () {
-        tile.el.removeAttribute('data-hi');
-        tile.svg.querySelectorAll('.ln.hi').forEach(function (p) { p.classList.remove('hi'); });
+        clear(tile);
+        if (all) clear(all);
       });
     });
+
+    var head = g.querySelector('.folder-label');
+    if (head && all) {
+      head.addEventListener('mouseenter', function () { light(all, VT.data.groups.indexOf(group)); });
+      head.addEventListener('mouseleave', function () { clear(all); });
+    }
   });
 }
 
@@ -333,13 +350,25 @@ function vtWireRows() {
 })();
 
 function vtOpenModal(group) {
+  group = group || 'All';
   var modal = document.getElementById('interactive-graph-modal');
   var frame = document.getElementById('interactive-graph-frame');
-  frame.setAttribute('src', 'member-activity.html#' + encodeURIComponent(group || 'All'));
+  var win = frame.contentWindow;
+
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  vtLog('volume-tree-graph-interactive/' + (group || 'All'));
+
+  if (win && win.__activityReady && typeof win.openMode === 'function') {
+    var show = function () { frame.style.visibility = ''; };
+    frame.style.visibility = 'hidden';
+    win.openMode(group);
+    win.requestAnimationFrame(function () { win.requestAnimationFrame(show); });
+    setTimeout(show, 400);
+  } else {
+    frame.setAttribute('src', 'member-activity.html#' + encodeURIComponent(group));
+  }
+  vtLog('volume-tree-graph-interactive/' + group);
 }
 
 (function modal() {

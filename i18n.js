@@ -13,7 +13,7 @@
  * Translated text is wrapped in <span class="i18n-ko"> (that is what gets the Korean font and size, see
  * KO_SCALE / KO_FONT below), and its parent element gets a data-ko attribute. Both are removed in English mode.
  *
- * Public API: window.I18n = { lang, set(l), toggle(), ko(name), original(el), jamo(s), choseong(s), groups, members }
+ * Public API: window.I18n = { lang, set(l), toggle(), ko(name), tr(str), original(el), jamo(s), choseong(s), groups, members }
  * Event: document 'lang-change' (detail: 'en' | 'ko').
  */
 (function () {
@@ -82,6 +82,10 @@
     'Donate with PayPal': 'PayPal로 후원하기', 'Opens PayPal in a new tab.': 'PayPal이 새 탭에서 열립니다.',
     'Premium & Support': '프리미엄 및 후원',
     'Your preset (right-click to restore)': '내 프리셋 (우클릭하여 복원)',
+    'Your preset (right-click or long-press to restore)': '내 프리셋 (우클릭 또는 길게 눌러 복원)',
+    'Premium active': '프리미엄 이용 중',
+
+    'Reset view': '보기 초기화', 'Save as image': '이미지로 저장', 'generated': '생성',
     'Hue value': '색조 값', 'Saturation value': '채도 값', 'Lightness value': '명도 값',
     'Click to copy, paste or type a value, then press Enter': '클릭하여 복사하거나 값을 붙여넣기/입력한 뒤 Enter를 누르세요',
     'Gold': '골드', 'Rose': '로즈', 'Coral': '코랄', 'Lime': '라임', 'Emerald': '에메랄드',
@@ -105,7 +109,12 @@
     'Orientation': '방향', 'Portrait': '세로', 'Landscape': '가로', 'Square': '정사각형',
     'Assignment': '날짜 할당', 'Assigned': '지정됨', 'Unassigned': '미지정',
     'Date range': '기간', 'File size': '파일 크기', 'Resolution': '해상도',
-    'Reset all filters': '모든 필터 초기화',
+    'Reset all filters': '모든 필터 초기화', 'Clear all filters': '모든 필터 초기화',
+    'Filter by this author': '이 작성자로 필터', 'Authors': '작성자',
+    'Image actions': '이미지 작업', 'Copy deep link': '직접 링크 복사', 'Updated': '업데이트',
+    'Author': '작성자', 'Reset authors': '작성자 초기화',
+    'Unknown source': '출처 불명', 'Search authors…': '작성자 검색',
+    'Loading authors…': '작성자 불러오는 중…', 'No matching authors': '일치하는 작성자 없음',
     'Reset member count': '멤버 수 초기화', 'Reset co-member filter': '함께한 멤버 초기화',
     'Reset orientation': '방향 초기화', 'Reset assignment': '날짜 할당 초기화',
     'Reset date range': '기간 초기화', 'Reset file size': '파일 크기 초기화', 'Reset resolution': '해상도 초기화',
@@ -177,6 +186,7 @@
     'Error loading progress': '진행률 불러오기 오류',
     'Premium Access': '프리미엄 이용권', 'Continue to purchase': '구매 진행', '90 days': '90일',
     'Open image': '이미지 열기', 'Go to member page': '멤버 페이지로 이동',
+    'age →': '가입 경과 →',
     'group': '그룹', 'member': '멤버', 'all': '전체',
     'Please enter both username and password.': '아이디와 비밀번호를 모두 입력하세요.',
     'Please enter both fields.': '두 항목을 모두 입력하세요.', 'Please fill out both fields.': '두 항목을 모두 입력하세요.',
@@ -212,7 +222,21 @@
     'Update History': '업데이트 기록', '2021 – present': '2021 – 현재',
     'Full history (2012 – present)': '전체 기록 (2012 – 현재)',
     'Open interactive graph': '인터랙티브 그래프 열기', 'Show 2021 to present': '2021년부터 현재까지 보기',
-    'Show full history': '전체 기록 보기', 'Interactive member activity graph': '멤버 활동 인터랙티브 그래프'
+    'Show full history': '전체 기록 보기', 'Interactive member activity graph': '멤버 활동 인터랙티브 그래프',
+    'Member Activity': '멤버 활동',
+    'Tags only': '태그만 보기', 'Collapse all entries': '모든 항목 접기',
+    'Latest open': '최신 항목만 펼침', 'Open the latest entry only': '최신 항목만 펼치기',
+    'Expand all entries': '모든 항목 펼치기', 'loading graphs…': '그래프 불러오는 중…',
+    'Open the interactive graph': '인터랙티브 그래프 열기',
+    'graph data unavailable': '그래프 데이터를 불러올 수 없음', 'changelog unavailable': '변경 기록을 불러올 수 없음',
+    'N/A': '해당 없음',
+    'Failed to load recent uploads.': '최근 업로드를 불러오지 못했습니다.',
+
+    'Too many requests.': '요청이 너무 많습니다.', 'No images found.': '이미지를 찾을 수 없습니다.',
+    'Thanks for your feedback!': '의견 감사합니다!', 'Failed to send feedback.': '의견을 보내지 못했습니다.',
+    'Error: could not send feedback.': '오류: 의견을 보내지 못했습니다.',
+    "Couldn't start checkout. Please try again in a moment.": '결제를 시작하지 못했습니다. 잠시 후 다시 시도하세요.',
+    "Couldn't generate a recovery code. Please try again.": '복구 코드를 생성하지 못했습니다. 다시 시도하세요.'
   };
 
   var LOOKUP = {};
@@ -224,7 +248,16 @@
   var UNIT = { year: '년', month: '개월', week: '주', day: '일', hour: '시간', minute: '분' };
 
   var PATTERNS = [
+    [/^Image ([\d,]+) of ([\d,]+)$/, function (m) { return '이미지 ' + m[1] + ' / ' + m[2]; }],
+    [/^Download failed \(HTTP (\d+)\)\.$/, function (m) { return '다운로드 실패 (HTTP ' + m[1] + ').'; }],
+    [/^(\d{4}-\d{2}) \u00b7 All$/, function (m) { return m[1] + ' \u00b7 전체'; }],
+    [/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (\d{4})( \(\d+\))?$/, function (m) {
+      var mo = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].indexOf(m[1]) + 1;
+      return m[3] + '년 ' + mo + '월 ' + parseInt(m[2], 10) + '일' + (m[4] || '');
+    }],
+    [/^created_at → (\d{6})$/, function (m) { return '가입_일 → ' + m[1]; }],
     [/^Filtered: (.+) of (.+) images$/, function (m) { return '필터됨: ' + m[1] + ' / ' + m[2] + '장'; }],
+    [/^([\d,]+) of ([\d,]+) assigned \(([\d.]+)%\)$/, function (m) { return m[1] + ' / ' + m[2] + '장 지정됨 (' + m[3] + '%)'; }],
     [/^(Assigned|Saved): (\d{6})$/, function (m) { return (m[1] === 'Assigned' ? '할당 날짜' : '저장 날짜') + ': ' + m[2]; }],
     [/^([\d,]+) images?( · saved)?$/, function (m) { return m[1] + '장' + (m[2] ? ' · 저장 날짜 기준' : ''); }],
     [/^([\d,]+) favorites$/, function (m) { return '즐겨찾기 ' + m[1] + '개'; }],
@@ -252,7 +285,7 @@
   var ATTR_SKIP_TAG = /^(SCRIPT|STYLE|NOSCRIPT|CODE|PRE|CANVAS)$/;
   var SKIP = '[data-i18n-skip],#lbFilename,#lbMetaFilename,.filename,.lb-infobar-name,.lb-filename,' +
     '#lbTweetCaption,#lbTweetAuthor,#lbTweetHandle,#lbTweetId,.lb-tweet-caption,' +
-    '.hdr-id,.hdr-pfp,.hdr-span,.image-count,.gl-status,#changelog-list,' +
+    '.hdr-id,.hdr-pfp,.hdr-span,.image-count,.gl-status,#changelog-list .cl-entry,' +
     '#status-uptime,#status-requests,#status-latency,#status-memory,#status-images,' +
     '.fp-hint-popup-body,.about-more,#lang-toggle';
   var DICT_ONLY = '#auth-entry,#profile-username';
@@ -280,7 +313,18 @@
   var attrState = new WeakMap();
   var ATTRS = ['title', 'aria-label', 'placeholder', 'data-chip', 'data-tip', 'data-tip-on'];
 
-  function skipped(el) { return !el || (el.closest && el.closest(SKIP)); }
+  var UNSKIP = '.hdr-id .birthday';
+  function skipped(el) {
+    if (!el || !el.closest) return !el;
+    if (el.closest('.hid-ch')) return true;
+    if (el.closest(UNSKIP) && !el.closest('[data-i18n-skip]')) return false;
+    return !!el.closest(SKIP);
+  }
+
+  function skippedAttr(el) {
+    if (el && el.id === 'lbTweetHandle' && !el.closest('[data-i18n-skip]')) return false;
+    return skipped(el);
+  }
   function dictOnlyEl(el) { return !!(el && el.closest && el.closest(DICT_ONLY)); }
 
   var XHTML = 'http://www.w3.org/1999/xhtml';
@@ -293,7 +337,7 @@
     if (isWrap(node.parentNode) || NO_WRAP.test(host.nodeName) || host.namespaceURI !== XHTML) return;
     var s = document.createElement('span');
     s.className = 'i18n-ko';
-    s.setAttribute('lang', 'ko');                  
+    if (!(host.closest && host.closest('.hdr-id'))) s.setAttribute('lang', 'ko');
     node.parentNode.insertBefore(s, node);
     s.appendChild(node);
   }
@@ -324,7 +368,7 @@
     if (cur == null) return;
     var m = attrState.get(el), st = m && m[name];
     if (st && cur === st.ko) return;
-    if (el.id === 'fp-clip-input' || skipped(el) || ATTR_SKIP_TAG.test(el.nodeName)) { if (st) delete m[name]; return; }
+    if (el.id === 'fp-clip-input' || skippedAttr(el) || ATTR_SKIP_TAG.test(el.nodeName)) { if (st) delete m[name]; return; }
     var ko = translateString(cur, dictOnlyEl(el));
     if (ko === null) { if (st) delete m[name]; return; }
     if (!m) { m = {}; attrState.set(el, m); }
@@ -428,6 +472,13 @@
 
   function koName(en) { return NAMES[String(en).trim().toUpperCase()] || ''; }
 
+  function tr(str) {
+    str = String(str == null ? '' : str);
+    if (lang !== 'ko') return str;
+    var out = translateString(str, false);
+    return out === null ? str : out.trim();
+  }
+
   function original(el) {
     var s = '';
     var tw = document.createTreeWalker(el, 4, null);
@@ -453,6 +504,9 @@
       '#changelog-wrapper h3', '.stat-panel h2', '.stat-panel h3', '.ft_index h3', '#svg-container h3'];
     st.textContent =
       '.i18n-ko{font-family:' + KO_FONT + ';font-size:' + KO_SCALE + 'em;line-height:1;word-break:keep-all}' +
+      /* header birthday: the intro / glitch effect draws it in the page font at the normal size, so the translated text
+         must inherit everything from its parent (no Korean font / KO_SCALE / line-height), or it swaps when the effect ends */
+      '.hdr-id .i18n-ko{font:inherit;word-break:inherit}' +
       spaced.map(function (s) { return 'html.lang-ko ' + s + '[data-ko]'; }).join(',') + '{letter-spacing:.04em}';
     (document.head || root).appendChild(st);
   })();
@@ -506,6 +560,7 @@
     set: function (l) { if (l !== lang) apply(l, true); },
     toggle: function () { apply(lang === 'ko' ? 'en' : 'ko', true); return lang; },
     ko: koName,
+    tr: tr,
     original: original,
     jamo: jamo,
     choseong: choseong,

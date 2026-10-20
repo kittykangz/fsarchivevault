@@ -24,6 +24,7 @@ try {
 <script src="i18n.js"></script>
 <script src="sound-fx.js"></script>
 <script src="accent-theme.js"></script>
+<script src="typer.js"></script>
 <!-- <script src="scroll-fx.js"></script> -->
 
 <title>Home</title>
@@ -244,6 +245,8 @@ function rewriteSidebarLinks(container, sidebarUrl) {
 
 
 <script>
+  function uiTr(s) { return (window.I18n && window.I18n.tr) ? window.I18n.tr(s) : s; }
+
 const button = document.getElementById("feedback-btn");
 
 if (button) {
@@ -260,13 +263,13 @@ if (button) {
       });
 
       if (res.ok) {
-        alert("Thanks for your feedback!");
+        alert(uiTr("Thanks for your feedback!"));
         input.value = "";
       } else {
-        alert("Failed to send feedback.");
+        alert(uiTr("Failed to send feedback."));
       }
     } catch {
-      alert("Error: could not send feedback.");
+      alert(uiTr("Error: could not send feedback."));
     }
   });
 }
@@ -637,11 +640,16 @@ async function buildHero() {
       const rel = imgs.length ? imgs[Math.floor(Math.random() * imgs.length)] : null;
       const src = rel ? BASE_URL + rel : null;
 
+      let currentRel = null;
+
       const cell = document.createElement('div');
       cell.className = 'hero-cell';
       cell.style.cursor = 'pointer';
       cell.addEventListener('click', () => {
-        window.location.href = `MEMBERS/${member.group.replace(/\s+/g,' ')}_${member.name}.html`;
+        const page = `MEMBERS/${member.group.replace(/\s+/g,' ')}_${member.name}.html`;
+        window.location.href = currentRel
+          ? `${page}#img=${encodeURIComponent(currentRel.split('/').pop())}&open=0`
+          : page;
       });
 
       const bg = document.createElement('div');
@@ -652,8 +660,11 @@ async function buildHero() {
         let queue = shuffle([...imgs]);
         let index = 0;
 
+        let pendingRel = null;
+
         function nextImage() {
           const rel = queue[index];
+          pendingRel = rel;
           index++;
 
           if (index >= queue.length) {
@@ -677,16 +688,19 @@ async function buildHero() {
         cell.appendChild(imgB);
 
         imgA.src = nextImage();
+        currentRel = pendingRel;
 
         let showingA = true;
 
         function crossfade() {
           const nextSrc = nextImage();
+          const nextRel = pendingRel;
 
           const preload = new Image();
           preload.src = nextSrc;
 
           preload.decode().then(() => {
+            currentRel = nextRel;
             if (showingA) {
               imgB.src = nextSrc;
 

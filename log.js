@@ -104,6 +104,7 @@
 
   function linkClick(a, e) {
     var href = a.getAttribute('href') || '';
+    if (/^(blob|data):/i.test(href)) return;      // script-made download links (image saves) are not navigation
     var src = srcOf(a);
     if (/^mailto:/i.test(href)) { send(ui('mailto', src)); return; }
     var u;

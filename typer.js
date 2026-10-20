@@ -31,7 +31,8 @@
    host         element that gets the class typer-active while typing (default: the input; the input
                 always gets it too). Handy for showing a ghost: .box.typer-active .ghost { display:flex }
    localize     function (text, lang) -> text to type for that language, or '' for "type it as is".
-                Called only when I18n.lang is not 'en'. Hangul results are typed jamo by jamo.
+                Called only when I18n.lang is not 'en'. Any text that contains Hangul, whether a localized
+                result or text that was Hangul to begin with (no localize needed), is typed jamo by jamo.
    exit         'erase' (default) = backspace / select-all delete. 'fade' = hold, then fade the
                 placeholder out (placeholder mode only).
    speed        typing speed factor: 1 = normal, 0.6 = faster, 1.5 = slower.
@@ -194,8 +195,9 @@
   function hangulKeys(str) {
     var out = [];
     if (str.normalize) str = str.normalize('NFC');
-    for (var i = 0; i < str.length; i++) {
-      var c = str.charCodeAt(i) - 0xAC00;
+    var chars = Array.from(str);
+    for (var i = 0; i < chars.length; i++) {
+      var c = chars[i].length === 1 ? chars[i].charCodeAt(0) - 0xAC00 : -1;
       if (c >= 0 && c < 11172) {
         out.push(CHO.charAt((c / 588) | 0));
         var v = JUNG.charAt(((c % 588) / 28) | 0);
@@ -203,7 +205,7 @@
         var t = JONG[c % 28];
         if (t) (T2[t] || t).split('').forEach(function (k) { out.push(k); });
       } else {
-        out.push(str.charAt(i));
+        out.push(chars[i]);
       }
     }
     return out;
@@ -428,7 +430,7 @@
       for (var i = 0; i < bad.length; i++) {
         if (!bad[i]) continue;
         any = true;
-        set[hangul ? compose(keys.slice(0, i + 1)).length - 1 : i] = true;  
+        set[hangul ? Array.from(compose(keys.slice(0, i + 1))).length - 1 : i] = true;  
       }
       return { set: set, any: any };
     }
@@ -518,8 +520,8 @@
       if (cfg.localize && lang && lang !== 'en') {
         try { local = cfg.localize(text, lang) || ''; } catch (e) { local = ''; }
       }
-      hangul = HANGUL_RE.test(local);
-      var typed = hangul ? local : (local || text);
+      var typed = local || text;
+      hangul = HANGUL_RE.test(typed);      /* a localized name, or text that is already Hangul */
       keys = [];
       bad = [];
       paint();
