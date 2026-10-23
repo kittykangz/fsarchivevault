@@ -44,6 +44,10 @@
   function safeDec(s) { try { return decodeURIComponent(s); } catch (e) { return s; } }
 
   var SRC = [
+    ['#bday-hero', 'birthday-hero'],
+    ['#bday-list', 'birthdays'],
+    ['.otd-feature', 'on-this-day-featured'],
+    ['#otd-card', 'on-this-day'],
     ['.sb-recent', 'sidebar-recent'],
     ['#sb', 'sidebar'],
     ['.topbar', 'topbar'],
@@ -68,8 +72,14 @@
   var last = { src: '', t: 0 };
   function ctx() { return Date.now() - last.t < 1500 ? last.src : 'other'; }
 
+  var POS_SEL = {
+    'recent-uploads': '.recent-gallery-box a',
+    'sidebar-recent': '#sb .sb-recent__link',
+    'birthdays': '#bday-list a.bday-row',
+    'on-this-day': '#otd-grid a.otd-tile:not(.otd-feature)'
+  };
   function posOf(a, src) {
-    var sel = src === 'recent-uploads' ? '.recent-gallery-box a' : src === 'sidebar-recent' ? '#sb .sb-recent__link' : null;
+    var sel = POS_SEL[src] || null;
     if (!sel) return '';
     var i = Array.prototype.indexOf.call(document.querySelectorAll(sel), a);
     return i < 0 ? '' : String(i + 1);
@@ -104,7 +114,7 @@
 
   function linkClick(a, e) {
     var href = a.getAttribute('href') || '';
-    if (/^(blob|data):/i.test(href)) return;      // script-made download links (image saves) are not navigation
+    if (/^(blob|data):/i.test(href)) return;
     var src = srcOf(a);
     if (/^mailto:/i.test(href)) { send(ui('mailto', src)); return; }
     var u;
@@ -130,6 +140,8 @@
     send('go/' + enc(dest) + '/hero/' + pos);
     setNav(dest, 'hero', pos);
   }
+
+  function cardData(k) { var c = document.getElementById('otd-card'); return c ? (c.dataset[k] || '') : ''; }
 
   var footerKey = '';
   var RULES = [
@@ -209,6 +221,20 @@
     }],
     ['#close-interactive-graph', function () { return ui('volume-tree-graph-close'); }],
     
+    ['#bday-card a.bday-hero, #bday-card a.bday-row', function (el) {
+      return ui('bday-open', el.dataset.kind || 'row', el.dataset.days || '');
+    }],
+    ['#otd-card a.otd-tile', function (el) {
+      return ui('otd-open', el.dataset.year || '', cardData('today') === '1' ? 'today' : 'browsed',
+        el.classList.contains('otd-feature') ? 'featured' : 'tile');
+    }],
+    ['#otd-card .otd-nav', function (el) { return ui('otd-nav', el.dataset.dir, cardData('md')); }],
+    ['#otd-card .otd-today', function () { return ui('otd-today', cardData('md')); }],
+    ['#otd-card .otd-shuffle', function () { return ui('otd-shuffle', cardData('md'), cardData('year') || 'all'); }],
+    ['#otd-card .otd-yb', function (el) {
+      return ui('otd-year', el.dataset.year, el.classList.contains('is-on') ? 'clear' : 'filter', cardData('md'));
+    }],
+
     ['.auth-modal', function (el, e) { return e.target === el ? ui('modal-backdrop', el.id) : null; }]
   ];
 

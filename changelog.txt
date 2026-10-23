@@ -1,3 +1,22 @@
+261022 – Added a birthday and On This Day section to the homepage, reorganized filter panel, and other small improvements and bug fixes
+
+### Homepage
+
+* Added a **Birthdays** section featuring upcoming and recent birthdays.
+* Added an **On This Day** section showing photos from today's date in past years.
+* Scrolling with your cursor over Recent Uploads or the Update Log now moves the page first.
+
+### Filters
+
+* Reorganized the layout of the filter panel on gallery pages.
+
+### Additional improvements
+
+* Bug fixes and other small improvements.
+* Updated TOS.
+* Egg!
+
+
 261019 – Added an author filter, header assignment and update indicators, faster clip loading, image deep links from the homepage and profile favorites, and other small changes and bug fixes
 
 ### Header

@@ -184,7 +184,7 @@ window.SoundFX = (function () {
 
 document.addEventListener('DOMContentLoaded', () => {
   SoundFX.preload();
-  SoundFX.bindClicks('#controls button', 'generic_click');
+  SoundFX.bindClicks('#controls button:not(#randomBtn)', 'generic_click');
   SoundFX.bindClicks('.graph-view-buttons button', 'heavy_click');
   SoundFX.bindClicks('#close-interactive-graph', 'heavy_click_reverse');
   SoundFX.bindClicks('#graph-svg-link', 'generic_click');

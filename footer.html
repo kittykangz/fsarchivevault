@@ -219,10 +219,10 @@ const FOOTER_MODAL_CONTENT = {
 				<li>Abuse or intentionally overload the service.</li>
 				<li>Attempt to circumvent rate limits, authentication, access controls, or other technical restrictions.</li>
 				<li>Interfere with the operation, security, or availability of the website or its servers.</li>
-				<li>Use automated tools or systems in a manner that negatively impacts the service or its infrastructure.</li>
+				<li>Use automated tools or systems to systematically collect, download, scrape, or extract content from the service without prior authorization.</li>
 				<li>Attempt to gain unauthorized access to accounts, systems, or content.</li>
 			</ul>
-			<p>fsarchivevault may restrict or terminate access to accounts that abuse the service, attempt to circumvent technical restrictions, or otherwise interfere with its operation.</p>
+			<p>fsarchivevault reserves the right to restrict or deny access to the service, in whole or in part, to anyone who violates these Terms or whose use of the service poses a risk to its operation, security, or availability.</p>
 
 			<h3>Service Availability</h3>
 			<p>fsarchivevault may occasionally be unavailable due to maintenance, technical issues, or other circumstances. While reasonable efforts are made to keep the service available, uninterrupted access cannot be guaranteed.</p>
@@ -334,4 +334,396 @@ document.addEventListener("click", e => {
 	if (!modal) return;
 	if (e.target === modal) modal.classList.add("hidden");
 });
+</script>
+
+<style>
+
+.egg-trigger {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--text-secondary);
+  background: transparent;
+  opacity: 0.25;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: opacity 0.4s ease, border-color 0.4s ease,
+    background 0.4s ease;
+}
+
+.egg-trigger::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+
+.egg-trigger:hover,
+.egg-trigger:focus-visible {
+  opacity: 1;
+  border-color: var(--gold);
+  background: var(--gold);
+  outline: none;
+}
+
+/* Full-screen reading view */
+.egg-overlay {
+  position: fixed;
+  inset: 0;
+  /* Must beat the gallery's scroll-to-top (2147483000), lightbox and modal layers */
+  z-index: 2147483600;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.8s ease, visibility 0s linear 0.8s;
+}
+
+.egg-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.8s ease, visibility 0s;
+}
+
+.egg-close {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  z-index: 2;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: #686257;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.egg-close:hover {
+  color: #e8e3dc;
+  opacity: 1;
+}
+
+/* Center the reading column, not the individual lines */
+.egg-scroll {
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: clamp(90px, 13vh, 150px) 28px 70px;
+  display: flex;
+  justify-content: center;
+  scrollbar-width: thin;
+  scrollbar-color: #38352f transparent;
+  overscroll-behavior: contain;
+}
+
+.egg-content {
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  align-self: flex-start;
+}
+
+.egg-time {
+  margin-bottom: 44px;
+  color: #777064;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.egg-poem {
+  width: 100%;
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 1.72;
+  text-transform: lowercase;
+}
+
+.egg-line {
+  min-height: 1.72em;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: eggLineIn 1.1s ease forwards;
+}
+
+/* Preserve the intentional stanza breaks */
+.egg-line:empty {
+  min-height: 1.25em;
+}
+
+@keyframes eggLineIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The answer field should barely announce itself */
+.egg-answer-wrap {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(190, 180, 160, 0.09);
+  opacity: 0;
+  animation: eggLineIn 1.5s ease forwards;
+  animation-delay: 5s;
+}
+
+/* The input itself is deliberately left unstyled (browser default). */
+
+/* Used while one stage fades out and the next replaces it */
+.egg-content {
+  transition: opacity 0.6s ease;
+}
+
+.egg-content.swap {
+  opacity: 0;
+}
+
+.egg-answer-status {
+  min-height: 14px;
+  margin-top: 10px;
+  color: #777064;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.egg-answer-status.visible {
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .egg-scroll {
+    padding: 85px 26px 48px;
+  }
+
+  .egg-content {
+    max-width: 340px;
+  }
+
+  .egg-poem {
+    font-size: 18px;
+  }
+
+  .egg-time {
+    margin-bottom: 34px;
+  }
+
+  .egg-answer-wrap {
+    margin-top: 42px;
+  }
+}
+
+</style>
+
+
+<div id="egg-overlay" class="egg-overlay" aria-hidden="true">
+  <button id="egg-close" class="egg-close" type="button"
+    aria-label="Close">✕</button>
+
+  <div class="egg-scroll" id="egg-scroll">
+    <div class="egg-content">
+      <div class="egg-time" id="egg-time" hidden></div>
+
+      <div class="egg-poem" id="egg-poem"></div>
+
+      <form class="egg-answer-wrap" id="egg-answer-form"
+        autocomplete="off" hidden>
+        <input
+          id="egg-answer"
+          type="text"
+          placeholder="..."
+          aria-label="Answer"
+          maxlength="200"
+          spellcheck="false"
+          autocapitalize="none"
+          autocomplete="off"
+        />
+        <div id="egg-answer-status"
+          class="egg-answer-status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+	const EGG_API_BASE = "https://terril.duckdns.org";
+	const EGG_ENDPOINT = "/api/window";
+	const EGG_ANSWER_ENDPOINT = "/api/window/answer";
+
+	const footer    = document.getElementById("site-footer");
+	const overlay   = document.getElementById("egg-overlay");
+	const poemEl    = document.getElementById("egg-poem");
+	const scrollEl  = document.getElementById("egg-scroll");
+	const contentEl = overlay ? overlay.querySelector(".egg-content") : null;
+	const timeEl    = document.getElementById("egg-time");
+	const form      = document.getElementById("egg-answer-form");
+	const input     = document.getElementById("egg-answer");
+	const statusEl  = document.getElementById("egg-answer-status");
+	if (!footer || !overlay || !contentEl) return;
+
+	function logEgg(name) {
+		try {
+			if (window.Log && Log.send && Log.ui) {
+				Log.send(Log.ui.apply(null, [name].concat([].slice.call(arguments, 1))));
+			}
+		} catch (e) {}
+	}
+
+	const trigger = document.createElement("button");
+	trigger.type = "button";
+	trigger.className = "egg-trigger";
+	trigger.setAttribute("aria-label", "A window");
+	footer.appendChild(trigger);
+
+	let busy = false;
+	let submitting = false;
+	let current = null;
+	let statusTimer = null;
+
+	function setStatus(msg, sticky) {
+		clearTimeout(statusTimer);
+		statusEl.textContent = msg || "";
+		statusEl.classList.toggle("visible", !!msg);
+		if (msg && !sticky) {
+			statusTimer = setTimeout(() => statusEl.classList.remove("visible"), 2500);
+		}
+	}
+
+	function render(stage) {
+		current = stage;
+
+		poemEl.textContent = "";
+		const lines = (stage.text || "").replace(/\r\n/g, "\n").split("\n");
+		lines.forEach((line, i) => {
+			const div = document.createElement("div");
+			div.className = "egg-line";
+			div.textContent = line;
+			div.style.animationDelay = Math.min(i * 90, 5500) + "ms";
+			poemEl.appendChild(div);
+		});
+
+		timeEl.textContent = stage.time || "";
+		timeEl.hidden = !stage.time;
+
+		input.value = "";
+		setStatus("");
+		form.hidden = !stage.input;
+		if (stage.input) {
+			form.style.animation = "none";
+			void form.offsetWidth;
+			form.style.animation = "";
+			form.style.animationDelay = (Math.min(lines.length * 90, 5500) + 1200) + "ms";
+		}
+
+		scrollEl.scrollTop = 0;
+	}
+
+	async function openEgg() {
+		if (busy || overlay.classList.contains("open")) return;
+		busy = true;
+		try {
+			if (!current) {
+				const res = await fetch(EGG_API_BASE + EGG_ENDPOINT, { cache: "no-store" });
+				if (!res.ok) return;
+				const data = await res.json();
+				if (!data || !(data.text || "").trim()) return;
+				current = data;
+			}
+			render(current);
+			overlay.classList.add("open");
+			overlay.setAttribute("aria-hidden", "false");
+			document.body.style.overflow = "hidden";
+			logEgg("egg-open", current.stage);
+		} catch (e) {
+		} finally {
+			busy = false;
+		}
+	}
+
+	function closeEgg(how) {
+		if (!overlay.classList.contains("open")) return;
+		logEgg("egg-close", how || "other", current ? current.stage : "-");
+		overlay.classList.remove("open");
+		overlay.setAttribute("aria-hidden", "true");
+		document.body.style.overflow = "";
+		setTimeout(() => {
+			if (!overlay.classList.contains("open")) {
+				poemEl.textContent = "";
+				input.value = "";
+				setStatus("");
+			}
+		}, 900);
+	}
+
+	form.addEventListener("submit", async e => {
+		e.preventDefault();
+		if (submitting || !current) return;
+		const answer = input.value;
+		if (!answer.trim()) return;
+		const stage = current.stage;
+
+		submitting = true;
+		try {
+			const res = await fetch(EGG_API_BASE + EGG_ANSWER_ENDPOINT, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ stage, answer })
+			});
+			if (res.status === 429) { logEgg("egg-guess", stage, answer, "ratelimited"); setStatus("slow down"); return; }
+			if (!res.ok) { logEgg("egg-guess", stage, answer, "error"); setStatus("..."); return; }
+
+			const data = await res.json();
+			if (!data.correct) {
+				logEgg("egg-guess", stage, answer, "wrong");
+				input.value = "";
+				setStatus(""); // incorrect answer
+				return;
+			}
+			logEgg("egg-guess", stage, answer, "correct");
+			if (!data.next) {
+				setStatus("correct", true);
+				return;
+			}
+			contentEl.classList.add("swap");
+			await new Promise(r => setTimeout(r, 650));
+			render(data.next);
+			contentEl.classList.remove("swap");
+		} catch (err) {
+			logEgg("egg-guess", stage, answer, "error");
+			setStatus("...");
+		} finally {
+			submitting = false;
+		}
+	});
+
+	trigger.addEventListener("click", openEgg);
+	document.getElementById("egg-close").addEventListener("click", () => closeEgg("x"));
+
+	overlay.addEventListener("click", e => {
+		if (e.target === overlay || e.target === scrollEl) closeEgg("backdrop");
+	});
+
+	overlay.addEventListener("wheel", e => e.stopPropagation(), { passive: true });
+
+	document.addEventListener("keydown", e => {
+		if (e.key === "Escape" && overlay.classList.contains("open")) closeEgg("esc");
+	});
+})();
 </script>

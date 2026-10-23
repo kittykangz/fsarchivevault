@@ -20,16 +20,16 @@ try {
   document.documentElement.classList.toggle('dark', theme === 'dark');
 } catch(e) {}
 </script>
-<script src="log.js"></script>
-<script src="i18n.js"></script>
-<script src="sound-fx.js"></script>
-<script src="accent-theme.js"></script>
-<script src="typer.js"></script>
-<!-- <script src="scroll-fx.js"></script> -->
+<script src="log.js?v=fdc360ab8e"></script>
+<script src="i18n.js?v=b9d0e9f3c1"></script>
+<script src="sound-fx.js?v=56246d5849"></script>
+<script src="accent-theme.js?v=6de7bee351"></script>
+<script src="typer.js?v=0c9f566b98"></script>
+<!-- <script src="scroll-fx.js?v=b1b95d12b5"></script> -->
 
 <title>Home</title>
 
-<link rel="stylesheet" href="index_style.css" defer>
+<link rel="stylesheet" href="index_style.css?v=126baf44ba" defer>
 </head>
 <body>
 <div id="page-loader">
@@ -186,6 +186,34 @@ body.loading {
   <ol class="update-list"></ol>
 </div>
 
+</div>
+
+<div class="bento-row2">
+  <div class="about-window bento-birthdays" id="bday-card" hidden>
+    <div class="about-section-content">
+      <h3>Birthdays</h3>
+      <div class="bday-hero-slot" id="bday-hero" hidden></div>
+      <div class="bday-list" id="bday-list"></div>
+    </div>
+  </div>
+
+  <div class="about-window bento-otd" id="otd-card" hidden>
+    <div class="about-section-content">
+      <h3 class="otd-head">
+        <span id="otd-title">On this day</span>
+        <span class="otd-datenav">
+          <button type="button" class="otd-nav" data-dir="prev" aria-label="Previous day"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+          <span id="otd-date"></span>
+          <button type="button" class="otd-nav" data-dir="next" aria-label="Next day"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+        </span>
+        <button type="button" class="otd-today" hidden><i class="ti ti-arrow-back-up" aria-hidden="true"></i><span>Back to today</span></button>
+        <button type="button" class="otd-shuffle"><i class="ti ti-arrows-shuffle" aria-hidden="true"></i><span>Shuffle</span></button>
+      </h3>
+      <div class="otd-years" id="otd-years" hidden></div>
+      <div class="otd-grid" id="otd-grid"></div>
+      <div class="otd-foot" id="otd-foot"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -480,6 +508,466 @@ fetch('update_history.json', { cache: "no-cache" })
     document.fonts.ready.then(syncBentoHeights);
   }
   syncBentoHeights();
+})();
+</script>
+
+<script>
+(function () {
+  const INFO_URL        = 'MEMBERS/info.json';
+  const BDAY_IMG_BASE   = 'https://terril.duckdns.org/ASSETS/BDAY/';
+  const BDAY_IMG_EXT    = '.webp';
+  const BDAY_UPCOMING   = 8;
+  const BDAY_RECENT_DAYS = 7;
+  const BDAY_PREVIOUS_MAX = 3;
+  const BDAY_MIN_ROWS   = 3;
+  const BDAY_HERO       = true;
+  const BDAY_SOON_DAYS  = 7;      // countdown pills turn gold within this many days
+  const OTD_SHOW_NAMES  = false;
+  const OTD_URL_BASE    = 'onthisday/';
+  const IMG_ORIGIN      = 'https://terril.duckdns.org';
+  const OTD_ROWS        = 3;
+  const OTD_MIN_TILE    = 150;
+  const OTD_MIN_COLS    = 1;
+  const OTD_MAX_COLS    = 8;
+  const OTD_MAX_PER_MEMBER = 3;
+  const OTD_MAX_PER_YEAR   = 3;
+  const OTD_FEATURE     = true;
+  const OTD_FEATURE_MIN_COLS = 4;
+  const OTD_IMG_DELAY   = 50;
+  const OTD_WARM_DELAY  = 400;
+  const TZ              = 'Asia/Seoul';
+
+  const GROUPS = { unis: 'UNIS', illit: 'ILLIT', newjeans: 'NEWJEANS', ive: 'IVE', stayc: 'STAYC',
+    aespa: 'AESPA', fromis: 'FROMIS', loona: 'LOONA', itzy: 'ITZY', iu: 'IU', redvelvet: 'RED VELVET', twice: 'TWICE' };
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  const pad = n => String(n).padStart(2, '0');
+  const el  = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+  function today() {
+    try {
+      const p = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' })
+        .format(new Date()).split('-').map(Number);
+      if (p.length === 3 && p.every(Number.isFinite)) return { y: p[0], m: p[1], d: p[2] };
+    } catch (e) {}
+    const n = new Date();
+    return { y: n.getFullYear(), m: n.getMonth() + 1, d: n.getDate() };
+  }
+  const T = today();
+  const todayMs = Date.UTC(T.y, T.m - 1, T.d);
+  const isLeap = y => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+  const occ = (y, m, d) => Date.UTC(y, m - 1, (m === 2 && d === 29 && !isLeap(y)) ? 28 : d);
+
+  const memberHref = b => 'MEMBERS/' + encodeURIComponent(b.group + '_' + b.member) + '.html';
+  function curatedImg(b) {
+    const img = new Image();
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.onerror = () => img.remove();
+    img.src = BDAY_IMG_BASE + encodeURIComponent(b.group + '_' + b.member) + BDAY_IMG_EXT;
+    return img;
+  }
+
+  const rowCache = new Map();
+  function bdayRow(b, kind) {
+    const ck = kind + ':' + b.group + '_' + b.member;
+    if (rowCache.has(ck)) return rowCache.get(ck);
+
+    const a = el('a', 'bday-row' + (kind === 'today' ? ' is-today' : '') + (kind === 'past' ? ' is-past' : ''));
+    a.href = memberHref(b);
+    a.dataset.kind = kind;
+    a.dataset.days = String(kind === 'past' ? -b.ago : b.until);
+
+    const chip = el('span', 'bday-chip');
+    chip.append(el('i', null, MONTHS[b.m - 1]), el('b', null, pad(b.d)));
+
+    const thumb = el('span', 'bday-thumb');
+    thumb.dataset.initial = b.member.charAt(0);
+    thumb.appendChild(curatedImg(b));
+
+    const who = el('span', 'bday-who');
+    who.append(el('span', 'bday-name', b.member), el('span', 'bday-group', b.group));
+
+    let text;
+    if (kind === 'past') text = b.ago === 1 ? 'yesterday' : b.ago + ' days ago';
+    else if (b.until === 0) text = 'today';
+    else if (b.until === 1) text = 'tomorrow';
+    else text = b.until + ' days';
+    const pill = el('span', 'bday-pill' + (kind !== 'past' && b.until <= BDAY_SOON_DAYS ? ' is-soon' : ''), text);
+
+    a.append(chip, thumb, who, pill);
+    rowCache.set(ck, a);
+    return a;
+  }
+
+  function buildHero(b) {
+    const isToday = b.until === 0;
+    const a = el('a', 'bday-hero' + (isToday ? ' is-today' : ''));
+    a.href = memberHref(b);
+    a.dataset.kind = isToday ? 'hero-today' : 'hero';
+    a.dataset.days = String(b.until);
+
+    const bg = curatedImg(b);
+    bg.className = 'bh-bg';
+    a.appendChild(bg);
+    if (isToday) ['s1', 's2', 's3', 's4'].forEach(c => a.appendChild(el('span', 'bh-star ' + c)));
+
+    const photo = el('span', 'bh-photo');
+    photo.dataset.initial = b.member.charAt(0);
+    photo.appendChild(curatedImg(b));
+    a.appendChild(photo);
+
+    const tx = el('span', 'bh-text');
+    const sub = el('span', 'bh-sub');
+    sub.append(el('span', 'bh-group', b.group), el('span', 'bh-date', MONTHS[b.m - 1] + ' ' + b.d));
+    const label = el('span', 'bh-label', isToday ? 'Happy birthday!' : 'Next birthday');
+    if (isToday) { const ic = el('i', 'ti ti-confetti'); ic.setAttribute('aria-hidden', 'true'); label.appendChild(ic); }
+    tx.append(label, el('span', 'bh-name', b.member), sub);
+    a.appendChild(tx);
+
+    const cnt = el('span', 'bh-count' + (isToday ? ' is-today' : ''));
+    if (isToday) cnt.appendChild(el('b', null, 'today'));
+    else cnt.append(el('b', null, String(b.until)), el('span', null, b.until === 1 ? 'day' : 'days'));
+    a.appendChild(cnt);
+    return a;
+  }
+
+  async function loadBirthdays() {
+    const res = await fetch(INFO_URL, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('info.json ' + res.status);
+    const info = await res.json();
+
+    const people = [];
+    for (const [key, v] of Object.entries(info)) {
+      const bd = /^(\d{4})-(\d{2})-(\d{2})$/.exec((v && v.birth_date) || '');
+      const parts = key.split('_');
+      const group = GROUPS[parts[0]];
+      if (!bd || !group || parts.length < 2) continue;
+      const m = +bd[2], d = +bd[3];
+      let next = occ(T.y, m, d); if (next < todayMs) next = occ(T.y + 1, m, d);
+      let prev = occ(T.y, m, d); if (prev > todayMs) prev = occ(T.y - 1, m, d);
+      people.push({ group, member: parts.slice(1).join('_').toUpperCase(), m, d,
+        until: Math.round((next - todayMs) / 864e5), ago: Math.round((todayMs - prev) / 864e5) });
+    }
+    if (!people.length) return;
+
+    const byDay = (a, b) => a.until - b.until || a.group.localeCompare(b.group) || a.member.localeCompare(b.member);
+    const todays = people.filter(p => p.until === 0).sort(byDay);
+    const ups = people.filter(p => p.until > 0).sort(byDay);
+    const heroP = todays[0] || ups[0];
+    const earlier = people.filter(p => p.ago >= 1).sort((a, b) => a.ago - b.ago || a.group.localeCompare(b.group))
+      .slice(0, BDAY_PREVIOUS_MAX).map(p => [p, 'past']);
+
+    function headFor(withHero) {
+      const extra = withHero && !todays.length ? 1 : 0;
+      const all = todays.map(p => [p, 'today']).concat(ups.slice(0, BDAY_UPCOMING + extra).map(p => [p, 'next']));
+      return withHero ? all.filter(r => r[0] !== heroP) : all;
+    }
+
+    function rowsFor(n, withHero) {
+      const head = headFor(withHero);
+      n = Math.max(n, BDAY_MIN_ROWS);
+      const keep = earlier.length && earlier[0][0].ago <= BDAY_RECENT_DAYS ? 1 : 0;
+      if (head.length + keep >= n) return head.slice(0, Math.max(n - keep, 1)).concat(earlier.slice(0, keep));
+      return head.concat(earlier.slice(0, n - head.length));
+    }
+
+    const card = document.getElementById('bday-card');
+    const slot = document.getElementById('bday-hero');
+    const list = document.getElementById('bday-list');
+    const divider = el('div', 'bday-divider', 'Earlier');
+    const cssPx = (name, fallback) => parseFloat(getComputedStyle(card).getPropertyValue(name)) || fallback;
+    let rowMin = 0, shownKey = '', heroOn = false;
+
+    function show(rows) {
+      const key = rows.map(r => r[1] + r[0].group + r[0].member).join('|');
+      if (key === shownKey) return;
+      shownKey = key;
+      const nodes = [];
+      let dividerDone = false;
+      rows.forEach(r => {
+        if (r[1] === 'past' && !dividerDone) { nodes.push(divider); dividerDone = true; }
+        nodes.push(bdayRow(r[0], r[1]));
+      });
+      list.replaceChildren(...nodes);
+    }
+
+    function fit() {
+      const h = list.clientHeight;
+      if (!h) return;
+      if (!rowMin) {
+        show(rowsFor(BDAY_MIN_ROWS, false));
+        rowMin = parseFloat(getComputedStyle(list.querySelector('.bday-row')).minHeight) || 60;
+      }
+      const dividerH = cssPx('--bday-divider-h', 24);
+      const heroOuter = (heroOn ? slot.offsetHeight : cssPx('--bday-hero-h', 140)) + 8;
+      const total = h + (heroOn ? heroOuter : 0);
+      const need = heroOuter + BDAY_MIN_ROWS * rowMin + dividerH;
+      const useHero = BDAY_HERO && !!heroP && total >= need + (heroOn ? -12 : 12);
+      if (useHero !== heroOn) {
+        heroOn = useHero;
+        if (useHero && !slot.firstChild) slot.appendChild(buildHero(heroP));
+        slot.hidden = !useHero;
+        shownKey = '';
+      }
+      const avail = total - (useHero ? heroOuter : 0);
+      show(rowsFor(Math.floor((avail - dividerH) / rowMin), useHero));
+    }
+
+    card.hidden = false;
+    fit();
+    if (typeof ResizeObserver === 'function') new ResizeObserver(fit).observe(list);
+    else window.addEventListener('resize', fit);
+  }
+
+  function hashStr(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; }
+  function rng(seed) {                     // mulberry32
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0; let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function pickTiles(pool, seed, n) {
+    const rand = rng(hashStr(seed)), a = pool.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    const out = [], used = new Set(), perMember = {}, perYear = {};
+    for (const relaxed of [false, true]) {
+      for (let i = 0; i < a.length && out.length < n; i++) {
+        if (used.has(i)) continue;
+        const e = a[i], mk = e.g + '/' + e.m;
+        if (!relaxed && ((perMember[mk] || 0) >= OTD_MAX_PER_MEMBER || (perYear[e.y] || 0) >= OTD_MAX_PER_YEAR)) continue;
+        used.add(i); perMember[mk] = (perMember[mk] || 0) + 1; perYear[e.y] = (perYear[e.y] || 0) + 1; out.push(e);
+      }
+    }
+    return out;
+  }
+
+  const mdOf = (m, d) => pad(m) + pad(d);
+  const mdLabel = md => MONTHS[+md.slice(0, 2) - 1] + ' ' + (+md.slice(2));
+  function shiftMd(md, delta) {
+    const t = new Date(Date.UTC(2024, +md.slice(0, 2) - 1, +md.slice(2) + delta));
+    return mdOf(t.getUTCMonth() + 1, t.getUTCDate());
+  }
+  const EMPTY_DAY = { total: 0, members: 0, years: 0, yc: {}, pool: [] };
+  const dayCache = new Map();
+  function fetchDay(md) {
+    if (!dayCache.has(md)) {
+      dayCache.set(md, fetch(OTD_URL_BASE + md + '.json', { cache: 'no-cache' })
+        .then(r => (r.ok ? r.json() : null)).catch(() => null));
+    }
+    return dayCache.get(md);
+  }
+
+  function tile(e, i, featured) {
+    const a = el('a', 'otd-tile' + (featured ? ' otd-feature' : ''));
+    a.href = 'MEMBERS/' + encodeURIComponent(e.g + '_' + e.m) + '.html#img=' + encodeURIComponent(e.f) + '&open=0';
+    a.dataset.year = String(e.y);
+    a.style.setProperty('--i', i);
+    a.setAttribute('aria-label', e.m.toUpperCase() + ' (' + e.g + '), ' + e.y);
+
+    const img = new Image();
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.onload = () => a.classList.add('is-loaded');
+    img.onerror = () => { img.remove(); a.classList.add('is-loaded'); };
+    img.dataset.src = IMG_ORIGIN + '/' + encodeURIComponent(e.g) + '/' + encodeURIComponent(e.m) + '/thumbs/' + encodeURIComponent(e.f);
+    a.appendChild(img);
+
+    if (OTD_SHOW_NAMES && !featured) {
+      const name = el('span', 'otd-name');
+      name.appendChild(el('span', null, e.m.toUpperCase()));
+      name.appendChild(el('span', 'otd-name-group', e.g));
+      a.appendChild(name);
+    }
+    if (featured) {
+      const ago = T.y - e.y;
+      a.appendChild(el('span', 'otd-tag', ago + (ago === 1 ? ' year ago' : ' years ago')));
+      const cap = el('span', 'otd-cap');
+      cap.append(el('b', null, String(e.y)), el('span', null, 'Throwback'));
+      a.appendChild(cap);
+    } else {
+      a.appendChild(el('span', 'otd-year', String(e.y)));
+    }
+    return a;
+  }
+
+  async function loadOnThisDay() {
+    const todayMd = mdOf(T.m, T.d);
+    const first = await fetchDay(todayMd);
+    if (!first) return;
+
+    const card = document.getElementById('otd-card');
+    const grid = document.getElementById('otd-grid');
+    const yearsEl = document.getElementById('otd-years');
+    const foot = document.getElementById('otd-foot');
+    const dateEl = document.getElementById('otd-date');
+    const todayBtn = card.querySelector('.otd-today');
+    let md = todayMd, data = first, filterYear = null, shuffles = 0, shownKey = '', narrowNow = false;
+    let imgTimer = 0, warmTimer = 0;
+
+    function abortImages() {
+      clearTimeout(imgTimer);
+      grid.querySelectorAll('img').forEach(i => { i.onload = i.onerror = null; i.removeAttribute('src'); });
+    }
+    function startImages(delay) {
+      clearTimeout(imgTimer);
+      imgTimer = setTimeout(() => {
+        grid.querySelectorAll('.otd-tile').forEach(t => {
+          const i = t.querySelector('img[data-src]');
+          if (!i) return;
+          i.onload = () => t.classList.add('is-loaded');
+          i.onerror = () => { i.remove(); t.classList.add('is-loaded'); };
+          i.src = i.dataset.src;
+          if (i.complete && i.naturalWidth) t.classList.add('is-loaded');
+        });
+      }, delay);
+    }
+    function warmNeighbours() {
+      clearTimeout(warmTimer);
+      warmTimer = setTimeout(() => { fetchDay(shiftMd(md, 1)); fetchDay(shiftMd(md, -1)); }, OTD_WARM_DELAY);
+    }
+
+    const poolOf = () => (data.pool || []).filter(e => e && e.y < T.y && e.g && e.m && e.f);
+    const yearCounts = () => {
+      if (data.yc && Object.keys(data.yc).length) return data.yc;
+      const c = {}; poolOf().forEach(e => { c[e.y] = (c[e.y] || 0) + 1; }); return c;
+    };
+
+    function drawHeader() {
+      dateEl.textContent = mdLabel(md);
+      todayBtn.hidden = md === todayMd;
+      card.dataset.md = md;
+      card.dataset.year = filterYear ? String(filterYear) : '';
+      card.dataset.today = md === todayMd ? '1' : '0';
+    }
+
+    function drawYears() {
+      const yc = yearCounts();
+      const years = Object.keys(yc).map(Number).filter(y => y < T.y).sort((a, b) => a - b);
+      yearsEl.textContent = '';
+      yearsEl.hidden = years.length < 2;
+      if (yearsEl.hidden) return;
+      const max = Math.max(...years.map(y => yc[y]));
+      narrowNow = yearsEl.clientWidth > 0 && yearsEl.clientWidth / years.length < 34;
+      years.forEach(y => {
+        const b = el('button', 'otd-yb' + (filterYear === y ? ' is-on' : ''));
+        b.type = 'button';
+        b.dataset.year = String(y);
+        b.title = Number(yc[y]).toLocaleString() + ' images';
+        const bar = document.createElement('i');
+        bar.style.height = (4 + Math.round(Math.sqrt(yc[y] / max) * 28)) + 'px';
+        b.append(bar, el('b', null, narrowNow ? "'" + String(y).slice(2) : String(y)));
+        yearsEl.appendChild(b);
+      });
+    }
+
+    function drawFoot() {
+      if (filterYear && data.yc && data.yc[filterYear]) foot.textContent = Number(data.yc[filterYear]).toLocaleString() + ' images \u00b7 ' + filterYear;
+      else if (data.total) foot.textContent = Number(data.total).toLocaleString() + ' images \u00b7 ' + data.members + ' members \u00b7 ' + data.years + ' years';
+      else foot.textContent = '';
+    }
+
+    function render(force) {
+      const gap = parseFloat(getComputedStyle(grid).columnGap) || 8;
+      const w = grid.clientWidth;
+      if (!w) return;
+      const cols = Math.min(OTD_MAX_COLS, Math.max(OTD_MIN_COLS, Math.floor((w + gap) / (OTD_MIN_TILE + gap))));
+
+      const base = poolOf().filter(e => !filterYear || e.y === filterYear);
+      const list = pickTiles(base, T.y + '-' + md + (filterYear ? ':y' + filterYear : '') + (shuffles ? ':s' + shuffles : ''), base.length);
+
+      let feature = null, rest = list, n = 0;
+      if (OTD_FEATURE && !filterYear && cols >= OTD_FEATURE_MIN_COLS && list.length) {
+        let k = 0;
+        list.forEach((e, idx) => { if (e.y < list[k].y) k = idx; });
+        const others = list.filter((_, idx) => idx !== k);
+        const smallFor = r => (cols - 2) * 2 + cols * (r - 2);
+        let r = OTD_ROWS;
+        while (r >= 2 && smallFor(r) > others.length) r--;
+        if (r >= 2) { feature = list[k]; rest = others; n = smallFor(r); }
+      }
+      if (!feature) {
+        n = Math.min(cols * OTD_ROWS, list.length);
+        if (n >= cols) n = Math.floor(n / cols) * cols;
+      }
+
+      const key = [md, filterYear, shuffles, cols, n, feature ? feature.f : ''].join('|');
+      if (!force && key === shownKey) return;
+      shownKey = key;
+      grid.style.setProperty('--otd-cols', cols);
+      grid.classList.remove('has-hl');
+      abortImages();
+      grid.textContent = '';
+      if (!list.length) { grid.appendChild(el('p', 'otd-empty', 'No photos from this day')); return; }
+      let idx = 0;
+      if (feature) grid.appendChild(tile(feature, idx++, true));
+      rest.slice(0, n).forEach(e => grid.appendChild(tile(e, idx++, false)));
+      startImages(force === 'first' ? 0 : OTD_IMG_DELAY);
+    }
+
+    function highlight(year) {
+      grid.classList.toggle('has-hl', !!year);
+      grid.querySelectorAll('.otd-tile').forEach(t => t.classList.toggle('is-hl', !!year && t.dataset.year === year));
+    }
+    yearsEl.addEventListener('mouseover', e => { const b = e.target.closest('.otd-yb'); highlight(b ? b.dataset.year : null); });
+    yearsEl.addEventListener('mouseleave', () => highlight(null));
+
+    async function go(target) {
+      md = target; filterYear = null; shuffles = 0;
+      const d = (await fetchDay(target)) || EMPTY_DAY;
+      if (md !== target) return;
+      data = d;
+      drawHeader(); drawYears(); drawFoot(); render(true);
+      if (!poolOf().length && window.Log) Log.send(Log.ui('otd-empty', target));
+      warmNeighbours();
+    }
+
+    card.addEventListener('click', e => {
+      const nav = e.target.closest('.otd-nav'), yb = e.target.closest('.otd-yb');
+      if (nav) go(shiftMd(md, nav.dataset.dir === 'next' ? 1 : -1));
+      else if (e.target.closest('.otd-today')) go(todayMd);
+      else if (e.target.closest('.otd-shuffle')) { shuffles++; render(true); }
+      else if (yb) {
+        const y = +yb.dataset.year;
+        filterYear = filterYear === y ? null : y;
+        drawHeader(); drawYears(); drawFoot(); render(true);
+      }
+    });
+
+    card.hidden = false;
+    drawHeader(); drawYears(); drawFoot(); render('first');
+    const onResize = () => {
+      if (yearsEl.clientWidth && (yearsEl.clientWidth / Math.max(yearsEl.children.length, 1) < 34) !== narrowNow) drawYears();
+      render(false);
+    };
+    if (typeof ResizeObserver === 'function') new ResizeObserver(onResize).observe(grid);
+    else window.addEventListener('resize', onResize);
+    warmNeighbours();
+  }
+
+  loadBirthdays().catch(err => console.error('Birthdays failed:', err));
+  loadOnThisDay().catch(err => console.error('On this day failed:', err));
+})();
+</script>
+
+<script>
+(function () {
+  const boxes = document.querySelectorAll('.recent-gallery-box, .update-list');
+  const root = () => document.scrollingElement || document.documentElement;
+  const pageCanScrollDown = () => root().scrollTop + window.innerHeight < root().scrollHeight - 2;
+  boxes.forEach(box => {
+    box.addEventListener('wheel', e => {
+      if (e.ctrlKey || e.shiftKey || e.deltaY <= 0) return;
+      if (box.scrollTop > 0 || !pageCanScrollDown()) return;
+      e.preventDefault();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      window.scrollBy(0, e.deltaY * unit);
+    }, { passive: false });
+  });
 })();
 </script>
 

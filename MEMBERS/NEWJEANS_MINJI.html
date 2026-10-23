@@ -28,11 +28,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">    
-<script src="../log.js?v=c4f46cc24d"></script>
+<script src="../log.js?v=a78a3a6d3d"></script>
 <script src="glass-lens.js?v=ebb03382ca"></script>
-<script src="../i18n.js?v=1b4e853b13"></script>
+<script src="../i18n.js?v=ed2bd11b62"></script>
 <script src="../typer.js?v=0c9f566b98"></script>
-<script src="../sound-fx.js?v=56246d5849"></script>
+<script src="../sound-fx.js?v=a592b97ef0"></script>
 <script src="../accent-theme.js?v=6de7bee351"></script>
 <script>
   const saved = localStorage.getItem('theme');
@@ -134,7 +134,7 @@ body.loading {
 .pfp-fx .fl { fill: var(--gold); stroke: none; }
 .pfp-fx .tx { fill: var(--gold); font: 8px "DM Mono", monospace; letter-spacing: 0.08em; }
 </style>
-<link rel="stylesheet" href="style.css?v=e7d6637913">
+<link rel="stylesheet" href="style.css?v=8c0bd69bdf">
 <div id="auth-container"></div>
 <div id="topbar-container"></div>
 <div id="footer-container"></div>
@@ -243,7 +243,7 @@ body.loading {
           </div>
         </div>
         <div class="hdr-card hdr-controls">
-        <div id="controls">
+        <div id="controls" class="is-busy" inert>
         
         <button id="randomBtn" class="ui-btn icon-only" title="Open a random image">
             <i class="ti ti-dice-3" aria-hidden="true"></i>
@@ -293,11 +293,11 @@ body.loading {
                 <i class="ti ti-sparkles"></i>
                 Try the new filters!
             </div>         -->
-        <div class="ctl-stamp" id="ctlStamp" data-ts="1792455448">
+        <div class="ctl-stamp" id="ctlStamp" data-ts="1792712537">
           <span class="ctl-dot"></span>
           <span class="ctl-lab ctl-lab-full">Last updated</span>
           <span class="ctl-lab ctl-lab-short">Updated</span>
-          <span class="ctl-date" data-i18n-skip>261019<span class="ctl-time">20:17</span></span>
+          <span class="ctl-date" data-i18n-skip>261022<span class="ctl-time">19:42</span></span>
           <span class="ctl-ago" id="ctlAgo"></span>
         </div>
         </div>
@@ -309,6 +309,8 @@ body.loading {
     <div class="scroll-chevron scroll-chevron-top">
       <i class="ti ti-chevron-up scroll-chevron-icon" aria-hidden="true"></i>
     </div>
+    <div class="fp-cols">
+    <div class="fp-col fp-col-left">
     <div class="fp-row fp-clip-row">
       <div class="fp-label-row">
         <i class="ti ti-brain fp-label-icon"></i>
@@ -410,7 +412,8 @@ body.loading {
         </div>
       </div>
     </div>
-    <div class="fp-divider"></div>    
+    </div>
+    <div class="fp-col fp-col-right">
     <div class="fp-row">
       <div class="fp-label-row">
         <i class="ti ti-layout-rows fp-label-icon"></i>
@@ -502,6 +505,8 @@ body.loading {
         <input type="range" class="fp-range fp-range-lo" id="fp-res-lo" min="0" max="100" value="0">
         <input type="range" class="fp-range fp-range-hi" id="fp-res-hi" min="0" max="100" value="100">
       </div>
+    </div>
+    </div>
     </div>
     <div class="fp-divider"></div>
     <div class="fp-footer">
@@ -4417,6 +4422,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         gallery.classList.remove("dimmed");
         if (overlay) overlay.classList.add("hidden");
+        const ctlBar = document.getElementById("controls");   // header controls were locked while loading
+        if (ctlBar) { ctlBar.removeAttribute("inert"); ctlBar.classList.remove("is-busy"); }
 
         renderVisibleItems();
 
@@ -4798,6 +4805,44 @@ function updateLensPosition() {
 
 	requestAnimationFrame(updateLensPosition);
 }
+let _imgSessPromise = null;
+function _sessFresh(s) {
+	if (!s) return false;
+	const exp = Number(s.split('.')[1]);
+	return exp > Date.now() / 1000 + 60;
+}
+function getImgSession(force) {
+	let s = null;
+	try { s = localStorage.getItem('imgsess'); } catch (e) {}
+	if (!force && _sessFresh(s)) return Promise.resolve(s);
+	if (_imgSessPromise && !force) return _imgSessPromise;
+	_imgSessPromise = fetch('https://terril.duckdns.org/api/session', { method: 'POST' })
+		.then(r => r.ok ? r.json() : null)
+		.then(j => {
+			const t = j && j.token ? j.token : null;
+			if (t) { try { localStorage.setItem('imgsess', t); } catch (e) {} }
+			return t;
+		})
+		.catch(() => null)
+		.finally(() => { _imgSessPromise = null; });
+	return _imgSessPromise;
+}
+function withImgSession(url, s) {
+	if (!s) return url;
+	return url + (url.indexOf('?') === -1 ? '?' : '&') + 't=' + encodeURIComponent(s);
+}
+try { getImgSession(false); } catch (e) {}
+
+document.addEventListener('pointerdown', function (ev) {
+	const a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+	if (!a || a.id === 'lbDownload') return;
+	if (!/^https:\/\/terril\.duckdns\.org\/.+\.(jpe?g|png|gif|webp|avif)$/i.test(a.href)) return;
+	if (a.href.indexOf('/thumbs/') !== -1) return;
+	let s = null;
+	try { s = localStorage.getItem('imgsess'); } catch (e) {}
+	if (_sessFresh(s)) a.href = withImgSession(a.href, s);
+}, true);
+
 const sharedImageCache = new Map();
 
 function loadSharedImage(url) {
@@ -4807,12 +4852,18 @@ function loadSharedImage(url) {
 			return;
 		}
 		rlConsume();
-		const fetchOpts = { mode: 'cors' };
 		const ptoken = localStorage.getItem('ptoken');
-		if (ptoken) {
-			fetchOpts.headers = { 'X-Premium-Token': ptoken };
-		}
-		fetch(url, fetchOpts)
+		const attempt = (forceNew) => getImgSession(forceNew).then(sess => {
+			const fetchOpts = { mode: 'cors' };
+			if (ptoken) {
+				fetchOpts.headers = { 'X-Premium-Token': ptoken };
+			}
+			return fetch(withImgSession(url, sess), fetchOpts).then(res => {
+				if (res.status === 401 && !forceNew) return attempt(true);
+				return res;
+			});
+		});
+		attempt(false)
 			.then(res => {
 				if (!res.ok) {
 					if (res.status === 403) {
@@ -6323,7 +6374,10 @@ document.getElementById('lbDownload').addEventListener('click', async (e) => {
 	e.preventDefault();
 	const url = e.currentTarget.href;
 	rlConsume();
-	const response = await fetch(url);
+	let response = await fetch(withImgSession(url, await getImgSession(false)));
+	if (response.status === 401) {
+		response = await fetch(withImgSession(url, await getImgSession(true)));
+	}
 	if (!response.ok) {
 		if (response.status === 403) {
 			rlForceEmpty();
@@ -7075,7 +7129,8 @@ function setupPanelToggle() {
 	function positionPanel() {
 		const rect = btn.getBoundingClientRect();
 		panel.style.top = (rect.bottom + 6) + 'px';
-		panel.style.left = Math.max(8, rect.right - 300) + 'px';
+		const w = panel.offsetWidth || 300;
+		panel.style.left = Math.max(8, Math.min(rect.right - w, window.innerWidth - w - 8)) + 'px';
 	}
 	btn.addEventListener('click', (e) => {
 		e.stopPropagation();
@@ -7126,6 +7181,7 @@ function setupResetAll() {
 	document.getElementById('filter-indicator-reset')?.addEventListener('click', resetFilters);
 }
 const AUTHOR_CHUNK = 60;
+const AUTHOR_WHEEL_SCALE = 0.4;
 const AUTHOR_TYPER_POOL = 100;
 const AUTHOR_TYPER_MAX_CHARS = 22;
 const AUTHOR_TYPER_UNSAFE = /[\p{M}\p{C}\u{1F1E6}-\u{1F1FF}\u{1F3FB}-\u{1F3FF}\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF]/u;
@@ -7278,6 +7334,14 @@ function authorsInitDom() {
 		}
 		authorsUpdateFade();
 	}, { passive: true });
+	list.addEventListener('wheel', (e) => {
+		if (e.ctrlKey || e.deltaY === 0 || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+		if (e.deltaMode === 0 && Math.abs(e.deltaY) < 50) return;
+		const rowH = (parseFloat(getComputedStyle(list).getPropertyValue('--fp-author-row-h')) || 28) + 1;
+		const px = e.deltaMode === 1 ? e.deltaY * rowH : e.deltaMode === 2 ? e.deltaY * list.clientHeight : e.deltaY;
+		e.preventDefault();
+		list.scrollTop += px * AUTHOR_WHEEL_SCALE;
+	}, { passive: false });
 	if (typeof ResizeObserver === 'function') new ResizeObserver(() => authorsOnListResize()).observe(list);
 	input.addEventListener('input', () => {
 		clearTimeout(authorSearchTimer);
@@ -7786,6 +7850,7 @@ async function runClipSearch(query) {
 })();
 
 function resetFiltersForDateSearch() {
+	const hadClip = clipResults !== null;
 	clipResults = null;
 	clipQuery = "";
 	if (prevSortField !== null) {
@@ -7813,6 +7878,12 @@ function resetFiltersForDateSearch() {
 	if (originalAllItems) {
 		applyFilters(true);
 	} else {
+		if (hadClip) {
+			const field = window.sortField === "date" ? "date" : "uploaded";
+			sortItems(window.ascending, field);
+			window.rerenderVirtualized();
+			updateTimelineBar();
+		}
 		updateIndicator(0, 0);
 	}
 	updateFilterBtn();
@@ -8132,7 +8203,13 @@ function openReportModal() {
 	logEvent(`report/${galleryName}/${filename}`);
 	const gm = getGroupMember();
 	const gallery = gm ? `${gm.group} / ${gm.member}` : location.pathname;
-	metaEl.textContent = `${filename}  ·  ${gallery}`;
+	metaEl.textContent = '';
+	const fnSpan = document.createElement('span');
+	fnSpan.setAttribute('data-i18n-skip', '');
+	fnSpan.textContent = filename;
+	const gmSpan = document.createElement('span');
+	gmSpan.textContent = gm ? `${gm.group.toUpperCase()} / ${gm.member.toUpperCase()}` : gallery;
+	metaEl.append(fnSpan, document.createTextNode('  ·  '), gmSpan);
 	reasonEls.forEach(r => {
 		r.classList.remove('checked');
 		r.querySelector('input').checked = false;

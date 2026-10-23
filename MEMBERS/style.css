@@ -3753,7 +3753,8 @@ html.dark .tcw-wrap {
 
 .filter-panel {
   position: fixed;
-  width: 300px;
+  width: 640px;
+  max-width: calc(100vw - 16px);
   background: var(--bg-surface);
   border: 0.5px solid var(--border);
   border-radius: 4px;
@@ -3768,6 +3769,7 @@ html.dark .tcw-wrap {
   overflow-x: hidden;
   scrollbar-color: var(--border) transparent;
   scrollbar-width: thin;
+  padding-bottom: 6px;
 }
 
 @media (max-height: 1300px) {
@@ -3912,6 +3914,8 @@ html.dark .tcw-wrap {
   gap: 6px;
 }
 #controls.wrap { flex-wrap: wrap; }
+#controls.is-busy { opacity: 0.45; pointer-events: none; user-select: none; }
+#controls { transition: opacity 0.25s ease; }
 
 #hdrCards.fit-anim {
   overflow: hidden;
@@ -4056,6 +4060,51 @@ html.dark .tcw-wrap {
   border-color: var(--gold);
   color: var(--gold);
   font-weight: 500;
+}
+
+.fp-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.fp-col-left {
+  padding-right: 12px;
+}
+
+.fp-col-right {
+  padding-left: 12px;
+  border-left: 0.5px solid var(--border);
+}
+
+.fp-col-left .fp-author-list {
+  --fp-author-rows: 8;
+}
+
+@media (max-width: 700px) {
+  .filter-panel {
+    width: 300px;
+  }
+  .fp-cols {
+    display: block;
+  }
+  .fp-col-left {
+    padding-right: 0;
+  }
+  .fp-col-right {
+    padding-left: 0;
+    border-left: none;
+  }
+  .fp-col-left .fp-author-list {
+    --fp-author-rows: 5;
+  }
+  .fp-col-right::before {
+    content: "";
+    display: block;
+    height: 0.5px;
+    background: var(--border);
+    margin: 4px 0;
+  }
 }
 
 .fp-divider {
@@ -4413,6 +4462,7 @@ html.dark .tcw-wrap {
   font-size: 12px;
   line-height: 1;
   white-space: pre;
+  padding-left: 6px;
 }
 
 .fp-clip-field.typer-active .fp-clip-ghost {
@@ -4447,6 +4497,8 @@ html.dark .tcw-wrap {
   color: var(--text-muted);
   transition: color 0.15s;
 }
+
+.fp-clip-status:empty { display: none; }
 
 .fp-clip-status.fp-clip-loading {
   color: var(--text-muted);
@@ -4658,7 +4710,7 @@ html.dark .tcw-wrap {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  padding-left: 26px;
+  padding-left: 23px;
 }
 
 .fp-author-search-input:disabled {

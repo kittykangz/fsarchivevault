@@ -161,8 +161,6 @@ function ensureKoFont() {
     .then(() => { koFontPending = false; koFontDone = true; if (chart) render(currentMode); });
 }
 
-/* ---------------------------------------------------------------- data */
-
 function toTs(dateStr) {
   return new Date(dateStr).getTime();
 }
@@ -222,8 +220,6 @@ function buildSeries(mode, palette) {
 
   return { series, floorDate: data.dates[floorIndex] };
 }
-
-/* ---------------------------------------------------------------- chart */
 
 function saveImage() {
   const url = chart.getDataURL({ type: "png", pixelRatio: 2, backgroundColor: getPalette().savedImageBg });
@@ -382,8 +378,6 @@ function buildTabs() {
     tabsEl.appendChild(el);
   });
 }
-
-/* ---------------------------------------------------------------- start */
 
 async function init() {
   let res;

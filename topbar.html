@@ -80,7 +80,6 @@
   transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 
-/* gold is too pale on the light topbar; same darker gold the sidebar uses */
 html:not(.dark) .topbar-donate {
   color: var(--gold-deep);
 }
@@ -245,8 +244,6 @@ html:not(.dark) .topbar-donate {
     opacity: 0.9;
 }
 
-/* single characters of the status text glitch through these looks (the header's looks, but in the text's own muted
-   colour instead of gold; text-fill-color keeps currentColor usable for the outline / block) */
 .st-ch.lk-off     { opacity: 0; }
 .st-ch.lk-ghost   { opacity: 0.2; }
 .st-ch.lk-dim     { opacity: 0.55; }
@@ -254,7 +251,6 @@ html:not(.dark) .topbar-donate {
 .st-ch.lk-outline { -webkit-text-fill-color: transparent; -webkit-text-stroke: 0.6px currentColor; opacity: 0.9; }
 .st-ch.lk-block   { background: currentColor; -webkit-text-fill-color: var(--bg); opacity: 0.85; }
 
-/* ---------- language toggle ---------- */
 .topbar-lang-toggle {
   display: flex;
   align-items: center;
@@ -284,7 +280,6 @@ html:not(.dark) .topbar-donate {
   border-color: var(--gold-border);
 }
 
-/* English shows Tabler's "abc"; Tabler has no Hangul glyph, so Korean shows 한 sized to match */
 .topbar-lang-toggle .ti-abc { font-size: 17px; }
 
 .lang-ico--ko {
@@ -298,7 +293,6 @@ html:not(.dark) .topbar-donate {
 .topbar-lang-toggle.on .lang-ico--en { display: none; }
 .topbar-lang-toggle.on .lang-ico--ko { display: block; }
 
-/* ---------- accent picker ---------- */
 .accent-wrap {
   position: relative;
   display: flex;
@@ -328,7 +322,6 @@ html:not(.dark) .topbar-donate {
 }
 
 .accent-panel {
-  /* absolute (not fixed): .topbar has backdrop-filter, which would re-anchor fixed children */
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
@@ -383,7 +376,6 @@ html:not(.dark) .topbar-donate {
 
 .accent-presets {
   display: grid;
-  /* default swatch | divider | 7 saveable slots */
   grid-template-columns: 1fr 1px repeat(7, 1fr);
   align-items: center;
   gap: 6px;
@@ -404,7 +396,6 @@ html:not(.dark) .topbar-donate {
   border: 0.5px solid var(--border-strong);
   cursor: pointer;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  /* long-press restores a preset, so stop the browser from selecting / showing its own menu */
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -430,7 +421,6 @@ html:not(.dark) .topbar-donate {
   color: var(--text-secondary);
 }
 
-/* value readout: a real text field so it can be selected, copied, pasted into or typed in */
 .accent-readout {
   width: 52px;
   box-sizing: border-box;
@@ -475,7 +465,6 @@ html:not(.dark) .topbar-donate {
 
 .accent-slider:focus-visible { box-shadow: 0 0 0 1.5px var(--gold-border); }
 
-/* block thumb, like the cursor in the sidebar's pwd bar */
 .accent-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   box-sizing: border-box;
@@ -495,7 +484,6 @@ html:not(.dark) .topbar-donate {
   border: 1.5px solid var(--text-primary);
 }
 
-/* track gradients follow the other two sliders, so you see the result before you drag */
 .accent-slider.hue {
   background: linear-gradient(to right,
     hsl(0 var(--ac-s) var(--ac-l)), hsl(40 var(--ac-s) var(--ac-l)), hsl(80 var(--ac-s) var(--ac-l)),
@@ -535,17 +523,14 @@ html:not(.dark) .topbar-donate {
 .accent-btn:hover:not(:disabled) { color: var(--gold); border-color: var(--gold-border); }
 .accent-btn:disabled { opacity: 0.4; cursor: default; }
 
-/* ---------- topbar button: lit while the accent differs from the default ---------- */
 .topbar-accent-toggle.modified {
   color: var(--gold);
   border-color: var(--gold-border);
   background: var(--gold-bg);
 }
 
-/* ---------- saveable preset slots ---------- */
 .accent-swatch { position: relative; }
 
-/* tiny dot marks a slot that holds one of your own presets */
 .accent-swatch.custom::after {
   content: '';
   position: absolute;
@@ -1285,7 +1270,6 @@ document.getElementById("auth-entry").addEventListener("click", () => {
         if (saving) log('save-mode');
     });
 
-    /* ---------------- sync ---------------- */
     function sync() {
         const t = AT.get();
         const goldL = 63 + t.l;
