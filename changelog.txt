@@ -1,3 +1,17 @@
+261104 – Added XHS as a source, a source filter, and merged Primary/Fallback into Twitter/X, plus lightbox cursor hiding
+
+### Sources
+
+* Added **XHS** as a new source.
+* Added a **source filter** to the filter panel: X, XHS, News, or None.
+* Combined the Primary and Fallback sources into a single Twitter/X source.
+* Source coverage and authors are now preloaded server side.
+
+### Lightbox
+
+* The lightbox now hides the cursor when inactive over an image.
+
+
 261022 – Added a birthday and On This Day section to the homepage, reorganized filter panel, and other small improvements and bug fixes
 
 ### Homepage
