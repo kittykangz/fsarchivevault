@@ -30,7 +30,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">    
 <script src="../log.js?v=a78a3a6d3d"></script>
 <script src="glass-lens.js?v=ebb03382ca"></script>
-<script src="../i18n.js?v=008656c985"></script>
+<script src="../i18n.js?v=70d0591925"></script>
 <script src="../typer.js?v=0c9f566b98"></script>
 <script src="../sound-fx.js?v=a592b97ef0"></script>
 <script src="../accent-theme.js?v=6de7bee351"></script>
@@ -134,7 +134,7 @@ body.loading {
 .pfp-fx .fl { fill: var(--gold); stroke: none; }
 .pfp-fx .tx { fill: var(--gold); font: 8px "DM Mono", monospace; letter-spacing: 0.08em; }
 </style>
-<link rel="stylesheet" href="style.css?v=912d4cc78b">
+<link rel="stylesheet" href="style.css?v=c9051927bb">
 <div id="auth-container"></div>
 <div id="topbar-container"></div>
 <div id="footer-container"></div>
@@ -293,11 +293,11 @@ body.loading {
                 <i class="ti ti-sparkles"></i>
                 Try the new filters!
             </div>         -->
-        <div class="ctl-stamp" id="ctlStamp" data-ts="1793776799">
+        <div class="ctl-stamp" id="ctlStamp" data-ts="1794128257">
           <span class="ctl-dot"></span>
           <span class="ctl-lab ctl-lab-full">Last updated</span>
           <span class="ctl-lab ctl-lab-short">Updated</span>
-          <span class="ctl-date" data-i18n-skip>261104<span class="ctl-time">02:19</span></span>
+          <span class="ctl-date" data-i18n-skip>261108<span class="ctl-time">03:57</span></span>
           <span class="ctl-ago" id="ctlAgo"></span>
         </div>
         </div>
@@ -3358,18 +3358,14 @@ var currentIndex = -1;
 
 		const LIGHT_FT_COLORS = ["#ff4ec4", "#ffb300", "#33c9ff", "#8fe36b", "#b06aff", "#ff7a59"];
 
-		// Tier vocabulary v2 (server: /api/tweet-coverage?tiers=2): x = X/Twitter (the old
-		// primary + fallback merged), xhs = XHS/RedNote, news.
+		// Tiers (server: /api/tweet-coverage): x = X/Twitter, xhs = XHS/RedNote, news.
 		const TIER_COLORS = {
 			x:    "#4a9eff",
 			xhs:  "#9b59d6",
 			news: "#ffb347",
 			none: "var(--error)",
 		};
-		// Old-vocabulary names -> v2, so this page also renders correctly if it ever talks to a
-		// server that has not been updated yet (or serves a cached legacy answer).
-		const TIER_ALIAS = { primary: 'x', fallback: 'x' };
-		const normTier = t => { const v = TIER_ALIAS[t] || t; return (v in TIER_COLORS && v !== 'none') ? v : 'x'; };
+		const normTier = t => (t in TIER_COLORS && t !== 'none') ? t : 'x';
 		window.hdrTierColors = TIER_COLORS;
 		window.hdrFtColors = LIGHT_FT_COLORS;
 		window.hdrSetColor = id => `hsl(${hashStringToHue(id)}, 65%, 58%)`;
@@ -4022,7 +4018,7 @@ var currentIndex = -1;
 			if (window.authorsLoading) window.authorsLoading();
 			try {
 				const resp = await fetch(
-					`https://terril.duckdns.org/api/tweet-coverage?member=${encodeURIComponent(memberKey)}&authors=1&tiers=2`
+					`https://terril.duckdns.org/api/tweet-coverage?member=${encodeURIComponent(memberKey)}`
 				);
 				const data = await resp.json();
 				if (data.covered) {
@@ -4721,10 +4717,7 @@ imageWrapper.addEventListener('mouseup', e => {
 	if (lbCursorOnImage(e.clientX, e.clientY, e.target)) lbCursorArm();
 });
 imageWrapper.addEventListener('mouseleave', lbCursorWake);
-// Track the pointer everywhere so the timer can start without a mouse move
-// (lightbox just opened, image swapped, panel toggled under a still cursor).
 document.addEventListener('mousemove', e => { lbCurX = e.clientX; lbCurY = e.clientY; }, true);
-// Never resets a running timer; only arms when idle-eligible, or wakes if the cursor is no longer over the image.
 setInterval(() => {
 	if (!LB_CURSOR_IDLE_MS || lightbox.classList.contains('hidden')) return;
 	const over = lbCursorHit();

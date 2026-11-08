@@ -26,12 +26,13 @@
   var KO_FONT_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap';
 
   var GROUPS = {
-    'UNIS': '유니스', 'ILLIT': '아일릿', 'NEWJEANS': '뉴진스', 'IVE': '아이브', 'STAYC': '스테이씨',
+    'A2O LITE': '에이투오 라이트', 'UNIS': '유니스', 'ILLIT': '아일릿', 'NEWJEANS': '뉴진스', 'IVE': '아이브', 'STAYC': '스테이씨',
     'AESPA': '에스파', 'FROMIS': '프로미스나인', 'LOONA': '이달의 소녀', 'ITZY': '있지', 'IU': '아이유',
     'RED VELVET': '레드벨벳', 'TWICE': '트와이스'
   };
 
   var MEMBERS = {
+    'YOUNG': '영', 'HIMEKI': '히메키', 'VORA': '보라', 'XILI': '시리', 'RADA': '라다', 'MERCI': '메르시', 'AYUNE': '아윤', 'OA': '오아', 'AIJING': '아이찡',
     'YUNAH': '윤아', 'MINJU': '민주', 'MOKA': '모카', 'WONHEE': '원희', 'IROHA': '이로하',
     'HYEONJU': '현주', 'NANA': '나나', 'GEHLEE': '젤리', 'KOTOKO': '코토코', 'YUNHA': '윤하',
     'ELISIA': '엘리시아', 'YOONA': '윤아', 'SEOWON': '서원',

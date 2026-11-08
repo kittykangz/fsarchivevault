@@ -517,7 +517,7 @@ fetch('update_history.json', { cache: "no-cache" })
   const BDAY_IMG_BASE   = 'https://terril.duckdns.org/ASSETS/BDAY/';
   const BDAY_IMG_EXT    = '.webp';
   const BDAY_UPCOMING   = 8;
-  const BDAY_RECENT_DAYS = 7;
+  const BDAY_RECENT_DAYS = 14;
   const BDAY_PREVIOUS_MAX = 3;
   const BDAY_MIN_ROWS   = 3;
   const BDAY_HERO       = true;
@@ -538,7 +538,11 @@ fetch('update_history.json', { cache: "no-cache" })
   const TZ              = 'Asia/Seoul';
 
   const GROUPS = { unis: 'UNIS', illit: 'ILLIT', newjeans: 'NEWJEANS', ive: 'IVE', stayc: 'STAYC',
-    aespa: 'AESPA', fromis: 'FROMIS', loona: 'LOONA', itzy: 'ITZY', iu: 'IU', redvelvet: 'RED VELVET', twice: 'TWICE' };
+  aespa: 'AESPA', fromis: 'FROMIS', loona: 'LOONA', itzy: 'ITZY', iu: 'IU', redvelvet: 'RED VELVET',
+  twice: 'TWICE', a2olite: 'A2OLITE' };
+  // Folder/file name stays the key above; this is only the text shown on the birthday card.
+  const GROUP_LABEL = { A2OLITE: 'A2O LITE' };
+  const groupLabel = g => GROUP_LABEL[g] || g;
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   const pad = n => String(n).padStart(2, '0');
@@ -587,7 +591,7 @@ fetch('update_history.json', { cache: "no-cache" })
     thumb.appendChild(curatedImg(b));
 
     const who = el('span', 'bday-who');
-    who.append(el('span', 'bday-name', b.member), el('span', 'bday-group', b.group));
+    who.append(el('span', 'bday-name', b.member), el('span', 'bday-group', groupLabel(b.group)));
 
     let text;
     if (kind === 'past') text = b.ago === 1 ? 'yesterday' : b.ago + ' days ago';
@@ -620,7 +624,7 @@ fetch('update_history.json', { cache: "no-cache" })
 
     const tx = el('span', 'bh-text');
     const sub = el('span', 'bh-sub');
-    sub.append(el('span', 'bh-group', b.group), el('span', 'bh-date', MONTHS[b.m - 1] + ' ' + b.d));
+    sub.append(el('span', 'bh-group', groupLabel(b.group)), el('span', 'bh-date', MONTHS[b.m - 1] + ' ' + b.d));
     const label = el('span', 'bh-label', isToday ? 'Happy birthday!' : 'Next birthday');
     if (isToday) { const ic = el('i', 'ti ti-confetti'); ic.setAttribute('aria-hidden', 'true'); label.appendChild(ic); }
     tx.append(label, el('span', 'bh-name', b.member), sub);

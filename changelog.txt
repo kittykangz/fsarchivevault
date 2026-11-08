@@ -1,3 +1,5 @@
+261108 [A2O LITE] – New group A2O LITE
+
 261104 – Added XHS as a source, a source filter, and merged Primary/Fallback into Twitter/X, plus lightbox cursor hiding
 
 ### Sources

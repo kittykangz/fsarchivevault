@@ -1,4 +1,67 @@
 {
+    "a2olite_young": {
+        "full_name": "Jeong Si-young (정시영)",
+        "birth_date": "2008-10-27",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "a2olite_himeki": {
+        "full_name": "? Himeki (? 姫希)",
+        "birth_date": "2009-10-05",
+        "country": "JP",
+        "other_info": ""
+    },
+
+    "a2olite_vora": {
+        "full_name": "Lee Eun-ji (이은지)",
+        "birth_date": "2010-02-10",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "a2olite_xili": {
+        "full_name": "Liáng Xīlì (梁淅沥)",
+        "birth_date": "2010-11-06",
+        "country": "CN",
+        "other_info": ""
+    },
+
+    "a2olite_rada": {
+        "full_name": "Rada Kanjanapruk (รดา กาญจนพฤกษ์)",
+        "birth_date": "2011-04-11",
+        "country": "TH",
+        "other_info": ""
+    },
+
+    "a2olite_merci": {
+        "full_name": "Mǎ Xītóng (马西桐)",
+        "birth_date": "2011-05-31",
+        "country": "CN",
+        "other_info": ""
+    },
+
+    "a2olite_ayune": {
+        "full_name": "Shim Ah-yun (심아윤)",
+        "birth_date": "2013-01-29",
+        "country": "KR",
+        "other_info": ""
+    },
+
+    "a2olite_oa": {
+        "full_name": "Olivia Angel (オリビア・エンジェル)",
+        "birth_date": "2013-02-08",
+        "countries": ["JP", "US"],
+        "other_info": ""
+    },
+
+    "a2olite_aijing": {
+        "full_name": "Shèng Àijìng (盛艾敬)",
+        "birth_date": "2013-04-24",
+        "country": "CN",
+        "other_info": ""
+    },
+
     "unis_hyeonju": {
         "full_name": "Jin Hyeon Ju (진현주)",
         "birth_date": "2001-11-03",
