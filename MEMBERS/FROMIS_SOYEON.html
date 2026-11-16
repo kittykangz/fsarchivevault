@@ -293,11 +293,11 @@ body.loading {
                 <i class="ti ti-sparkles"></i>
                 Try the new filters!
             </div>         -->
-        <div class="ctl-stamp" id="ctlStamp" data-ts="1794818838">
+        <div class="ctl-stamp" id="ctlStamp" data-ts="1794821830">
           <span class="ctl-dot"></span>
           <span class="ctl-lab ctl-lab-full">Last updated</span>
           <span class="ctl-lab ctl-lab-short">Updated</span>
-          <span class="ctl-date" data-i18n-skip>261116<span class="ctl-time">03:47</span></span>
+          <span class="ctl-date" data-i18n-skip>261116<span class="ctl-time">04:37</span></span>
           <span class="ctl-ago" id="ctlAgo"></span>
         </div>
         </div>
@@ -6190,7 +6190,7 @@ const lbFaces = (() => {
 
 	function loadAll() {
 		if (!dataPromise) {
-			dataPromise = fetch('../faces/' + encodeURIComponent(galleryKey) + '.json?v=' + FACES_VER)
+			dataPromise = fetch('../FACES/' + encodeURIComponent(galleryKey) + '.json?v=' + FACES_VER)
 				.then(r => r.ok ? r.json() : null)
 				.then(j => (j && j.images) || {})
 				.catch(() => ({}));
