@@ -387,6 +387,8 @@ function vtOpenModal(group) {
 })();
 
 
+var CL_ASSET_BASE = 'https://terril.duckdns.org/ASSETS/CL/';
+
 function parseChangelog(text) {
   var lines = String(text).replace(/\r/g, '').split('\n');
   var entries = [], cur = null, sec = null;
@@ -402,17 +404,22 @@ function parseChangelog(text) {
     var line = raw.trim(), m;
     if (!line) return;
     if ((m = reBlock.exec(line))) {
-      cur = { date: m[1], tags: tags(m[2]), title: clean(m[3] || ''), sections: [], items: [] };
+      cur = { date: m[1], tags: tags(m[2]), title: clean(m[3] || ''), sections: [], items: [], media: [] };
       entries.push(cur); sec = null; return;
     }
     if ((m = reLegacy.exec(line))) {
       cur = {
-        date: m[1], tags: tags(m[2]), title: '', sections: [],
+        date: m[1], tags: tags(m[2]), title: '', sections: [], media: [],
         items: m[3].split(/;\s*/).map(clean).filter(Boolean)
       };
       entries.push(cur); sec = null; return;
     }
     if (!cur) return;
+    if (line.charAt(0) === '!') {
+      var im, reImg = /!\[([^\]]*)\]\(([^)\s]+)\)/g;
+      while ((im = reImg.exec(line))) cur.media.push({ alt: im[1].trim(), src: /^(https?:)?\/\//.test(im[2]) ? im[2] : CL_ASSET_BASE + im[2].replace(/^\/+/, '') });
+      return;
+    }
     if ((m = reSection.exec(line))) { sec = { name: clean(m[1]), items: [] }; cur.sections.push(sec); return; }
     if ((m = reBullet.exec(line))) { (sec ? sec.items : cur.items).push(clean(m[1])); return; }
     var list = sec ? sec.items : cur.items;
@@ -425,9 +432,12 @@ function parseChangelog(text) {
   return entries;
 }
 
+var clEntries = [];
+
 function renderChangelog(entries) {
   var list = document.getElementById('changelog-list');
   if (!list) return;
+  clEntries = entries;
 
   var li = function (t) { return '<li>' + vtEsc(t) + '</li>'; };
 
@@ -443,11 +453,122 @@ function renderChangelog(entries) {
     e.sections.forEach(function (s) {
       body += '<div class="cl-sec">' + vtEsc(s.name) + '</div><ul class="cl-items">' + s.items.map(li).join('') + '</ul>';
     });
+    var photos = e.media.length
+      ? '<span class="cl-photos" title="' + e.media.length + (e.media.length === 1 ? ' image' : ' images') + '"><i class="ti ti-photo" aria-hidden="true"></i>' + e.media.length + '</span>'
+      : '';
+    if (e.media.length) {
+      body += '<div class="cl-media">' + e.media.map(function (m, mi) {
+        return '<button type="button" class="cl-thumb" data-m="' + mi + '" aria-label="' + vtEsc(m.alt || 'Open image ' + (mi + 1)) + '">' +
+          '<img data-src="' + vtEsc(m.src) + '" alt="' + vtEsc(m.alt) + '" decoding="async"></button>';
+      }).join('') + '</div>';
+    }
     return '<li class="cl-entry' + (idx === 0 ? ' latest' : '') + '" data-i="' + idx + '">' +
       '<button type="button" class="cl-head" aria-expanded="false"><i class="ti ti-chevron-right cl-chev" aria-hidden="true"></i>' +
-      '<span class="cl-date">' + vtEsc(date) + '</span>' + chips + '</button>' +
+      '<span class="cl-date">' + vtEsc(date) + '</span>' + chips + photos + '</button>' +
       '<div class="cl-body"><div>' + body + '</div></div></li>';
   }).join('');
+}
+
+var clViewer = null;
+
+function clViewerOpen(entryIdx, at) {
+  var media = (clEntries[entryIdx] || {}).media || [];
+  if (!media.length) return;
+  var idx = at || 0;
+
+  if (!clViewer) {
+    var el = document.createElement('div');
+    el.className = 'cl-viewer';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML =
+      '<button type="button" class="cl-viewer-btn cl-viewer-close" aria-label="Close"><i class="ti ti-x"></i></button>' +
+      '<button type="button" class="cl-viewer-btn cl-viewer-prev" aria-label="Previous image"><i class="ti ti-chevron-left"></i></button>' +
+      '<button type="button" class="cl-viewer-btn cl-viewer-next" aria-label="Next image"><i class="ti ti-chevron-right"></i></button>' +
+      '<img class="cl-viewer-img" alt="">' +
+      '<div class="cl-viewer-cap"><span class="cl-viewer-n"></span><span class="cl-viewer-alt"></span></div>' +
+      '<div class="cl-viewer-strip"></div>';
+    document.body.appendChild(el);
+    clViewer = el;
+
+    var st = { media: [], idx: 0, entry: 0 };
+    el._st = st;
+
+    el.addEventListener('click', function (e) {
+      if (e.target.closest('.cl-viewer-close') || e.target === el) clViewerClose();
+      else if (e.target.closest('.cl-viewer-prev')) clViewerStep(-1);
+      else if (e.target.closest('.cl-viewer-next')) clViewerStep(1);
+      else {
+        var th = e.target.closest('.cl-viewer-th');
+        if (th) clViewerGo(+th.dataset.m);
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!el.classList.contains('open')) return;
+      if (e.key === 'Escape') clViewerClose();
+      else if (e.key === 'ArrowLeft') clViewerStep(-1);
+      else if (e.key === 'ArrowRight') clViewerStep(1);
+    });
+    var x0 = null;
+    el.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 50) clViewerStep(dx < 0 ? 1 : -1);
+    });
+  }
+
+  clViewer._st.media = media;
+  clViewer._st.idx = idx;
+  clViewer._st.entry = entryIdx;
+  clViewer.querySelector('.cl-viewer-strip').innerHTML = media.length > 1 ? media.map(function (m, i) {
+    return '<button type="button" class="cl-viewer-th" data-m="' + i + '" aria-label="' + vtEsc(m.alt || 'Image ' + (i + 1)) + '"><img src="' + vtEsc(m.src) + '" alt="" decoding="async"></button>';
+  }).join('') : '';
+  clViewer.classList.add('open');
+  clViewer.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  clViewerShow();
+}
+
+function clViewerShow() {
+  var st = clViewer._st, m = st.media[st.idx], multi = st.media.length > 1;
+  var img = clViewer.querySelector('.cl-viewer-img');
+  img.src = m.src;
+  img.alt = m.alt;
+  clViewer.querySelector('.cl-viewer-n').textContent = multi ? (st.idx + 1) + ' / ' + st.media.length : '';
+  clViewer.querySelector('.cl-viewer-alt').textContent = m.alt;
+  clViewer.querySelector('.cl-viewer-prev').style.display = multi ? '' : 'none';
+  clViewer.querySelector('.cl-viewer-next').style.display = multi ? '' : 'none';
+  clViewer.querySelectorAll('.cl-viewer-th').forEach(function (b, i) {
+    var on = i === st.idx;
+    b.classList.toggle('active', on);
+    if (on) b.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  });
+  if (multi) [1, -1].forEach(function (d) {
+    new Image().src = st.media[(st.idx + d + st.media.length) % st.media.length].src;
+  });
+}
+
+function clViewerGo(i) {
+  var st = clViewer._st;
+  if (i === st.idx || i < 0 || i >= st.media.length) return;
+  st.idx = i;
+  clViewerShow();
+  vtLog('changelog-image-nav/volume_tree/' + st.entry + '/' + i);
+}
+
+function clViewerStep(d) {
+  var st = clViewer._st;
+  if (st.media.length < 2) return;
+  clViewerGo((st.idx + d + st.media.length) % st.media.length);
+}
+
+function clViewerClose() {
+  if (clViewer.classList.contains('open')) vtLog('changelog-image-close/volume_tree/' + clViewer._st.entry);
+  clViewer.classList.remove('open');
+  clViewer.setAttribute('aria-hidden', 'true');
+  clViewer.querySelector('.cl-viewer-img').removeAttribute('src');
+  document.body.style.overflow = '';
 }
 
 (function changelog() {
@@ -460,6 +581,9 @@ function renderChangelog(entries) {
   var btns = document.querySelectorAll('.graph-view-btn[data-cl-mode]');
   function setOpen(entry, open) {
     entry.classList.toggle('open', open);
+    if (open) entry.querySelectorAll('.cl-thumb img[data-src]').forEach(function (img) {
+      img.src = img.dataset.src; img.removeAttribute('data-src');
+    });
     entry.querySelector('.cl-head').setAttribute('aria-expanded', open ? 'true' : 'false');
   }
   function apply() {
@@ -479,6 +603,13 @@ function renderChangelog(entries) {
   });
 
   list.addEventListener('click', function (e) {
+    var thumb = e.target.closest('.cl-thumb');
+    if (thumb) {
+      var te = thumb.closest('.cl-entry');
+      clViewerOpen(+te.dataset.i, +thumb.dataset.m);
+      vtLog('changelog-image/volume_tree/' + te.dataset.i + '/' + thumb.dataset.m);
+      return;
+    }
     var head = e.target.closest('.cl-head');
     if (!head) return;
     var entry = head.parentElement;

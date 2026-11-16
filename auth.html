@@ -2003,6 +2003,9 @@ function parseRel(rel) {
 	};
 }
 
+// rel_path values are decoded; encode per-segment when building URLs
+const enc = p => p.split("/").map(encodeURIComponent).join("/");
+
 function buildFavArray() {
 	return [...window.userFavorites].map(key => {
 		const [bit, rel] = key.split("|");
@@ -2056,7 +2059,7 @@ function populateFavGrid() {
 		const parts = rel.split("/");
 		const filename = parts.pop();
 		const dir = parts.join("/");
-		const thumbUrl = `https://terril.duckdns.org/${dir}/thumbs/${filename}`;
+		const thumbUrl = `https://terril.duckdns.org/${enc(dir)}/thumbs/${encodeURIComponent(filename)}`;
 		const div = document.createElement("div");
 		div.className = "grid-thumb";
 		div.style.backgroundImage = `url('${thumbUrl}')`;
@@ -2073,9 +2076,8 @@ function populateFavGrid() {
 			div.appendChild(label);
 		}
 		const gmLabel = document.createElement("div");
-		const decodedDir = decodeURIComponent(dir);
 		gmLabel.className = "fav-gm-label";
-		gmLabel.textContent = decodedDir;
+		gmLabel.textContent = dir;
 		div.appendChild(gmLabel);
 		grid.appendChild(div);
 	});
@@ -2126,7 +2128,7 @@ function renderFilteredGrid(list) {
 		const parts = rel.split("/");
 		const filename = parts.pop();
 		const dir = parts.join("/");
-		const thumbUrl = `https://terril.duckdns.org/${dir}/thumbs/${filename}`;
+		const thumbUrl = `https://terril.duckdns.org/${enc(dir)}/thumbs/${encodeURIComponent(filename)}`;
 		const div = document.createElement("div");
 		div.className = "grid-thumb";
 		div.style.backgroundImage = `url('${thumbUrl}')`;
@@ -2330,7 +2332,7 @@ document.getElementById("fav-context-menu").addEventListener("click", (e) => {
 	const group = parts[0];
 	const member = parts[1];
 	const filename = parts[2];
-	const fullUrl = `https://terril.duckdns.org/${group}/${member}/${filename}`;
+	const fullUrl = `https://terril.duckdns.org/${enc(`${group}/${member}/${filename}`)}`;
 	switch (action) {
 		case "open":
 			openFavInGallery(group, member, filename);
@@ -2362,7 +2364,7 @@ function populateFavoriteStrip() {
 		const parts = rel.split("/");
 		const filename = parts.pop();
 		const dir = parts.join("/");
-		const thumbUrl = `https://terril.duckdns.org/${dir}/thumbs/${filename}`;
+		const thumbUrl = `https://terril.duckdns.org/${enc(dir)}/thumbs/${encodeURIComponent(filename)}`;
 		const div = document.createElement("div");
 		div.className = "fav-thumb";
 		div.style.backgroundImage = `url('${thumbUrl}')`;

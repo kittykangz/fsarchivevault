@@ -1,3 +1,36 @@
+261116 – Added face boxes and face-aware thumbnail positioning, and other small improvements
+![tool](261116/python_SjASdbqscU.jpg)
+![solo before](261116/msedge_mzFJB35PfW.webp)
+![solo after](261116/msedge_Y3l26CbLsY.webp)
+![multi before](261116/msedge_WcFdNZ0boy.webp)
+![multi after](261116/msedge_ke7VPThXC4.webp)
+![lightbox face boxes](261116/msedge_FLElK83Hh1.webp)
+
+### Face boxes
+
+* Added **face boxes** to images with multiple members in the lightbox. Detected faces are labelled with the member it belongs to.
+* Boxes are revealed by hovering the member chips in the details panel, hovering directly over a face on the photo, or toggling the **Show faces** button (**B**) in the lightbox toolbar.
+* Boxes are automated using face recognition + appearance matching, with every result manually reviewed and corrected when needed. Processing is ongoing, so face boxes are not yet available on all images.
+
+### Thumbnails
+
+* Grid thumbnails for processed images now **auto-center on the member's face** instead of defaulting to the center of the image, so each member's copy of a shared image displays their portion.
+
+### Favorites
+
+* Fixed group and member names containing spaces showing as URL-encoded text (RED%20VELVET) in the profile favorites section.
+
+### Performance
+
+* Profile view progress now loads faster.
+* CLIP Visual search results now return much faster for large members.
+
+### Additional improvements
+
+* Images can now be attached to changelog entries 
+* Bug fixes and other small improvements.
+
+
 261108 [A2O LITE] – New group A2O LITE
 
 261104 – Added XHS as a source, a source filter, and merged Primary/Fallback into Twitter/X, plus lightbox cursor hiding
